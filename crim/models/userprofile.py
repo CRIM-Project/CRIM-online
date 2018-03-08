@@ -1,30 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-from crim.models.person import CRIMPerson
-from crim.models.mass import CRIMMass
-from crim.models.piece import CRIMPiece
-from crim.models.comment import CRIMComment
-from crim.models.discussion import CRIMDiscussion
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 
 class CRIMUserProfile(models.Model):
     class Meta:
-        app_label = "duchemin"
+        app_label = "crim"
 
-    user = models.OneToOneField(User, db_index=True)
-    favorite_masses = models.ManyToManyField(CRIMMass, blank=True)
-    favorite_pieces = models.ManyToManyField(CRIMPiece, blank=True)
-    favorite_documents = models.ManyToManyField(CRIMDocument, blank=True)
-    favorite_comments = models.ManyToManyField(CRIMComment, blank=True)
-    favorite_discussions = models.ManyToManyField(CRIMDiscussion, blank=True)
+    user = models.OneToOneField(
+        User,
+        models.CASCADE,
+        db_index=True,
+    )
+
 #     project_role = models.CharField(max_length=64, blank=True, null=True)
-    person = models.ForeignKey(CRIMPerson,
-                               blank=True,
-                               null=True,
-                               db_index=True,
-                               help_text="Link this account with a CRIM User",
-                               related_name="profile"
+    person = models.ForeignKey(
+        'CRIMPerson',
+        models.SET_NULL,
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text='Link this account with a CRIM Person',
+        related_name='profile',
     )
 
     def __str__(self):
