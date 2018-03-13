@@ -13,7 +13,7 @@ class CRIMFavorite(models.Model):
 
     user = models.ForeignKey(
         CRIMUserProfile,
-        models.CASCADE,
+        on_delete=models.CASCADE,
         db_index=True,
         related_name='favorites',
     )

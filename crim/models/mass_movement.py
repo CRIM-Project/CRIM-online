@@ -27,7 +27,7 @@ class CRIMMassMovement(CRIMPiece):
 
     mass = models.ForeignKey(
         CRIMMass,
-        models.SET_NULL,
+        on_delete=models.SET_NULL,
         to_field='mass_id',
         null=True,
         db_index=True,

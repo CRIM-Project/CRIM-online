@@ -11,7 +11,7 @@ class CRIMComment(models.Model):
 
     author = models.ForeignKey(
         'CRIMUserProfile',
-        models.CASCADE,
+        on_delete=models.CASCADE,
         related_name='comments',
     )
 

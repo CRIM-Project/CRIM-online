@@ -68,7 +68,7 @@ class CRIMRole(models.Model):
 
     person = models.ForeignKey(
         CRIMPerson,
-        models.CASCADE,
+        on_delete=models.CASCADE,
         to_field='person_id',
         db_index=True,
         related_name='roles',

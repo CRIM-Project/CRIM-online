@@ -23,7 +23,7 @@ class CRIMPiece(models.Model):
     title = models.CharField(max_length=64)
     genre = models.ForeignKey(
         CRIMGenre,
-        models.SET_NULL,
+        on_delete=models.SET_NULL,
         to_field='genre_id',
         null=True,
         db_index=True,
