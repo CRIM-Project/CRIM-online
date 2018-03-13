@@ -12,31 +12,21 @@ MASS_MOVEMENTS = [
     (AGNUS, 'Agnus Dei'),
 ]
 
-# List of genres
-MASS = 'mass'
-MOTET = 'motet'
-OTHER = 'other'
-GENRES = [
-    (MASS, 'Mass'),
-    (MOTET, 'Motet'),
-    (OTHER, 'Other'),
-]
-
 # List of roles
-AUTHOR = 'author'
-COMPOSER = 'composer'
-EDITOR = 'editor'
-PUBLISHER = 'publisher'
-SCRIBE = 'scribe'
-TRANSLATOR = 'translator'
-ROLE_TYPES = [
-    (AUTHOR, 'Author'),
-    (COMPOSER, 'Composer'),
-    (EDITOR, 'Editor'),
-    (PUBLISHER, 'Publisher'),
-    (SCRIBE, 'Scribe'),
-    (TRANSLATOR, 'Translator'),
-]
+# AUTHOR = 'author'
+# COMPOSER = 'composer'
+# EDITOR = 'editor'
+# PUBLISHER = 'publisher'
+# SCRIBE = 'scribe'
+# TRANSLATOR = 'translator'
+# ROLE_TYPES = [
+#     (AUTHOR, 'Author'),
+#     (COMPOSER, 'Composer'),
+#     (EDITOR, 'Editor'),
+#     (PUBLISHER, 'Publisher'),
+#     (SCRIBE, 'Scribe'),
+#     (TRANSLATOR, 'Translator'),
+# ]
 
 # List of relationship types
 ONE = '1'
