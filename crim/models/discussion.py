@@ -11,7 +11,7 @@ class CRIMDiscussion(models.Model):
 
     author = models.ForeignKey(
         'CRIMUserProfile',
-        models.SET_NULL,
+        on_delete=models.SET_NULL,
         null=True,
         related_name='discussions',
     )

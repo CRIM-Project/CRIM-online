@@ -10,14 +10,14 @@ class CRIMUserProfile(models.Model):
 
     user = models.OneToOneField(
         User,
-        models.CASCADE,
+        on_delete=models.CASCADE,
         db_index=True,
     )
 
 #     project_role = models.CharField(max_length=64, blank=True, null=True)
     person = models.ForeignKey(
         'CRIMPerson',
-        models.SET_NULL,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         db_index=True,

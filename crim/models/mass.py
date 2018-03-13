@@ -20,7 +20,7 @@ class CRIMMass(models.Model):
 
     composer = models.ForeignKey(
         CRIMPerson,
-        models.SET_NULL,
+        on_delete=models.SET_NULL,
         to_field='person_id',
         db_index=True,
         blank=True,
