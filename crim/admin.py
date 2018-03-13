@@ -7,18 +7,14 @@ from crim.models.userprofile import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMDocument, CRIMTreatise, CRIMSource
-from crim.models.piece import CRIMPiece
-from crim.models.mass_movement import CRIMMassMovement
+from crim.models.piece import CRIMGenre, CRIMPiece, CRIMMassMovement
 from crim.models.mass import CRIMMass
-from crim.models.role import CRIMRole
-from crim.models.relationship import CRIMRelationship
+from crim.models.role import CRIMRole, CRIMRoleType
+from crim.models.relationship import CRIMRelationshipType, CRIMMusicalType, CRIMRelationship
 
 from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
 from crim.models.discussion import CRIMDiscussion
-
-from crim.models.genre import CRIMGenre
-from crim.models.role import CRIMRoleType
 
 
 class CRIMPieceForm(forms.ModelForm):
@@ -147,6 +143,28 @@ class CRIMRoleTypeAdmin(admin.ModelAdmin):
     )
 
 
+class CRIMRelationshipTypeAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'remarks',
+    ]
+
+    list_display = (
+        'name',
+    )
+
+
+class CRIMMusicalTypeAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'remarks',
+    ]
+
+    list_display = (
+        'name',
+    )
+
+
 class UserProfileInline(admin.StackedInline):
     model = CRIMUserProfile
     can_delete = False
@@ -179,3 +197,6 @@ admin.site.register(CRIMDiscussion)
 
 admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
+admin.site.register(CRIMRelationshipType, CRIMRelationshipTypeAdmin)
+admin.site.register(CRIMMusicalType, CRIMMusicalTypeAdmin)
+
