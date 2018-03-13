@@ -2,7 +2,6 @@ from django.db import models
 
 from crim.models.person import CRIMPerson
 from crim.models.genre import CRIMGenre
-from crim.constants import *
 
 from dateutil.parser import parse
 

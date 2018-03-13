@@ -5,20 +5,6 @@ from crim.models.piece import CRIMPiece
 from crim.models.genre import CRIMGenre
 
 
-KYRIE = 'K'
-GLORIA = 'G'
-CREDO = 'C'
-SANCTUS = 'S'
-AGNUS = 'A'
-MASS_MOVEMENTS = [
-    (KYRIE, 'Kyrie'),
-    (GLORIA, 'Gloria'),
-    (CREDO, 'Credo'),
-    (SANCTUS, 'Sanctus'),
-    (AGNUS, 'Agnus Dei'),
-]
-
-
 class CRIMMassMovement(CRIMPiece):
     class Meta:
         app_label = 'crim'

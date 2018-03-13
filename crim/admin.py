@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django import forms
 
-from crim.constants import *
 from crim.models.userprofile import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
@@ -29,6 +28,18 @@ class CRIMPieceForm(forms.ModelForm):
 
 
 class CRIMMassMovementForm(forms.ModelForm):
+    KYRIE = 'K'
+    GLORIA = 'G'
+    CREDO = 'C'
+    SANCTUS = 'S'
+    AGNUS = 'A'
+    MASS_MOVEMENTS = [
+        (KYRIE, 'Kyrie'),
+        (GLORIA, 'Gloria'),
+        (CREDO, 'Credo'),
+        (SANCTUS, 'Sanctus'),
+        (AGNUS, 'Agnus Dei'),
+    ]
     title = forms.CharField(widget=forms.Select(choices=MASS_MOVEMENTS))
 
 
