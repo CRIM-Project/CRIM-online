@@ -6,9 +6,9 @@ from crim.models.person import CRIMPerson
 
 class CRIMMass(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Mass"
-        verbose_name_plural = "Masses"
+        app_label = 'crim'
+        verbose_name = 'Mass'
+        verbose_name_plural = 'Masses'
 
     mass_id = models.CharField(
         max_length=16,

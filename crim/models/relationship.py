@@ -8,9 +8,9 @@ from crim.models.piece import CRIMPiece
 
 class CRIMRelationship(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Relationship"
-        verbose_name_plural = "Relationships"
+        app_label = 'crim'
+        verbose_name = 'Relationship'
+        verbose_name_plural = 'Relationships'
 
     relationship_id = models.CharField(
         max_length=16,

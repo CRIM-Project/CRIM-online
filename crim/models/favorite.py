@@ -7,9 +7,9 @@ from crim.models.userprofile import CRIMUserProfile
 
 class CRIMFavorite(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Favorite"
-        verbose_name_plural = "Favorites"
+        app_label = 'crim'
+        verbose_name = 'Favorite'
+        verbose_name_plural = 'Favorites'
 
     user = models.ForeignKey(
         CRIMUserProfile,

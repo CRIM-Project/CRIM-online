@@ -5,9 +5,9 @@ from django.contrib.contenttypes.models import ContentType
 
 class CRIMNote(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Note"
-        verbose_name_plural = "Notes"
+        app_label = 'crim'
+        verbose_name = 'Note'
+        verbose_name_plural = 'Notes'
 
     author = models.ForeignKey(
         'CRIMUserProfile',
