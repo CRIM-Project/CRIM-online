@@ -4,7 +4,6 @@ from django.contrib.contenttypes.models import ContentType
 # from django.contrib.postgres.fields import ArrayField
 from django.utils.text import slugify
 
-from crim.constants import *
 from crim.models.person import CRIMPerson
 
 
