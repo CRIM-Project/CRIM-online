@@ -13,8 +13,14 @@ class CRIMPiece(models.Model):
         verbose_name = 'Piece'
         verbose_name_plural = 'Pieces'
     
-    piece_id = models.CharField(max_length=16, unique=True, primary_key=True, db_index=True)
-    title = models.CharField(max_length=64, blank=True)
+    piece_id = models.CharField(
+        'Piece ID',
+        max_length=16,
+        unique=True,
+        primary_key=True,
+        db_index=True,
+    )
+    title = models.CharField(max_length=64)
     genre = models.ForeignKey(
         CRIMGenre,
         models.SET_NULL,
@@ -26,8 +32,8 @@ class CRIMPiece(models.Model):
     date_sort = models.IntegerField(null=True)
 
 #     forces = models.CharField(max_length=16, blank=True)
-    pdf_link = models.CharField(max_length=255, blank=True)
-    mei_link = models.CharField(max_length=255, blank=True)
+    pdf_link = models.CharField('PDF link', max_length=255, blank=True)
+    mei_link = models.CharField('MEI link', max_length=255, blank=True)
 #     audio_link = models.CharField(max_length=255, blank=True)
     
     def sorted_date(self):

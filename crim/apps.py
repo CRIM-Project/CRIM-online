@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class CrimConfig(AppConfig):
+class CRIMConfig(AppConfig):
     name = 'crim'
+    verbose_name = 'CRIM'

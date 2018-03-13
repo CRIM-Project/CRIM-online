@@ -5,9 +5,9 @@ from crim.models.role import CRIMRole
 
 class CRIMDocument(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Document"
-        verbose_name_plural = "Documents"
+        app_label = 'crim'
+        verbose_name = 'Document'
+        verbose_name_plural = 'Documents'
         abstract = True
 
     document_id = models.CharField(
@@ -26,16 +26,16 @@ class CRIMDocument(models.Model):
 
 class CRIMTreatise(CRIMDocument):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Treatise"
-        verbose_name_plural = "Treatises"
+        app_label = 'crim'
+        verbose_name = 'Treatise'
+        verbose_name_plural = 'Treatises'
 
 
 class CRIMSource(CRIMDocument):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Source"
-        verbose_name_plural = "Sources"
+        app_label = 'crim'
+        verbose_name = 'Source'
+        verbose_name_plural = 'Sources'
     
     contents = models.ManyToManyField(
         to='self',

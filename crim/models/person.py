@@ -8,9 +8,9 @@ from dateutil.parser import parse
 
 class CRIMPerson(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Person"
-        verbose_name_plural = "People"
+        app_label = 'crim'
+        verbose_name = 'Person'
+        verbose_name_plural = 'People'
         ordering = ['name_sort']
 
     # Null should be False, because blank values should be stored as empty string.

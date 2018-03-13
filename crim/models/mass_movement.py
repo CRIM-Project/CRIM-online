@@ -3,7 +3,20 @@ from django.db import models
 from crim.models.mass import CRIMMass
 from crim.models.piece import CRIMPiece
 from crim.models.genre import CRIMGenre
-from crim.constants import *
+
+
+KYRIE = 'K'
+GLORIA = 'G'
+CREDO = 'C'
+SANCTUS = 'S'
+AGNUS = 'A'
+MASS_MOVEMENTS = [
+    (KYRIE, 'Kyrie'),
+    (GLORIA, 'Gloria'),
+    (CREDO, 'Credo'),
+    (SANCTUS, 'Sanctus'),
+    (AGNUS, 'Agnus Dei'),
+]
 
 
 class CRIMMassMovement(CRIMPiece):
@@ -23,4 +36,6 @@ class CRIMMassMovement(CRIMPiece):
 
     def save(self):
         self.genre = CRIMGenre(genre_id='mass')
+        # TODO: Needs validation that title is one of the following:
+        # Kyrie, Gloria, Credo, Sanctus, Agnus Dei
         super().save()

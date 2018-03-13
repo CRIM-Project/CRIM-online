@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class CRIMUserProfile(models.Model):
     class Meta:
-        app_label = "crim"
+        app_label = 'crim'
 
     user = models.OneToOneField(
         User,

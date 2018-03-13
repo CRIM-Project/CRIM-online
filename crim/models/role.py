@@ -8,6 +8,15 @@ from crim.constants import *
 from crim.models.person import CRIMPerson
 
 
+# List of roles:
+# AUTHOR = 'author'
+# COMPOSER = 'composer'
+# EDITOR = 'editor'
+# PUBLISHER = 'publisher'
+# SCRIBE = 'scribe'
+# TRANSLATOR = 'translator'
+
+
 class CRIMRoleType(models.Model):
     class Meta:
         app_label = 'crim'

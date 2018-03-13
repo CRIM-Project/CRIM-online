@@ -27,9 +27,9 @@ class CRIMPieceForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['genre'].queryset = CRIMGenre.objects.exclude(genre_id='mass')
 
-#     class Meta:
-#         model = CRIMPiece
-#         exclude = ['description']
+
+class CRIMMassMovementForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.Select(choices=MASS_MOVEMENTS))
 
 
 class CRIMPersonAdmin(admin.ModelAdmin):
@@ -48,21 +48,19 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'active_date',
         'remarks',
     ]
-
     list_display = (
         'sorted_name',
         'sorted_date',
     )
-    
     list_filter = [
         'date_sort',
     ]
-    
     search_fields = [
         'name',
         'name_alternate_list',
         'remarks',
     ]
+    ordering = ['name_sort', 'date_sort']
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
@@ -79,20 +77,24 @@ class CRIMPieceAdmin(admin.ModelAdmin):
         'pdf_link',
         'mei_link',
     ]
-
+    search_fields = (
+        'piece_id',
+        'title',
+    )
     list_display = (
         'piece_id',
         'title',
         'genre',
         'sorted_date',
     )
-    
     list_filter = [
         'genre',
     ]
+    ordering = ['piece_id']
 
 
 class CRIMMassMovementAdmin(admin.ModelAdmin):
+    form = CRIMMassMovementForm
     fields = [
         'piece_id',
         'mass',
@@ -110,7 +112,7 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'mass',
         'title',
     )
-    ordering = ('piece_id',)
+    ordering = ['piece_id']
 
 
 class CRIMGenreAdmin(admin.ModelAdmin):
@@ -118,7 +120,6 @@ class CRIMGenreAdmin(admin.ModelAdmin):
         'name',
         'remarks',
     ]
-
     list_display = (
         'name',
     )
