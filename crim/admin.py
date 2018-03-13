@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django import forms
 
+from crim.constants import *
 from crim.models.userprofile import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
@@ -50,6 +51,32 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'remarks',
     ]
 
+
+class CRIMPieceAdmin(admin.ModelAdmin):
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.exclude(genre=MASS)
+
+    fields = [
+        'piece_id',
+        'title',
+        'genre',
+        'pdf_link',
+        'mei_link',
+    ]
+
+    list_display = (
+        'piece_id',
+        'title',
+        'genre',
+        'sorted_date',
+    )
+    
+    list_filter = [
+        'genre',
+    ]
+
+
 class CRIMMassMovementAdmin(admin.ModelAdmin):
     fields = [
         'piece_id',
@@ -65,11 +92,8 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     )
     list_display = (
         'piece_id',
-        'composer',
         'mass',
         'title',
-        'pdf_link',
-        'mei_link',
     )
     ordering = ('piece_id',)
 
@@ -92,7 +116,7 @@ admin.site.register(CRIMPerson, CRIMPersonAdmin)
 
 admin.site.register(CRIMMass)
 admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
-admin.site.register(CRIMPiece)
+admin.site.register(CRIMPiece, CRIMPieceAdmin)
 
 admin.site.register(CRIMTreatise)
 admin.site.register(CRIMSource)

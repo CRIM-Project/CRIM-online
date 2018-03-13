@@ -13,15 +13,6 @@ class CRIMPiece(models.Model):
     piece_id = models.CharField(max_length=16, unique=True, primary_key=True, db_index=True)
     title = models.CharField(max_length=64, blank=True)
     genre = models.CharField(max_length=64, blank=True, choices=GENRES)
-
-    composer = models.ForeignKey(
-        CRIMPerson,
-        models.SET_NULL,
-        to_field='person_id',
-        db_index=True,
-        blank=True,
-        null=True,
-    )
     date_of_composition = models.CharField(max_length=32, blank=True, db_index=True)
     date_sort = models.IntegerField(null=True)
 

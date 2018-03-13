@@ -15,9 +15,11 @@ MASS_MOVEMENTS = [
 # List of genres
 MASS = 'mass'
 MOTET = 'motet'
+OTHER = 'other'
 GENRES = [
     (MASS, 'Mass'),
     (MOTET, 'Motet'),
+    (OTHER, 'Other'),
 ]
 
 # List of roles
