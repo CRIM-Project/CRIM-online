@@ -19,9 +19,9 @@ class CRIMPerson(models.Model):
     name_sort = models.CharField('sort name (such as ‘Lassus, Orlande de’)', max_length=64, blank=True, db_index=True)
     # Tried using an array, it was much more trouble than it was worth
     name_alternate_list = models.TextField('list of alternate names, each on a new line', blank=True)
-    birth_date = models.CharField(max_length=16, blank=True, db_index=True)
-    death_date = models.CharField(max_length=16, blank=True, db_index=True)
-    active_date = models.CharField(max_length=16, blank=True, db_index=True)
+    birth_date = models.CharField(max_length=32, blank=True, db_index=True)
+    death_date = models.CharField(max_length=32, blank=True, db_index=True)
+    active_date = models.CharField(max_length=32, blank=True, db_index=True)
     remarks = models.TextField(blank=True)
     
     date_sort = models.IntegerField(null=True)
