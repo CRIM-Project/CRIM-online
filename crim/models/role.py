@@ -22,7 +22,7 @@ class CRIMRoleType(models.Model):
         verbose_name = 'Role type'
         verbose_name_plural = 'Role types'
 
-    roletype_id = models.SlugField(
+    role_type_id = models.SlugField(
         max_length=32,
         unique=True,
         primary_key=True,
@@ -38,15 +38,15 @@ class CRIMRoleType(models.Model):
         slug = slugify(self.name)
         unique_slug = slug
         num = 1
-        while CRIMRoleType.objects.filter(roletype_id=unique_slug).exists():
+        while CRIMRoleType.objects.filter(role_type_id=unique_slug).exists():
             slug = '{}-{}'.format(slug, num)
             num += 1
         return unique_slug
 
     def save(self, *args, **kwargs):
-        # Create unique genre_id based on the name
-        if not self.roletype_id:
-            self.roletype_id = self._get_unique_slug()
+        # Create unique id based on the name
+        if not self.role_type_id:
+            self.role_type_id = self._get_unique_slug()
         # Finalize changes
         super().save()
 
@@ -57,10 +57,10 @@ class CRIMRole(models.Model):
         verbose_name = 'Role'
         verbose_name_plural = 'Roles'
 
-    type = models.ForeignKey(
+    role_type = models.ForeignKey(
         CRIMRoleType,
-        models.SET_NULL,
-        to_field='roletype_id',
+        on_delete=models.SET_NULL,
+        to_field='role_type_id',
         null=True,
         db_index=True,
     )
