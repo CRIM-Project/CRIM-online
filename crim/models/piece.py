@@ -1,18 +1,27 @@
 from django.db import models
 
 from crim.models.person import CRIMPerson
+from crim.models.genre import CRIMGenre
 from crim.constants import *
+
+from dateutil.parser import parse
 
 
 class CRIMPiece(models.Model):
     class Meta:
-        app_label = "crim"
-        verbose_name = "Piece"
-        verbose_name_plural = "Pieces"
+        app_label = 'crim'
+        verbose_name = 'Piece'
+        verbose_name_plural = 'Pieces'
     
     piece_id = models.CharField(max_length=16, unique=True, primary_key=True, db_index=True)
     title = models.CharField(max_length=64, blank=True)
-    genre = models.CharField(max_length=64, blank=True, choices=GENRES)
+    genre = models.ForeignKey(
+        CRIMGenre,
+        models.SET_NULL,
+        to_field='genre_id',
+        null=True,
+        db_index=True,
+    )
     date_of_composition = models.CharField(max_length=32, blank=True, db_index=True)
     date_sort = models.IntegerField(null=True)
 

@@ -18,6 +18,19 @@ from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
 from crim.models.discussion import CRIMDiscussion
 
+from crim.models.genre import CRIMGenre
+from crim.models.role import CRIMRoleType
+
+
+class CRIMPieceForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['genre'].queryset = CRIMGenre.objects.exclude(genre_id='mass')
+
+#     class Meta:
+#         model = CRIMPiece
+#         exclude = ['description']
+
 
 class CRIMPersonAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
@@ -53,9 +66,11 @@ class CRIMPersonAdmin(admin.ModelAdmin):
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
+    form = CRIMPieceForm
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.exclude(genre=MASS)
+        return qs.exclude(genre__genre_id='mass')
 
     fields = [
         'piece_id',
@@ -98,6 +113,28 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     ordering = ('piece_id',)
 
 
+class CRIMGenreAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'remarks',
+    ]
+
+    list_display = (
+        'name',
+    )
+
+
+class CRIMRoleTypeAdmin(admin.ModelAdmin):
+    fields = [
+        'name',
+        'remarks',
+    ]
+
+    list_display = (
+        'name',
+    )
+
+
 class UserProfileInline(admin.StackedInline):
     model = CRIMUserProfile
     can_delete = False
@@ -127,3 +164,6 @@ admin.site.register(CRIMRelationship)
 admin.site.register(CRIMNote)
 admin.site.register(CRIMComment)
 admin.site.register(CRIMDiscussion)
+
+admin.site.register(CRIMGenre, CRIMGenreAdmin)
+admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
