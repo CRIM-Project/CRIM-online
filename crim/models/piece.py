@@ -57,7 +57,6 @@ class CRIMPiece(models.Model):
         db_index=True,
     )
     roles = models.ManyToManyField(
-        'Composer (or other role)',
         CRIMPerson,
         through='CRIMRole',
         through_fields=('piece', 'person'),
@@ -84,7 +83,11 @@ class CRIMPiece(models.Model):
     sorted_date.admin_order_field = 'date_sort'
 
     def __str__(self):
-        return '[{0}] {1}'.format(self.piece_id, self.title)
+        roles = self.roles.order_by('date_sort')
+        if roles:
+            return '[{0}] {1}: {2}'.format(self.piece_id, roles[0], self.title)
+        else:
+            return '[{0}] {1}'.format(self.piece_id, self.title)
 
     def _get_date_sort(self):
         try:
