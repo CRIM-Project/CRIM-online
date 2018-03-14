@@ -48,11 +48,11 @@ class CRIMPieceForm(forms.ModelForm):
 
 
 class CRIMMassMovementForm(forms.ModelForm):
-    KYRIE = 'K'
-    GLORIA = 'G'
-    CREDO = 'C'
-    SANCTUS = 'S'
-    AGNUS = 'A'
+    KYRIE = 'Kyrie'
+    GLORIA = 'Gloria'
+    CREDO = 'Credo'
+    SANCTUS = 'Sanctus'
+    AGNUS = 'Agnus Dei'
     MASS_MOVEMENTS = [
         (KYRIE, 'Kyrie'),
         (GLORIA, 'Gloria'),
