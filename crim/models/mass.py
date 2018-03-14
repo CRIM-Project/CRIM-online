@@ -1,6 +1,5 @@
 from django.db import models
 
-from crim.models.document import CRIMDocument
 from crim.models.person import CRIMPerson
 
 
@@ -17,18 +16,12 @@ class CRIMMass(models.Model):
         db_index=True,
     )
     title = models.CharField(max_length=64, blank=True)
-
-    composer = models.ForeignKey(
+    composer = models.ManyToManyField(
         CRIMPerson,
-        on_delete=models.SET_NULL,
-        to_field='person_id',
-        db_index=True,
-        blank=True,
-        null=True,
+        through='CRIMRole',
+        through_fields=('mass', 'person'),
     )
 
     def __str__(self):
-        if self.composer:
-            return '[{0}] {1}: {2}'.format(self.mass_id, self.composer.name, self.title)
-        else:
-            return '[{0}] Anonymous: {1}'.format(self.mass_id, self.title)
+        # Add composer when known
+        return '[{0}] {1}'.format(self.mass_id, self.title)
