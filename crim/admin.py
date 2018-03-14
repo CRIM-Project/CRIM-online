@@ -17,6 +17,30 @@ from crim.models.comment import CRIMComment
 from crim.models.discussion import CRIMDiscussion
 
 
+class CRIMRolePieceInline(admin.TabularInline):
+    model = CRIMRole
+    exclude = ['mass', 'treatise', 'source']
+    extra = 1
+
+
+class CRIMRoleMassInline(admin.TabularInline):
+    model = CRIMRole
+    exclude = ['piece', 'treatise', 'source']
+    extra = 1
+
+
+class CRIMRoleTreatiseInline(admin.TabularInline):
+    model = CRIMRole
+    exclude = ['piece', 'mass', 'source']
+    extra = 1
+
+
+class CRIMRoleSourceInline(admin.TabularInline):
+    model = CRIMRole
+    exclude = ['piece', 'mass', 'treatise']
+    extra = 1
+
+
 class CRIMPieceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -84,6 +108,7 @@ class CRIMPieceAdmin(admin.ModelAdmin):
         'pdf_link',
         'mei_link',
     ]
+    inlines = (CRIMRolePieceInline,)
     search_fields = (
         'piece_id',
         'title',
@@ -129,6 +154,17 @@ class CRIMGenreAdmin(admin.ModelAdmin):
     ]
     list_display = (
         'name',
+    )
+
+
+class CRIMRoleAdmin(admin.ModelAdmin):
+    search_fields = (
+        'person__name',
+        'piece__title',
+        'mass_movement__mass__title',
+        'mass__title',
+        'treatise__title',
+        'source__title',
     )
 
 
@@ -188,7 +224,7 @@ admin.site.register(CRIMPiece, CRIMPieceAdmin)
 admin.site.register(CRIMTreatise)
 admin.site.register(CRIMSource)
 
-admin.site.register(CRIMRole)
+admin.site.register(CRIMRole, CRIMRoleAdmin)
 admin.site.register(CRIMRelationship)
 
 admin.site.register(CRIMNote)
