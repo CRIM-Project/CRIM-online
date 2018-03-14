@@ -76,6 +76,11 @@ class CRIMPiece(models.Model):
     pdf_link = models.CharField('PDF link', max_length=255, blank=True)
     mei_link = models.CharField('MEI link', max_length=255, blank=True)
 #     audio_link = models.CharField(max_length=255, blank=True)
+
+    def title_with_id(self):
+        return self.__str__()
+    title_with_id.short_description = 'piece'
+    title_with_id.admin_order_field = 'title'
     
     def sorted_date(self):
         return self.date_sort
