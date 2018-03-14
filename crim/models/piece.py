@@ -56,6 +56,12 @@ class CRIMPiece(models.Model):
         primary_key=True,
         db_index=True,
     )
+    roles = models.ManyToManyField(
+        'Composer (or other role)',
+        CRIMPerson,
+        through='CRIMRole',
+        through_fields=('piece', 'person'),
+    )
     title = models.CharField(max_length=64)
     genre = models.ForeignKey(
         CRIMGenre,
