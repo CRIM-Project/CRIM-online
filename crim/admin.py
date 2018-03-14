@@ -114,14 +114,10 @@ class CRIMPieceAdmin(admin.ModelAdmin):
         'title',
     )
     list_display = (
-        'piece_id',
-        'title',
+        'title_with_id',
         'genre',
         'sorted_date',
     )
-    list_filter = [
-        'genre',
-    ]
     ordering = ['piece_id']
 
 
