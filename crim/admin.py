@@ -154,9 +154,29 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     list_filter = [
         'title',
     ]
+
+
+class CRIMMassAdmin(admin.ModelAdmin):
+    fields = [
+        'mass_id',
         'title',
-    )
-    ordering = ['piece_id']
+        'remarks',
+    ]
+    inlines = [
+        CRIMRoleMassInline,
+    ]
+    list_display = [
+        'mass_id',
+        'creator',
+        'date',
+    ]
+    search_fields = [
+        'mass_id',
+        'title',
+    ]
+    ordering = ['mass_id']
+
+
 class CRIMTreatiseAdmin(admin.ModelAdmin):
     fields = [
         'document_id',
@@ -214,9 +234,9 @@ class CRIMGenreAdmin(admin.ModelAdmin):
         'name',
         'remarks',
     ]
-    list_display = (
+    list_display = [
         'name',
-    )
+    ]
 
 
 class CRIMRoleAdmin(admin.ModelAdmin):
@@ -256,10 +276,9 @@ class CRIMRoleTypeAdmin(admin.ModelAdmin):
         'name',
         'remarks',
     ]
-
-    list_display = (
+    list_display = [
         'name',
-    )
+    ]
 
 
 class CRIMRelationshipTypeAdmin(admin.ModelAdmin):
@@ -313,8 +332,12 @@ class UserProfileInline(admin.StackedInline):
 
 
 class UserAdmin(UserAdmin):
-    inlines = (UserProfileInline, )
-    ordering = ['username',]
+    inlines = [
+        UserProfileInline,
+    ]
+    ordering = [
+        'username',
+    ]
 
 
 admin.site.unregister(User)
@@ -322,7 +345,7 @@ admin.site.register(User, UserAdmin)
 
 admin.site.register(CRIMPerson, CRIMPersonAdmin)
 
-admin.site.register(CRIMMass)
+admin.site.register(CRIMMass, CRIMMassAdmin)
 admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMPiece, CRIMPieceAdmin)
 
