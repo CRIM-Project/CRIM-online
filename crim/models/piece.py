@@ -69,8 +69,6 @@ class CRIMPiece(models.Model):
         null=True,
         db_index=True,
     )
-    date_of_composition = models.CharField(max_length=32, blank=True, db_index=True)
-    date_sort = models.IntegerField(null=True)
 
 #     forces = models.CharField(max_length=16, blank=True)
     pdf_link = models.CharField('PDF link', max_length=255, blank=True)
@@ -81,34 +79,19 @@ class CRIMPiece(models.Model):
         return self.__str__()
     title_with_id.short_description = 'piece'
     title_with_id.admin_order_field = 'title'
-    
-    def sorted_date(self):
-        return self.date_sort
-    sorted_date.short_description = 'date'
-    sorted_date.admin_order_field = 'date_sort'
 
-    def __str__(self):
-        roles = self.roles.order_by('date_sort')
+    def creator(self):
+        roles = CRIMRole.objects.filter(piece=self).order_by('date_sort')
         if roles:
-            return '[{0}] {1}: {2}'.format(self.piece_id, roles[0], self.title)
-        else:
-            return '[{0}] {1}'.format(self.piece_id, self.title)
+            return roles[0].person
+    creator.short_description = 'creator'
 
-    def _get_date_sort(self):
-        try:
-            date_parsed = parse(self.date_of_composition, fuzzy=True).year
-        except ValueError:
-            date_parsed = 0
-        return date_parsed
+    def date(self):
+        roles = CRIMRole.objects.filter(piece=self).order_by('date_sort')
+        if roles:
+            return roles[0].date_sort
+    date.short_description = 'date'
 
-    def save(self, *args, **kwargs):
-        # Add sortable date field
-        if self._get_date_sort() == 0:
-            self.date_sort = None
-        else:
-            self.date_sort = self._get_date_sort()
-        # Finalize changes
-        super().save()
 
 
 class CRIMMassMovement(CRIMPiece):
@@ -125,6 +108,10 @@ class CRIMMassMovement(CRIMPiece):
         db_index=True,
         related_name='movements',
     )
+
+    def mass_date(self):
+        return self.mass.date()
+    mass_date.short_description = 'Date'
 
     def save(self):
         self.genre = CRIMGenre(genre_id='mass')
