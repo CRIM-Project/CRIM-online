@@ -134,15 +134,26 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'title',
         'pdf_link',
         'mei_link',
+        'remarks',
     ]
-    search_fields = (
+    search_fields = [
         'piece_id',
         'mass__title',
         'title',
-    )
-    list_display = (
+    ]
+    list_display = [
         'piece_id',
         'mass',
+        'creator',
+        'mass_date',
+        'movement_name',
+    ]
+    ordering = [
+        'piece_id',
+    ]
+    list_filter = [
+        'title',
+    ]
         'title',
     )
     ordering = ['piece_id']
