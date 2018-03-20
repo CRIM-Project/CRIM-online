@@ -14,7 +14,6 @@ from crim.models.relationship import CRIMRelationshipType, CRIMMusicalType, CRIM
 
 from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
-from crim.models.discussion import CRIMDiscussion
 
 
 class CRIMRolePieceInline(admin.TabularInline):
