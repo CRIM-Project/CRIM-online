@@ -81,6 +81,26 @@ class CRIMRole(models.Model):
     )
     date_sort = models.IntegerField(null=True)
 
+    def person_with_role(self):
+        if self.role_type:
+            return '{0}, {1}'.format(self.person, str(self.role_type).lower())
+        else:
+            return self.person
+    person_with_role.short_description = 'Role'
+    person_with_role.admin_order_field = 'person'
+
+    def work(self):
+        if self.piece:
+            return self.piece
+        elif self.mass:
+            return self.mass
+        elif self.treatise:
+            return self.treatise
+        elif self.source:
+            return self.source
+        else:
+            return None
+    work.short_description = 'work'
 
     def sorted_date(self):
         return self.date_sort
@@ -135,8 +155,6 @@ class CRIMRole(models.Model):
         role_type_to_print = str(self.role_type).lower() if self.role_type else NULL_ROLE_TYPE
         if self.piece:
             return '{0} as {1} of {2}'.format(self.person, role_type_to_print, self.piece)
-        elif self.mass_movement:
-            return '{0} as {1} of {2}'.format(self.person, role_type_to_print, self.mass_movement)
         elif self.mass:
             return '{0} as {1} of {2}'.format(self.person, role_type_to_print, self.mass)
         elif self.treatise:

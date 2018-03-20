@@ -159,14 +159,35 @@ class CRIMGenreAdmin(admin.ModelAdmin):
 
 
 class CRIMRoleAdmin(admin.ModelAdmin):
-    search_fields = (
+    fields = [
+        'person',
+        'role_type',
+        'piece',
+        'mass',
+        'treatise',
+        'source',
+        'date',
+        'remarks',
+    ]
+    list_display = [
+        'person_with_role',
+        'work',
+        'sorted_date',
+    ]
+    search_fields = [
         'person__name',
+        'piece__piece_id',
+        'mass__mass_id',
+        'treatise__document_id',
+        'source__document_id',
         'piece__title',
-        'mass_movement__mass__title',
         'mass__title',
         'treatise__title',
         'source__title',
-    )
+    ]
+    list_filter = [
+        'role_type',
+    ]
 
 
 class CRIMRoleTypeAdmin(admin.ModelAdmin):
