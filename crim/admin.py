@@ -18,25 +18,25 @@ from crim.models.comment import CRIMComment
 
 class CRIMRolePieceInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['mass', 'treatise', 'source']
+    exclude = ['date_sort', 'mass', 'treatise', 'source']
     extra = 1
 
 
 class CRIMRoleMassInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['piece', 'treatise', 'source']
+    exclude = ['date_sort', 'piece', 'treatise', 'source']
     extra = 1
 
 
 class CRIMRoleTreatiseInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['piece', 'mass', 'source']
+    exclude = ['date_sort', 'piece', 'mass', 'source']
     extra = 1
 
 
 class CRIMRoleSourceInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['piece', 'mass', 'treatise']
+    exclude = ['date_sort', 'piece', 'mass', 'treatise']
     extra = 1
 
 
@@ -78,12 +78,9 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'active_date',
         'remarks',
     ]
-    list_display = (
+    list_display = [
         'sorted_name',
         'sorted_date',
-    )
-    list_filter = [
-        'date_sort',
     ]
     search_fields = [
         'name',
@@ -106,18 +103,27 @@ class CRIMPieceAdmin(admin.ModelAdmin):
         'genre',
         'pdf_link',
         'mei_link',
+        'remarks',
     ]
-    inlines = (CRIMRolePieceInline,)
-    search_fields = (
+    inlines = [
+        CRIMRolePieceInline,
+    ]
+    search_fields = [
         'piece_id',
         'title',
-    )
-    list_display = (
+    ]
+    list_display = [
         'title_with_id',
+        'creator',
         'genre',
-        'sorted_date',
-    )
-    ordering = ['piece_id']
+        'date',
+    ]
+    ordering = [
+        'piece_id',
+    ]
+    list_filter = [
+        'genre',
+    ]
 
 
 class CRIMMassMovementAdmin(admin.ModelAdmin):

@@ -4,6 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 # from django.contrib.postgres.fields import ArrayField
 from django.utils.text import slugify
 
+from dateutil.parser import parse
+
 
 # List of roles:
 # AUTHOR = 'author'
@@ -72,6 +74,19 @@ class CRIMRole(models.Model):
         db_index=True,
     )
 
+    date = models.CharField(
+        max_length=32,
+        blank=True,
+        db_index=True,
+    )
+    date_sort = models.IntegerField(null=True)
+
+
+    def sorted_date(self):
+        return self.date_sort
+    sorted_date.short_description = 'date'
+    sorted_date.admin_order_field = 'date_sort'
+
     # For implementing using generic foreign keys
 #     document_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 #     document_id = models.CharField(max_length=16)
@@ -130,3 +145,19 @@ class CRIMRole(models.Model):
             return '{0} as {1} of {2}'.format(self.person, role_type_to_print, self.source)
         else:  # shouldn't actually happen
             return '{0} as {1}'.format(self.person, role_type_to_print)
+
+    def _get_date_sort(self):
+        try:
+            date_parsed = parse(self.date, fuzzy=True).year
+        except ValueError:
+            date_parsed = 0
+        return date_parsed
+
+    def save(self, *args, **kwargs):
+        # Add sortable date field
+        if self._get_date_sort() == 0:
+            self.date_sort = None
+        else:
+            self.date_sort = self._get_date_sort()
+        # Finalize changes
+        super().save()

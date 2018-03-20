@@ -30,6 +30,12 @@ class CRIMTreatise(CRIMDocument):
         verbose_name = 'Treatise'
         verbose_name_plural = 'Treatises'
 
+    def date(self):
+        roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
+        if roles:
+            return roles[0].date_sort
+    date.short_description = 'date'
+
 
 class CRIMSource(CRIMDocument):
     class Meta:
@@ -42,3 +48,9 @@ class CRIMSource(CRIMDocument):
         blank=True,
         symmetrical=False,
     )
+
+    def date(self):
+        roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
+        if roles:
+            return roles[0].date_sort
+    date.short_description = 'date'
