@@ -1,6 +1,7 @@
 from django.db import models
 
 from crim.models.person import CRIMPerson
+from crim.models.role import CRIMRole
 
 
 class CRIMMass(models.Model):
@@ -22,6 +23,14 @@ class CRIMMass(models.Model):
         through_fields=('mass', 'person'),
     )
 
+    remarks = models.TextField(blank=True)
+
+    def creator(self):
+        roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
+        if roles:
+            return roles[0].person
+    creator.short_description = 'creator'
+
     def date(self):
         roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
         if roles:
@@ -29,5 +38,4 @@ class CRIMMass(models.Model):
     date.short_description = 'date'
 
     def __str__(self):
-        # Add composer when known
         return '[{0}] {1}'.format(self.mass_id, self.title)
