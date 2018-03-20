@@ -146,6 +146,56 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'title',
     )
     ordering = ['piece_id']
+class CRIMTreatiseAdmin(admin.ModelAdmin):
+    fields = [
+        'document_id',
+        'title',
+        'remarks',
+        'pdf_link',
+    ]
+    inlines = [
+        CRIMRoleTreatiseInline,
+    ]
+    search_fields = [
+        'document_id',
+        'title',
+    ]
+    list_display = [
+        'title_with_id',
+        'creator',
+        'date',
+    ]
+    ordering = [
+        'document_id',
+    ]
+
+
+class CRIMSourceAdmin(admin.ModelAdmin):
+    fields = [
+        'document_id',
+        'title',
+        'piece_contents',
+        'mass_contents',
+        'treatise_contents',
+        'source_contents',
+        'remarks',
+        'pdf_link',
+    ]
+    inlines = [
+        CRIMRoleSourceInline,
+    ]
+    search_fields = [
+        'document_id',
+        'title',
+    ]
+    list_display = [
+        'title_with_id',
+        'creator',
+        'date',
+    ]
+    ordering = [
+        'document_id',
+    ]
 
 
 class CRIMGenreAdmin(admin.ModelAdmin):
@@ -243,18 +293,16 @@ admin.site.register(CRIMMass)
 admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMPiece, CRIMPieceAdmin)
 
-admin.site.register(CRIMTreatise)
-admin.site.register(CRIMSource)
+admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
+admin.site.register(CRIMSource, CRIMSourceAdmin)
 
 admin.site.register(CRIMRole, CRIMRoleAdmin)
 admin.site.register(CRIMRelationship)
 
 admin.site.register(CRIMNote)
 admin.site.register(CRIMComment)
-admin.site.register(CRIMDiscussion)
 
 admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
 admin.site.register(CRIMRelationshipType, CRIMRelationshipTypeAdmin)
 admin.site.register(CRIMMusicalType, CRIMMusicalTypeAdmin)
-
