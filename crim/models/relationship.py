@@ -47,7 +47,7 @@ class CRIMMusicalType(models.Model):
         verbose_name = 'Musical type'
         verbose_name_plural = 'Musical types'
 
-    relationship_type_id = models.SlugField(
+    musical_type_id = models.SlugField(
         max_length=32,
         unique=True,
         primary_key=True,
@@ -82,6 +82,12 @@ class CRIMRelationship(models.Model):
         verbose_name = 'Relationship'
         verbose_name_plural = 'Relationships'
 
+    relationship_id = models.SlugField(
+        max_length=64,
+        unique=True,
+        primary_key=True,
+    )
+
     observer = models.ForeignKey(
         CRIMPerson,
         on_delete=models.SET_NULL,
@@ -98,7 +104,7 @@ class CRIMRelationship(models.Model):
         null=True,
         db_index=True,
     )
-    
+
     model = models.ForeignKey(
         CRIMPiece,
         on_delete=models.CASCADE,
@@ -110,8 +116,9 @@ class CRIMRelationship(models.Model):
     model_musical_types = models.ManyToManyField(
         CRIMMusicalType,
         db_index=True,
+        related_name='relationships_as_model'
     )
-    
+
     derivative = models.ForeignKey(
         CRIMPiece,
         on_delete=models.CASCADE,
@@ -120,6 +127,11 @@ class CRIMRelationship(models.Model):
         related_name='relationships_as_derivative',
     )
     derivative_ema = models.TextField()
+    derivative_musical_types = models.ManyToManyField(
+        CRIMMusicalType,
+        db_index=True,
+        related_name='relationships_as_derivative'
+    )
 
     remarks = models.TextField(blank=True)
 
@@ -128,3 +140,19 @@ class CRIMRelationship(models.Model):
 
     def __str__(self):
         return '{0}'.format(self.relationship_id)
+
+    def _get_unique_slug(self):
+        slug = slugify(self.model.piece_id + ' ' + self.derivative.piece_id)
+        unique_slug = slug
+        num = 1
+        while CRIMRelationship.objects.filter(relationship_id=unique_slug).exists():
+            slug = '{}-{}'.format(slug, num)
+            num += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        # Create unique id based on the name
+        if not self.relationship_id:
+            self.relationship_id = self._get_unique_slug()
+        # Finalize changes
+        super().save()

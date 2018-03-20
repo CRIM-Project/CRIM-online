@@ -267,10 +267,9 @@ class CRIMRelationshipTypeAdmin(admin.ModelAdmin):
         'name',
         'remarks',
     ]
-
-    list_display = (
+    list_display = [
         'name',
-    )
+    ]
 
 
 class CRIMMusicalTypeAdmin(admin.ModelAdmin):
@@ -278,10 +277,33 @@ class CRIMMusicalTypeAdmin(admin.ModelAdmin):
         'name',
         'remarks',
     ]
-
-    list_display = (
+    list_display = [
         'name',
-    )
+    ]
+
+
+class CRIMRelationshipAdmin(admin.ModelAdmin):
+    fields = [
+        'observer',
+        'relationship_type',
+        'model',
+        'model_ema',
+        'model_musical_types',
+        'derivative',
+        'derivative_ema',
+        'derivative_musical_types',
+        'remarks',
+    ]
+    list_display = [
+        'relationship_id',
+        'observer',
+        'relationship_type',
+        'model',
+        'derivative',
+    ]
+    ordering = [
+        'created',
+    ]
 
 
 class UserProfileInline(admin.StackedInline):
@@ -308,7 +330,7 @@ admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
 admin.site.register(CRIMSource, CRIMSourceAdmin)
 
 admin.site.register(CRIMRole, CRIMRoleAdmin)
-admin.site.register(CRIMRelationship)
+admin.site.register(CRIMRelationship, CRIMRelationshipAdmin)
 
 admin.site.register(CRIMNote)
 admin.site.register(CRIMComment)
