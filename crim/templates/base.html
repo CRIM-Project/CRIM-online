@@ -1,0 +1,134 @@
+<!doctype html>
+{% load static %}
+
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  {% block title %}
+    <title>Citations: The Renaissance Imitation Mass</title>
+  {% endblock %}
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- <script src="{% static 'js/vendor/jquery.min.js' %}"></script> -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <!-- scripts concatenated and minified via build script -->
+  <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins.js' %}"></script>
+  {% block header %}
+
+  {% endblock %}
+  <!-- end scripts -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"></link>
+  <link href="{% static 'css/bootstrap-responsive.min.css' %}" rel="stylesheet"></link>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,600,600italic' rel='stylesheet' type='text/css'>
+  <script src="{% static 'js/vendor/modernizr-2.5.3.min.js' %}"></script>
+</head>
+<body id="home-page">
+  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+  <div id="utility-nav" class="navbar">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        {% if user.is_authenticated %}
+          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="/profile">My Account</a> | <a href="/logout">Logout</a></p>
+        {% else %}
+          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="mailto:{{ADMIN_EMAIL}}?subject=Account request">Request account</a> | <a href="/profile">Login</a></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div id="title-container" class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <hgroup class="span8">
+          <h1 id="main-title"><a href="/">Citations:<br />The Renaissance Imitation Mass</a></h1>
+<!--           <h2 id="tagline"></h2> -->
+        </hgroup>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-nav" class="navbar">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="dropdown top-level"><a href="#" class="dropdown-toggle" data-toggle="dropdown">The Project <b class="caret"></b></a>
+<!--               <ul class="dropdown-menu">
+                <li><a href="/about/">About</a></li>
+                <li><a href="/about/participants">Participants</a></li>
+                <li><a href="/about/sponsors">Sponsors</a></li>
+              </ul> -->
+            </li>
+            <li class="dropdown top-level"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/masses">Masses</a></li>
+                <li><a href="/pieces">Models</a></li>
+                <li><a href="/people">People</a></li>
+              </ul>
+            </li>
+            <li class="dropdown top-level"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Links <b class="caret"></b></a>
+            <li class="top-level"><a href="/help">Help</a></li>
+          </ul>
+          <form class="navbar-search pull-right" action="/search" method="get">
+            <input type="text" class="nav-search-query span2" placeholder="Search" name="q">
+            <a href="/search" class="advanced-link">Advanced search &raquo;</a>
+          </form>
+  <div id="citationModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Citation Tool</h3>
+    </div>
+<!--       <div class="modal-body">
+          <form class="form-inline" id="citationForm">
+              <fieldset>
+              <label id="dcNumber">CRIM ID</label>
+              <label id="startNumber">Start</label>
+              <label id="endNumber">End</label>
+              <div class="clearfix"></div>
+              <input class="input-small" type="text" placeholder="DC0514">
+              <input class="input-small" type="text">
+              <input class="input-small" type="text">
+              <div class="clearfix"></div>
+              <button class="btn btn-primary pull-right" data-dismiss="modal" aria-hidden="true">URL</button>
+              <button class="btn btn-primary pull-right">Show</button>
+              </fieldset>
+        </form>
+     </div> -->
+  </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+
+  <div id="main" class="container-fluid">
+    {% block wrap %}
+
+    {% endblock %}
+    <hr />
+
+    <footer id="footer">
+    <p class="copyright">
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
+    </a>
+    <br />
+    &copy; Copyright Richard Freedman/Haverford College, 2018<br />
+    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+    </p>
+    </footer>
+  </div><!--/.fluid-container-->
+</body>
+</html>

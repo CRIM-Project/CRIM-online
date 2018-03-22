@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block wrap %}
+
+  <div class="row-fluid">
+    <div class="span8">
+      <div class="span10">
+        <!-- <img src="{% static 'img/test.png' %}" alt="last exit" hspace="16" vspace="16"> -->
+      </div>
+
+      <div class="span10">
+        <!-- <h2>Project News</h2> -->
+        <!--
+          News blocks can be added from the Django admin interface.
+          Please make sure to use <p>...</p> around each paragraph in a
+          news block, otherwise, the margins will display incorrectly!
+        -->
+        {% for block in news_blocks %}
+          {% include "main/blocks/news.html" with block=block %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
