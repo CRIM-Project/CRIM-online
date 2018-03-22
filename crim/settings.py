@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crim',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +114,9 @@ DATETIME_FORMAT = 'Y-m-d, H:m'
 SHORT_DATETIME_FORMAT = 'Y-m-d, H:m'
 
 USE_TZ = True
+
+LOGIN_REDIRECT_URL = '/profile/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Make it acceptable for users to leave off a slash in URLs
 APPEND_SLASH = True

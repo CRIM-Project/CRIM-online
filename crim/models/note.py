@@ -20,5 +20,5 @@ class CRIMNote(models.Model):
 
     text = models.TextField()
 
-    def __unicode__(self):
+    def str(self):
         return '{0} ({1} {2})'.format(self.piece, self.author, self.created)
