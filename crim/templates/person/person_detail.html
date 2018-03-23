@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+
+{% block title %}
+<title>CRIM &mdash; {{ content.name }}</title>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup>
+    <h1>{{ content.name|apostrophe }}
+      {% if content.name_alternate_list %}
+        <small>({{ content.name_alternate_list|newline_to_break_tag }})</small>
+      {% endif %}
+    </h1>
+    <h2>
+      {% if content.unique_roles %}
+        {{ content.unique_roles }}, 
+      {% endif %}
+      {% if content.birth_date and content.death_date %}
+        {{ content.birth_date|apostrophe }}&ndash;{{ content.death_date|apostrophe }}
+      {% else %}
+        {% if content.birth_date and not content.death_date %}
+          b. {{ content.birth_date|apostrophe|figuredash }}
+        {% else %}
+          {% if content.death_date and not content.birth_date %}
+            d. {{ content.death_date|apostrophe|figuredash }}
+          {% else %}
+            {% if content.active_date %}
+              fl. {{ content.active_date|apostrophe|figuredash }}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </h2>
+  </hgroup>
+
+  <div class="row-fluid">
+    <div class="span8">
+      {% if content.person_id and request.user.profile.person.person_id == content.person_id %}
+        <form data-personid="{{ content.person_id }}" id="remarks-form">
+          {% csrf_token %}
+        
+          <a href="#" id="button-remarks" class="btn btn-success open-EditRemarks" data-toggle="modal" data-personid="{{ content.person_id }}" title="Edit Public Profile">{% if content.remarks %}Edit Public Profile{% else %}Add Public Profile{% endif %}</a>
+        </form>
+      {% endif %}
+
+      <p id="remarks-text">{% if content.remarks %}{{ content.remarks}}{% endif %}</p>
+    </div>
+  </div>
+
+  {% if pieces %}
+    <h2>Pieces</h2>
+    <table class="table table-striped">
+      <tr>
+        <th>Piece Name</th>
+        <th>Book</th>
+      </tr>
+      {% for piece in pieces %}
+        <tr>
+          <td><a href="/piece/{{ piece.piece_id }}">{{ piece.title }}</a></td>
+          <td><a href="/book/{{ piece.book_id.book_id }}">{{ piece.book_id.title }}</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if content.analyses %}
+    <h2>Analyses</h2>
+    {% include "analysis/analysis_display_table.html" %}
+  {% endif %}
+
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet"></link>
+
+  <script src="{{ STATIC_URL }}js/vendor/jquery.cookie.js"></script>
+
+  <script src="{{ STATIC_URL }}js/remarks.js"></script>
+  <script>
+    $(document).ready(function (){
+      attachPhraseClickEvents();
+      editRemarksAction();
+      submitRemarksAction();
+    });
+  </script>
+
+  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap-bundle.js"></script>
+
+
+  <script type="text/javascript">
+    // CSRF Token Protection lifted from Django documentation. Consider moving to main template
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+    // test that a given url is a same-origin URL
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+      (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+      // or any other URL that isn't scheme relative or absolute i.e relative.
+      !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+              // Send the token to same-origin, relative URLs only.
+              // Send the token only if the method warrants CSRF protection
+              // Using the CSRFToken value acquired earlier
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+  </script>
+
+  <script src="{{ STATIC_URL }}js/notation.js"></script>
+
+  <!-- meiView dependencies and scripts -->
+
+  <script type="text/JavaScript" src="/static/js/vexflow/vexflow-min.js"></script>
+  <script type="text/JavaScript" src="/static/js/deps/Fabric-all.js"></script>
+  <script type="text/JavaScript" src="/static/js/deps/meitovexflow.min.js"></script>
+
+  <script type="text/JavaScript" src="/static/js/dist/meiview.js"></script>
+  <link rel="stylesheet" href="/static/css/dist/meiview.css"/>
+
+{% endblock %}

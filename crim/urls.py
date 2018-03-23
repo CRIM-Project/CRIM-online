@@ -22,6 +22,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from crim.views.auth import SessionAuth, SessionStatus, SessionClose
 from crim.views.main import home, profile
+from crim.views.person import PersonList, PersonDetail
 from crim.views.user import UserList, UserDetail
 
 admin.autodiscover()
@@ -39,10 +40,13 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^auth/session/$', SessionAuth.as_view()),
         re_path(r'^auth/status/$', SessionStatus.as_view()),
         re_path(r'^auth/logout/$', SessionClose.as_view()),
-
         re_path(r'^profile/', profile),
         re_path(r'^users/$', UserList.as_view(), name='user-list'),
         re_path(r'^user/(?P<pk>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
+
+
+        re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
+        re_path(r'^person/(?P<pk>[-a-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
     ]
 
     urlpatterns += [
