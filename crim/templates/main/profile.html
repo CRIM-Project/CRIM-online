@@ -45,15 +45,12 @@
           <!-- Edit profile functionality not yet added<br />
             <a href="#" id="editpro">Edit&nbsp;Profile</a>
           -->
-          &bull; <a href="#" id="logout">Log&nbsp;Out</a>
         </h3>
         <div class="span12"><dl class="well-list account-info-list">
-          <dt>Joined:</dt>
-          <dd>{{ user.date_joined.date }}</dd>
-          <dt>Role:</dt>
-          <dd>{{ user.profile.role }}</dd>
-        </dl></div>
-        <h3><a href="/password_change/">Change Password</a></h3>
+          <p>Joined {{ user.date_joined.date }}</p>
+          <p><a href="/password_change/">Change Password</a></p>
+          <p><a href="#" id="logout">Log&nbsp;Out</a></p>
+        </div>
       </div>
     </div>
   </div>
