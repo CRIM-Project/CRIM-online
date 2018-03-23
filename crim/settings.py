@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crim',
     'rest_framework',
     'rest_framework.authtoken',
+    'bootstrap_pagination',
 ]
 
 MIDDLEWARE = [
