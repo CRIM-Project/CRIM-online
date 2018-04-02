@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>CRIM &mdash; {{ flatpage.title }}</title>
+{% endblock %}
+
+{% block wrap %}
+<h2>{{ flatpage.title }}</h2>
+{% autoescape off %}
+{{ flatpage.content }}
+{% endautoescape %}
+{% endblock %}

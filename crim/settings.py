@@ -32,16 +32,18 @@ ALLOWED_HOSTS = ['127.0.0.1', '159.65.177.99']
 # Application definition
 
 INSTALLED_APPS = [
+    'crim',
+    'bootstrap_pagination',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'django.contrib.flatpages',
     'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
-    'crim',
     'rest_framework',
     'rest_framework.authtoken',
-    'bootstrap_pagination',
 ]
 
 MIDDLEWARE = [
