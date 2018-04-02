@@ -17,6 +17,7 @@ from django.conf.urls import include, re_path
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, logout
+from django.contrib.flatpages import views
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -44,7 +45,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^users/$', UserList.as_view(), name='user-list'),
         re_path(r'^user/(?P<pk>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
 
-
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
         re_path(r'^person/(?P<pk>[-a-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
     ]
@@ -52,4 +52,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^login/$', LoginView.as_view()),
         re_path(r'^logout/$', logout, {'next_page': '/'}),
+    ]
+
+    urlpatterns += [
+        path('', include('django.contrib.flatpages.urls')),
     ]
