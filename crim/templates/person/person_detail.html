@@ -14,8 +14,8 @@
       {% endif %}
     </h1>
     <h2>
-      {% if content.unique_roles %}
-        {{ content.unique_roles }}, 
+      {% if content.unique_roles %}{{ content.unique_roles }}{% endif %}{% if content.unique_roles %}{% if content.birth_date or content.death_date or content.active_date %},&nbsp;
+        {% endif %}
       {% endif %}
       {% if content.birth_date and content.death_date %}
         {{ content.birth_date|apostrophe }}&ndash;{{ content.death_date|apostrophe }}
@@ -34,20 +34,6 @@
       {% endif %}
     </h2>
   </hgroup>
-
-  <div class="row-fluid">
-    <div class="span8">
-      {% if content.person_id and request.user.profile.person.person_id == content.person_id %}
-        <form data-personid="{{ content.person_id }}" id="remarks-form">
-          {% csrf_token %}
-        
-          <a href="#" id="button-remarks" class="btn btn-success open-EditRemarks" data-toggle="modal" data-personid="{{ content.person_id }}" title="Edit Public Profile">{% if content.remarks %}Edit Public Profile{% else %}Add Public Profile{% endif %}</a>
-        </form>
-      {% endif %}
-
-      <p id="remarks-text">{% if content.remarks %}{{ content.remarks}}{% endif %}</p>
-    </div>
-  </div>
 
   {% if pieces %}
     <h2>Pieces</h2>
