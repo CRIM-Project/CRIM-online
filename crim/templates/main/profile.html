@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load apostrophe %}
+{% load static %}
 
 {% block title %}
 <title>CRIM &mdash; Account Profile</title>
@@ -19,12 +20,6 @@
         <form class="mywork-search pull-right" style="margin-bottom:0px;" method="get" action="/search">
           <input type="text" name="q" placeholder="Search My Work" />
         </form>
-        {% if user.profile.person %}
-          <form data-personid="{{ user.profile.person.person_id }}" id="remarks-form">
-            {% csrf_token %}
-            <a href="#" id="button-remarks" class="btn btn-success open-EditRemarks pull-right" data-toggle="modal" data-personid="{{ user.profile.person.person_id }}" title="Edit Public Profile">{% if user.profile.person.remarks %}Edit Public Profile{% else %}Add Public Profile{% endif %}</a>
-          </form>
-        {% endif %}
       </div>
       <div class="row-fluid">
         <div class="span12 favorites-container content-container">
@@ -42,14 +37,19 @@
     <div class="span3">
       <div class="well">
         <h3>{{ user.username }}
-          <!-- Edit profile functionality not yet added<br />
-            <a href="#" id="editpro">Edit&nbsp;Profile</a>
-          -->
         </h3>
-        <div class="span12"><dl class="well-list account-info-list">
-          <p>Joined {{ user.date_joined.date }}</p>
-          <p><a href="/password_change/">Change Password</a></p>
-          <p><a href="#" id="logout">Log&nbsp;Out</a></p>
+        <div class="span12">
+          <dl class="well-list account-info-list">
+            <p>Joined {{ user.date_joined.date }}</p>
+            <p><a href="/password_change/">Change Password</a></p>
+            <p><a href="#" id="logout">Log&nbsp;Out</a></p>
+            {% if user.profile.person %}
+                <form data-personid="{{ user.profile.person.person_id }}" id="remarks-form">
+                  {% csrf_token %}
+                  <a href="#" id="button-remarks" class="btn btn-success open-EditRemarks pull-left" data-toggle="modal" data-personid="{{ user.profile.person.person_id }}" title="Edit Public Profile">{% if user.profile.person.remarks %}Edit Public Profile{% else %}Add Public Profile{% endif %}</a>
+                </form>
+            {% endif %}
+          </dl>
         </div>
       </div>
     </div>
@@ -64,6 +64,24 @@
     }
   </style>
 
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet"></link>
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"></link>
+
+  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
+  <script src="{% static 'js/remarks.js' %}"></script>
+  
+    <script type="text/javascript">
+    $(document).ready(function (){
+      editRemarksAction();
+      submitRemarksAction();
+
+      // Toggling the +/- accordion icons
+      $('.accordion-group').on('show hide', function(e){
+        $(e.target).siblings('.accordion-heading').find('.accordion-toggle i').toggleClass('icon-minus icon-plus');
+      });
+    });
+  </script>
+  
+  <script type="text/JavaScript" src="{% static 'js/jquery/src/effects.js' %}"></script>
+  <script type="text/JavaScript" src="{% static 'js/bootstrap/bootstrap.bundle.js' %}"></script>
 
 {% endblock %}
