@@ -21,7 +21,7 @@ class CRIMGenre(models.Model):
         db_index=True,
     )
     name = models.CharField(max_length=32)
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def __str__(self):
         return '{0}'.format(self.name)
@@ -75,7 +75,7 @@ class CRIMPiece(models.Model):
     mei_link = models.CharField('MEI link', max_length=255, blank=True)
 #     audio_link = models.CharField(max_length=255, blank=True)
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def title_with_id(self):
         return self.__str__()

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 # from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
 from dateutil.parser import parse
@@ -29,7 +30,7 @@ class CRIMRoleType(models.Model):
         db_index=True,
     )
     name = models.CharField(max_length=32)
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def __str__(self):
         return '{0}'.format(self.name)
@@ -98,7 +99,7 @@ class CRIMRole(models.Model):
             return self.treatise
         elif self.source:
             return self.source
-        else:
+        else:  # should not happen after validation
             return None
     work.short_description = 'work'
 
@@ -148,7 +149,7 @@ class CRIMRole(models.Model):
         related_name='roles_as_source',
     )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def __str__(self):
         NULL_ROLE_TYPE = 'unknown contributor'
@@ -161,7 +162,7 @@ class CRIMRole(models.Model):
             return '{0} as {1} of {2}'.format(self.person, role_type_to_print, self.treatise)
         elif self.source:
             return '{0} as {1} of {2}'.format(self.person, role_type_to_print, self.source)
-        else:  # shouldn't actually happen
+        else:  # shouldn't happen after validation
             return '{0} as {1}'.format(self.person, role_type_to_print)
 
     def _get_date_sort(self):
@@ -170,6 +171,15 @@ class CRIMRole(models.Model):
         except ValueError:
             date_parsed = 0
         return date_parsed
+
+    def clean(self):
+        number_of_works = ((1 if self.piece else 0) +
+                           (1 if self.mass else 0) +
+                           (1 if self.treatise else 0) +
+                           (1 if self.source else 0)
+                           )
+        if number_of_works != 1:
+            raise ValidationError('You must assign exactly one work to this role.')
 
     def save(self, *args, **kwargs):
         # Add sortable date field
