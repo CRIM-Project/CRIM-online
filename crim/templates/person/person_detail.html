@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load apostrophe %}
 {% load figuredash %}
+{% load markdown %}
+{% load workgenre %}
 
 {% block title %}
 <title>CRIM &mdash; {{ content.name }}</title>
@@ -14,9 +16,12 @@
       {% endif %}
     </h1>
     <h2>
-      {% if content.unique_roles %}{{ content.unique_roles }}{% endif %}{% if content.unique_roles %}{% if content.birth_date or content.death_date or content.active_date %},&nbsp;
+      <!-- Include the following block to add role details
+      {% if content.roles %}{{ content.roles }}{% endif %}{% if content.roles %}
+        {% if content.birth_date or content.death_date or content.active_date %},&nbsp;
         {% endif %}
       {% endif %}
+       -->
       {% if content.birth_date and content.death_date %}
         {{ content.birth_date|apostrophe }}&ndash;{{ content.death_date|apostrophe }}
       {% else %}
@@ -34,26 +39,25 @@
       {% endif %}
     </h2>
   </hgroup>
+  
+  <p id="remarks-text">{% if content.remarks %}{{ content.remarks|markdown|safe }}{% endif %}</p>
 
-  {% if pieces %}
-    <h2>Pieces</h2>
-    <table class="table table-striped">
+  {% if content.roles %}
+    <h2>Works</h2>
+    <table class="table table-striped table-bordered table-hover">
       <tr>
-        <th>Piece Name</th>
-        <th>Book</th>
+        <th>Role</th>
+        <th>Work type</th>
+        <th>Title</th>
       </tr>
-      {% for piece in pieces %}
+      {% for role in content.roles %}
         <tr>
-          <td><a href="/piece/{{ piece.piece_id }}">{{ piece.title }}</a></td>
-          <td><a href="/book/{{ piece.book_id.book_id }}">{{ piece.book_id.title }}</a></td>
+          <td>{{ role.role_type.name }}</td>
+          <td>{{ role.work|workgenre }}</td>
+          <td><a href="{{ role.work.url }}">{{ role.work.title }}</a></td>
         </tr>
       {% endfor %}
     </table>
-  {% endif %}
-
-  {% if content.analyses %}
-    <h2>Analyses</h2>
-    {% include "analysis/analysis_display_table.html" %}
   {% endif %}
 
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet"></link>

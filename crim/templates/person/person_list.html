@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load bootstrap_pagination %}
 {% load newline_to_break_tag %}
+{% load markdown %}
+{% load shorten %}
 
 {% block title %}
 <title>CRIM &mdash; People</title>
@@ -48,7 +50,7 @@
                 </td>
                 <td>{{ person.unique_roles }}</td>
                 <td>{{ person.name_alternate_list|newline_to_break_tag }}</td>
-                <td>{{ person.remarks }}</td>
+                <td>{{ person.remarks|markdown|shorten|safe }}</td>
             </tr>
             {% endfor %}
         </table>
