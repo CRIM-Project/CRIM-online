@@ -5,7 +5,7 @@ from rest_framework import permissions
 
 from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.person import CRIMPersonListSerializer, CRIMPersonDetailSerializer
+from crim.serializers.person import CRIMPersonSerializer
 from crim.models.person import CRIMPerson
 from rest_framework.response import Response
 from rest_framework import status
@@ -37,7 +37,7 @@ class PersonDetailHTMLRenderer(CustomHTMLRenderer):
 class PersonList(generics.ListAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPersonListSerializer
+    serializer_class = CRIMPersonSerializer
     renderer_classes = (PersonListHTMLRenderer, JSONRenderer,)
 
     def get_queryset(self):
@@ -48,7 +48,7 @@ class PersonList(generics.ListAPIView):
 class PersonDetail(generics.RetrieveAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPersonDetailSerializer
+    serializer_class = CRIMPersonSerializer
     renderer_classes = (PersonDetailHTMLRenderer, JSONRenderer,)
     queryset = CRIMPerson.objects.all()
 
