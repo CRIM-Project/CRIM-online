@@ -20,7 +20,7 @@ class CRIMDocument(models.Model):
     title = models.CharField(max_length=64)
     roles = GenericRelation(CRIMRole)
     pdf_link = models.CharField('PDF link', max_length=255, blank=True)
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def title_with_id(self):
         return self.__str__()

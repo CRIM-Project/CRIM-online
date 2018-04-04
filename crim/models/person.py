@@ -22,15 +22,15 @@ class CRIMPerson(models.Model):
     birth_date = models.CharField(max_length=32, blank=True, db_index=True)
     death_date = models.CharField(max_length=32, blank=True, db_index=True)
     active_date = models.CharField(max_length=32, blank=True, db_index=True)
-    remarks = models.TextField(blank=True)
-    
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
+
     date_sort = models.IntegerField(null=True)
-    
+
     def sorted_name(self):
         return self.name_sort
     sorted_name.short_description = 'name'
     sorted_name.admin_order_field = 'name_sort'
-    
+
     def sorted_date(self):
         return self.date_sort
     sorted_date.short_description = 'date'
@@ -38,7 +38,7 @@ class CRIMPerson(models.Model):
 
     def __str__(self):
         return '{0}'.format(self.name)
-    
+
     def _get_unique_slug(self):
         slug = slugify(self.name)
         unique_slug = slug
@@ -47,7 +47,7 @@ class CRIMPerson(models.Model):
             slug = '{}-{}'.format(slug, num)
             num += 1
         return unique_slug
-    
+
     def _get_date_sort(self):
         try:
             birth_date_parsed = parse(self.birth_date, fuzzy=True).year
@@ -62,24 +62,24 @@ class CRIMPerson(models.Model):
         except ValueError:
             active_date_parsed = 0
         return max(birth_date_parsed, death_date_parsed, active_date_parsed)
- 
+
     def save(self, *args, **kwargs):
         # Create unique person_id based on the name
         if not self.person_id:
             self.person_id = self._get_unique_slug()
-        
+
         # Add sorted name if it was left blank
         if not self.name_sort:
             self.name_sort = self.name
-        
+
         # Add sortable date field based on birth, death and active dates
         if self._get_date_sort() == 0:
             self.date_sort = None
         else:
             self.date_sort = self._get_date_sort()
-        
+
         # Remove extraneous newlines
         self.name_alternate_list = re.sub(r'[\n\r]+', r'\n', self.name_alternate_list)
-            
+
         # Finalize changes
         super().save()

@@ -19,7 +19,7 @@ class CRIMRelationshipType(models.Model):
         db_index=True,
     )
     name = models.CharField(max_length=32)
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def __str__(self):
         return '{0}'.format(self.name)
@@ -54,7 +54,7 @@ class CRIMMusicalType(models.Model):
         db_index=True,
     )
     name = models.CharField(max_length=32)
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def __str__(self):
         return '{0}'.format(self.name)
@@ -133,7 +133,7 @@ class CRIMRelationship(models.Model):
         related_name='relationships_as_derivative'
     )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

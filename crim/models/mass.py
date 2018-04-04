@@ -23,7 +23,7 @@ class CRIMMass(models.Model):
         through_fields=('mass', 'person'),
     )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def creator(self):
         roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
