@@ -15,7 +15,12 @@ class PersonListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for p in data:
             # Put roles into a single text field
-            p['unique_roles'] = ', '.join(p['roles'])
+            if p['unique_roles']:
+                p['unique_roles'] = ', '.join(p['unique_roles'])
+            else:
+                p['unique_roles'] = 'Unknown'
+            # Could add work count to table
+            # p['work_count'] = len(p['roles'])
 
         template_names = ['person/person_list.html']
         template = self.resolve_template(template_names)
@@ -26,7 +31,7 @@ class PersonListHTMLRenderer(CustomHTMLRenderer):
 class PersonDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         # Put roles into a single text field
-        data['unique_roles'] = ', '.join(data['roles'])
+        data['unique_roles'] = ', '.join(data['unique_roles'])
 
         template_names = ['person/person_detail.html']
         template = self.resolve_template(template_names)
