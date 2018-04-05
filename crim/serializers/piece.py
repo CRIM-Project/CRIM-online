@@ -1,6 +1,6 @@
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRole
-from crim.serializers.role import CRIMRoleSerializer
+from crim.serializers.role import CRIMRolePieceSummarySerializer
 from rest_framework import serializers
 
 
@@ -16,12 +16,7 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
-    roles = serializers.HyperlinkedRelatedField(
-        view_name='crimrole-detail',
-        queryset=CRIMRole.objects.all(),
-        many=True,
-        source='roles_as_piece',
-    )
+    roles = CRIMRolePieceSummarySerializer(many=True, read_only=True, source='roles_as_piece')
 
     class Meta:
         model = CRIMPiece
