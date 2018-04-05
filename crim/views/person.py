@@ -38,7 +38,10 @@ class PersonList(generics.ListAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPersonSerializer
-    renderer_classes = (PersonListHTMLRenderer, JSONRenderer,)
+    renderer_classes = (
+        PersonListHTMLRenderer,
+        JSONRenderer,
+    )
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'name_sort')
@@ -49,7 +52,10 @@ class PersonDetail(generics.RetrieveAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPersonSerializer
-    renderer_classes = (PersonDetailHTMLRenderer, JSONRenderer,)
+    renderer_classes = (
+        PersonDetailHTMLRenderer,
+        JSONRenderer,
+    )
     queryset = CRIMPerson.objects.all()
 
     def get_object(self):
