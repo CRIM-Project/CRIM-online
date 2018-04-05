@@ -1,6 +1,9 @@
+from crim.models.document import CRIMTreatise, CRIMSource
+from crim.models.genre import CRIMGenre
+from crim.models.mass import CRIMMass
 from crim.models.person import CRIMPerson
-from crim.models.role import CRIMRole
-from crim.serializers.role import CRIMRolePersonSummarySerializer
+from crim.models.piece import CRIMPiece
+from crim.models.role import CRIMRoleType, CRIMRole
 from rest_framework import serializers
 
 

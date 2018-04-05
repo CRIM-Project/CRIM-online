@@ -1,7 +1,10 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericRelation
+from django.core.exceptions import ValidationError
 
+from crim.models.person import CRIMPerson
 from crim.models.role import CRIMRole
+
+import re
 
 
 class CRIMDocument(models.Model):
@@ -12,13 +15,13 @@ class CRIMDocument(models.Model):
         abstract = True
 
     document_id = models.CharField(
+        'Document ID',
         max_length=16,
         unique=True,
         primary_key=True,
         db_index=True,
     )
     title = models.CharField(max_length=64)
-    roles = GenericRelation(CRIMRole)
     pdf_link = models.CharField('PDF link', max_length=255, blank=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
@@ -26,6 +29,11 @@ class CRIMDocument(models.Model):
         return self.__str__()
     title_with_id.short_description = 'document'
     title_with_id.admin_order_field = 'title'
+
+    def clean(self):
+        valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
+        if not valid_regex.match(self.document_id):
+            raise ValidationError('The Document ID must consist of letters, numbers, hyphens, and underscores.')
 
     def __str__(self):
         return '[{0}] {1}'.format(self.document_id, self.title)
@@ -36,6 +44,12 @@ class CRIMTreatise(CRIMDocument):
         app_label = 'crim'
         verbose_name = 'Treatise'
         verbose_name_plural = 'Treatises'
+
+    people = models.ManyToManyField(
+        CRIMPerson,
+        through='CRIMRole',
+        through_fields=('treatise', 'person'),
+    )
 
     def creator(self):
         roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
@@ -55,6 +69,12 @@ class CRIMSource(CRIMDocument):
         app_label = 'crim'
         verbose_name = 'Source'
         verbose_name_plural = 'Sources'
+
+    people = models.ManyToManyField(
+        CRIMPerson,
+        through='CRIMRole',
+        through_fields=('source', 'person'),
+    )
 
     source_contents = models.ManyToManyField(
         to='self',

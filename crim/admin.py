@@ -7,7 +7,8 @@ from crim.models.userprofile import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMDocument, CRIMTreatise, CRIMSource
-from crim.models.piece import CRIMGenre, CRIMPiece, CRIMMassMovement
+from crim.models.genre import CRIMGenre
+from crim.models.piece import CRIMPiece, CRIMMassMovement
 from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRole, CRIMRoleType
 from crim.models.relationship import CRIMRelationshipType, CRIMMusicalType, CRIMRelationship
