@@ -5,62 +5,58 @@ from rest_framework import permissions
 
 from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer
-from crim.models.piece import CRIMPiece
+from crim.models.mass import CRIMMass
+from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
 
-class PieceListHTMLRenderer(CustomHTMLRenderer):
+class MassListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        template_names = ['piece/piece_list.html']
+        template_names = ['mass/mass_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)
 
 
-class PieceDetailHTMLRenderer(CustomHTMLRenderer):
+class MassDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Sort roles alphabetically by role type
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
-
-        template_names = ['piece/piece_detail.html']
+        template_names = ['mass/mass_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)
 
 
-class PieceList(generics.ListAPIView):
-    model = CRIMPiece
+class MassList(generics.ListAPIView):
+    model = CRIMMass
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceListSerializer
+    serializer_class = CRIMMassListSerializer
     renderer_classes = (
-        PieceListHTMLRenderer,
+        # MassListHTMLRenderer,
         JSONRenderer,
     )
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.all().order_by(order_by)
+        order_by = self.request.GET.get('order_by', 'mass_id')
+        return CRIMMass.objects.all().order_by(order_by)
 
 
-class PieceDetail(generics.RetrieveAPIView):
-    model = CRIMPiece
+class MassDetail(generics.RetrieveAPIView):
+    model = CRIMMass
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceDetailSerializer
+    serializer_class = CRIMMassDetailSerializer
     renderer_classes = (
-        PieceDetailHTMLRenderer,
+        # MassDetailHTMLRenderer,
         JSONRenderer,
     )
-    queryset = CRIMPiece.objects.all()
+    queryset = CRIMMass.objects.all()
 
     def get_object(self):
         url_arg = self.kwargs['pk']
-        piece = CRIMPiece.objects.filter(piece_id=url_arg)
-        if not piece.exists():
-            piece = CRIMPiece.objects.filter(name_sort__iexact=url_arg)
+        mass = CRIMMass.objects.filter(mass_id=url_arg)
+        if not mass.exists():
+            mass = CRIMMass.objects.filter(name_sort__iexact=url_arg)
 
-        obj = get_object_or_404(piece)
+        obj = get_object_or_404(mass)
         self.check_object_permissions(self.request, obj)
         return obj

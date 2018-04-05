@@ -5,34 +5,6 @@ from crim.models.role import CRIMRole
 from rest_framework import serializers
 
 
-class CRIMRolePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CRIMRole
-        fields = (
-            'url',
-            'role_type',
-            'date',
-            'piece',
-            #             'mass',
-            #             'treatise',
-            #             'source',
-        )
-
-
-class CRIMRolePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CRIMRole
-        fields = (
-            'url',
-            'person',
-            'role_type',
-            'date',
-            #             'mass',
-            #             'treatise',
-            #             'source',
-        )
-
-
 class CRIMRoleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CRIMRole
@@ -41,9 +13,9 @@ class CRIMRoleSerializer(serializers.HyperlinkedModelSerializer):
             'person',
             'role_type',
             'date',
+            'mass',
             'piece',
-            #             'mass',
-            #             'treatise',
-            #             'source',
+            'treatise',
+            'source',
             'remarks',
         )
