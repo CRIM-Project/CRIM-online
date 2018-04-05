@@ -6,7 +6,7 @@ from rest_framework import permissions
 from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.genre import CRIMGenreSerializer
-from crim.models.piece import CRIMGenre
+from crim.models.genre import CRIMGenre
 from rest_framework.response import Response
 from rest_framework import status
 

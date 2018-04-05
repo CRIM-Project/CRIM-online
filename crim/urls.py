@@ -24,10 +24,13 @@ from rest_framework.authtoken.views import obtain_auth_token
 from crim.views.auth import SessionAuth, SessionStatus, SessionClose
 from crim.views.main import home, profile
 from crim.views.genre import GenreList, GenreDetail
+from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
 from crim.views.piece import PieceList, PieceDetail
 from crim.views.role import RoleList, RoleDetail
 from crim.views.roletype import RoleTypeList, RoleTypeDetail
+from crim.views.source import SourceList, SourceDetail
+from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserList, UserDetail
 
 admin.autodiscover()
@@ -49,16 +52,22 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^users/$', UserList.as_view(), name='user-list'),
         re_path(r'^user/(?P<pk>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
 
+        re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
+        re_path(r'^genre/(?P<pk>[-A-Za-z0-9]+)/$', GenreDetail.as_view(), name='crimgenre-detail'),
+        re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
+        re_path(r'^mass/(?P<pk>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
         re_path(r'^person/(?P<pk>[-a-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
         re_path(r'^pieces/$', PieceList.as_view(), name='crimpiece-list'),
-        re_path(r'^piece/(?P<pk>[-A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
-        re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
-        re_path(r'^genre/(?P<pk>[-A-Za-z0-9]+)/$', GenreDetail.as_view(), name='crimgenre-detail'),
+        re_path(r'^piece/(?P<pk>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^roles/$', RoleList.as_view(), name='crimrole-list'),
         re_path(r'^role/(?P<pk>[0-9]+)/$', RoleDetail.as_view(), name='crimrole-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
         re_path(r'^roletype/(?P<pk>[-A-Za-z0-9]+)/$', RoleTypeDetail.as_view(), name='crimroletype-detail'),
+        re_path(r'^sources/$', SourceList.as_view(), name='crimsource-list'),
+        re_path(r'^source/(?P<pk>[-_A-Za-z0-9]+)/$', SourceDetail.as_view(), name='crimsource-detail'),
+        re_path(r'^treatises/$', TreatiseList.as_view(), name='crimtreatise-list'),
+        re_path(r'^treatise/(?P<pk>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
     ]
 
     urlpatterns += [

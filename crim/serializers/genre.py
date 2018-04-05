@@ -1,4 +1,4 @@
-from crim.models.piece import CRIMGenre
+from crim.models.genre import CRIMGenre
 from rest_framework import serializers
 
 
