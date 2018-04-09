@@ -21,6 +21,10 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
 
 class MassDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Sort roles alphabetically by role type
+        data['roles'] = sorted(data['roles'],
+                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
         template_names = ['mass/mass_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
@@ -32,7 +36,7 @@ class MassList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMMassListSerializer
     renderer_classes = (
-        # MassListHTMLRenderer,
+        MassListHTMLRenderer,
         JSONRenderer,
     )
 
@@ -46,7 +50,7 @@ class MassDetail(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMMassDetailSerializer
     renderer_classes = (
-        # MassDetailHTMLRenderer,
+        MassDetailHTMLRenderer,
         JSONRenderer,
     )
     queryset = CRIMMass.objects.all()
