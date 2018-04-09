@@ -17,15 +17,15 @@ from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
 
 
-class CRIMRolePieceInline(admin.TabularInline):
-    model = CRIMRole
-    exclude = ['date_sort', 'mass', 'treatise', 'source']
-    extra = 1
-
-
 class CRIMRoleMassInline(admin.TabularInline):
     model = CRIMRole
     exclude = ['date_sort', 'piece', 'treatise', 'source']
+    extra = 1
+
+
+class CRIMRolePieceInline(admin.TabularInline):
+    model = CRIMRole
+    exclude = ['date_sort', 'mass', 'treatise', 'source']
     extra = 1
 
 
@@ -39,12 +39,6 @@ class CRIMRoleSourceInline(admin.TabularInline):
     model = CRIMRole
     exclude = ['date_sort', 'piece', 'mass', 'treatise']
     extra = 1
-
-
-class CRIMPieceForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['genre'].queryset = CRIMGenre.objects.exclude(genre_id='mass')
 
 
 class CRIMMassMovementForm(forms.ModelForm):
@@ -92,11 +86,9 @@ class CRIMPersonAdmin(admin.ModelAdmin):
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
-    form = CRIMPieceForm
-
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.exclude(genre__genre_id='mass')
+        return qs.exclude(genre__genre_id=None)
 
     fields = [
         'piece_id',
@@ -143,11 +135,9 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'title',
     ]
     list_display = [
-        'piece_id',
-        'mass',
+        'title_with_id',
         'creator',
         'mass_date',
-        'movement_name',
     ]
     ordering = [
         'piece_id',
@@ -161,13 +151,14 @@ class CRIMMassAdmin(admin.ModelAdmin):
     fields = [
         'mass_id',
         'title',
+        'genre',
         'remarks',
     ]
     inlines = [
         CRIMRoleMassInline,
     ]
     list_display = [
-        'mass_id',
+        'title_with_id',
         'creator',
         'date',
     ]
@@ -206,8 +197,8 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     fields = [
         'document_id',
         'title',
-        'piece_contents',
         'mass_contents',
+        'piece_contents',
         'treatise_contents',
         'source_contents',
         'remarks',
