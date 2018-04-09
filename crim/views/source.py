@@ -5,14 +5,39 @@ from rest_framework import permissions
 
 from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.models.document import CRIMSource
 from crim.serializers.source import CRIMSourceListSerializer, CRIMSourceDetailSerializer
+from crim.models.document import CRIMSource
+from crim.models.role import CRIMRoleType
 from rest_framework.response import Response
 from rest_framework import status
+
+AUTHOR = 'Author'
+COMPOSER = 'Composer'
 
 
 class SourceListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        for document in data:
+            # - Add `author` field to content: only look at roles with
+            # the role type with name "Composer", and add all such names
+            # to the list, along with the url of the author
+            # - Add `date` field to content: again, only look at roles
+            # with the role type "Composer"
+            authors = []
+            dates = []
+            for role in document['roles']:
+                if role['role_type'] and role['role_type']['name'] == AUTHOR:
+                    author_html = ('<a href="' + role['person']['url'] +
+                                   '">' + role['person']['name'] + '</a>')
+                    authors.append(author_html)
+                    if role['date']:
+                        dates.append(role['date'])
+            document['authors_with_url'] = '; '.join(authors) if authors else '-'
+            # Only add one author's date for clarity. Not the best sorting
+            # method (since '1600' will be sorted before 'c. 1550'),
+            # but it does the job here.
+            document['date'] = min(dates) if dates else '-'
+
         template_names = ['source/source_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
@@ -21,6 +46,30 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
 
 class SourceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # See SourceListHTMLRenderer for comments on getting author/composer
+        # names and dates
+        for item in (data['piece_contents'] + data['mass_contents'] +
+                     data['treatise_contents'] + data['source_contents']):
+            creators = []
+            dates = []
+            for role in item['roles']:
+                if role['role_type'] and role['role_type']['name'] in [COMPOSER, AUTHOR]:
+                    creator_html = ('<a href="' + role['person']['url'] +
+                                    '">' + role['person']['name'] + '</a>')
+                    creators.append(creator_html)
+                    if role['date']:
+                        dates.append(role['date'])
+            item['creators_with_url'] = '; '.join(creators) if creators else '-'
+            item['date'] = min(dates) if dates else '-'
+            # If item is a piece which is also a mass movement,
+            # fill in genre, composer and date information from the mass
+            if 'piece_id' in item and 'genre' not in item:
+                item['creators_with_url'] = 'Mass movement'
+
+        # Sort roles alphabetically by role type
+        data['roles'] = sorted(data['roles'],
+                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
         template_names = ['source/source_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
@@ -32,7 +81,7 @@ class SourceList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMSourceListSerializer
     renderer_classes = (
-        # SourceListHTMLRenderer,
+        SourceListHTMLRenderer,
         JSONRenderer,
     )
 
@@ -46,7 +95,7 @@ class SourceDetail(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMSourceDetailSerializer
     renderer_classes = (
-        # SourceDetailHTMLRenderer,
+        SourceDetailHTMLRenderer,
         JSONRenderer,
     )
     queryset = CRIMSource.objects.all()
