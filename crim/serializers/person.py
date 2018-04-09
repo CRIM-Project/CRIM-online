@@ -84,6 +84,7 @@ class CRIMRolePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
             'piece',
             'treatise',
             'source',
+            'remarks',
         )
 
 

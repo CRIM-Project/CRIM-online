@@ -9,8 +9,9 @@
 {% endblock %}
 
 {% block wrap %}
-  <hgroup>
+  <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
+	  <small>{{ content.piece_id }}</small>
 	  {% if content.pdf_link %}
 	  <a href="{{ content.pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
 	  {% endif %}
@@ -18,27 +19,19 @@
 	  <a href="{{ content.mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
 	  {% endif %}
     </h1>
-    <h2>{% if content.genre %}{{ content.genre.name }}{% endif %}</h2>
-    <h2 class="multiline">
-      {% for role in content.roles %}
-        {% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-        {{ role.person.name }}{% if role.date %}, {{ role.date }}{% endif %}<br/>
-      {% endfor %}
-    </h2>
+    <h2>{% if content.genre %}<a href="{{ content.genre.url }}">{{ content.genre.name }}</a>{% endif %}</h2>
+    {% for role in content.roles %}
+      <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
+      <a href="{{ role.person.url}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
+	  {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+    {% endfor %}
   </hgroup>
   
   <p id="remarks-text">{% if content.remarks %}{{ content.remarks|markdown|safe }}{% endif %}</p>
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-  <script>
-    $(document).ready(function (){
-      attachPhraseClickEvents();
-      editRemarksAction();
-      submitRemarksAction();
-    });
-  </script>
 
-  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap-bundle.js"></script>
+  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
 
 
   <script type="text/javascript">
