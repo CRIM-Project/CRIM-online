@@ -85,14 +85,9 @@ class CRIMMassMovement(CRIMPiece):
         related_name='movements',
     )
 
-    def movement_name(self):
-        return self.title
-    movement_name.short_description = 'Movement'
+    def __str__(self):
+        return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
 
     def mass_date(self):
         return self.mass.date()
     mass_date.short_description = 'Date'
-
-    def save(self):
-        self.genre = CRIMGenre(genre_id='mass')
-        super().save()

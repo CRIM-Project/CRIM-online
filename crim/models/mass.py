@@ -26,6 +26,7 @@ class CRIMMass(models.Model):
         on_delete=models.SET_NULL,
         to_field='genre_id',
         null=True,
+        default=CRIMGenre(genre_id='mass')
     )
     title = models.CharField(max_length=64)
     people = models.ManyToManyField(
@@ -35,6 +36,11 @@ class CRIMMass(models.Model):
     )
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
+
+    def title_with_id(self):
+        return self.__str__()
+    title_with_id.short_description = 'mass'
+    title_with_id.admin_order_field = 'title'
 
     def creator(self):
         roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
