@@ -76,23 +76,20 @@ class CRIMSource(CRIMDocument):
 #         through_fields=('source', 'person'),
 #     )
 
-    source_contents = models.ManyToManyField(
-        to='self',
+    mass_contents = models.ManyToManyField(
+        to='CRIMMass',
         blank=True,
-        symmetrical=False,
-    )
-    treatise_contents = models.ManyToManyField(
-        to='CRIMTreatise',
-        blank=True,
-        symmetrical=False,
     )
     piece_contents = models.ManyToManyField(
         to='CRIMPiece',
         blank=True,
-        symmetrical=False,
     )
-    mass_contents = models.ManyToManyField(
-        to='CRIMMass',
+    treatise_contents = models.ManyToManyField(
+        to='CRIMTreatise',
+        blank=True,
+    )
+    source_contents = models.ManyToManyField(
+        to='self',
         blank=True,
         symmetrical=False,
     )
