@@ -43,17 +43,28 @@ class CRIMRolePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
             'person',
             'role_type',
             'date',
+            'remarks',
         )
 
 
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
+    roles = CRIMRolePieceSummarySerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
+    genre = CRIMGenrePieceSummarySerializer(read_only=True)
+#     unique_roles = serializers.SerializerMethodField()
+
     class Meta:
         model = CRIMPiece
         fields = (
             'url',
+            'piece_id',
             'title',
             'genre',
-            'people',
+            'roles',
+            'remarks',
         )
 
 
@@ -69,11 +80,11 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMPiece
         fields = (
             'url',
+            'piece_id',
             'title',
             'genre',
             'roles',
             'pdf_link',
             'mei_link',
             'remarks',
-            # 'people',
         )

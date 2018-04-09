@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-{% load bootstrap_pagination %}
 {% load newline_to_break_tag %}
 {% load markdown %}
 {% load shorten %}
 
 {% block title %}
-<title>CRIM | People</title>
+<title>CRIM | Pieces</title>
 {% endblock %}
 
 {% block wrap %}
@@ -13,7 +12,7 @@
     <div class="span12">
         <div class="show-heading row-fluid">
             <hgroup class="show-title page-title span12">
-              <h1>People</h1>
+              <h1>Pieces</h1>
             </hgroup>
         </div>
     </div>
@@ -22,39 +21,24 @@
     <div class="span12">
         <table class="table table-striped table-bordered table-hover">
             <tr>
-                <th><a href="?order_by=name_sort">Person</a></th>
-                <th><a href="?order_by=date_sort">Dates</a></th>
-                <th>Roles</th>
-                <th>Alternate Names</th>
+                <th>Piece ID</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Composer</th>
+                <th>Date</th>
                 <th>Remarks</th>
             </tr>
-            {% for person in content %}
+            {% for piece in content %}
             <tr>
-                <td><a href="{{ person.url }}">{{ person.name_sort }}</a></td>
-                <td>
-			      {% if person.birth_date and person.death_date %}
-			        {{ person.birth_date|apostrophe }}&ndash;{{ person.death_date|apostrophe }}
-			      {% else %}
-			        {% if person.birth_date and not person.death_date %}
-			          b. {{ person.birth_date|apostrophe|figuredash }}
-			        {% else %}
-			          {% if person.death_date and not person.birth_date %}
-			            d. {{ person.death_date|apostrophe|figuredash }}
-			          {% else %}
-			            {% if person.active_date %}
-			              fl. {{ person.active_date|apostrophe|figuredash }}
-			            {% endif %}
-			          {% endif %}
-			        {% endif %}
-			      {% endif %}
-                </td>
-                <td>{{ person.unique_roles }}</td>
-                <td>{{ person.name_alternate_list|newline_to_break_tag }}</td>
-                <td>{{ person.remarks|markdown|shorten|safe }}</td>
+                <td>{{ piece.piece_id }}</td>
+                <td><a href="{{ piece.url }}">{{ piece.title }}</a></td>
+                <td><a href="{{piece.genre.url }}">{{ piece.genre.name }}</a></td>
+                <td>{{ piece.composers_with_url|safe }}</td>
+                <td>{{ piece.date }}</td>
+                <td>{{ piece.remarks|markdown|shorten|safe }}</td>
             </tr>
             {% endfor %}
         </table>
-        {# bootstrap_paginate people range=10 #}
     </div>
 </div>
 {% endblock %}

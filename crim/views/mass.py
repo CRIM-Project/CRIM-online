@@ -10,9 +10,32 @@ from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializ
 from rest_framework.response import Response
 from rest_framework import status
 
+COMPOSER = 'Composer'
+
 
 class MassListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        for mass in data:
+            # - Add `composer` field to content: only look at roles with
+            # the role type with name "Composer", and add all such names
+            # to the list, along with the url of the composer
+            # - Add `date` field to content: again, only look at roles
+            # with the role type "Composer"
+            composers = []
+            dates = []
+            for role in mass['roles']:
+                if role['role_type'] and role['role_type']['name'] == COMPOSER:
+                    composer_html = ('<a href="' + role['person']['url'] +
+                                     '">' + role['person']['name'] + '</a>')
+                    composers.append(composer_html)
+                    if role['date']:
+                        dates.append(role['date'])
+            mass['composers_with_url'] = '; '.join(composers) if composers else '-'
+            # Only add one composer's date for clarity. Not the best sorting
+            # method (since '1600' will be sorted before 'c. 1550'),
+            # but it does the job here.
+            mass['date'] = min(dates) if dates else '-'
+
         template_names = ['mass/mass_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)

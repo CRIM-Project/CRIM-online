@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.postgres.fields import ArrayField
+from django.utils.html import escape
 import re
 
 from dateutil.parser import parse
@@ -67,6 +68,9 @@ class CRIMPerson(models.Model):
         # Create unique person_id based on the name
         if not self.person_id:
             self.person_id = self._get_unique_slug()
+
+        # Need to clean `name` field, because its html ends up being parsed!
+        self.name = escape(self.name)
 
         # Add sorted name if it was left blank
         if not self.name_sort:
