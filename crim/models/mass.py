@@ -29,11 +29,11 @@ class CRIMMass(models.Model):
         default=CRIMGenre(genre_id='mass')
     )
     title = models.CharField(max_length=64)
-    people = models.ManyToManyField(
-        CRIMPerson,
-        through='CRIMRole',
-        through_fields=('mass', 'person'),
-    )
+#     people = models.ManyToManyField(
+#         CRIMPerson,
+#         through='CRIMRole',
+#         through_fields=('mass', 'person'),
+#     )
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 

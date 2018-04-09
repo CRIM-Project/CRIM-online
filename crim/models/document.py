@@ -45,11 +45,11 @@ class CRIMTreatise(CRIMDocument):
         verbose_name = 'Treatise'
         verbose_name_plural = 'Treatises'
 
-    people = models.ManyToManyField(
-        CRIMPerson,
-        through='CRIMRole',
-        through_fields=('treatise', 'person'),
-    )
+#     people = models.ManyToManyField(
+#         CRIMPerson,
+#         through='CRIMRole',
+#         through_fields=('treatise', 'person'),
+#     )
 
     def creator(self):
         roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
@@ -70,11 +70,11 @@ class CRIMSource(CRIMDocument):
         verbose_name = 'Source'
         verbose_name_plural = 'Sources'
 
-    people = models.ManyToManyField(
-        CRIMPerson,
-        through='CRIMRole',
-        through_fields=('source', 'person'),
-    )
+#     people = models.ManyToManyField(
+#         CRIMPerson,
+#         through='CRIMRole',
+#         through_fields=('source', 'person'),
+#     )
 
     source_contents = models.ManyToManyField(
         to='self',

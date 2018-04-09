@@ -23,11 +23,11 @@ class CRIMPiece(models.Model):
         primary_key=True,
         db_index=True,
     )
-    people = models.ManyToManyField(
-        CRIMPerson,
-        through='CRIMRole',
-        through_fields=('piece', 'person'),
-    )
+#     people = models.ManyToManyField(
+#         CRIMPerson,
+#         through='CRIMRole',
+#         through_fields=('piece', 'person'),
+#     )
     title = models.CharField(max_length=64)
     genre = models.ForeignKey(
         CRIMGenre,
