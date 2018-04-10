@@ -36,7 +36,6 @@ class CRIMPiece(models.Model):
         null=True,
         db_index=True,
     )
-
 #     forces = models.CharField(max_length=16, blank=True)
     pdf_link = models.CharField('PDF link', max_length=255, blank=True)
     mei_link = models.CharField('MEI link', max_length=255, blank=True)
@@ -73,17 +72,23 @@ class CRIMPiece(models.Model):
 class CRIMMassMovement(CRIMPiece):
     class Meta:
         app_label = 'crim'
-        verbose_name = 'Mass Movement'
-        verbose_name_plural = 'Mass Movements'
+        verbose_name = 'Mass movement'
+        verbose_name_plural = 'Mass movements'
 
     mass = models.ForeignKey(
         CRIMMass,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         to_field='mass_id',
         null=True,
+        blank=True,
         db_index=True,
         related_name='movements',
     )
+
+    def clean(self):
+        if self.genre:
+            raise ValidationError('A mass movement should not have its own genre; instead, it takes it from the mass it is linked to.')
+        super().clean()
 
     def __str__(self):
         return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
