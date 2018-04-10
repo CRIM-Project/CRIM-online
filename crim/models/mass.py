@@ -25,8 +25,8 @@ class CRIMMass(models.Model):
         CRIMGenre,
         on_delete=models.SET_NULL,
         to_field='genre_id',
+        default='mass',
         null=True,
-        default=CRIMGenre(genre_id='mass')
     )
     title = models.CharField(max_length=64)
 #     people = models.ManyToManyField(
