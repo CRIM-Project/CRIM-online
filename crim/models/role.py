@@ -35,11 +35,11 @@ class CRIMRoleType(models.Model):
         return '{0}'.format(self.name)
 
     def _get_unique_slug(self):
-        slug = slugify(self.name)
-        unique_slug = slug
+        slug_base = slugify(self.name)
+        unique_slug = slug_base
         num = 1
         while CRIMRoleType.objects.filter(role_type_id=unique_slug).exists():
-            slug = '{}-{}'.format(slug, num)
+            unique_slug = '{}-{}'.format(slug_base, num)
             num += 1
         return unique_slug
 
