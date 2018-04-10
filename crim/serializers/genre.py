@@ -5,4 +5,8 @@ from rest_framework import serializers
 class CRIMGenreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CRIMGenre
-        fields = '__all__'
+        fields = (
+            'url',
+            'name',
+            'remarks',
+        )
