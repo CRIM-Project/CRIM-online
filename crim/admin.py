@@ -41,6 +41,12 @@ class CRIMRoleSourceInline(admin.TabularInline):
     extra = 1
 
 
+class CRIMPieceForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['genre'].queryset = CRIMGenre.objects.exclude(genre_id='mass')
+
+
 class CRIMMassMovementForm(forms.ModelForm):
     KYRIE = 'Kyrie'
     GLORIA = 'Gloria'
@@ -86,9 +92,11 @@ class CRIMPersonAdmin(admin.ModelAdmin):
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
+    form = CRIMPieceForm
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.exclude(genre__genre_id=None)
+        return qs.exclude(genre__genre_id='mass')
 
     fields = [
         'piece_id',
