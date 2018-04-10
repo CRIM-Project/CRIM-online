@@ -5,4 +5,8 @@ from rest_framework import serializers
 class CRIMRoleTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CRIMRoleType
-        fields = '__all__'
+        fields = (
+            'url',
+            'name',
+            'remarks',
+        )
