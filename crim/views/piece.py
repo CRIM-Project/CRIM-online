@@ -66,7 +66,7 @@ class PieceList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.all().order_by(order_by)
+        return CRIMPiece.objects.exclude(genre__genre_id='mass').order_by(order_by)
 
 
 class PieceDetail(generics.RetrieveAPIView):
@@ -78,6 +78,9 @@ class PieceDetail(generics.RetrieveAPIView):
         JSONRenderer,
     )
     queryset = CRIMPiece.objects.all()
+
+    def get_queryset(self):
+        return CRIMPiece.objects.exclude(genre__genre_id='mass')
 
     def get_object(self):
         url_arg = self.kwargs['pk']
