@@ -61,10 +61,6 @@ class SourceDetailHTMLRenderer(CustomHTMLRenderer):
                         dates.append(role['date'])
             item['creators_with_url'] = '; '.join(creators) if creators else '-'
             item['date'] = min(dates) if dates else '-'
-            # If item is a piece which is also a mass movement,
-            # fill in genre, composer and date information from the mass
-            if 'piece_id' in item and 'genre' not in item:
-                item['creators_with_url'] = 'Mass movement'
 
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
