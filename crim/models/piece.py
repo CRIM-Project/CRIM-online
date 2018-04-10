@@ -85,14 +85,13 @@ class CRIMMassMovement(CRIMPiece):
         related_name='movements',
     )
 
-    def clean(self):
-        if self.genre:
-            raise ValidationError('A mass movement should not have its own genre; instead, it takes it from the mass it is linked to.')
-        super().clean()
-
     def __str__(self):
         return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
 
     def mass_date(self):
         return self.mass.date()
     mass_date.short_description = 'Date'
+
+    def save(self):
+        self.genre = CRIMGenre(genre_id='mass')
+        super().save()
