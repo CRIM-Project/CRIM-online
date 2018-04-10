@@ -76,5 +76,5 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
     ]
 
     urlpatterns += [
-        re_path(r'^(?P<url>.*)$', views.flatpage),
+        path('pages/', include('django.contrib.flatpages.urls')),
     ]
