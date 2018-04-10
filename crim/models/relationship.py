@@ -25,11 +25,11 @@ class CRIMRelationshipType(models.Model):
         return '{0}'.format(self.name)
 
     def _get_unique_slug(self):
-        slug = slugify(self.name)
-        unique_slug = slug
+        slug_base = slugify(self.name)
+        unique_slug = slug_base
         num = 1
         while CRIMRelationshipType.objects.filter(relationship_type_id=unique_slug).exists():
-            slug = '{}-{}'.format(slug, num)
+            unique_slug = '{}-{}'.format(slug_base, num)
             num += 1
         return unique_slug
 
@@ -60,11 +60,11 @@ class CRIMMusicalType(models.Model):
         return '{0}'.format(self.name)
 
     def _get_unique_slug(self):
-        slug = slugify(self.name)
-        unique_slug = slug
+        slug_base = slugify(self.name)
+        unique_slug = slug_base
         num = 1
         while CRIMMusicalType.objects.filter(musical_type_id=unique_slug).exists():
-            slug = '{}-{}'.format(slug, num)
+            unique_slug = '{}-{}'.format(slug_base, num)
             num += 1
         return unique_slug
 
@@ -142,11 +142,11 @@ class CRIMRelationship(models.Model):
         return '{0}'.format(self.relationship_id)
 
     def _get_unique_slug(self):
-        slug = slugify(self.model.piece_id + ' ' + self.derivative.piece_id)
-        unique_slug = slug
+        slug_base = (self.model.piece_id + '-' + self.derivative.piece_id)
         num = 1
+        unique_slug = '{}-{}'.format(slug_base, num)
         while CRIMRelationship.objects.filter(relationship_id=unique_slug).exists():
-            slug = '{}-{}'.format(slug, num)
+            unique_slug = '{}-{}'.format(slug_base, num)
             num += 1
         return unique_slug
 
