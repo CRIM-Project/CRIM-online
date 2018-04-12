@@ -90,7 +90,7 @@ class CRIMPiece(models.Model):
                 raise ValidationError('The ' + self.title + ' of ' + self.mass.title + ' already exists.')
         # Only validate Piece ID if it is not a mass movement
         else:
-            if valid_regex.match(self.piece_id):
+            if not valid_regex.match(self.piece_id):
                 raise ValidationError('The Piece ID must consist of letters, numbers, hyphens, and underscores.')
 
     def save(self):
