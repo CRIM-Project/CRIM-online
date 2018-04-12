@@ -15,7 +15,6 @@ class CRIMRelationshipType(models.Model):
     relationship_type_id = models.SlugField(
         max_length=32,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
     name = models.CharField(max_length=32)
@@ -50,7 +49,6 @@ class CRIMMusicalType(models.Model):
     musical_type_id = models.SlugField(
         max_length=32,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
     name = models.CharField(max_length=32)
@@ -85,7 +83,6 @@ class CRIMRelationship(models.Model):
     relationship_id = models.SlugField(
         max_length=64,
         unique=True,
-        primary_key=True,
     )
 
     observer = models.ForeignKey(

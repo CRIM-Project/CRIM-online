@@ -1,11 +1,13 @@
 from crim.models.genre import CRIMGenre
 from crim.models.person import CRIMPerson
-from crim.models.piece import CRIMMass
+from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRoleType, CRIMRole
 from rest_framework import serializers
 
 
 class CRIMRoleTypeMassSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail', lookup_field='role_type_id')
+
     class Meta:
         model = CRIMRoleType
         fields = (
@@ -15,6 +17,8 @@ class CRIMRoleTypeMassSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMGenreMassSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimgenre-detail', lookup_field='genre_id')
+
     class Meta:
         model = CRIMGenre
         fields = (
@@ -24,6 +28,8 @@ class CRIMGenreMassSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPersonMassSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+
     class Meta:
         model = CRIMPerson
         fields = (
@@ -33,6 +39,7 @@ class CRIMPersonMassSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRoleMassSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
     person = CRIMPersonMassSummarySerializer(read_only=True)
     role_type = CRIMRoleTypeMassSummarySerializer(read_only=True)
 
@@ -47,6 +54,7 @@ class CRIMRoleMassSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail', lookup_field='mass_id')
     genre = CRIMGenreMassSummarySerializer(read_only=True)
     roles = CRIMRoleMassSummarySerializer(
         many=True,
@@ -68,11 +76,7 @@ class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMMassDetailSerializer(serializers.HyperlinkedModelSerializer):
 #     Add mass movements to serialized mass
-#     movements = serializers.HyperlinkedRelatedField(
-#         many=True,
-#         read_only=True,
-#         view='crimmassmovement-detail',
-#     )
+    url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail', lookup_field='mass_id')
     genre = CRIMGenreMassSummarySerializer(read_only=True)
     roles = CRIMRoleMassSummarySerializer(
         many=True,

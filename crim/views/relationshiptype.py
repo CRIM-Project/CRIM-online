@@ -46,7 +46,7 @@ class RelationshipTypeDetail(generics.RetrieveAPIView):
     queryset = CRIMRelationshipType.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['relationship_type_id']
         relationshiptype = CRIMRelationshipType.objects.filter(relationship_type_id=url_arg)
         obj = get_object_or_404(relationshiptype)
         self.check_object_permissions(self.request, obj)

@@ -79,7 +79,7 @@ class MassDetail(generics.RetrieveAPIView):
     queryset = CRIMMass.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['mass_id']
         mass = CRIMMass.objects.filter(mass_id=url_arg)
         if not mass.exists():
             mass = CRIMMass.objects.filter(name_sort__iexact=url_arg)

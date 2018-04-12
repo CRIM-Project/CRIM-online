@@ -25,7 +25,6 @@ class CRIMRoleType(models.Model):
     role_type_id = models.SlugField(
         max_length=32,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
     name = models.CharField(max_length=32)

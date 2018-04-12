@@ -11,7 +11,6 @@ class CRIMGenre(models.Model):
     genre_id = models.SlugField(
         max_length=32,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
     name = models.CharField(max_length=32)

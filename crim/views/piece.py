@@ -83,7 +83,7 @@ class PieceDetail(generics.RetrieveAPIView):
         return CRIMPiece.objects.exclude(genre__genre_id='mass')
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['piece_id']
         piece = CRIMPiece.objects.filter(piece_id=url_arg)
         if not piece.exists():
             piece = CRIMPiece.objects.filter(name_sort__iexact=url_arg)

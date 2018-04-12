@@ -46,7 +46,7 @@ class MusicalTypeDetail(generics.RetrieveAPIView):
     queryset = CRIMMusicalType.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['musical_type_id']
         musicaltype = CRIMMusicalType.objects.filter(musical_type_id=url_arg)
         obj = get_object_or_404(musicaltype)
         self.check_object_permissions(self.request, obj)

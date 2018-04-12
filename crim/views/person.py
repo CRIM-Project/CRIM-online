@@ -64,7 +64,7 @@ class PersonDetail(generics.RetrieveAPIView):
     queryset = CRIMPerson.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['person_id']
         person = CRIMPerson.objects.filter(person_id=url_arg)
         if not person.exists():
             person = CRIMPerson.objects.filter(name_sort__iexact=url_arg)

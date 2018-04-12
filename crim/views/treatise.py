@@ -80,7 +80,7 @@ class TreatiseDetail(generics.RetrieveAPIView):
     queryset = CRIMTreatise.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['document_id']
         document = CRIMTreatise.objects.filter(document_id=url_arg)
         if not document.exists():
             document = CRIMTreatise.objects.filter(name_sort__iexact=url_arg)
