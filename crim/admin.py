@@ -88,7 +88,10 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'name_alternate_list',
         'remarks',
     ]
-    ordering = ['name_sort', 'date_sort']
+    ordering = [
+        'name_sort',
+        'date_sort',
+    ]
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
@@ -174,7 +177,9 @@ class CRIMMassAdmin(admin.ModelAdmin):
         'mass_id',
         'title',
     ]
-    ordering = ['mass_id']
+    ordering = [
+        'mass_id',
+    ]
 
 
 class CRIMTreatiseAdmin(admin.ModelAdmin):
@@ -242,14 +247,17 @@ class CRIMGenreAdmin(admin.ModelAdmin):
     list_display = [
         'name',
     ]
+    ordering = [
+        'name',
+    ]
 
 
 class CRIMRoleAdmin(admin.ModelAdmin):
     fields = [
         'person',
         'role_type',
-        'piece',
         'mass',
+        'piece',
         'treatise',
         'source',
         'date',
@@ -274,6 +282,14 @@ class CRIMRoleAdmin(admin.ModelAdmin):
     list_filter = [
         'role_type',
     ]
+    ordering = [
+        'role_type__name',
+        'person__name_sort',
+        'source__document_id',
+        'treatise__document_id',
+        'mass__mass_id',
+        'piece__piece_id',
+    ]
 
 
 class CRIMRoleTypeAdmin(admin.ModelAdmin):
@@ -282,6 +298,9 @@ class CRIMRoleTypeAdmin(admin.ModelAdmin):
         'remarks',
     ]
     list_display = [
+        'name',
+    ]
+    ordering = [
         'name',
     ]
 
@@ -294,6 +313,9 @@ class CRIMRelationshipTypeAdmin(admin.ModelAdmin):
     list_display = [
         'name',
     ]
+    ordering = [
+        'name',
+    ]
 
 
 class CRIMMusicalTypeAdmin(admin.ModelAdmin):
@@ -302,6 +324,9 @@ class CRIMMusicalTypeAdmin(admin.ModelAdmin):
         'remarks',
     ]
     list_display = [
+        'name',
+    ]
+    ordering = [
         'name',
     ]
 
@@ -353,17 +378,16 @@ admin.site.register(CRIMPerson, CRIMPersonAdmin)
 admin.site.register(CRIMMass, CRIMMassAdmin)
 admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMPiece, CRIMPieceAdmin)
-
 admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
 admin.site.register(CRIMSource, CRIMSourceAdmin)
 
 admin.site.register(CRIMRole, CRIMRoleAdmin)
 admin.site.register(CRIMRelationship, CRIMRelationshipAdmin)
 
-admin.site.register(CRIMNote)
-admin.site.register(CRIMComment)
-
 admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
 admin.site.register(CRIMRelationshipType, CRIMRelationshipTypeAdmin)
 admin.site.register(CRIMMusicalType, CRIMMusicalTypeAdmin)
+
+admin.site.register(CRIMNote)
+admin.site.register(CRIMComment)
