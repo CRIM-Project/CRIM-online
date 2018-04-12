@@ -17,6 +17,20 @@ from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
 
 
+class CRIMPieceMassForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    title = forms.CharField(widget=forms.Select(choices=CRIMPiece.MASS_MOVEMENTS))
+
+
+class CRIMPieceMassInline(admin.TabularInline):
+    form = CRIMPieceMassForm
+    model = CRIMPiece
+    exclude = ['piece_id', 'genre', 'remarks']
+    extra = 5
+    max_num = 5
+
+
 class CRIMRoleMassInline(admin.TabularInline):
     model = CRIMRole
     exclude = ['date_sort', 'piece', 'treatise', 'source', 'remarks']
@@ -44,23 +58,11 @@ class CRIMRoleSourceInline(admin.TabularInline):
 class CRIMPieceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['genre'].queryset = CRIMGenre.objects.exclude(genre_id='mass')
+        self.fields['genre'].queryset = CRIMGenre.objects.filter(mass=None)
 
 
 class CRIMMassMovementForm(forms.ModelForm):
-    KYRIE = 'Kyrie'
-    GLORIA = 'Gloria'
-    CREDO = 'Credo'
-    SANCTUS = 'Sanctus'
-    AGNUS = 'Agnus Dei'
-    MASS_MOVEMENTS = [
-        (KYRIE, 'Kyrie'),
-        (GLORIA, 'Gloria'),
-        (CREDO, 'Credo'),
-        (SANCTUS, 'Sanctus'),
-        (AGNUS, 'Agnus Dei'),
-    ]
-    title = forms.CharField(widget=forms.Select(choices=MASS_MOVEMENTS))
+    title = forms.CharField(widget=forms.Select(choices=CRIMPiece.MASS_MOVEMENTS))
 
 
 class CRIMPersonAdmin(admin.ModelAdmin):
@@ -99,7 +101,7 @@ class CRIMPieceAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.exclude(genre__genre_id='mass')
+        return qs.filter(mass=None)
 
     fields = [
         'piece_id',
@@ -132,29 +134,34 @@ class CRIMPieceAdmin(admin.ModelAdmin):
 
 class CRIMMassMovementAdmin(admin.ModelAdmin):
     form = CRIMMassMovementForm
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.exclude(mass=None)
+
     fields = [
-        'piece_id',
         'mass',
         'title',
         'pdf_link',
         'mei_link',
         'remarks',
     ]
+    inlines = [
+        CRIMRolePieceInline,
+    ]
     search_fields = [
-        'piece_id',
+        'mass__mass_id',
         'mass__title',
+        'piece_id',
         'title',
     ]
     list_display = [
         'title_with_id',
         'creator',
-        'mass_date',
+        'date',
     ]
     ordering = [
         'piece_id',
-    ]
-    list_filter = [
-        'title',
     ]
 
 
@@ -166,6 +173,7 @@ class CRIMMassAdmin(admin.ModelAdmin):
         'remarks',
     ]
     inlines = [
+        CRIMPieceMassInline,
         CRIMRoleMassInline,
     ]
     list_display = [
@@ -376,8 +384,8 @@ admin.site.register(User, UserAdmin)
 admin.site.register(CRIMPerson, CRIMPersonAdmin)
 
 admin.site.register(CRIMMass, CRIMMassAdmin)
-admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMPiece, CRIMPieceAdmin)
+admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
 admin.site.register(CRIMSource, CRIMSourceAdmin)
 
