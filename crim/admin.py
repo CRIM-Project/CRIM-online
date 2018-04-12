@@ -19,25 +19,25 @@ from crim.models.comment import CRIMComment
 
 class CRIMRoleMassInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'piece', 'treatise', 'source']
+    exclude = ['date_sort', 'piece', 'treatise', 'source', 'remarks']
     extra = 1
 
 
 class CRIMRolePieceInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'mass', 'treatise', 'source']
+    exclude = ['date_sort', 'mass', 'treatise', 'source', 'remarks']
     extra = 1
 
 
 class CRIMRoleTreatiseInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'piece', 'mass', 'source']
+    exclude = ['date_sort', 'piece', 'mass', 'source', 'remarks']
     extra = 1
 
 
 class CRIMRoleSourceInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'piece', 'mass', 'treatise']
+    exclude = ['date_sort', 'piece', 'mass', 'treatise', 'remarks']
     extra = 1
 
 
