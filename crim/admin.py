@@ -58,7 +58,7 @@ class CRIMRoleSourceInline(admin.TabularInline):
 class CRIMPieceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['genre'].queryset = CRIMGenre.objects.filter(mass=None)
+        self.fields['genre'].queryset = CRIMGenre.objects.filter(genre_id='mass')
 
 
 class CRIMMassMovementForm(forms.ModelForm):
@@ -97,7 +97,7 @@ class CRIMPersonAdmin(admin.ModelAdmin):
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
-    form = CRIMPieceForm
+    # form = CRIMPieceForm
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
