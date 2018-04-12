@@ -5,6 +5,8 @@ from rest_framework import serializers
 
 
 class CRIMRoleTypeTreatiseSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail', lookup_field='role_type_id')
+
     class Meta:
         model = CRIMRoleType
         fields = (
@@ -14,6 +16,8 @@ class CRIMRoleTypeTreatiseSummarySerializer(serializers.HyperlinkedModelSerializ
 
 
 class CRIMPersonTreatiseSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+
     class Meta:
         model = CRIMPerson
         fields = (
@@ -23,6 +27,7 @@ class CRIMPersonTreatiseSummarySerializer(serializers.HyperlinkedModelSerializer
 
 
 class CRIMRoleTreatiseSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
     person = CRIMPersonTreatiseSummarySerializer(read_only=True)
     role_type = CRIMRoleTypeTreatiseSummarySerializer(read_only=True)
 
@@ -37,6 +42,7 @@ class CRIMRoleTreatiseSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail', lookup_field='document_id')
     roles = CRIMRoleTreatiseSummarySerializer(
         many=True,
         read_only=True,
@@ -55,6 +61,7 @@ class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail', lookup_field='document_id')
     roles = CRIMRoleTreatiseSummarySerializer(
         many=True,
         read_only=True,

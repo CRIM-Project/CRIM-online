@@ -8,6 +8,8 @@ from rest_framework import serializers
 
 
 class CRIMGenrePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimgenre-detail', lookup_field='genre_id')
+
     class Meta:
         model = CRIMGenre
         fields = (
@@ -17,6 +19,8 @@ class CRIMGenrePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRoleTypePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail', lookup_field='role_type_id')
+
     class Meta:
         model = CRIMRoleType
         fields = (
@@ -26,6 +30,7 @@ class CRIMRoleTypePersonSummarySerializer(serializers.HyperlinkedModelSerializer
 
 
 class CRIMMassPersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail', lookup_field='mass_id')
     genre = CRIMGenrePersonSummarySerializer(read_only=True)
 
     class Meta:
@@ -38,6 +43,7 @@ class CRIMMassPersonSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPiecePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
     genre = CRIMGenrePersonSummarySerializer(read_only=True)
 
     class Meta:
@@ -50,6 +56,8 @@ class CRIMPiecePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMTreatisePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail', lookup_field='document_id')
+
     class Meta:
         model = CRIMTreatise
         fields = (
@@ -59,6 +67,8 @@ class CRIMTreatisePersonSummarySerializer(serializers.HyperlinkedModelSerializer
 
 
 class CRIMSourcePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail', lookup_field='document_id')
+
     class Meta:
         model = CRIMSource
         fields = (
@@ -68,6 +78,7 @@ class CRIMSourcePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRolePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
     mass = CRIMMassPersonSummarySerializer(read_only=True)
     piece = CRIMPiecePersonSummarySerializer(read_only=True)
     treatise = CRIMTreatisePersonSummarySerializer(read_only=True)
@@ -100,8 +111,8 @@ class CRIMPersonSerializer(serializers.HyperlinkedModelSerializer):
         unique_roles.sort()
         return unique_roles
 
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
     unique_roles = serializers.SerializerMethodField()
-
     roles = CRIMRolePersonSummarySerializer(many=True, read_only=True)
 
     class Meta:

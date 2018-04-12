@@ -18,7 +18,6 @@ class CRIMDocument(models.Model):
         'Document ID',
         max_length=16,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
     title = models.CharField(max_length=64)

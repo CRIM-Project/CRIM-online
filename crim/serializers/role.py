@@ -6,6 +6,8 @@ from rest_framework import serializers
 
 
 class CRIMRoleSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
+
     class Meta:
         model = CRIMRole
         fields = (

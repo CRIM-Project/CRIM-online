@@ -18,7 +18,6 @@ class CRIMMass(models.Model):
         'Mass ID',
         max_length=16,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
     genre = models.ForeignKey(

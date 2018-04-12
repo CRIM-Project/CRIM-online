@@ -46,7 +46,7 @@ class RoleTypeDetail(generics.RetrieveAPIView):
     queryset = CRIMRoleType.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['role_type_id']
         roletype = CRIMRoleType.objects.filter(role_type_id=url_arg)
         if not roletype.exists():
             roletype = CRIMRoleType.objects.filter(name_sort__iexact=url_arg)

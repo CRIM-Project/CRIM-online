@@ -97,7 +97,7 @@ class SourceDetail(generics.RetrieveAPIView):
     queryset = CRIMSource.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['document_id']
         document = CRIMSource.objects.filter(document_id=url_arg)
         if not document.exists():
             document = CRIMSource.objects.filter(name_sort__iexact=url_arg)

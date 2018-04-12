@@ -46,7 +46,7 @@ class GenreDetail(generics.RetrieveAPIView):
     queryset = CRIMGenre.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['genre_id']
         genre = CRIMGenre.objects.filter(genre_id=url_arg)
         if not genre.exists():
             genre = CRIMGenre.objects.filter(name_sort__iexact=url_arg)

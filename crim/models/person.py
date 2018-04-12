@@ -15,7 +15,7 @@ class CRIMPerson(models.Model):
         ordering = ['name_sort']
 
     # Null should be False, because blank values should be stored as empty string.
-    person_id = models.SlugField(max_length=64, unique=True, primary_key=True, db_index=True)
+    person_id = models.SlugField(max_length=64, unique=True, db_index=True)
     name = models.CharField(max_length=64, db_index=True)
     name_sort = models.CharField('sort name (such as ‘Lassus, Orlande de’)', max_length=64, blank=True, db_index=True)
     # Tried using an array, it was much more trouble than it was worth

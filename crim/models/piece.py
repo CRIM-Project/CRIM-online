@@ -20,7 +20,6 @@ class CRIMPiece(models.Model):
         'Piece ID',
         max_length=16,
         unique=True,
-        primary_key=True,
         db_index=True,
     )
 #     people = models.ManyToManyField(
