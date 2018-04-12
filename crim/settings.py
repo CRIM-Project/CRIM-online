@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['127.0.0.1', '159.65.177.99']
 
 INSTALLED_APPS = [
     'crim',
-    'bootstrap_pagination',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
