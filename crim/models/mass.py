@@ -54,7 +54,6 @@ class CRIMMass(models.Model):
     date.short_description = 'date'
 
     def save(self, *args, **kwargs):
-        self.genre = CRIMGenre(genre_id='mass')
         super().save()
 
     def clean(self):
