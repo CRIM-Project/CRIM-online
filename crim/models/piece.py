@@ -3,18 +3,33 @@ from django.core.exceptions import ValidationError
 
 from crim.models.genre import CRIMGenre
 from crim.models.person import CRIMPerson
-from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRole
 
 import re
-from dateutil.parser import parse
 
 
 class CRIMPiece(models.Model):
+    # Choices for movement type (used as titles in mass movements)
+    EMPTY = ''
+    KYRIE = '1'
+    GLORIA = '2'
+    CREDO = '3'
+    SANCTUS = '4'
+    AGNUS_DEI = '5'
+    MASS_MOVEMENTS = [
+        (EMPTY, '---------'),
+        (KYRIE, 'Kyrie'),
+        (GLORIA, 'Gloria'),
+        (CREDO, 'Credo'),
+        (SANCTUS, 'Sanctus'),
+        (AGNUS_DEI, 'Agnus Dei'),
+    ]
+
     class Meta:
         app_label = 'crim'
         verbose_name = 'Piece'
         verbose_name_plural = 'Pieces'
+        ordering = ['piece_id']
 
     piece_id = models.CharField(
         'Piece ID',
@@ -32,6 +47,14 @@ class CRIMPiece(models.Model):
         CRIMGenre,
         on_delete=models.SET_NULL,
         to_field='genre_id',
+        null=True,
+        db_index=True,
+    )
+    mass = models.ForeignKey(
+        'CRIMMass',
+        on_delete=models.CASCADE,
+        to_field='mass_id',
+        related_name='movements',
         null=True,
         db_index=True,
     )
@@ -61,8 +84,28 @@ class CRIMPiece(models.Model):
 
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
-        if not valid_regex.match(self.piece_id):
-            raise ValidationError('The Piece ID must consist of letters, numbers, hyphens, and underscores.')
+        if self.mass:
+            complete_title = self.mass.title + ': ' + self.title
+            if CRIMPiece.objects.filter(mass=self.mass, title=complete_title):
+                raise ValidationError('The ' + self.title + ' of ' + self.mass.title + ' already exists.')
+        # Only validate Piece ID if it is not a mass movement
+        else:
+            if valid_regex.match(self.piece_id):
+                raise ValidationError('The Piece ID must consist of letters, numbers, hyphens, and underscores.')
+
+    def save(self):
+        # If it is a mass movement, then fill in the Piece ID, title and genre
+        if self.mass:
+            # `self.title` will be a one-character string ('1', '2', ...)
+            # where '1' corresponds to Kyrie, etc.  See the list of
+            # constants at the top of the model definition
+            self.piece_id = (self.mass.mass_id + '-' + self.title)
+            # Add full mass title to the movement type title.
+            movement_titles = dict((x, y) for x, y in self.MASS_MOVEMENTS)
+            self.title = self.mass.title + ': ' + movement_titles[self.title]
+            # Finally, add the genre Mass to this mass movement.
+            self.genre = CRIMGenre.objects.get(genre_id='mass')
+        super().save()
 
     def __str__(self):
         return '[{0}] {1}'.format(self.piece_id, self.title)
@@ -73,22 +116,4 @@ class CRIMMassMovement(CRIMPiece):
         app_label = 'crim'
         verbose_name = 'Mass movement'
         verbose_name_plural = 'Mass movements'
-
-    mass = models.ForeignKey(
-        CRIMMass,
-        on_delete=models.CASCADE,
-        to_field='mass_id',
-        null=True,
-        blank=True,
-        db_index=True,
-        related_name='movements',
-    )
-
-    def mass_date(self):
-        return self.mass.date()
-    mass_date.short_description = 'Date'
-
-    def save(self):
-        self.title = self.mass.title + ': ' + self.title
-        self.genre = CRIMGenre(genre_id='mass')
-        super().save()
+        proxy = True
