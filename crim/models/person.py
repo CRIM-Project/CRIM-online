@@ -51,15 +51,15 @@ class CRIMPerson(models.Model):
 
     def _get_date_sort(self):
         try:
-            birth_date_parsed = parse(self.birth_date, fuzzy=True).year
+            birth_date_parsed = parse(self.birth_date.replace('x', '0'), fuzzy=True).year
         except ValueError:
             birth_date_parsed = 0
         try:
-            death_date_parsed = parse(self.death_date, fuzzy=True).year
+            death_date_parsed = parse(self.death_date.replace('x', '0'), fuzzy=True).year
         except ValueError:
             death_date_parsed = 0
         try:
-            active_date_parsed = parse(self.active_date, fuzzy=True).year
+            active_date_parsed = parse(self.active_date.replace('x', '0'), fuzzy=True).year
         except ValueError:
             active_date_parsed = 0
         return max(birth_date_parsed, death_date_parsed, active_date_parsed)

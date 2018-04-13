@@ -48,8 +48,8 @@
 			      {% endif %}
                 </td>
                 <td>{{ person.unique_roles }}</td>
-                <td>{{ person.name_alternate_list|newline_to_break_tag }}</td>
-                <td>{{ person.remarks|markdown|shorten|safe }}</td>
+                <td>{{ person.name_alternate_list|newline_to_break_tag|shorten:48 }}</td>
+                <td>{{ person.remarks|markdown|shorten:72|safe }}</td>
             </tr>
             {% endfor %}
         </table>

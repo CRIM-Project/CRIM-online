@@ -30,6 +30,13 @@ class PersonListHTMLRenderer(CustomHTMLRenderer):
 
 class PersonDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        def role_has_work(role):
+            return role['mass'] or role['piece'] or role['treatise'] or role['source']
+        data['has_works'] = False
+        for role in data['roles']:
+            if role_has_work(role):
+                data['has_works'] = True
+                break
         # Put roles into a single text field
         data['unique_roles'] = ', '.join(data['unique_roles'])
 
