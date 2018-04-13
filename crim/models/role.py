@@ -165,7 +165,7 @@ class CRIMRole(models.Model):
 
     def _get_date_sort(self):
         try:
-            date_parsed = parse(self.date, fuzzy=True).year
+            date_parsed = parse(self.date.replace('x', '0'), fuzzy=True).year
         except ValueError:
             date_parsed = 0
         return date_parsed
@@ -176,8 +176,10 @@ class CRIMRole(models.Model):
                            (1 if self.treatise else 0) +
                            (1 if self.source else 0)
                            )
-        if number_of_works != 1:
-            raise ValidationError('You must assign exactly one work to this role.')
+        # We allow 0 works to be assigned to a person in order to allow
+        # for roles not associated with a work, such as "Bookseller".
+        if number_of_works > 1:
+            raise ValidationError('You may assign no more than one work to a single role.')
 
     def save(self, *args, **kwargs):
         # Add sortable date field
