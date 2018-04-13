@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
-from dateutil.parser import parse
+from crim.common import get_date_sort
 
 
 # List of roles:
@@ -163,13 +163,6 @@ class CRIMRole(models.Model):
         else:  # shouldn't happen after validation
             return '{0} as {1}'.format(self.person, role_type_to_print)
 
-    def _get_date_sort(self):
-        try:
-            date_parsed = parse(self.date.replace('x', '0'), fuzzy=True).year
-        except ValueError:
-            date_parsed = 0
-        return date_parsed
-
     def clean(self):
         number_of_works = ((1 if self.piece else 0) +
                            (1 if self.mass else 0) +
@@ -183,9 +176,9 @@ class CRIMRole(models.Model):
 
     def save(self, *args, **kwargs):
         # Add sortable date field
-        if self._get_date_sort() == 0:
+        if get_date_sort([self.date]) == 0:
             self.date_sort = None
         else:
-            self.date_sort = self._get_date_sort()
+            self.date_sort = get_date_sort([self.date])
         # Finalize changes
         super().save()
