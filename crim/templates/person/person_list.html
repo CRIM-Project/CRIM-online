@@ -2,6 +2,7 @@
 {% load newline_to_break_tag %}
 {% load markdown %}
 {% load shorten %}
+{% load shortendate %}
 
 {% block title %}
 <title>CRIM | People</title>
@@ -21,35 +22,35 @@
     <div class="span12">
         <table class="table table-striped table-bordered table-hover">
             <tr>
-                <th><a href="?order_by=name_sort">Person</a></th>
+                <th><a href="?order_by=person_id">Person ID</a></th>
+                <th><a href="?order_by=name_sort">Name</a></th>
                 <th><a href="?order_by=date_sort">Dates</a></th>
                 <th>Roles</th>
                 <th>Alternate Names</th>
-                <th>Remarks</th>
             </tr>
             {% for person in content %}
             <tr>
-                <td><a href="{{ person.url }}">{{ person.name_sort }}</a></td>
+                <td><a href="{{ person.url }}">{{ person.person_id }}</a></td>
+                <td>{{ person.name_sort }}</td>
                 <td>
 			      {% if person.birth_date and person.death_date %}
-			        {{ person.birth_date|apostrophe }}&ndash;{{ person.death_date|apostrophe }}
+			        {{ person.birth_date|apostrophe|shortendate }}&ndash;{{ person.death_date|apostrophe|shortendate }}
 			      {% else %}
 			        {% if person.birth_date and not person.death_date %}
-			          b. {{ person.birth_date|apostrophe|figuredash }}
+			          b. {{ person.birth_date|apostrophe|figuredash|shortendate }}
 			        {% else %}
 			          {% if person.death_date and not person.birth_date %}
-			            d. {{ person.death_date|apostrophe|figuredash }}
+			            d. {{ person.death_date|apostrophe|figuredash|shortendate }}
 			          {% else %}
 			            {% if person.active_date %}
-			              fl. {{ person.active_date|apostrophe|figuredash }}
+			              fl. {{ person.active_date|apostrophe|figuredash|shortendate }}
 			            {% endif %}
 			          {% endif %}
 			        {% endif %}
 			      {% endif %}
                 </td>
                 <td>{{ person.unique_roles }}</td>
-                <td>{{ person.name_alternate_list|newline_to_break_tag|shorten:48 }}</td>
-                <td>{{ person.remarks|markdown|shorten:72|safe }}</td>
+                <td>{{ person.name_alternate_list|newline_to_break_tag }}</td>
             </tr>
             {% endfor %}
         </table>
