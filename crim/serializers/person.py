@@ -99,7 +99,37 @@ class CRIMRolePersonSummarySerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class CRIMPersonSerializer(serializers.HyperlinkedModelSerializer):
+class CRIMPersonListSerializer(serializers.HyperlinkedModelSerializer):
+    def get_unique_roles(self, obj):
+        unique_roles = []
+        crimroles = CRIMRole.objects.filter(person=obj)
+        for crimrole in crimroles:
+            if crimrole.role_type:
+                role_type_name = crimrole.role_type.name
+                if role_type_name not in unique_roles:
+                    unique_roles.append(role_type_name)
+        unique_roles.sort()
+        return unique_roles
+
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+    unique_roles = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CRIMPerson
+        fields = (
+            'url',
+            'person_id',
+            'name',
+            'name_sort',
+            'name_alternate_list',
+            'birth_date',
+            'death_date',
+            'active_date',
+            'unique_roles',
+        )
+
+
+class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
     def get_unique_roles(self, obj):
         unique_roles = []
         crimroles = CRIMRole.objects.filter(person=obj)
@@ -119,6 +149,7 @@ class CRIMPersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMPerson
         fields = (
             'url',
+            'person_id',
             'name',
             'name_sort',
             'name_alternate_list',
