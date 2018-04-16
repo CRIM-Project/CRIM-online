@@ -17,10 +17,21 @@ from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
 
 
+class NameSortChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.name_sort
+
+
 class CRIMPieceMassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     title = forms.CharField(widget=forms.Select(choices=CRIMPiece.MASS_MOVEMENTS))
+
+
+class CRIMRoleMassPieceForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    person = NameSortChoiceField(queryset=CRIMPerson.objects.all())
 
 
 class CRIMPieceMassInline(admin.TabularInline):
@@ -31,13 +42,21 @@ class CRIMPieceMassInline(admin.TabularInline):
     max_num = 5
 
 
+class CRIMRolePersonInline(admin.TabularInline):
+    model = CRIMRole
+    exclude = ['date_sort', 'remarks']
+    extra = 1
+
+
 class CRIMRoleMassInline(admin.TabularInline):
+    form = CRIMRoleMassPieceForm
     model = CRIMRole
     exclude = ['date_sort', 'piece', 'treatise', 'source', 'remarks']
     extra = 1
 
 
 class CRIMRolePieceInline(admin.TabularInline):
+    form = CRIMRoleMassPieceForm
     model = CRIMRole
     exclude = ['date_sort', 'mass', 'treatise', 'source', 'remarks']
     extra = 1
@@ -80,6 +99,9 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'death_date',
         'active_date',
         'remarks',
+    ]
+    inlines = [
+        CRIMRolePersonInline,
     ]
     list_display = [
         'sorted_name',
