@@ -62,7 +62,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^musicaltypes/$', MusicalTypeList.as_view(), name='crimmusicaltype-list'),
         re_path(r'^musicaltype/(?P<musical_type_id>[-A-Za-z0-9]+)/$', MusicalTypeDetail.as_view(), name='crimmusicaltype-detail'),
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
-        re_path(r'^person/(?P<person_id>[-a-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
+        re_path(r'^person/(?P<person_id>[-_A-Za-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
         re_path(r'^pieces/$', PieceList.as_view(), name='crimpiece-list'),
         re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
