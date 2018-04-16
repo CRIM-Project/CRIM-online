@@ -5,7 +5,7 @@ from rest_framework import permissions
 
 from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.person import CRIMPersonSerializer
+from crim.serializers.person import CRIMPersonListSerializer, CRIMPersonDetailSerializer
 from crim.models.person import CRIMPerson
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,7 +18,7 @@ class PersonListHTMLRenderer(CustomHTMLRenderer):
             if p['unique_roles']:
                 p['unique_roles'] = ', '.join(p['unique_roles'])
             else:
-                p['unique_roles'] = 'Unknown'
+                p['unique_roles'] = ''
             # Could add work count to table
             # p['work_count'] = len(p['roles'])
 
@@ -49,21 +49,21 @@ class PersonDetailHTMLRenderer(CustomHTMLRenderer):
 class PersonList(generics.ListAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPersonSerializer
+    serializer_class = CRIMPersonListSerializer
     renderer_classes = (
         PersonListHTMLRenderer,
         JSONRenderer,
     )
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'name_sort')
+        order_by = self.request.GET.get('order_by', 'person_id')
         return CRIMPerson.objects.all().order_by(order_by)
 
 
 class PersonDetail(generics.RetrieveAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPersonSerializer
+    serializer_class = CRIMPersonDetailSerializer
     renderer_classes = (
         PersonDetailHTMLRenderer,
         JSONRenderer,
