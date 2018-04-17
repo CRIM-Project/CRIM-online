@@ -5,23 +5,22 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crim.settings')
 import django
 
 django.setup()
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crim.settings')
 
 from collections import OrderedDict
 
 from crim.common import get_date_sort
 from crim.models.person import CRIMPerson
-from crim.models.piece import CRIMPiece
-from crim.models.role import CRIMRoleType
 
-FILE_IN = 'source/CRIM_Model_Catalog.csv'
-FILE_OUT = '../crim/fixtures/piece_roles.json'
+FILE_IN = 'source/CRIM_Mass_Catalog.csv'
+FILE_OUT = '../crim/fixtures/mass_roles.json'
 
 
 def add_composer(old_row, new_role_fields):
-    new_role_fields['person'] = old_row['Person_ID']
+    new_role_fields['person'] = old_row['Composer']
     new_role_fields['role_type'] = 'composer'
-    new_role_fields['piece'] = old_row['CRIM_Model_ID']
+    new_role_fields['mass'] = old_row['CRIM_Mass_ID']
+    new_role_fields['date'] = old_row['Date of Mass']
+    new_role_fields['date_sort'] = get_date_sort([old_row['Date of Mass']])
 
 
 def add_editor(old_row, new_role_fields):
@@ -29,7 +28,7 @@ def add_editor(old_row, new_role_fields):
     new_role_fields['role_type'] = 'editor'
     new_role_fields['date'] = old_row['Date']
     new_role_fields['date_sort'] = get_date_sort([old_row['Date']])
-    new_role_fields['piece'] = old_row['CRIM_Model_ID']
+    new_role_fields['mass'] = old_row['CRIM_Mass_ID']
 
 
 def process_roles(csvfile):
@@ -37,7 +36,6 @@ def process_roles(csvfile):
     for the CRIM Django site, and exports the data as an
     OrderedDict.'''
     data = []
-    # idgen = count()
     csvreader = csv.DictReader(csvfile)
     for old_row in csvreader:
         new_composer_fields = OrderedDict()
