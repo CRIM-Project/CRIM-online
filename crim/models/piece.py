@@ -13,11 +13,11 @@ COMPOSER = 'Composer'
 class CRIMPiece(models.Model):
     # Choices for movement type (used as titles in mass movements)
     EMPTY = ''
-    KYRIE = '1'
-    GLORIA = '2'
-    CREDO = '3'
-    SANCTUS = '4'
-    AGNUS_DEI = '5'
+    KYRIE = 'Kyrie'
+    GLORIA = 'Gloria'
+    CREDO = 'Credo'
+    SANCTUS = 'Sanctus'
+    AGNUS_DEI = 'Agnus Dei'
     MASS_MOVEMENTS = [
         (EMPTY, '---------'),
         (KYRIE, 'Kyrie'),
@@ -26,6 +26,13 @@ class CRIMPiece(models.Model):
         (SANCTUS, 'Sanctus'),
         (AGNUS_DEI, 'Agnus Dei'),
     ]
+    MASS_MOVEMENT_ORDER = (
+        ('Kyrie', '1'),
+        ('Gloria', '2'),
+        ('Sanctus', '3'),
+        ('Credo', '4'),
+        ('Agnus Dei', '5'),
+    )
 
     class Meta:
         app_label = 'crim'
@@ -96,15 +103,13 @@ class CRIMPiece(models.Model):
             # `self.title` will be a one-character string ('1', '2', ...)
             # where '1' corresponds to Kyrie, etc.  See the list of
             # constants at the top of the model definition
-            self.piece_id = (self.mass.mass_id + '-' + self.title)
-            # Add full mass title to the movement type title.
-            movement_titles = dict((x, y) for x, y in self.MASS_MOVEMENTS)
-            self.title = self.mass.title + ': ' + movement_titles[self.title]
+            movement_order = dict((x, y) for x, y in self.MASS_MOVEMENT_ORDER)
+            self.piece_id = (self.mass.mass_id + '_' + movement_order[self.title])
             # Finally, add the genre Mass to this mass movement.
             self.genre = CRIMGenre.objects.get(genre_id='mass')
         # Remove extraneous newlines from links fields
-        self.pdf_link = re.sub(r'[\n\r]+', r'\n', self.pdf_link)
-        self.mei_link = re.sub(r'[\n\r]+', r'\n', self.mei_link)
+        self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
+        self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
         super().save()
 
     def __str__(self):

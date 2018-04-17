@@ -24,6 +24,12 @@ class CRIMPieceMassForm(forms.ModelForm):
 
 
 class CRIMPieceMassInline(admin.TabularInline):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in ('pdf_links', 'mei_links'):
+            formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 40})
+        return formfield
+
     form = CRIMPieceMassForm
     model = CRIMPiece
     exclude = ['piece_id', 'genre', 'remarks']
