@@ -21,7 +21,7 @@ class CRIMDocument(models.Model):
         db_index=True,
     )
     title = models.CharField(max_length=64)
-    pdf_link = models.CharField('PDF link', max_length=255, blank=True)
+    pdf_links = models.TextField('PDF links (one per line)', blank=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def title_with_id(self):

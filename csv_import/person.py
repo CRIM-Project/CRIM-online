@@ -3,7 +3,7 @@ import json
 import re
 from collections import OrderedDict
 from crim.common import get_date_sort
-from itertools import count
+# from itertools import count
 
 FILE_IN = 'source/CRIM_Person_Catalog.csv'
 FILE_OUT = '../crim/fixtures/person.json'
@@ -78,7 +78,7 @@ def process_person(csvfile):
     for the CRIM Django site, and exports the data as an
     OrderedDict.'''
     data = []
-    idgen = count()
+    # idgen = count()
     csvreader = csv.DictReader(csvfile)
     for old_row in csvreader:
         new_fields = OrderedDict()
