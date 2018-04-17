@@ -3,13 +3,9 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer
 from crim.models.piece import CRIMPiece
-from crim.models.role import CRIMRoleType
-from rest_framework.response import Response
-from rest_framework import status
 
 COMPOSER = 'Composer'
 
@@ -45,6 +41,9 @@ class PieceListHTMLRenderer(CustomHTMLRenderer):
 
 class PieceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Put pdf and mei links into a list rather than a \n-separated string
+        data['pdf_links'] = data['pdf_links'].split('\n')
+        data['mei_links'] = data['mei_links'].split('\n')
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
