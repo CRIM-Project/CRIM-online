@@ -2,10 +2,12 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 from crim.models.genre import CRIMGenre
-from crim.models.person import CRIMPerson
 from crim.models.role import CRIMRole
 
 import re
+
+
+COMPOSER = 'Composer'
 
 
 class CRIMPiece(models.Model):
@@ -37,12 +39,7 @@ class CRIMPiece(models.Model):
         unique=True,
         db_index=True,
     )
-#     people = models.ManyToManyField(
-#         CRIMPerson,
-#         through='CRIMRole',
-#         through_fields=('piece', 'person'),
-#     )
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=128)
     genre = models.ForeignKey(
         CRIMGenre,
         on_delete=models.SET_NULL,
@@ -70,14 +67,14 @@ class CRIMPiece(models.Model):
     title_with_id.short_description = 'piece'
     title_with_id.admin_order_field = 'title'
 
-    def creator(self):
-        roles = CRIMRole.objects.filter(piece=self).order_by('date_sort')
+    def composer(self):
+        roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
         if roles:
             return roles[0].person
-    creator.short_description = 'creator'
+    composer.short_description = 'composer'
 
     def date(self):
-        roles = CRIMRole.objects.filter(piece=self).order_by('date_sort')
+        roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
         if roles:
             return roles[0].date_sort
     date.short_description = 'date'
@@ -105,6 +102,9 @@ class CRIMPiece(models.Model):
             self.title = self.mass.title + ': ' + movement_titles[self.title]
             # Finally, add the genre Mass to this mass movement.
             self.genre = CRIMGenre.objects.get(genre_id='mass')
+        # Remove extraneous newlines from links fields
+        self.pdf_link = re.sub(r'[\n\r]+', r'\n', self.pdf_link)
+        self.mei_link = re.sub(r'[\n\r]+', r'\n', self.mei_link)
         super().save()
 
     def __str__(self):
