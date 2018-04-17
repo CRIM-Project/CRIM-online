@@ -46,6 +46,9 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
 
 class SourceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Put pdf and mei links into a list rather than a \n-separated string
+        data['pdf_links'] = data['pdf_links'].split('\n')
+        data['mei_links'] = data['mei_links'].split('\n')
         # See SourceListHTMLRenderer for comments on getting author/composer
         # names and dates
         for item in (data['piece_contents'] + data['mass_contents'] +
