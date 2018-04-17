@@ -29,8 +29,8 @@
             </tr>
             {% for document in content %}
             <tr>
-                <td>{{ document.document_id }}</td>
-                <td><a href="{{ document.url }}">{{ document.title }}</a></td>
+                <td><a href="{{ document.url }}">{{ document.document_id }}</a></td>
+                <td>{{ document.title }}</td>
                 <td>{{ document.authors_with_url|safe }}</td>
                 <td>{{ document.date }}</td>
                 <td>{{ document.remarks|markdown|shorten|safe }}</td>
