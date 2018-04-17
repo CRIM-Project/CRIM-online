@@ -59,8 +59,8 @@ class CRIMPiece(models.Model):
         db_index=True,
     )
 #     forces = models.CharField(max_length=16, blank=True)
-    pdf_link = models.CharField('PDF link', max_length=255, blank=True)
-    mei_link = models.CharField('MEI link', max_length=255, blank=True)
+    pdf_links = models.TextField('PDF links (one per line)', blank=True)
+    mei_links = models.TextField('MEI links (one per line)', blank=True)
 #     audio_link = models.CharField(max_length=255, blank=True)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)

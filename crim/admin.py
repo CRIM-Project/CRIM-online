@@ -129,8 +129,8 @@ class CRIMPieceAdmin(admin.ModelAdmin):
         'piece_id',
         'title',
         'genre',
-        'pdf_link',
-        'mei_link',
+        'pdf_links',
+        'mei_links',
         'remarks',
     ]
     inlines = [
@@ -164,8 +164,8 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     fields = [
         'mass',
         'title',
-        'pdf_link',
-        'mei_link',
+        'pdf_links',
+        'mei_links',
         'remarks',
     ]
     inlines = [
@@ -213,11 +213,17 @@ class CRIMMassAdmin(admin.ModelAdmin):
 
 
 class CRIMTreatiseAdmin(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'pdf_links':
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
+        return formfield
+
     fields = [
         'document_id',
         'title',
         'remarks',
-        'pdf_link',
+        'pdf_links',
     ]
     inlines = [
         CRIMRoleTreatiseInline,
@@ -250,7 +256,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
         'treatise_contents',
         'source_contents',
         'remarks',
-        'pdf_link',
+        'pdf_links',
     ]
     inlines = [
         CRIMRoleSourceInline,

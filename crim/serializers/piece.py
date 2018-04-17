@@ -94,7 +94,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'genre',
             'roles',
-            'pdf_link',
-            'mei_link',
+            'pdf_links',
+            'mei_links',
             'remarks',
         )
