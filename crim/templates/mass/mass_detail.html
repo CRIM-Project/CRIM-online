@@ -29,6 +29,36 @@
   
   <p id="remarks-text">{% if content.remarks %}{{ content.remarks|markdown|safe }}{% endif %}</p>
 
+
+  {% if content.movements %}
+    <h2>Movements</h2>
+    <table class="table table-striped table-bordered table-hover">
+      <tr>
+        <th>Title</th>
+        <th>Links</th>
+        <th>Remarks</th>
+      </tr>
+      {% for piece in content.movements %}
+        <tr>
+          <td><a href="{{ piece.url }}">{{ piece.title }}</a></td>
+          <td>
+            {% for pdf_link in piece.pdf_links %}
+              <a href="{{ pdf_link }}">
+                <img src="{% static 'img/pdfdownload.png' %}" height=24 />
+              </a>
+            {% endfor %}
+            {% for mei_link in piece.mei_links %}
+              <a href="{{ mei_link }}">
+                <img src="{% static 'img/meidownload.png' %}" height=18 />
+              </a>
+            {% endfor %}
+          </td>
+          <td>{{ role.remarks }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
   <script>
     $(document).ready(function (){

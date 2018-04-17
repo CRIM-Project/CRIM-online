@@ -3,12 +3,9 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.models.mass import CRIMMass
 from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializer
-from rest_framework.response import Response
-from rest_framework import status
 
 COMPOSER = 'Composer'
 
@@ -44,6 +41,10 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
 
 class MassDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Put pdf and mei links into a list rather than a \n-separated string
+        for piece in data['movements']:
+            piece['pdf_links'] = piece['pdf_links'].split('\n')
+            piece['mei_links'] = piece['mei_links'].split('\n')
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
