@@ -7,15 +7,6 @@ from django.utils.text import slugify
 from crim.common import get_date_sort
 
 
-# List of roles:
-# AUTHOR = 'author'
-# COMPOSER = 'composer'
-# EDITOR = 'editor'
-# PUBLISHER = 'publisher'
-# SCRIBE = 'scribe'
-# TRANSLATOR = 'translator'
-
-
 class CRIMRoleType(models.Model):
     class Meta:
         app_label = 'crim'
@@ -66,7 +57,7 @@ class CRIMRole(models.Model):
 
     role_type = models.ForeignKey(
         CRIMRoleType,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         to_field='role_type_id',
         blank=True,
         null=True,

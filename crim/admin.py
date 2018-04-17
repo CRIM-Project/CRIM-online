@@ -6,7 +6,7 @@ from django import forms
 from crim.models.userprofile import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
-from crim.models.document import CRIMDocument, CRIMTreatise, CRIMSource
+from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece, CRIMMassMovement
 from crim.models.mass import CRIMMass
@@ -17,21 +17,10 @@ from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
 
 
-class NameSortChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return obj.name_sort
-
-
 class CRIMPieceMassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     title = forms.CharField(widget=forms.Select(choices=CRIMPiece.MASS_MOVEMENTS))
-
-
-class CRIMRoleMassPieceForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-    person = NameSortChoiceField(queryset=CRIMPerson.objects.all())
 
 
 class CRIMPieceMassInline(admin.TabularInline):
@@ -49,14 +38,22 @@ class CRIMRolePersonInline(admin.TabularInline):
 
 
 class CRIMRoleMassInline(admin.TabularInline):
-    form = CRIMRoleMassPieceForm
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'person':
+            kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     model = CRIMRole
     exclude = ['date_sort', 'piece', 'treatise', 'source', 'remarks']
     extra = 1
 
 
 class CRIMRolePieceInline(admin.TabularInline):
-    form = CRIMRoleMassPieceForm
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'person':
+            kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     model = CRIMRole
     exclude = ['date_sort', 'mass', 'treatise', 'source', 'remarks']
     extra = 1
@@ -86,12 +83,18 @@ class CRIMMassMovementForm(forms.ModelForm):
 
 class CRIMPersonAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
-        formfield = super(CRIMPersonAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'name_alternate_list':
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 32})
         return formfield
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'person':
+            kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     fields = [
+        'person_id',
         'name',
         'name_sort',
         'name_alternate_list',
@@ -104,22 +107,29 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         CRIMRolePersonInline,
     ]
     list_display = [
+        'person_id',
         'sorted_name',
         'sorted_date',
     ]
     search_fields = [
+        'person_id',
         'name',
         'name_alternate_list',
         'remarks',
     ]
     ordering = [
+        'person_id',
         'name_sort',
         'date_sort',
     ]
 
 
 class CRIMPieceAdmin(admin.ModelAdmin):
-    # form = CRIMPieceForm
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in ('pdf_links', 'mei_links'):
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
+        return formfield
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -142,7 +152,7 @@ class CRIMPieceAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'title_with_id',
-        'creator',
+        'composer',
         'genre',
         'date',
     ]
@@ -179,7 +189,7 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'title_with_id',
-        'creator',
+        'composer',
         'date',
     ]
     ordering = [
@@ -200,7 +210,7 @@ class CRIMMassAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'title_with_id',
-        'creator',
+        'composer',
         'date',
     ]
     search_fields = [
@@ -234,7 +244,7 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'title_with_id',
-        'creator',
+        'author',
         'date',
     ]
     ordering = [
@@ -243,6 +253,12 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
 
 
 class CRIMSourceAdmin(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'pdf_links':
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
+        return formfield
+
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == 'piece_contents':
             kwargs['queryset'] = CRIMPiece.objects.exclude(genre=None)
@@ -267,7 +283,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'title_with_id',
-        'creator',
+        'author',
         'date',
     ]
     ordering = [

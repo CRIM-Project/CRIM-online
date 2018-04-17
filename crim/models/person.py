@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.postgres.fields import ArrayField
 from django.utils.html import escape
 from crim.common import get_date_sort
 import re
@@ -14,7 +13,7 @@ class CRIMPerson(models.Model):
         ordering = ['name_sort']
 
     # Null should be False, because blank values should be stored as empty string.
-    person_id = models.CharField(max_length=32, unique=True, db_index=True)
+    person_id = models.CharField('Person ID', max_length=32, unique=True, db_index=True)
     name = models.CharField(max_length=64, db_index=True)
     name_sort = models.CharField('sort name (such as ‘Lassus, Orlande de’)', max_length=64, blank=True, db_index=True)
     # Tried using an array, it was much more trouble than it was worth
@@ -37,10 +36,10 @@ class CRIMPerson(models.Model):
     sorted_date.admin_order_field = 'date_sort'
 
     def __str__(self):
-        return '{0}'.format(self.name)
+        return '{0}'.format(self.name_sort)
 
     def _get_unique_slug(self):
-        slug_base = slugify(self.name)
+        slug_base = slugify(self.name_sort)
         unique_slug = slug_base
         num = 1
         while CRIMPerson.objects.filter(person_id=unique_slug).exists():

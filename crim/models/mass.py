@@ -2,10 +2,11 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 from crim.models.genre import CRIMGenre
-from crim.models.person import CRIMPerson
 from crim.models.role import CRIMRole
 
 import re
+
+COMPOSER = 'Composer'
 
 
 class CRIMMass(models.Model):
@@ -41,11 +42,11 @@ class CRIMMass(models.Model):
     title_with_id.short_description = 'mass'
     title_with_id.admin_order_field = 'title'
 
-    def creator(self):
-        roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
+    def composer(self):
+        roles = CRIMRole.objects.filter(mass=self, role_type__name=COMPOSER)
         if roles:
             return roles[0].person
-    creator.short_description = 'creator'
+    composer.short_description = 'composer'
 
     def date(self):
         roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')

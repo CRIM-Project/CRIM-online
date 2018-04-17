@@ -1,10 +1,11 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from crim.models.person import CRIMPerson
 from crim.models.role import CRIMRole
 
 import re
+
+AUTHOR = 'Author'
 
 
 class CRIMDocument(models.Model):
@@ -50,11 +51,11 @@ class CRIMTreatise(CRIMDocument):
 #         through_fields=('treatise', 'person'),
 #     )
 
-    def creator(self):
-        roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
+    def author(self):
+        roles = CRIMRole.objects.filter(treatise=self, role_type__name=AUTHOR)
         if roles:
             return roles[0].person
-    creator.short_description = 'creator'
+    author.short_description = 'author'
 
     def date(self):
         roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
@@ -93,11 +94,11 @@ class CRIMSource(CRIMDocument):
         symmetrical=False,
     )
 
-    def creator(self):
-        roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
+    def author(self):
+        roles = CRIMRole.objects.filter(source=self, role_type__name=AUTHOR)
         if roles:
             return roles[0].person
-    creator.short_description = 'creator'
+    author.short_description = 'author'
 
     def date(self):
         roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
