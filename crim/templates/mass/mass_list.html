@@ -25,7 +25,7 @@
                 <th>Title</th>
                 <th>Composer</th>
                 <th>Date</th>
-                <th>Remarks</th>
+                <!-- <th>Remarks</th> -->
             </tr>
             {% for mass in content %}
             <tr>
@@ -33,7 +33,7 @@
                 <td>{{ mass.title }}</td>
                 <td>{{ mass.composers_with_url|safe }}</td>
                 <td>{{ mass.date }}</td>
-                <td>{{ mass.remarks|markdown|shorten|safe }}</td>
+                <!-- <td>{{ mass.remarks|markdown|shorten|safe }}</td> -->
             </tr>
             {% endfor %}
         </table>

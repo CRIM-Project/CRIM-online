@@ -55,6 +55,28 @@ class CRIMRolePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMMassPieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='crimmass-detail',
+        lookup_field='mass_id',
+    )
+    roles = CRIMRolePieceSummarySerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_mass',
+    )
+
+    class Meta:
+        model = CRIMMass
+        fields = (
+            'url',
+            'mass_id',
+            'title',
+            'roles',
+            # 'movements',
+        )
+
+
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
     roles = CRIMRolePieceSummarySerializer(
@@ -62,8 +84,9 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_piece',
     )
+    mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSummarySerializer(read_only=True)
-#     unique_roles = serializers.SerializerMethodField()
+    # unique_roles = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -72,7 +95,10 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
             'piece_id',
             'title',
             'genre',
+            'mass',
             'roles',
+            'pdf_links',
+            'mei_links',
             'remarks',
         )
 
@@ -84,6 +110,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_piece',
     )
+    mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSummarySerializer(read_only=True)
 
     class Meta:
@@ -93,6 +120,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'piece_id',
             'title',
             'genre',
+            'mass',
             'roles',
             'pdf_links',
             'mei_links',
