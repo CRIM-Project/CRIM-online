@@ -21,6 +21,7 @@ class CRIMMass(models.Model):
         unique=True,
         db_index=True,
     )
+    title = models.CharField(max_length=64)
     genre = models.ForeignKey(
         CRIMGenre,
         on_delete=models.SET_NULL,
@@ -28,12 +29,6 @@ class CRIMMass(models.Model):
         default='mass',
         null=True,
     )
-    title = models.CharField(max_length=64)
-#     people = models.ManyToManyField(
-#         CRIMPerson,
-#         through='CRIMRole',
-#         through_fields=('mass', 'person'),
-#     )
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
