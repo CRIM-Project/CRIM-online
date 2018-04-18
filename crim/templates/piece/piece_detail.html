@@ -5,21 +5,29 @@
 {% load static %}
 
 {% block title %}
-<title>CRIM | {{ content.title }}</title>
+<title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
 {% endblock %}
 
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
+	  {% for pdf_link in content.pdf_links %}
+	    {% if pdf_link %}
+	      <a href="{{ pdf_link }}">
+	        <img src="{% static 'img/pdfdownload.png' %}" height=32 />
+	      </a>
+	    {% endif %}
+	  {% endfor %}
+	  {% for mei_link in content.mei_links %}
+	    {% if mei_link %} 
+	      <a href="{{ mei_link }}">
+	        <img src="{% static 'img/meidownload.png' %}" height=24 />
+	      </a>
+	    {% endif %}
+	  {% endfor %}
 	  <small>{{ content.piece_id }}</small>
-	  {% if content.pdf_links %}{% for pdf_link in content.pdf_links %}
-	  <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
-	  {% endfor %}{% endif %}
-	  {% if content.mei_links %}{% for mei_link in content.mei_links %}
-	  <a href="{{ mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
-	  {% endfor %}{% endif %}
     </h1>
-    <h2>{% if content.genre %}<a href="{{ content.genre.url }}">{{ content.genre.name }}</a>{% endif %}</h2>
+    <h2>{% if content.mass %}From <a href="">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
       <a href="{{ role.person.url}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>

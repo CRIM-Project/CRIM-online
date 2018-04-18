@@ -11,10 +11,10 @@
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
-	  <small>{{ content.document_id }}</small>
-	  {% if content.pdf_links %}{% for pdf_link in content.pdf_links %}
+	  {% for pdf_link in content.pdf_links %}
 	  <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
-	  {% endfor %}{% endif %}
+	  {% endfor %}
+	  <small>{{ content.document_id }}</small>
     </h1>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}

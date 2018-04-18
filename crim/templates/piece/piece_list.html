@@ -2,6 +2,7 @@
 {% load newline_to_break_tag %}
 {% load markdown %}
 {% load shorten %}
+{% load static %}
 
 {% block title %}
 <title>CRIM | Pieces</title>
@@ -26,16 +27,26 @@
                 <th>Genre</th>
                 <th>Composer</th>
                 <th>Date</th>
-                <th>Remarks</th>
             </tr>
             {% for piece in content %}
             <tr>
-                <td>{{ piece.piece_id }}</td>
-                <td><a href="{{ piece.url }}">{{ piece.title }}</a></td>
+                <td>
+                  {% for pdf_link in piece.pdf_links %}
+                    <a href="{{ pdf_link }}">
+                      <img src="{% static 'img/pdfdownload.png' %}" height=21 />
+                    </a>
+                  {% endfor %}
+                  {% for mei_link in piece.mei_links %}
+                    <a href="{{ mei_link }}">
+                      <img src="{% static 'img/meidownload.png' %}" height=16 />
+                    </a>
+                  {% endfor %}
+                  <a href="{{ piece.url }}">{{ piece.piece_id }}</a>
+                </td>
+                <td>{{ piece.title }}</td>
                 <td><a href="{{piece.genre.url }}">{{ piece.genre.name }}</a></td>
                 <td>{{ piece.composers_with_url|safe }}</td>
                 <td>{{ piece.date }}</td>
-                <td>{{ piece.remarks|markdown|shorten|safe }}</td>
             </tr>
             {% endfor %}
         </table>

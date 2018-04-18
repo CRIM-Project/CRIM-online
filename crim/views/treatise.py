@@ -3,13 +3,9 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.treatise import CRIMTreatiseListSerializer, CRIMTreatiseDetailSerializer
 from crim.models.document import CRIMTreatise
-from crim.models.role import CRIMRoleType
-from rest_framework.response import Response
-from rest_framework import status
 
 AUTHOR = 'Author'
 

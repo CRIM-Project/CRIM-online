@@ -3,13 +3,9 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.source import CRIMSourceListSerializer, CRIMSourceDetailSerializer
 from crim.models.document import CRIMSource
-from crim.models.role import CRIMRoleType
-from rest_framework.response import Response
-from rest_framework import status
 
 AUTHOR = 'Author'
 COMPOSER = 'Composer'
