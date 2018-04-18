@@ -8,7 +8,7 @@ from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.genre import CRIMGenre
-from crim.models.piece import CRIMPiece, CRIMMassMovement
+from crim.models.piece import CRIMPiece, CRIMModel, CRIMMassMovement
 from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRole, CRIMRoleType
 from crim.models.relationship import CRIMRelationshipType, CRIMMusicalType, CRIMRelationship
@@ -130,7 +130,7 @@ class CRIMPersonAdmin(admin.ModelAdmin):
     ]
 
 
-class CRIMPieceAdmin(admin.ModelAdmin):
+class CRIMModelAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in ('pdf_links', 'mei_links'):
@@ -434,7 +434,7 @@ admin.site.register(User, UserAdmin)
 admin.site.register(CRIMPerson, CRIMPersonAdmin)
 
 admin.site.register(CRIMMass, CRIMMassAdmin)
-admin.site.register(CRIMPiece, CRIMPieceAdmin)
+admin.site.register(CRIMModel, CRIMModelAdmin)
 admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
 admin.site.register(CRIMSource, CRIMSourceAdmin)

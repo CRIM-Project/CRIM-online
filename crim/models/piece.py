@@ -116,6 +116,14 @@ class CRIMPiece(models.Model):
         return '[{0}] {1}'.format(self.piece_id, self.title)
 
 
+class CRIMModel(CRIMPiece):
+    class Meta:
+        app_label = 'crim'
+        verbose_name = 'Model'
+        verbose_name_plural = 'Models'
+        proxy = True
+
+
 class CRIMMassMovement(CRIMPiece):
     class Meta:
         app_label = 'crim'

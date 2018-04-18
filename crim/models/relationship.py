@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
 from django.utils.text import slugify
 
 from crim.models.person import CRIMPerson
