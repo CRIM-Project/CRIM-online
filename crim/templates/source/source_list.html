@@ -2,6 +2,7 @@
 {% load newline_to_break_tag %}
 {% load markdown %}
 {% load shorten %}
+{% load static %}
 
 {% block title %}
 <title>CRIM | Sources</title>
@@ -29,7 +30,13 @@
             </tr>
             {% for document in content %}
             <tr>
-                <td><a href="{{ document.url }}">{{ document.document_id }}</a></td>
+                <td>
+                  {% for link in document.external_links %}
+                    <a href="{{ link }}">
+                      <img src="{% static 'img/externallink.png' %}" height=16 />
+                    </a>
+                  {% endfor %}
+                  <a href="{{ document.url }}">{{ document.document_id }}</a></td>
                 <td>{{ document.title }}</td>
                 <td>{{ document.authors_with_url|safe }}</td>
                 <td>{{ document.date }}</td>

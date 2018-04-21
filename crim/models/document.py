@@ -21,8 +21,8 @@ class CRIMDocument(models.Model):
         unique=True,
         db_index=True,
     )
-    title = models.CharField(max_length=64)
-    pdf_links = models.TextField('PDF links (one per line)', blank=True)
+    title = models.CharField(max_length=128)
+    external_links = models.TextField('external links (one per line)', blank=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def title_with_id(self):
@@ -45,12 +45,6 @@ class CRIMTreatise(CRIMDocument):
         verbose_name = 'Treatise'
         verbose_name_plural = 'Treatises'
 
-#     people = models.ManyToManyField(
-#         CRIMPerson,
-#         through='CRIMRole',
-#         through_fields=('treatise', 'person'),
-#     )
-
     def author(self):
         roles = CRIMRole.objects.filter(treatise=self, role_type__name=AUTHOR)
         if roles:
@@ -65,16 +59,23 @@ class CRIMTreatise(CRIMDocument):
 
 
 class CRIMSource(CRIMDocument):
+    PRINT = 'print'
+    MANUSCRIPT = 'manuscript'
+    SOURCE_TYPES = (
+        (PRINT, 'Print'),
+        (MANUSCRIPT, 'Manuscript'),
+    )
+
     class Meta:
         app_label = 'crim'
         verbose_name = 'Source'
         verbose_name_plural = 'Sources'
 
-#     people = models.ManyToManyField(
-#         CRIMPerson,
-#         through='CRIMRole',
-#         through_fields=('source', 'person'),
-#     )
+    source_type = models.CharField(
+        max_length=32,
+        choices=SOURCE_TYPES,
+        default='PRINT',
+    )
 
     mass_contents = models.ManyToManyField(
         to='CRIMMass',

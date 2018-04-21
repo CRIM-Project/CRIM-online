@@ -13,6 +13,8 @@ AUTHOR = 'Author'
 class TreatiseListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for document in data:
+            # Put links into a list rather than a \n-separated string
+            document['external_links'] = document['external_links'].split('\n')
             # - Add `author` field to content: only look at roles with
             # the role type with name "Composer", and add all such names
             # to the list, along with the url of the author
@@ -41,9 +43,8 @@ class TreatiseListHTMLRenderer(CustomHTMLRenderer):
 
 class TreatiseDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Put pdf and mei links into a list rather than a \n-separated string
-        data['pdf_links'] = data['pdf_links'].split('\n')
-        data['mei_links'] = data['mei_links'].split('\n')
+        # Put links into a list rather than a \n-separated string
+        data['external_links'] = data['external_links'].split('\n')
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')

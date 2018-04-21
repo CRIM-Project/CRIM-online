@@ -56,6 +56,7 @@ class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
+            'external_links',
             'remarks',
         )
 
@@ -75,6 +76,6 @@ class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
-            'pdf_links',
+            'external_links',
             'remarks',
         )
