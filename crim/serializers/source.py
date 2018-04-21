@@ -136,6 +136,7 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
+            'external_links',
             'remarks',
         )
 
@@ -171,7 +172,7 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
-            'pdf_links',
+            'external_links',
             'mass_contents',
             'piece_contents',
             'treatise_contents',

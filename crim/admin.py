@@ -231,7 +231,7 @@ class CRIMMassAdmin(admin.ModelAdmin):
 class CRIMTreatiseAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == 'pdf_links':
+        if db_field.name == 'external_links':
             formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
         return formfield
 
@@ -239,7 +239,7 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
         'document_id',
         'title',
         'remarks',
-        'pdf_links',
+        'external_links',
     ]
     inlines = [
         CRIMRoleTreatiseInline,
@@ -261,7 +261,7 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
 class CRIMSourceAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == 'pdf_links':
+        if db_field.name == 'external_links':
             formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
         return formfield
 
@@ -273,12 +273,13 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     fields = [
         'document_id',
         'title',
+        'source_type',
         'mass_contents',
         'piece_contents',
         'treatise_contents',
         'source_contents',
+        'external_links',
         'remarks',
-        'pdf_links',
     ]
     inlines = [
         CRIMRoleSourceInline,
@@ -291,6 +292,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
         'title_with_id',
         'author',
         'date',
+        'source_type',
     ]
     ordering = [
         'document_id',

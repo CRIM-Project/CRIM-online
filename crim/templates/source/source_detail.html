@@ -11,8 +11,8 @@
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
-	  {% for pdf_link in content.pdf_links %}
-	  <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
+	  {% for link in content.external_links %}
+	  <a href="{{ link }}"><img src="{% static 'img/externallink.png' %}" height=24 /></a>
 	  {% endfor %}
 	  <small>{{ content.document_id }}</small>
     </h1>
