@@ -90,11 +90,6 @@ class CRIMSource(CRIMDocument):
         to='CRIMTreatise',
         blank=True,
     )
-    source_contents = models.ManyToManyField(
-        to='self',
-        blank=True,
-        symmetrical=False,
-    )
 
     def publisher(self):
         roles = CRIMRole.objects.filter(source=self, role_type__name=PUBLISHER)
