@@ -18,8 +18,8 @@ def add_piece(old_row, new_fields):
     new_fields['title'] = old_row['Title']
     new_fields['genre'] = CRIMGenre.objects.get(name=old_row['Genre of Model']).genre_id
     new_fields['remarks'] = old_row['Notes']
-    new_fields['mei_links'] = old_row['MEI link'].replace(' | ', '\n')
-    new_fields['pdf_links'] = old_row['PDF link'].replace(' | ', '\n')
+    new_fields['mei_links'] = old_row['MEI links'].replace(' | ', '\n')
+    new_fields['pdf_links'] = old_row['PDF links'].replace(' | ', '\n')
 
 
 def process_piece(csvfile):

@@ -7,6 +7,8 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.models.mass import CRIMMass
 from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializer
 
+from crim.common import earliest_date
+
 COMPOSER = 'Composer'
 
 
@@ -28,10 +30,8 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
                     if role['date']:
                         dates.append(role['date'])
             mass['composers_with_url'] = '; '.join(composers) if composers else '-'
-            # Only add one composer's date for clarity. Not the best sorting
-            # method (since '1600' will be sorted before 'c. 1550'),
-            # but it does the job here.
-            mass['date'] = min(dates) if dates else '-'
+            # Only add one composer's date for clarity, choosing the earliest.
+            mass['date'] = earliest_date(dates)
 
         template_names = ['mass/mass_list.html']
         template = self.resolve_template(template_names)
