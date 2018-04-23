@@ -6,6 +6,7 @@ from rest_framework import permissions
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer
 from crim.models.piece import CRIMPiece
+from crim.common import earliest_date
 
 COMPOSER = 'Composer'
 
@@ -31,10 +32,8 @@ class PieceListHTMLRenderer(CustomHTMLRenderer):
                     if role['date']:
                         dates.append(role['date'])
             piece['composers_with_url'] = '; '.join(composers) if composers else '-'
-            # Only add one composer's date for clarity. Not the best sorting
-            # method (since '1600' will be sorted before 'c. 1550'),
-            # but it does the job here.
-            piece['date'] = min(dates) if dates else '-'
+            # Only add one composer's date for clarity, choosing the earliest.
+            piece['date'] = earliest_date(dates)
 
         template_names = ['piece/piece_list.html']
         template = self.resolve_template(template_names)

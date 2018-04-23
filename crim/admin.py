@@ -290,7 +290,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     ]
     list_display = [
         'title_with_id',
-        'author',
+        'publisher',
         'date',
         'source_type',
     ]

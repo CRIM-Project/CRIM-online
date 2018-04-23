@@ -6,6 +6,7 @@ from rest_framework import permissions
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.treatise import CRIMTreatiseListSerializer, CRIMTreatiseDetailSerializer
 from crim.models.document import CRIMTreatise
+from crim.common import earliest_date
 
 AUTHOR = 'Author'
 
@@ -30,10 +31,8 @@ class TreatiseListHTMLRenderer(CustomHTMLRenderer):
                     if role['date']:
                         dates.append(role['date'])
             document['authors_with_url'] = '; '.join(authors) if authors else '-'
-            # Only add one author's date for clarity. Not the best sorting
-            # method (since '1600' will be sorted before 'c. 1550'),
-            # but it does the job here.
-            document['date'] = min(dates) if dates else '-'
+            # Only add one author's date for clarity, choosing the earliest.
+            document['date'] = earliest_date(dates)
 
         template_names = ['treatise/treatise_list.html']
         template = self.resolve_template(template_names)

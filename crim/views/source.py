@@ -7,8 +7,11 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.source import CRIMSourceListSerializer, CRIMSourceDetailSerializer
 from crim.models.document import CRIMSource
 
+from crim.common import earliest_date
+
 AUTHOR = 'Author'
 COMPOSER = 'Composer'
+PUBLISHER = 'Publisher'
 
 
 class SourceListHTMLRenderer(CustomHTMLRenderer):
@@ -16,25 +19,23 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
         for document in data:
             # Put links into a list rather than a \n-separated string
             document['external_links'] = document['external_links'].split('\n')
-            # - Add `author` field to content: only look at roles with
-            # the role type with name "Composer", and add all such names
-            # to the list, along with the url of the author
+            # - Add `publisher` field to content: only look at roles with
+            # the role type with name "Publisher", and add all such names
+            # to the list, along with the url of the publisher
             # - Add `date` field to content: again, only look at roles
-            # with the role type "Composer"
-            authors = []
+            # with the role type "Publisher"
+            publishers = []
             dates = []
             for role in document['roles']:
-                if role['role_type'] and role['role_type']['name'] == AUTHOR:
-                    author_html = ('<a href="' + role['person']['url'] +
-                                   '">' + role['person']['name'] + '</a>')
-                    authors.append(author_html)
+                if role['role_type'] and role['role_type']['name'] == PUBLISHER:
+                    publisher_html = ('<a href="' + role['person']['url'] +
+                                      '">' + role['person']['name'] + '</a>')
+                    publishers.append(publisher_html)
                     if role['date']:
                         dates.append(role['date'])
-            document['authors_with_url'] = '; '.join(authors) if authors else '-'
-            # Only add one author's date for clarity. Not the best sorting
-            # method (since '1600' will be sorted before 'c. 1550'),
-            # but it does the job here.
-            document['date'] = min(dates) if dates else '-'
+            document['publishers_with_url'] = '; '.join(publishers) if publishers else '-'
+            # Only add one publisher's date for clarity, choosing the earliest
+            document['date'] = earliest_date(dates)
 
         template_names = ['source/source_list.html']
         template = self.resolve_template(template_names)
@@ -46,14 +47,14 @@ class SourceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         # Put links into a list rather than a \n-separated string
         data['external_links'] = data['external_links'].split('\n')
-        # See SourceListHTMLRenderer for comments on getting author/composer
+        # See SourceListHTMLRenderer for comments on getting publisher
         # names and dates
         for item in (data['piece_contents'] + data['mass_contents'] +
-                     data['treatise_contents'] + data['source_contents']):
+                     data['treatise_contents']):
             creators = []
             dates = []
             for role in item['roles']:
-                if role['role_type'] and role['role_type']['name'] in [COMPOSER, AUTHOR]:
+                if role['role_type'] and role['role_type']['name'] in (COMPOSER, AUTHOR):
                     creator_html = ('<a href="' + role['person']['url'] +
                                     '">' + role['person']['name'] + '</a>')
                     creators.append(creator_html)

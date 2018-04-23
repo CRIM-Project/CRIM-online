@@ -6,6 +6,7 @@ from crim.models.role import CRIMRole
 import re
 
 AUTHOR = 'Author'
+PUBLISHER = 'Publisher'
 
 
 class CRIMDocument(models.Model):
@@ -95,11 +96,11 @@ class CRIMSource(CRIMDocument):
         symmetrical=False,
     )
 
-    def author(self):
-        roles = CRIMRole.objects.filter(source=self, role_type__name=AUTHOR)
+    def publisher(self):
+        roles = CRIMRole.objects.filter(source=self, role_type__name=PUBLISHER)
         if roles:
             return roles[0].person
-    author.short_description = 'author'
+    publisher.short_description = 'publisher'
 
     def date(self):
         roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
