@@ -277,7 +277,6 @@ class CRIMSourceAdmin(admin.ModelAdmin):
         'mass_contents',
         'piece_contents',
         'treatise_contents',
-        'source_contents',
         'external_links',
         'remarks',
     ]

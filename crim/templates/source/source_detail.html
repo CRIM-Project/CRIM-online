@@ -25,7 +25,7 @@
   
   <p id="remarks-text">{% if content.remarks %}{{ content.remarks|markdown|safe }}{% endif %}</p>
   
-  {% if content.mass_contents or content.piece_contents or content.treatise_contents or content.source_contents %}
+  {% if content.mass_contents or content.piece_contents or content.treatise_contents %}
   <h2>Contents</h2>
   <div class="row-fluid">
     <div class="span12">
@@ -66,16 +66,6 @@
                 <td>{{ treatise.creators_with_url|safe }}</td>
                 <td>{{ treatise.date }}</td>
                 <td>{{ treatise.remarks|markdown|shorten|safe }}</td>
-              </tr>
-            {% endfor %}
-            {% for source in content.source_contents %}
-              <tr>
-                <td>{{ source.document_id }}</td>
-                <td>Source</td>
-                <td><a href="{{ source.url }}">{{ source.title }}</a></td>
-                <td>{{ source.creators_with_url|safe }}</td>
-                <td>{{ source.date }}</td>
-                <td>{{ source.remarks|markdown|shorten|safe }}</td>
               </tr>
             {% endfor %}
         </table>

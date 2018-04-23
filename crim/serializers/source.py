@@ -155,10 +155,6 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
-    source_contents = CRIMSourceSourceSummarySerializer(
-        many=True,
-        read_only=True,
-    )
     roles = CRIMRoleSourceSummarySerializer(
         many=True,
         read_only=True,
@@ -176,6 +172,5 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'mass_contents',
             'piece_contents',
             'treatise_contents',
-            'source_contents',
             'remarks',
         )
