@@ -26,7 +26,6 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Date</th>
-                <th>Remarks</th>
             </tr>
             {% for document in content %}
             <tr>
@@ -40,7 +39,6 @@
                 <td>{{ document.title }}</td>
                 <td>{{ document.authors_with_url|safe }}</td>
                 <td>{{ document.date }}</td>
-                <td>{{ document.remarks|markdown|shorten|safe }}</td>
             </tr>
             {% endfor %}
         </table>

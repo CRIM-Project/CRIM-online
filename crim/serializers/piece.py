@@ -1,3 +1,4 @@
+from crim.models.document import CRIMSource
 from crim.models.genre import CRIMGenre
 from crim.models.mass import CRIMMass
 from crim.models.person import CRIMPerson
@@ -6,7 +7,7 @@ from crim.models.role import CRIMRoleType, CRIMRole
 from rest_framework import serializers
 
 
-class CRIMRoleTypePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
+class CRIMRoleTypePieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail', lookup_field='role_type_id')
 
     class Meta:
@@ -17,7 +18,7 @@ class CRIMRoleTypePieceSummarySerializer(serializers.HyperlinkedModelSerializer)
         )
 
 
-class CRIMGenrePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
+class CRIMGenrePieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimgenre-detail', lookup_field='genre_id')
 
     class Meta:
@@ -28,7 +29,7 @@ class CRIMGenrePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class CRIMPersonPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
+class CRIMPersonPieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
 
     class Meta:
@@ -39,10 +40,10 @@ class CRIMPersonPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class CRIMRolePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
+class CRIMRolePieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
-    person = CRIMPersonPieceSummarySerializer(read_only=True)
-    role_type = CRIMRoleTypePieceSummarySerializer(read_only=True)
+    person = CRIMPersonPieceSerializer(read_only=True)
+    role_type = CRIMRoleTypePieceSerializer(read_only=True)
 
     class Meta:
         model = CRIMRole
@@ -55,15 +56,33 @@ class CRIMRolePieceSummarySerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='crimpiece-detail',
+    )
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+        )
+
+
 class CRIMMassPieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='crimmass-detail',
         lookup_field='mass_id',
     )
-    roles = CRIMRolePieceSummarySerializer(
+    roles = CRIMRolePieceSerializer(
         many=True,
         read_only=True,
         source='roles_as_mass',
+    )
+    movements = CRIMMassMovementPieceSerializer(
+        many=True,
+        read_only=True,
     )
 
     class Meta:
@@ -73,19 +92,40 @@ class CRIMMassPieceSerializer(serializers.HyperlinkedModelSerializer):
             'mass_id',
             'title',
             'roles',
-            # 'movements',
+            'movements',
+        )
+
+
+class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='crimsource-detail',
+        lookup_field='document_id',
+    )
+    roles = CRIMRolePieceSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_source',
+    )
+
+    class Meta:
+        model = CRIMSource
+        fields = (
+            'url',
+            'document_id',
+            'title',
+            'roles',
         )
 
 
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
-    roles = CRIMRolePieceSummarySerializer(
+    roles = CRIMRolePieceSerializer(
         many=True,
         read_only=True,
         source='roles_as_piece',
     )
     mass = CRIMMassPieceSerializer(read_only=True)
-    genre = CRIMGenrePieceSummarySerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
     # unique_roles = serializers.SerializerMethodField()
 
     class Meta:
@@ -105,13 +145,17 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
-    roles = CRIMRolePieceSummarySerializer(
+    roles = CRIMRolePieceSerializer(
         many=True,
         read_only=True,
         source='roles_as_piece',
     )
     mass = CRIMMassPieceSerializer(read_only=True)
-    genre = CRIMGenrePieceSummarySerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+    sources = CRIMSourcePieceSerializer(
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = CRIMPiece
@@ -122,6 +166,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'genre',
             'mass',
             'roles',
+            'sources',
             'pdf_links',
             'mei_links',
             'remarks',

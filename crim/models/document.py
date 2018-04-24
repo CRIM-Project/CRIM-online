@@ -81,14 +81,17 @@ class CRIMSource(CRIMDocument):
     mass_contents = models.ManyToManyField(
         to='CRIMMass',
         blank=True,
+        related_name='sources',
     )
     piece_contents = models.ManyToManyField(
         to='CRIMPiece',
         blank=True,
+        related_name='sources',
     )
     treatise_contents = models.ManyToManyField(
         to='CRIMTreatise',
         blank=True,
+        related_name='sources',
     )
 
     def publisher(self):
