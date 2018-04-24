@@ -11,7 +11,8 @@ from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece, CRIMModel, CRIMMassMovement
 from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRole, CRIMRoleType
-from crim.models.relationship import CRIMRelationshipType, CRIMMusicalType, CRIMRelationship
+from crim.models.observation import CRIMObservation
+from crim.models.relationship import CRIMRelationship
 
 from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
@@ -32,48 +33,50 @@ class CRIMPieceMassInline(admin.TabularInline):
 
     form = CRIMPieceMassForm
     model = CRIMPiece
-    exclude = ['piece_id', 'genre', 'remarks']
+    exclude = ('piece_id', 'genre', 'remarks')
     extra = 5
     max_num = 5
 
 
 class CRIMRolePersonInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'remarks']
+    exclude = ('date_sort', 'remarks')
     extra = 1
 
 
 class CRIMRoleMassInline(admin.TabularInline):
+    # For sorting by last name
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'person':
             kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     model = CRIMRole
-    exclude = ['date_sort', 'piece', 'treatise', 'source', 'remarks']
+    exclude = ('date_sort', 'piece', 'treatise', 'source', 'remarks')
     extra = 1
 
 
 class CRIMRolePieceInline(admin.TabularInline):
+    # For sorting by last name
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'person':
             kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     model = CRIMRole
-    exclude = ['date_sort', 'mass', 'treatise', 'source', 'remarks']
+    exclude = ('date_sort', 'mass', 'treatise', 'source', 'remarks')
     extra = 1
 
 
 class CRIMRoleTreatiseInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'piece', 'mass', 'source', 'remarks']
+    exclude = ('date_sort', 'piece', 'mass', 'source', 'remarks')
     extra = 1
 
 
 class CRIMRoleSourceInline(admin.TabularInline):
     model = CRIMRole
-    exclude = ['date_sort', 'piece', 'mass', 'treatise', 'remarks']
+    exclude = ('date_sort', 'piece', 'mass', 'treatise', 'remarks')
     extra = 1
 
 
@@ -94,12 +97,13 @@ class CRIMPersonAdmin(admin.ModelAdmin):
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 32})
         return formfield
 
+    # For sorting by last name
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'person':
             kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    fields = [
+    fields = (
         'person_id',
         'name',
         'name_sort',
@@ -108,26 +112,26 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'death_date',
         'active_date',
         'remarks',
-    ]
-    inlines = [
+    )
+    inlines = (
         CRIMRolePersonInline,
-    ]
-    list_display = [
+    )
+    list_display = (
         'person_id',
         'sorted_name',
         'sorted_date',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'person_id',
         'name',
         'name_alternate_list',
         'remarks',
-    ]
-    ordering = [
+    )
+    ordering = (
         'person_id',
         'name_sort',
         'date_sort',
-    ]
+    )
 
 
 class CRIMModelAdmin(admin.ModelAdmin):
@@ -141,33 +145,33 @@ class CRIMModelAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.filter(mass=None)
 
-    fields = [
+    fields = (
         'piece_id',
         'title',
         'genre',
         'pdf_links',
         'mei_links',
         'remarks',
-    ]
-    inlines = [
+    )
+    inlines = (
         CRIMRolePieceInline,
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'piece_id',
         'title',
-    ]
-    list_display = [
+    )
+    list_display = (
         'title_with_id',
         'composer',
         'genre',
         'date',
-    ]
-    ordering = [
+    )
+    ordering = (
         'piece_id',
-    ]
-    list_filter = [
+    )
+    list_filter = (
         'genre',
-    ]
+    )
 
 
 class CRIMMassMovementAdmin(admin.ModelAdmin):
@@ -177,55 +181,55 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.exclude(mass=None)
 
-    fields = [
+    fields = (
         'mass',
         'title',
         'pdf_links',
         'mei_links',
         'remarks',
-    ]
-    inlines = [
+    )
+    inlines = (
         CRIMRolePieceInline,
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'mass__mass_id',
         'mass__title',
         'piece_id',
         'title',
-    ]
-    list_display = [
+    )
+    list_display = (
         'title_with_id',
         'composer',
         'date',
-    ]
-    ordering = [
+    )
+    ordering = (
         'piece_id',
-    ]
+    )
 
 
 class CRIMMassAdmin(admin.ModelAdmin):
-    fields = [
+    fields = (
         'mass_id',
         'title',
         'genre',
         'remarks',
-    ]
-    inlines = [
+    )
+    inlines = (
         CRIMPieceMassInline,
         CRIMRoleMassInline,
-    ]
-    list_display = [
+    )
+    list_display = (
         'title_with_id',
         'composer',
         'date',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'mass_id',
         'title',
-    ]
-    ordering = [
+    )
+    ordering = (
         'mass_id',
-    ]
+    )
 
 
 class CRIMTreatiseAdmin(admin.ModelAdmin):
@@ -235,27 +239,27 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
             formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
         return formfield
 
-    fields = [
+    fields = (
         'document_id',
         'title',
         'remarks',
         'external_links',
-    ]
-    inlines = [
+    )
+    inlines = (
         CRIMRoleTreatiseInline,
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'document_id',
         'title',
-    ]
-    list_display = [
+    )
+    list_display = (
         'title_with_id',
         'author',
         'date',
-    ]
-    ordering = [
+    )
+    ordering = (
         'document_id',
-    ]
+    )
 
 
 class CRIMSourceAdmin(admin.ModelAdmin):
@@ -270,7 +274,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
             kwargs['queryset'] = CRIMPiece.objects.exclude(genre=None)
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
-    fields = [
+    fields = (
         'document_id',
         'title',
         'source_type',
@@ -279,40 +283,40 @@ class CRIMSourceAdmin(admin.ModelAdmin):
         'treatise_contents',
         'external_links',
         'remarks',
-    ]
-    inlines = [
+    )
+    inlines = (
         CRIMRoleSourceInline,
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'document_id',
         'title',
-    ]
-    list_display = [
+    )
+    list_display = (
         'title_with_id',
         'publisher',
         'date',
         'source_type',
-    ]
-    ordering = [
+    )
+    ordering = (
         'document_id',
-    ]
+    )
 
 
 class CRIMGenreAdmin(admin.ModelAdmin):
-    fields = [
+    fields = (
         'name',
         'remarks',
-    ]
-    list_display = [
+    )
+    list_display = (
         'name',
-    ]
-    ordering = [
+    )
+    ordering = (
         'name',
-    ]
+    )
 
 
 class CRIMRoleAdmin(admin.ModelAdmin):
-    fields = [
+    fields = (
         'person',
         'role_type',
         'mass',
@@ -321,13 +325,13 @@ class CRIMRoleAdmin(admin.ModelAdmin):
         'source',
         'date',
         'remarks',
-    ]
-    list_display = [
+    )
+    list_display = (
         'person_with_role',
         'work',
         'sorted_date',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'person__name',
         'piece__piece_id',
         'mass__mass_id',
@@ -337,81 +341,192 @@ class CRIMRoleAdmin(admin.ModelAdmin):
         'mass__title',
         'treatise__title',
         'source__title',
-    ]
-    list_filter = [
+    )
+    list_filter = (
         'role_type',
-    ]
-    ordering = [
+    )
+    ordering = (
         'role_type__name',
         'person__name_sort',
         'source__document_id',
         'treatise__document_id',
         'mass__mass_id',
         'piece__piece_id',
-    ]
+    )
 
 
 class CRIMRoleTypeAdmin(admin.ModelAdmin):
-    fields = [
+    fields = (
         'name',
         'remarks',
-    ]
-    list_display = [
+    )
+    list_display = (
         'name',
-    ]
-    ordering = [
+    )
+    ordering = (
         'name',
-    ]
+    )
 
 
-class CRIMRelationshipTypeAdmin(admin.ModelAdmin):
-    fields = [
-        'name',
+class CRIMObservationAdmin(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'ema':
+            formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 60})
+        if db_field.name in ('comment', 'remarks'):
+            formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 60})
+        return formfield
+
+    # For sorting by last name
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'observer':
+            kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    fields = (
+        'observer',
+        'piece',
+        'ema',
+        'mt_cf_voice',
+        'mt_cf_dur',
+        'mt_cf_mel',
+        'mt_sog_voice',
+        'mt_sog_dur',
+        'mt_sog_mel',
+        'mt_sog_ostinato',
+        'mt_sog_periodic',
+        'mt_csog_voice',
+        'mt_csog_dur',
+        'mt_csog_mel',
+        'mt_cd_voice1',
+        'mt_cd_voice2',
+        'mt_fg_voice1',
+        'mt_fg_voice2',
+        'mt_fg_voice3',
+        'mt_fg_voice4',
+        'mt_fg_periodic',
+        'mt_fg_strict',
+        'mt_fg_flexed',
+        'mt_fg_sequential',
+        'mt_fg_inverted',
+        'mt_fg_retrograde',
+        'mt_fg_int',
+        'mt_fg_tint',
+        'mt_id_voice1',
+        'mt_id_voice2',
+        'mt_id_voice3',
+        'mt_id_voice4',
+        'mt_id_strict',
+        'mt_id_flexed',
+        'mt_id_flt',
+        'mt_id_sequential',
+        'mt_id_added',
+        'mt_id_invertible',
+        'mt_id_int',
+        'mt_id_tint',
+        'mt_pe_voice1',
+        'mt_pe_voice2',
+        'mt_pe_voice3',
+        'mt_pe_strict',
+        'mt_pe_flexed',
+        'mt_pe_flt',
+        'mt_pe_sequential',
+        'mt_pe_added',
+        'mt_pe_invertible',
+        'mt_pe_int',
+        'mt_pe_tint',
+        'mt_nid_voice1',
+        'mt_nid_voice2',
+        'mt_nid_voice3',
+        'mt_nid_strict',
+        'mt_nid_flexed',
+        'mt_nid_flt',
+        'mt_nid_sequential',
+        'mt_nid_invertible',
+        'mt_nid_int',
+        'mt_nid_tint',
+        'mt_hr_voice1',
+        'mt_hr_voice2',
+        'mt_hr_voice3',
+        'mt_hr_simple',
+        'mt_hr_staggered',
+        'mt_hr_sequential',
+        'mt_hr_fauxbourdon',
+        'mt_cad_voice1',
+        'mt_cad_voice2',
+        'mt_cad_authentic',
+        'mt_cad_phrygian',
+        'mt_cad_plagal',
+        'mt_cad_tone',
+        'mt_cad_dtv',
+        'mt_cad_dti',
+        'mt_int_voice1',
+        'mt_int_voice2',
+        'mt_int_p6',
+        'mt_int_p3',
+        'mt_int_c35',
+        'mt_int_c83',
+        'mt_int_c65',
+        'mt_fp_comment',
+        'mt_fp_ir',
+        'mt_fp_range',
         'remarks',
-    ]
-    list_display = [
-        'name',
-    ]
-    ordering = [
-        'name',
-    ]
-
-
-class CRIMMusicalTypeAdmin(admin.ModelAdmin):
-    fields = [
-        'name',
-        'remarks',
-    ]
-    list_display = [
-        'name',
-    ]
-    ordering = [
-        'name',
-    ]
+        'needs_review',
+    )
+    list_display = (
+        'observer',
+        'piece',
+        'created',
+        'updated',
+        'needs_review',
+    )
+    ordering = (
+        'piece__piece_id',
+        'created',
+    )
 
 
 class CRIMRelationshipAdmin(admin.ModelAdmin):
-    fields = [
+    fields = (
         'observer',
-        'relationship_type',
-        'model',
-        'model_ema',
-        'model_musical_types',
-        'derivative',
-        'derivative_ema',
-        'derivative_musical_types',
+        'model_observation',
+        'derivative_observation',
+        'rt_q',
+        'rt_q_exact',
+        'rt_q_monnayage',
+        'rt_tm',
+        'rt_tm_snd',
+        'rt_tm_minv',
+        'rt_tm_retrograde',
+        'rt_tm_ms',
+        'rt_tm_transposed',
+        'rt_tm_invertible',
+        'rt_tnm',
+        'rt_tnm_embellished',
+        'rt_tnm_reduced',
+        'rt_tnm_amplified',
+        'rt_tnm_truncated',
+        'rt_tnm_ncs',
+        'rt_tnm_ocs',
+        'rt_tnm_ocst',
+        'rt_tnm_nc',
+        'rt_nm',
+        'rt_om',
         'remarks',
-    ]
-    list_display = [
-        'relationship_id',
+    )
+    list_display = (
         'observer',
-        'relationship_type',
-        'model',
-        'derivative',
-    ]
-    ordering = [
+        'model_observation',
+        'derivative_observation',
         'created',
-    ]
+        'updated',
+        'needs_review',
+    )
+    ordering = (
+        'model_observation__piece__piece_id',
+        'derivative_observation__piece__piece_id',
+        'created',
+    )
 
 
 class UserProfileInline(admin.StackedInline):
@@ -421,12 +536,12 @@ class UserProfileInline(admin.StackedInline):
 
 
 class UserAdmin(UserAdmin):
-    inlines = [
+    inlines = (
         UserProfileInline,
-    ]
-    ordering = [
+    )
+    ordering = (
         'username',
-    ]
+    )
 
 
 admin.site.unregister(User)
@@ -441,12 +556,11 @@ admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
 admin.site.register(CRIMSource, CRIMSourceAdmin)
 
 admin.site.register(CRIMRole, CRIMRoleAdmin)
+admin.site.register(CRIMObservation, CRIMObservationAdmin)
 admin.site.register(CRIMRelationship, CRIMRelationshipAdmin)
 
 admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
-admin.site.register(CRIMRelationshipType, CRIMRelationshipTypeAdmin)
-admin.site.register(CRIMMusicalType, CRIMMusicalTypeAdmin)
 
 admin.site.register(CRIMNote)
 admin.site.register(CRIMComment)

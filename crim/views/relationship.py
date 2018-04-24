@@ -3,12 +3,9 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.models.relationship import CRIMRelationship
-from rest_framework.response import Response
-from rest_framework import status
 
 
 class RelationshipListHTMLRenderer(CustomHTMLRenderer):
