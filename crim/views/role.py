@@ -3,11 +3,8 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.serializers.role import CRIMRoleSerializer
 from crim.models.role import CRIMRole
-from rest_framework.response import Response
-from rest_framework import status
 
 
 class RoleList(generics.ListAPIView):

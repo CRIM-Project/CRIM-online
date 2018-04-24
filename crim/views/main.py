@@ -1,7 +1,5 @@
-import datetime
 from django.shortcuts import render
 from django.http import Http404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_change
 from django.http import HttpResponseRedirect
