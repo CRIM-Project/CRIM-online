@@ -62,10 +62,9 @@ class CRIMPiece(models.Model):
         null=True,
         db_index=True,
     )
-#     forces = models.CharField(max_length=16, blank=True)
+
     pdf_links = models.TextField('PDF links (one per line)', blank=True)
     mei_links = models.TextField('MEI links (one per line)', blank=True)
-#     audio_link = models.CharField(max_length=255, blank=True)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
@@ -113,7 +112,10 @@ class CRIMPiece(models.Model):
         super().save()
 
     def __str__(self):
-        return '[{0}] {1}'.format(self.piece_id, self.title)
+        if not self.mass:
+            return '[{0}] {1}'.format(self.piece_id, self.title)
+        else:
+            return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
 
 
 class CRIMModel(CRIMPiece):
