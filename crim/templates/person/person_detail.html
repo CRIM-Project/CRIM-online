@@ -39,8 +39,11 @@
     </h2>
   </hgroup>
   
-  <p id="remarks-text">{% if content.remarks %}{{ content.remarks|markdown|safe }}{% endif %}</p>
-
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+  {% endif %}
+  
   {% if content.has_works %}
     <h2>Works</h2>
     <table class="table table-striped table-bordered table-hover">
