@@ -101,7 +101,7 @@ class CRIMObservation(models.Model):
     mt_hr_fauxbourdon = models.BooleanField('fauxbourdon', default=False)
     mt_cad_voice1 = models.CharField('voice 1', max_length=16, blank=True)
     mt_cad_voice2 = models.CharField('voice 2', max_length=16, blank=True)
-    mt_cad_authentic = models.BooleanField('voice 3', default=False)
+    mt_cad_authentic = models.BooleanField('authentic', default=False)
     mt_cad_phrygian = models.BooleanField('phrygian', default=False)
     mt_cad_plagal = models.BooleanField('plagal', default=False)
     mt_cad_tone = models.CharField('tone', max_length=4, blank=True)
