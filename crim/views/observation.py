@@ -3,51 +3,48 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.musicaltype import CRIMMusicalTypeSerializer
-from crim.models.relationship import CRIMMusicalType
-from rest_framework.response import Response
-from rest_framework import status
+from crim.serializers.observation import CRIMObservationSerializer
+from crim.models.observation import CRIMObservation
 
 
-class MusicalTypeListHTMLRenderer(CustomHTMLRenderer):
+class ObservationListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        template_names = ['musicaltype/musicaltype_list.html']
+        template_names = ['observation/observation_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)
 
 
-class MusicalTypeDetailHTMLRenderer(CustomHTMLRenderer):
+class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        template_names = ['musicaltype/musicaltype_detail.html']
+        template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)
 
 
-class MusicalTypeList(generics.ListAPIView):
-    model = CRIMMusicalType
+class ObservationList(generics.ListAPIView):
+    model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMMusicalTypeSerializer
+    serializer_class = CRIMObservationSerializer
     renderer_classes = (JSONRenderer,)  # can add html later
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'musical_type_id')
-        return CRIMMusicalType.objects.all().order_by(order_by)
+        order_by = self.request.GET.get('order_by', 'observation_id')
+        return CRIMObservation.objects.all().order_by(order_by)
 
 
-class MusicalTypeDetail(generics.RetrieveAPIView):
-    model = CRIMMusicalType
+class ObservationDetail(generics.RetrieveAPIView):
+    model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMMusicalTypeSerializer
+    serializer_class = CRIMObservationSerializer
     renderer_classes = (JSONRenderer,)  # can add html later
-    queryset = CRIMMusicalType.objects.all()
+    queryset = CRIMObservation.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['musical_type_id']
-        musicaltype = CRIMMusicalType.objects.filter(musical_type_id=url_arg)
-        obj = get_object_or_404(musicaltype)
+        url_arg = self.kwargs['observation_id']
+        observation = CRIMObservation.objects.filter(observation_id=url_arg)
+        obj = get_object_or_404(observation)
         self.check_object_permissions(self.request, obj)
         return obj

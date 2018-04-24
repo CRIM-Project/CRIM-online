@@ -17,7 +17,6 @@ from django.conf.urls import include, re_path
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, logout
-from django.contrib.flatpages import views
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -25,11 +24,10 @@ from crim.views.auth import SessionAuth, SessionStatus, SessionClose
 from crim.views.main import home, profile
 from crim.views.genre import GenreList, GenreDetail
 from crim.views.mass import MassList, MassDetail
-from crim.views.musicaltype import MusicalTypeList, MusicalTypeDetail
 from crim.views.person import PersonList, PersonDetail
 from crim.views.piece import PieceList, PieceDetail
+from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
-from crim.views.relationshiptype import RelationshipTypeList, RelationshipTypeDetail
 from crim.views.role import RoleList, RoleDetail
 from crim.views.roletype import RoleTypeList, RoleTypeDetail
 from crim.views.source import SourceList, SourceDetail
@@ -59,16 +57,14 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetail.as_view(), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
         re_path(r'^mass/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
-        re_path(r'^musicaltypes/$', MusicalTypeList.as_view(), name='crimmusicaltype-list'),
-        re_path(r'^musicaltype/(?P<musical_type_id>[-A-Za-z0-9]+)/$', MusicalTypeDetail.as_view(), name='crimmusicaltype-detail'),
+        re_path(r'^observations/$', ObservationList.as_view(), name='crimobservation-list'),
+        re_path(r'^observation/(?P<observation_id>[-_A-Za-z0-9]+)/$', ObservationDetail.as_view(), name='crimobservation-detail'),
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
         re_path(r'^person/(?P<person_id>[-_A-Za-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
         re_path(r'^pieces/$', PieceList.as_view(), name='crimpiece-list'),
         re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationship/(?P<relationship_id>[-_A-Za-z0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
-        re_path(r'^relationshiptypes/$', RelationshipTypeList.as_view(), name='crimrelationshiptype-list'),
-        re_path(r'^relationshiptype/(?P<relationship_type_id>[-A-Za-z0-9]+)/$', RelationshipTypeDetail.as_view(), name='crimrelationshiptype-detail'),
         re_path(r'^roles/$', RoleList.as_view(), name='crimrole-list'),
         re_path(r'^role/(?P<pk>[0-9]+)/$', RoleDetail.as_view(), name='crimrole-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
