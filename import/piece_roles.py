@@ -11,8 +11,6 @@ from collections import OrderedDict
 
 from crim.common import get_date_sort
 from crim.models.person import CRIMPerson
-from crim.models.piece import CRIMPiece
-from crim.models.role import CRIMRoleType
 
 FILE_IN = 'source/CRIM_Model_Catalog.csv'
 FILE_OUT = '../crim/fixtures/piece_roles.json'
@@ -28,7 +26,7 @@ def add_editor(old_row, new_role_fields):
     new_role_fields['person'] = CRIMPerson.objects.get(name=old_row['Editor']).person_id
     new_role_fields['role_type'] = 'editor'
     new_role_fields['date'] = old_row['Date']
-    new_role_fields['date_sort'] = get_date_sort([old_row['Date']])
+    new_role_fields['date_sort'] = get_date_sort(old_row['Date'])
     new_role_fields['piece'] = old_row['CRIM_Model_ID']
 
 

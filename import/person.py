@@ -2,7 +2,7 @@ import csv
 import json
 import re
 from collections import OrderedDict
-from crim.common import get_date_sort
+from crim.common import latest_date
 
 FILE_IN = 'source/CRIM_Person_Catalog.csv'
 FILE_OUT = '../crim/fixtures/person.json'
@@ -66,10 +66,7 @@ def add_dates(old_row, new_fields):
                  old_row['Death Date'],
                  old_row['Active Dates']]
 
-    if get_date_sort(all_dates) == 0:
-        new_fields['date_sort'] = None
-    else:
-        new_fields['date_sort'] = get_date_sort(all_dates)
+    new_fields['date_sort'] = latest_date(all_dates)
 
 
 def process_person(csvfile):
