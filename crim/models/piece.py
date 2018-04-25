@@ -29,8 +29,8 @@ class CRIMPiece(models.Model):
     MASS_MOVEMENT_ORDER = (
         ('Kyrie', '1'),
         ('Gloria', '2'),
-        ('Sanctus', '3'),
-        ('Credo', '4'),
+        ('Credo', '3'),
+        ('Sanctus', '4'),
         ('Agnus Dei', '5'),
     )
 
@@ -66,7 +66,7 @@ class CRIMPiece(models.Model):
         'voices (put each voice on a new line; use a single hyphen ‘-’ to indicate unknown parts; bracket editorial voice names)',
         blank=True
     )
-    number_of_voices = models.IntegerField()
+    number_of_voices = models.IntegerField(null=True)
 
     pdf_links = models.TextField('PDF links (one per line)', blank=True)
     mei_links = models.TextField('MEI links (one per line)', blank=True)
@@ -80,14 +80,20 @@ class CRIMPiece(models.Model):
 
     def composer(self):
         roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
+        mass_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
         if roles:
             return roles[0].person
+        elif mass_roles:
+            return mass_roles[0].person
     composer.short_description = 'composer'
 
     def date(self):
         roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
+        mass_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
         if roles:
             return roles[0].date_sort
+        elif mass_roles:
+            return mass_roles[0].date_sort
     date.short_description = 'date'
 
     def clean(self):
@@ -115,7 +121,10 @@ class CRIMPiece(models.Model):
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
         self.voices = re.sub(r'[\n\r]+', r'\n', self.voices)
-        self.number_of_voices = len(self.voices.split('\n'))
+        if self.voices:
+            self.number_of_voices = len(self.voices.split('\n'))
+        else:
+            self.number_of_voices = None
         super().save()
 
     def __str__(self):
