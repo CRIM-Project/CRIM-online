@@ -138,7 +138,9 @@ class CRIMModelAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in ('pdf_links', 'mei_links'):
-            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 60})
+        if db_field.name == 'voices':
+            formfield.widget = forms.Textarea(attrs={'rows': 4, 'cols': 30})
         return formfield
 
     def get_queryset(self, request):
@@ -149,6 +151,7 @@ class CRIMModelAdmin(admin.ModelAdmin):
         'piece_id',
         'title',
         'genre',
+        'voices',
         'pdf_links',
         'mei_links',
         'remarks',
@@ -164,6 +167,7 @@ class CRIMModelAdmin(admin.ModelAdmin):
         'title_with_id',
         'composer',
         'genre',
+        'number_of_voices',
         'date',
     )
     ordering = (
@@ -171,6 +175,7 @@ class CRIMModelAdmin(admin.ModelAdmin):
     )
     list_filter = (
         'genre',
+        'number_of_voices',
     )
 
 
@@ -184,6 +189,7 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     fields = (
         'mass',
         'title',
+        'voices',
         'pdf_links',
         'mei_links',
         'remarks',
@@ -201,6 +207,7 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'title_with_id',
         'composer',
         'date',
+        'number_of_voices',
     )
     ordering = (
         'piece_id',
@@ -236,7 +243,7 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'external_links':
-            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 60})
         return formfield
 
     fields = (
@@ -266,7 +273,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'external_links':
-            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 64})
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 60})
         return formfield
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
