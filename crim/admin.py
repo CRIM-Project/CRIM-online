@@ -38,12 +38,6 @@ class CRIMPieceMassInline(admin.TabularInline):
     max_num = 5
 
 
-class CRIMRolePersonInline(admin.TabularInline):
-    model = CRIMRole
-    exclude = ('date_sort', 'remarks')
-    extra = 1
-
-
 class CRIMRoleMassInline(admin.TabularInline):
     # For sorting by last name
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -69,12 +63,24 @@ class CRIMRolePieceInline(admin.TabularInline):
 
 
 class CRIMRoleTreatiseInline(admin.TabularInline):
+    # For sorting by last name
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'person':
+            kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     model = CRIMRole
     exclude = ('date_sort', 'piece', 'mass', 'source', 'remarks')
     extra = 1
 
 
 class CRIMRoleSourceInline(admin.TabularInline):
+    # For sorting by last name
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'person':
+            kwargs['queryset'] = CRIMPerson.objects.order_by('name_sort')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     model = CRIMRole
     exclude = ('date_sort', 'piece', 'mass', 'treatise', 'remarks')
     extra = 1
@@ -112,9 +118,6 @@ class CRIMPersonAdmin(admin.ModelAdmin):
         'death_date',
         'active_date',
         'remarks',
-    )
-    inlines = (
-        CRIMRolePersonInline,
     )
     list_display = (
         'person_id',
@@ -339,6 +342,7 @@ class CRIMRoleAdmin(admin.ModelAdmin):
         'sorted_date',
     )
     search_fields = (
+        'person__person_id',
         'person__name',
         'piece__piece_id',
         'mass__mass_id',
