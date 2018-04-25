@@ -17,7 +17,7 @@ def get_date_sort(date):
         match = re.match(yyyy, date)
     else:
         match = re.match(yyy, date)
-    return int(match[1].replace('x', '0')) if match else None
+    return int(match.group(1).replace('x', '0')) if match else None
 
 
 def earliest_date(dates):
