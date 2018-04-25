@@ -13,8 +13,14 @@ def get_date_sort(dates):
     parsed_dates = []
     yyyy_mm_dd = r'.*([0-9x]{4})-[0-9x]{2}-[0-9x]{2}[^0-9]*'
     yyyy = r'.*([0-9x]{4})[^0-9]*'
+    yyy = r'.*([0-9x]{3})[^0-9]*'
     for date in dates:
-        match = re.match(yyyy, date) if re.match(yyyy, date) else re.match(yyyy_mm_dd, date)
+        if re.match(yyyy_mm_dd, date):
+            match = re.match(yyyy_mm_dd, date)
+        elif re.match(yyyy, date):
+            match = re.match(yyyy, date)
+        else:
+            match = re.match(yyy, date)
         if match:
             date_int = int(match[1].replace('x', '0'))
             parsed_dates.append(date_int)
