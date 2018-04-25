@@ -62,6 +62,11 @@ class CRIMPiece(models.Model):
         null=True,
         db_index=True,
     )
+    voices = models.TextField(
+        'voices (put each voice on a new line; use a single hyphen ‘-’ to indicate unknown parts; bracket editorial voice names)',
+        blank=True
+    )
+    number_of_voices = models.IntegerField()
 
     pdf_links = models.TextField('PDF links (one per line)', blank=True)
     mei_links = models.TextField('MEI links (one per line)', blank=True)
@@ -106,9 +111,11 @@ class CRIMPiece(models.Model):
             self.piece_id = (self.mass.mass_id + '_' + movement_order[self.title])
             # Finally, add the genre Mass to this mass movement.
             self.genre = CRIMGenre.objects.get(genre_id='mass')
-        # Remove extraneous newlines from links fields
+        # Remove extraneous newlines from links and voices fields
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
+        self.voices = re.sub(r'[\n\r]+', r'\n', self.voices)
+        self.number_of_voices = len(self.voices.split('\n'))
         super().save()
 
     def __str__(self):

@@ -165,6 +165,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'genre',
             'mass',
+            'voices',
             'roles',
             'sources',
             'pdf_links',
