@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.html import escape
-from crim.common import get_date_sort
+from crim.common import latest_date
 import re
 
 
@@ -61,10 +61,7 @@ class CRIMPerson(models.Model):
 
         # Add sortable date field based on birth, death and active dates
         dates = [self.birth_date, self.death_date, self.active_date]
-        if get_date_sort(dates) == 0:
-            self.date_sort = None
-        else:
-            self.date_sort = get_date_sort(dates)
+        self.date_sort = latest_date(dates)
 
         # Remove extraneous newlines
         self.name_alternate_list = re.sub(r'[\n\r]+', r'\n', self.name_alternate_list)
