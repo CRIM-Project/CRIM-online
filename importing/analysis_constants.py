@@ -1,15 +1,9 @@
-import json
-import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crim.settings')
-import django
-from pprint import pprint
 
-django.setup()
+TODO = None
 
-FILE_IN = 'source/citations.json'
-FILE_OUT = '../crim/fixtures/analysis.json'
+USERS_TO_KEEP = (9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 23, 24)
 
-pieces = {
+PIECES = {
     'Sohier. Missa Vidi speciosam (Kyrie)': 'CRIM_Mass_0002_1',
     'Sohier. Missa Vidi speciosam (Gloria)': 'CRIM_Mass_0002_2',
     'Sohier. Missa Vidi speciosam (Credo)': 'CRIM_Mass_0002_3',
@@ -71,23 +65,3 @@ pieces = {
     'Lupi, Didier: Lupi. Susanne un jour': 'CRIM_Model_0024',
 }
 
-
-def process_json(old_data):
-    new_data = []
-    all_pieces = []
-    ids_with_voices = []
-    for item in old_data:
-        relationships = item['relationships']
-        assertions = item['assertions']
-        scores = item['scores']
-        creation = item['created_at']
-        user = item['user']
-    return new_data
-
-
-if __name__ == '__main__':
-    with open(FILE_IN, encoding='utf-8', newline='') as oldjsonfile:
-        datastore = json.load(oldjsonfile)
-        new_data = process_json(datastore)
-    with open(FILE_OUT, 'w', encoding='utf-8') as newjsonfile:
-        newjsonfile.write(json.dumps(new_data))
