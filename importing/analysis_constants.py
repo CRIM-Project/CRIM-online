@@ -1,7 +1,30 @@
 
-TODO = None
-
 USERS_TO_KEEP = (9, 10, 11, 12, 13, 14, 16, 18, 20, 22, 23, 24)
+
+PEOPLE = {
+    '1': 'CRIM_Person_1021',
+    '5': 'CRIM_Person_1022',
+    '6': 'CRIM_Person_1023',
+    '7': 'CRIM_Person_1004',
+    '8': 'CRIM_Person_1005',
+    '9': 'CRIM_Person_1006',
+    '10': 'CRIM_Person_1003',
+    '11': 'CRIM_Person_1008',
+    '12': 'CRIM_Person_1009',
+    '13': 'CRIM_Person_1010',
+    '14': 'CRIM_Person_1011',
+    '15': 'CRIM_Person_1012',
+    '16': 'CRIM_Person_1013',
+    '17': 'CRIM_Person_1014',
+    '18': 'CRIM_Person_1015',
+    '19': 'CRIM_Person_1016',
+    '20': 'CRIM_Person_1017',
+    '21': 'CRIM_Person_1018',
+    '22': 'CRIM_Person_1007',
+    '23': 'CRIM_Person_1019',
+    '24': 'CRIM_Person_1020',
+    '25': 'CRIM_Person_1024',
+}
 
 PIECES = {
     'Sohier. Missa Vidi speciosam (Kyrie)': 'CRIM_Mass_0002_1',
@@ -64,4 +87,3 @@ PIECES = {
     'Benedicta es': 'CRIM_Model_0022',
     'Lupi, Didier: Lupi. Susanne un jour': 'CRIM_Model_0024',
 }
-
