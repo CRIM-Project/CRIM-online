@@ -31,7 +31,7 @@ class ObservationList(generics.ListAPIView):
     renderer_classes = (JSONRenderer,)  # can add html later
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'observation_id')
+        order_by = self.request.GET.get('order_by', 'piece_id')
         return CRIMObservation.objects.all().order_by(order_by)
 
 
@@ -43,8 +43,8 @@ class ObservationDetail(generics.RetrieveAPIView):
     queryset = CRIMObservation.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['observation_id']
-        observation = CRIMObservation.objects.filter(observation_id=url_arg)
+        url_arg = self.kwargs['pk']
+        observation = CRIMObservation.objects.filter(pk=url_arg)
         obj = get_object_or_404(observation)
         self.check_object_permissions(self.request, obj)
         return obj
