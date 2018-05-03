@@ -430,8 +430,7 @@ class CRIMObservationAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('mt_id_voices',
                        ('mt_id_strict', 'mt_id_flexed',
-                        'mt_id_flt'), ('mt_id_sequential',
-                                       'mt_id_added', 'mt_id_invertible'),
+                        'mt_id_flt', 'mt_id_invertible'),
                        'mt_id_int', 'mt_id_tint'),
         }),
         ('Periodic entry', {
@@ -457,7 +456,7 @@ class CRIMObservationAdmin(admin.ModelAdmin):
         }),
         ('Cadence', {
             'classes': ('collapse',),
-            'fields': ('mt_cad_voices',
+            'fields': ('mt_cad_cantizans', 'mt_cad_tenorizans',
                        ('mt_cad_authentic', 'mt_cad_phrygian',
                         'mt_cad_plagal'), 'mt_cad_tone',
                        'mt_cad_dtv', 'mt_cad_dti'),
