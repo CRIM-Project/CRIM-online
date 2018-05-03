@@ -10,12 +10,6 @@ class CRIMRelationship(models.Model):
         verbose_name = 'Relationship'
         verbose_name_plural = 'Relationships'
 
-    relationship_id = models.SlugField(
-        'relationship ID',
-        max_length=64,
-        unique=True,
-    )
-
     observer = models.ForeignKey(
         CRIMPerson,
         on_delete=models.SET_NULL,
@@ -28,14 +22,12 @@ class CRIMRelationship(models.Model):
     model_observation = models.ForeignKey(
         CRIMObservation,
         on_delete=models.CASCADE,
-        to_field='observation_id',
         db_index=True,
         related_name='observations_as_model',
     )
     derivative_observation = models.ForeignKey(
         CRIMObservation,
         on_delete=models.CASCADE,
-        to_field='observation_id',
         db_index=True,
         related_name='observations_as_derivative',
     )
@@ -70,22 +62,13 @@ class CRIMRelationship(models.Model):
     needs_review = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{0}'.format(self.relationship_id)
-
-    def _get_unique_slug(self):
-        slug_base = (self.model_observation.piece.piece_id + '-' +
-                     self.derivative_observation.piece.piece_id)
-        num = 1
-        unique_slug = '{}-{}'.format(slug_base, num)
-        while CRIMRelationship.objects.filter(relationship_id=unique_slug).exists():
-            unique_slug = '{}-{}'.format(slug_base, num)
-            num += 1
-        return unique_slug
+        return '<R{0}> {1}, {2}'.format(
+            self.id,
+            self.source_observation.piece_id,
+            self.target_observation.piece_id
+        )
 
     def save(self, *args, **kwargs):
-        # Create unique id based on the piece_id of the pieces involved
-        if not self.relationship_id:
-            self.relationship_id = self._get_unique_slug()
         # Set the parent relationship type field to true if any of the subtypes are
         if self.rt_q_exact or self.rt_q_monnayage:
             self.rt_q = True
@@ -96,6 +79,5 @@ class CRIMRelationship(models.Model):
             self.rt_tnm_truncated or self.rt_tnm_ncs or self.rt_tnm_ocs or
                 self.rt_tnm_ocst or self.tnm_nc):
             self.rt_tnm = True
-
         # Finalize changes
         super().save()

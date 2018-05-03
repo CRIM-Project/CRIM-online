@@ -10,12 +10,6 @@ class CRIMObservation(models.Model):
         verbose_name = 'Observation'
         verbose_name_plural = 'Observations'
 
-    observation_id = models.SlugField(
-        'observation ID',
-        max_length=32,
-        unique=True,
-    )
-
     observer = models.ForeignKey(
         CRIMPerson,
         on_delete=models.SET_NULL,
@@ -59,8 +53,6 @@ class CRIMObservation(models.Model):
     mt_id_strict = models.BooleanField('strict', default=False)
     mt_id_flexed = models.BooleanField('flexed', default=False)
     mt_id_flt = models.BooleanField('flexed tonal', default=False)
-    mt_id_sequential = models.BooleanField('sequential', default=False)
-    mt_id_added = models.BooleanField('added', max_length=32, blank=True)
     mt_id_invertible = models.BooleanField('invertible', default=False)
     mt_id_int = models.CharField('intervals', max_length=32, blank=True)  # better name?
     mt_id_tint = models.CharField('tint', max_length=32, blank=True)  # needs better name
@@ -86,7 +78,8 @@ class CRIMObservation(models.Model):
     mt_hr_staggered = models.BooleanField('staggered', default=False)
     mt_hr_sequential = models.BooleanField('sequential', default=False)
     mt_hr_fauxbourdon = models.BooleanField('fauxbourdon', default=False)
-    mt_cad_voices = models.TextField('voices (one per line)', blank=True)
+    mt_cad_cantizans = models.TextField('cantizans', blank=True)
+    mt_cad_tenorizans = models.TextField('tenorizans', blank=True)
     mt_cad_authentic = models.BooleanField('authentic', default=False)
     mt_cad_phrygian = models.BooleanField('phrygian', default=False)
     mt_cad_plagal = models.BooleanField('plagal', default=False)
@@ -110,20 +103,4 @@ class CRIMObservation(models.Model):
     needs_review = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{0}'.format(self.relationship_id)
-
-    def _get_unique_slug(self):
-        slug_base = self.piece.piece_id
-        num = 1
-        unique_slug = '{}-{}'.format(slug_base, num)
-        while CRIMObservation.objects.filter(relationship_id=unique_slug).exists():
-            unique_slug = '{}-{}'.format(slug_base, num)
-            num += 1
-        return unique_slug
-
-    def save(self, *args, **kwargs):
-        # Create unique id based on the `piece_id` of the piece involved
-        if not self.relationship_id:
-            self.relationship_id = self._get_unique_slug()
-        # Finalize changes
-        super().save()
+        return '<{0}> {1}'.format(self.id, self.piece_id)

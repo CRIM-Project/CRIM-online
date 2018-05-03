@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail', lookup_field='observation_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail')
 
     class Meta:
         model = CRIMObservation
@@ -37,8 +37,6 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'mt_id_strict',
             'mt_id_flexed',
             'mt_id_flt',
-            'mt_id_sequential',
-            'mt_id_added',
             'mt_id_invertible',
             'mt_id_int',
             'mt_id_tint',
@@ -64,7 +62,8 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'mt_hr_staggered',
             'mt_hr_sequential',
             'mt_hr_fauxbourdon',
-            'mt_cad_voices',
+            'mt_cad_cantizans',
+            'mt_cad_tenorizans',
             'mt_cad_authentic',
             'mt_cad_phrygian',
             'mt_cad_plagal',
