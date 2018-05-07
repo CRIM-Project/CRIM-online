@@ -383,11 +383,13 @@ class CRIMObservationAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'ema':
-            formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 60})
-        if db_field.name in ('mt_fp_comment', 'remarks'):
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 60})
+        elif db_field.name in ('mt_fp_comment', 'remarks'):
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 40})
-        if 'voice' in db_field.name:
+        elif 'voice' in db_field.name:
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 30})
+        elif db_field.name in ('cantizans', 'tenorizans'):
+            formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 30})
         return formfield
 
     # For sorting by last name
@@ -401,25 +403,20 @@ class CRIMObservationAdmin(admin.ModelAdmin):
             'fields': ('observer', 'piece', 'ema'),
         }),
         ('Cantus firmus', {
-            'classes': ('collapse',),
             'fields': ('mt_cf_voices', ('mt_cf_dur', 'mt_cf_mel')),
         }),
         ('Soggetto', {
-            'classes': ('collapse',),
             'fields': ('mt_sog_voices',
                        ('mt_sog_dur', 'mt_sog_mel',
                         'mt_sog_ostinato', 'mt_sog_periodic')),
         }),
         ('Counter-soggetto', {
-            'classes': ('collapse',),
             'fields': ('mt_csog_voices', ('mt_csog_dur', 'mt_csog_mel')),
         }),
         ('Contrapuntal duo', {
-            'classes': ('collapse',),
             'fields': ('mt_cd_voices',),
         }),
         ('Fuga', {
-            'classes': ('collapse',),
             'fields': ('mt_fg_voices',
                        ('mt_fg_periodic', 'mt_fg_strict',
                         'mt_fg_flexed'), ('mt_fg_sequential',
@@ -427,14 +424,12 @@ class CRIMObservationAdmin(admin.ModelAdmin):
                        'mt_fg_int', 'mt_fg_tint'),
         }),
         ('Imitative duo', {
-            'classes': ('collapse',),
             'fields': ('mt_id_voices',
                        ('mt_id_strict', 'mt_id_flexed',
                         'mt_id_flt', 'mt_id_invertible'),
                        'mt_id_int', 'mt_id_tint'),
         }),
         ('Periodic entry', {
-            'classes': ('collapse',),
             'fields': ('mt_pe_voices',
                        ('mt_pe_strict', 'mt_pe_flexed', 'mt_pe_flt'),
                        ('mt_pe_sequential', 'mt_pe_added',
@@ -442,33 +437,28 @@ class CRIMObservationAdmin(admin.ModelAdmin):
                        'mt_pe_tint'),
         }),
         ('Non-imitative duo', {
-            'classes': ('collapse',),
             'fields': ('mt_nid_voices',
                        ('mt_nid_strict', 'mt_nid_flexed', 'mt_nid_flt',
                         'mt_nid_sequential', 'mt_nid_invertible'),
                        'mt_nid_int', 'mt_nid_tint'),
         }),
         ('Homorhythm', {
-            'classes': ('collapse',),
             'fields': ('mt_hr_voices',
                        ('mt_hr_simple', 'mt_hr_staggered',
                         'mt_hr_sequential', 'mt_hr_fauxbourdon')),
         }),
         ('Cadence', {
-            'classes': ('collapse',),
             'fields': ('mt_cad_cantizans', 'mt_cad_tenorizans',
                        ('mt_cad_authentic', 'mt_cad_phrygian',
                         'mt_cad_plagal'), 'mt_cad_tone',
                        'mt_cad_dtv', 'mt_cad_dti'),
         }),
         ('Interval pattern', {
-            'classes': ('collapse',),
             'fields': ('mt_int_voices',
                        ('mt_int_p6', 'mt_int_p3'),
                        ('mt_int_c35', 'mt_int_c83', 'mt_int_c65')),
         }),
         ('Form and Process', {
-            'classes': ('collapse',),
             'fields': ('mt_fp_comment', 'mt_fp_ir', 'mt_fp_range'),
         }),
         ('Other', {
