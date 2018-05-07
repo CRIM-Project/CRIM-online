@@ -25,7 +25,7 @@ from crim.views.main import home, profile
 from crim.views.genre import GenreList, GenreDetail
 from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
-from crim.views.piece import PieceList, PieceDetail
+from crim.views.piece import PieceList, ModelList, PieceDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
 from crim.views.role import RoleList, RoleDetail
@@ -57,6 +57,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetail.as_view(), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
         re_path(r'^mass/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
+        re_path(r'^models/$', ModelList.as_view(), name='crimmodel-list'),
         re_path(r'^observations/$', ObservationList.as_view(), name='crimobservation-list'),
         re_path(r'^observation/(?P<pk>[0-9]+)/$', ObservationDetail.as_view(), name='crimobservation-detail'),
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
