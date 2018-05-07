@@ -67,6 +67,20 @@ class PieceList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
+        return CRIMPiece.objects.all().order_by(order_by)
+
+
+class ModelList(generics.ListAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceListSerializer
+    renderer_classes = (
+        PieceListHTMLRenderer,
+        JSONRenderer,
+    )
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'piece_id')
         return CRIMPiece.objects.filter(mass=None).order_by(order_by)
 
 

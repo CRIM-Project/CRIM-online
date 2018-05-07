@@ -59,6 +59,7 @@ class CRIMRolePieceSerializer(serializers.HyperlinkedModelSerializer):
 class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='crimpiece-detail',
+        lookup_field='piece_id',
     )
 
     class Meta:
