@@ -20,7 +20,7 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'mt_sog_mel',
             'mt_sog_ostinato',
             'mt_sog_periodic',
-            'mt_csog_voice',
+            'mt_csog_voices',
             'mt_csog_dur',
             'mt_csog_mel',
             'mt_cd_voices',

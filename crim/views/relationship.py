@@ -31,7 +31,7 @@ class RelationshipList(generics.ListAPIView):
     renderer_classes = (JSONRenderer,)  # can add html later
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'source_observation__piece_id')
+        order_by = self.request.GET.get('order_by', 'model_observation__piece_id')
         return CRIMRelationship.objects.all().order_by(order_by)
 
 

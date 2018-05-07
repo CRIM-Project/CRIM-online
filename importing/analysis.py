@@ -77,23 +77,23 @@ def create_item(item, processed_data, unprocessed_data, log):
         new_observations = create_observations(item, relationship_to_process, processed_data, unprocessed_data, log)
         new_relationship_fields = {}
         if new_observations:
-            source_observation_fields, target_observation_fields = new_observations
+            model_observation_fields, derivative_observation_fields = new_observations
             new_relationship_fields['observer'] = PEOPLE[item['user']]
-            new_relationship_fields['model_observation'] = source_observation_fields['id']
-            new_relationship_fields['derivative_observation'] = target_observation_fields['id']
+            new_relationship_fields['model_observation'] = model_observation_fields['id']
+            new_relationship_fields['derivative_observation'] = derivative_observation_fields['id']
             new_relationship_fields['created'] = item['created_at']
             new_relationship_fields['updated'] = item['created_at']
             add_relationship_types(relationship_to_process, new_relationship_fields)
 
-            source_observation_row = {
+            model_observation_row = {
                 'model': 'crim.crimobservation',
-                'fields': source_observation_fields,
-                'pk': source_observation_fields['id'],
+                'fields': model_observation_fields,
+                'pk': model_observation_fields['id'],
             }
-            target_observation_row = {
+            derivative_observation_row = {
                 'model': 'crim.crimobservation',
-                'fields': target_observation_fields,
-                'pk': target_observation_fields['id'],
+                'fields': derivative_observation_fields,
+                'pk': derivative_observation_fields['id'],
             }
             RELATIONSHIP_COUNT += 1
             new_relationship_row = {
@@ -101,8 +101,8 @@ def create_item(item, processed_data, unprocessed_data, log):
                 'fields': new_relationship_fields,
                 'pk': RELATIONSHIP_COUNT,
             }
-            processed_data.append(source_observation_row)
-            processed_data.append(target_observation_row)
+            processed_data.append(model_observation_row)
+            processed_data.append(derivative_observation_row)
             processed_data.append(new_relationship_row)
         else:
             return
@@ -113,8 +113,8 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
     '''Create an observation for each assertion in the old data.
     If there are more than two assertions, don't process.
     '''
-    source_observation = {}
-    target_observation = {}
+    model_observation = {}
+    derivative_observation = {}
     if 'titleA' not in relationship or 'titleB' not in relationship:
         leave_unprocessed(item, unprocessed_data, log, 'Relationship does not contain titles.')
         return
@@ -123,34 +123,34 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
         return
 
     if not relationship['reverse_direction']:
-        source_observation['piece'] = PIECES[relationship['titleA']]
-        target_observation['piece'] = PIECES[relationship['titleB']]
-        source_observation['ema'] = relationship['scoreA_ema']
-        target_observation['ema'] = relationship['scoreB_ema']
+        model_observation['piece'] = PIECES[relationship['titleA']]
+        derivative_observation['piece'] = PIECES[relationship['titleB']]
+        model_observation['ema'] = relationship['scoreA_ema']
+        derivative_observation['ema'] = relationship['scoreB_ema']
     else:
-        source_observation['piece'] = PIECES[relationship['titleB']]
-        target_observation['piece'] = PIECES[relationship['titleA']]
-        source_observation['ema'] = relationship['scoreB_ema']
-        target_observation['ema'] = relationship['scoreA_ema']
+        model_observation['piece'] = PIECES[relationship['titleB']]
+        derivative_observation['piece'] = PIECES[relationship['titleA']]
+        model_observation['ema'] = relationship['scoreB_ema']
+        derivative_observation['ema'] = relationship['scoreA_ema']
 
-    source_observation['observer'] = PEOPLE[item['user']]
-    target_observation['observer'] = PEOPLE[item['user']]
-    source_observation['created'] = item['created_at']
-    target_observation['created'] = item['created_at']
-    source_observation['updated'] = item['created_at']
-    target_observation['updated'] = item['created_at']
+    model_observation['observer'] = PEOPLE[item['user']]
+    derivative_observation['observer'] = PEOPLE[item['user']]
+    model_observation['created'] = item['created_at']
+    derivative_observation['created'] = item['created_at']
+    model_observation['updated'] = item['created_at']
+    derivative_observation['updated'] = item['created_at']
 
     # If looking up the observation in the item's assertions
     # returns a result, use that data to add a type to the assertion;
     # also copy the remarks. Otherwise, these fields simply aren't added.
     if 'assertions' in item and item['assertions']:
         for assertion in item['assertions']:
-            if ('ema' in assertion and assertion['ema'] == source_observation['ema'] and
-                    PIECES[assertion['title']] == source_observation['piece']):
-                add_musical_types(assertion, source_observation)
-            elif ('ema' in assertion and assertion['ema'] == target_observation['ema'] and
-                  PIECES[assertion['title']] == target_observation['piece']):
-                add_musical_types(assertion, target_observation)
+            if ('ema' in assertion and assertion['ema'] == model_observation['ema'] and
+                    PIECES[assertion['title']] == model_observation['piece']):
+                add_musical_types(assertion, model_observation)
+            elif ('ema' in assertion and assertion['ema'] == derivative_observation['ema'] and
+                  PIECES[assertion['title']] == derivative_observation['piece']):
+                add_musical_types(assertion, derivative_observation)
             else:
                 if 'title' not in assertion:
                     log.append('Assertion with timestamp {} unprocessed: without title and not associated with relationship.'.format(item['created_at']))
@@ -162,10 +162,10 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
 
     # Finally, return the new observations with unique ids.
     OBSERVATION_COUNT += 1
-    source_observation['id'] = OBSERVATION_COUNT
+    model_observation['id'] = OBSERVATION_COUNT
     OBSERVATION_COUNT += 1
-    target_observation['id'] = OBSERVATION_COUNT
-    return (source_observation, target_observation)
+    derivative_observation['id'] = OBSERVATION_COUNT
+    return (model_observation, derivative_observation)
 
 
 def add_orphan_assertion(item, assertion, processed_data):
