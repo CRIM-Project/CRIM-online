@@ -26,11 +26,12 @@ def earliest_date(dates):
     if dates:
         earliest_date = dates[0]
         for date in dates:
-            if get_date_sort(date) < get_date_sort(earliest_date):
+            if (get_date_sort(date) and get_date_sort(earliest_date) and
+                    get_date_sort(date) and get_date_sort(date) < get_date_sort(earliest_date)):
                 earliest_date = date
         return earliest_date
     else:
-        return '-'
+        return None
 
 
 def latest_date(dates):
@@ -39,8 +40,9 @@ def latest_date(dates):
     if dates:
         latest_date = dates[0]
         for date in dates:
-            if get_date_sort(date) > get_date_sort(latest_date):
+            if (get_date_sort(date) and get_date_sort(latest_date) and
+                    get_date_sort(date) and get_date_sort(date) > get_date_sort(latest_date)):
                 latest_date = date
         return latest_date
     else:
-        return '-'
+        return None
