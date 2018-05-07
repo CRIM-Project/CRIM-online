@@ -102,5 +102,10 @@ class CRIMObservation(models.Model):
     updated = models.DateTimeField(auto_now=True)
     needs_review = models.BooleanField(default=False)
 
+    def id_in_brackets(self):
+        return '<' + str(self.id) + '>'
+    id_in_brackets.short_description = 'ID'
+    id_in_brackets.admin_order_field = 'id'
+
     def __str__(self):
         return '<{0}> {1}'.format(self.id, self.piece_id)
