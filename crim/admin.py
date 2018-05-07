@@ -476,11 +476,12 @@ class CRIMObservationAdmin(admin.ModelAdmin):
         }),
     )
     list_display = (
+        'id_in_brackets',
+        'needs_review',
         'observer',
         'piece',
         'created',
         'updated',
-        'needs_review',
     )
     ordering = (
         'piece__piece_id',
@@ -491,9 +492,6 @@ class CRIMObservationAdmin(admin.ModelAdmin):
         'piece__title',
         'observer__person_id',
         'observer__name',
-    )
-    list_filter = (
-        'observer',
     )
 
 
@@ -528,12 +526,13 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
         }),
     )
     list_display = (
+        'id_in_brackets',
+        'needs_review',
         'observer',
         'model_observation',
         'derivative_observation',
         'created',
         'updated',
-        'needs_review',
     )
     ordering = (
         'model_observation__piece__piece_id',
@@ -547,9 +546,6 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
         'derivative_observation__piece__title',
         'observer__person_id',
         'observer__name',
-    )
-    list_filter = (
-        'observer',
     )
 
 

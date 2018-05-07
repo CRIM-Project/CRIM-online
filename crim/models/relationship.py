@@ -61,11 +61,16 @@ class CRIMRelationship(models.Model):
     updated = models.DateTimeField(auto_now=True)
     needs_review = models.BooleanField(default=False)
 
+    def id_in_brackets(self):
+        return '<R' + str(self.id) + '>'
+    id_in_brackets.short_description = 'ID'
+    id_in_brackets.admin_order_field = 'id'
+
     def __str__(self):
         return '<R{0}> {1}, {2}'.format(
             self.id,
-            self.source_observation.piece_id,
-            self.target_observation.piece_id
+            self.model_observation.piece_id,
+            self.derivative_observation.piece_id
         )
 
     def save(self, *args, **kwargs):
