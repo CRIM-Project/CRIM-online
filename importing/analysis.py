@@ -1,5 +1,6 @@
 import json
 import os
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crim.settings')
 import django
 
@@ -12,6 +13,7 @@ FILE_OUT = '../crim/fixtures/analysis.json'
 UNPROCESSED_OUT = 'source/not_imported.json'
 LOG = 'source/analysis_import_log.txt'
 OBSERVATION_COUNT = 0
+RELATIONSHIP_COUNT = 0
 
 # TODO: add "needs review" if has a same created_date as another one.
 # TODO: add orphaned observations, but tag them as "needs review".
@@ -55,6 +57,7 @@ def leave_unprocessed(item, unprocessed_data, log, fault):
 
 
 def create_item(item, processed_data, unprocessed_data, log):
+    global RELATIONSHIP_COUNT
     possible_relationships = []
     for relationship in item['relationships']:
         if not relationship['type']:
@@ -72,20 +75,35 @@ def create_item(item, processed_data, unprocessed_data, log):
     else:
         relationship_to_process = possible_relationships[0]
         new_observations = create_observations(item, relationship_to_process, processed_data, unprocessed_data, log)
-        new_relationship = {}
+        new_relationship_fields = {}
         if new_observations:
-            source_observation, target_observation = new_observations
-            new_relationship['observer'] = item['user']
-            new_relationship['model_observation'] = source_observation['id']
-            new_relationship['derivative_observation'] = target_observation['id']
-            new_relationship['created'] = item['created_at']
-            new_relationship['updated'] = item['created_at']
-            add_relationship_types(relationship_to_process, new_relationship)
-            processed_data.append(source_observation)
-            processed_data.append(target_observation)
-            processed_data.append(new_relationship)
-        # Do nothing if there are no observations; it's already been added to the
-        # list of unprocessed data.
+            source_observation_fields, target_observation_fields = new_observations
+            new_relationship_fields['observer'] = PEOPLE[item['user']]
+            new_relationship_fields['model_observation'] = source_observation_fields['id']
+            new_relationship_fields['derivative_observation'] = target_observation_fields['id']
+            new_relationship_fields['created'] = item['created_at']
+            new_relationship_fields['updated'] = item['created_at']
+            add_relationship_types(relationship_to_process, new_relationship_fields)
+
+            source_observation_row = {
+                'model': 'crim.crimobservation',
+                'fields': source_observation_fields,
+                'pk': source_observation_fields['id'],
+            }
+            target_observation_row = {
+                'model': 'crim.crimobservation',
+                'fields': target_observation_fields,
+                'pk': target_observation_fields['id'],
+            }
+            RELATIONSHIP_COUNT += 1
+            new_relationship_row = {
+                'model': 'crim.crimrelationship',
+                'fields': new_relationship_fields,
+                'pk': RELATIONSHIP_COUNT,
+            }
+            processed_data.append(source_observation_row)
+            processed_data.append(target_observation_row)
+            processed_data.append(new_relationship_row)
         else:
             return
 
@@ -151,15 +169,24 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
 
 
 def add_orphan_assertion(item, assertion, processed_data):
-    new_observation = {}
-    new_observation['piece'] = PIECES[assertion['title']]
-    new_observation['ema'] = assertion['ema']
+    global OBSERVATION_COUNT
 
-    new_observation['observer'] = PEOPLE[item['user']]
-    new_observation['created'] = item['created_at']
-    new_observation['updated'] = item['created_at']
-    new_observation['needs_review'] = True
-    processed_data.append(new_observation)
+    new_observation_fields = {}
+    new_observation_fields['piece'] = PIECES[assertion['title']]
+    new_observation_fields['ema'] = assertion['ema']
+
+    new_observation_fields['observer'] = PEOPLE[item['user']]
+    new_observation_fields['created'] = item['created_at']
+    new_observation_fields['updated'] = item['created_at']
+    new_observation_fields['needs_review'] = True
+
+    OBSERVATION_COUNT += 1
+    new_observation_row = {
+        'model': 'crim.crimobservation',
+        'pk': OBSERVATION_COUNT,
+        'fields': new_observation_fields,
+    }
+    processed_data.append(new_observation_row)
 
 
 def _add_list_as_string(item, base_name='voice'):
