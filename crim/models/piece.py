@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from crim.models.genre import CRIMGenre
 from crim.models.role import CRIMRole
+from crim.models.voice import CRIMVoice
 
 import re
 
@@ -62,6 +63,9 @@ class CRIMPiece(models.Model):
         null=True,
         db_index=True,
     )
+    # This field is redundant with counting the number of voice objects
+    # that belong to this piece -- but if those are unknown, we can still
+    # fill this in.
     number_of_voices = models.IntegerField(null=True)
 
     pdf_links = models.TextField('PDF links (one per line)', blank=True)
@@ -115,11 +119,17 @@ class CRIMPiece(models.Model):
         # Remove extraneous newlines from links and voices fields
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
-        self.voices = re.sub(r'[\n\r]+', r'\n', self.voices)
-        if self.voices:
-            self.number_of_voices = len(self.voices.split('\n'))
-        else:
-            self.number_of_voices = None
+
+        # Add voice count to the piece. Count up the number of voice objects
+        # that belong to this piece: if it's greater than the current voice
+        # count, update the voice count; otherwise, leave it alone (or null).
+        voices = CRIMVoice.objects.filter(piece=self)
+        if self.number_of_voices:
+            if voices and len(voices) > self.number_of_voices:
+                self.number_of_voices = len(voices)
+        elif voices:
+            self.number_of_voices = len(voices)
+
         super().save()
 
     def __str__(self):

@@ -41,6 +41,11 @@ class CRIMPieceMassInline(admin.TabularInline):
     max_num = 5
 
 
+class CRIMVoicePieceInline(admin.TabularInline):
+    model = CRIMVoice
+    exclude = ('voice_id', 'remarks')
+
+
 class CRIMRoleMassInline(admin.TabularInline):
     # For sorting by last name
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -157,12 +162,12 @@ class CRIMModelAdmin(admin.ModelAdmin):
         'piece_id',
         'title',
         'genre',
-        'voices',
         'pdf_links',
         'mei_links',
         'remarks',
     )
     inlines = (
+        CRIMVoicePieceInline,
         CRIMRolePieceInline,
     )
     search_fields = (
@@ -195,12 +200,12 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     fields = (
         'mass',
         'title',
-        'voices',
         'pdf_links',
         'mei_links',
         'remarks',
     )
     inlines = (
+        CRIMVoicePieceInline,
         CRIMRolePieceInline,
     )
     search_fields = (
