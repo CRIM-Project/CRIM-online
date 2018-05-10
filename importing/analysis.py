@@ -122,7 +122,7 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
         leave_unprocessed(item, unprocessed_data, log, 'Relationship does not contain EMA expressions.')
         return
 
-    if not relationship['reverse_direction']:
+    if 'Model' in PIECES[relationship['titleA']]:
         model_observation['piece'] = PIECES[relationship['titleA']]
         derivative_observation['piece'] = PIECES[relationship['titleB']]
         model_observation['ema'] = relationship['scoreA_ema']
