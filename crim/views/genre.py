@@ -28,7 +28,7 @@ class GenreList(generics.ListAPIView):
     model = CRIMGenre
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMGenreSerializer
-    renderer_classes = (JSONRenderer,)  # can add html later
+    renderer_classes = (JSONRenderer,)  # add html later
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'genre_id')
@@ -39,7 +39,25 @@ class GenreDetail(generics.RetrieveAPIView):
     model = CRIMGenre
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMGenreSerializer
-    renderer_classes = (JSONRenderer,)  # can add html later
+    renderer_classes = (JSONRenderer,)  # add html later
+    queryset = CRIMGenre.objects.all()
+
+    def get_object(self):
+        url_arg = self.kwargs['genre_id']
+        genre = CRIMGenre.objects.filter(genre_id=url_arg)
+        if not genre.exists():
+            genre = CRIMGenre.objects.filter(name_sort__iexact=url_arg)
+
+        obj = get_object_or_404(genre)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class GenreDetailData(generics.RetrieveAPIView):
+    model = CRIMGenre
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMGenreSerializer
+    renderer_classes = (JSONRenderer,)
     queryset = CRIMGenre.objects.all()
 
     def get_object(self):

@@ -52,7 +52,6 @@ class PersonList(generics.ListAPIView):
     serializer_class = CRIMPersonListSerializer
     renderer_classes = (
         PersonListHTMLRenderer,
-        JSONRenderer,
     )
 
     def get_queryset(self):
@@ -66,6 +65,38 @@ class PersonDetail(generics.RetrieveAPIView):
     serializer_class = CRIMPersonDetailSerializer
     renderer_classes = (
         PersonDetailHTMLRenderer,
+    )
+    queryset = CRIMPerson.objects.all()
+
+    def get_object(self):
+        url_arg = self.kwargs['person_id']
+        person = CRIMPerson.objects.filter(person_id=url_arg)
+        if not person.exists():
+            person = CRIMPerson.objects.filter(name_sort__iexact=url_arg)
+
+        obj = get_object_or_404(person)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class PersonListData(generics.ListAPIView):
+    model = CRIMPerson
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPersonListSerializer
+    renderer_classes = (
+        JSONRenderer,
+    )
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'person_id')
+        return CRIMPerson.objects.all().order_by(order_by)
+
+
+class PersonDetailData(generics.RetrieveAPIView):
+    model = CRIMPerson
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPersonDetailSerializer
+    renderer_classes = (
         JSONRenderer,
     )
     queryset = CRIMPerson.objects.all()

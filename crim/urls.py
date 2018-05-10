@@ -25,14 +25,25 @@ from crim.views.main import home, profile
 from crim.views.genre import GenreList, GenreDetail
 from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
-from crim.views.piece import PieceList, ModelList, PieceDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
-from crim.views.role import RoleList, RoleDetail
+from crim.views.piece import PieceList, ModelList, PieceDetail
 from crim.views.roletype import RoleTypeList, RoleTypeDetail
 from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserList, UserDetail
+
+# The following are for the JSON views
+from crim.views.genre import GenreListData, GenreDetailData
+from crim.views.mass import MassListData, MassDetailData
+from crim.views.person import PersonListData, PersonDetailData
+from crim.views.piece import PieceListData, ModelListData, PieceDetailData
+from crim.views.observation import ObservationListData, ObservationDetailData
+from crim.views.relationship import RelationshipListData, RelationshipDetailData
+from crim.views.role import RoleListData, RoleDetailData
+from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
+from crim.views.source import SourceListData, SourceDetailData
+from crim.views.treatise import TreatiseListData, TreatiseDetailData
 
 admin.autodiscover()
 
@@ -66,14 +77,16 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationship/(?P<pk>[0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
-        re_path(r'^roles/$', RoleList.as_view(), name='crimrole-list'),
-        re_path(r'^role/(?P<pk>[0-9]+)/$', RoleDetail.as_view(), name='crimrole-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
         re_path(r'^roletype/(?P<role_type_id>[-A-Za-z0-9]+)/$', RoleTypeDetail.as_view(), name='crimroletype-detail'),
         re_path(r'^sources/$', SourceList.as_view(), name='crimsource-list'),
         re_path(r'^source/(?P<document_id>[-_A-Za-z0-9]+)/$', SourceDetail.as_view(), name='crimsource-detail'),
         re_path(r'^treatises/$', TreatiseList.as_view(), name='crimtreatise-list'),
         re_path(r'^treatise/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
+        # The following are for the JSON views
+        re_path(r'^models/json/$', ModelListData.as_view(), name='crimmodel-list-data'),
+        re_path(r'^pieces/json/$', PieceListData.as_view(), name='crimpiece-list-data'),
+        re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/json/$', PieceDetailData.as_view(), name='crimpiece-detail-data'),
     ]
 
     urlpatterns += [
