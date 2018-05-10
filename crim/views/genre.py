@@ -35,6 +35,17 @@ class GenreList(generics.ListAPIView):
         return CRIMGenre.objects.all().order_by(order_by)
 
 
+class GenreListData(generics.ListAPIView):
+    model = CRIMGenre
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMGenreSerializer
+    renderer_classes = (JSONRenderer,)
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'genre_id')
+        return CRIMGenre.objects.all().order_by(order_by)
+
+
 class GenreDetail(generics.RetrieveAPIView):
     model = CRIMGenre
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

@@ -60,6 +60,7 @@ class TreatiseList(generics.ListAPIView):
     serializer_class = CRIMTreatiseListSerializer
     renderer_classes = (
         TreatiseListHTMLRenderer,
+        JSONRenderer,
     )
 
     def get_queryset(self):
@@ -73,6 +74,7 @@ class TreatiseDetail(generics.RetrieveAPIView):
     serializer_class = CRIMTreatiseDetailSerializer
     renderer_classes = (
         TreatiseDetailHTMLRenderer,
+        JSONRenderer,
     )
     queryset = CRIMTreatise.objects.all()
 
