@@ -82,7 +82,7 @@ class TreatiseDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['document_id']
         document = CRIMTreatise.objects.filter(document_id=url_arg)
         if not document.exists():
-            document = CRIMTreatise.objects.filter(name_sort__iexact=url_arg)
+            document = CRIMTreatise.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(document)
         self.check_object_permissions(self.request, obj)
@@ -115,7 +115,7 @@ class TreatiseDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['document_id']
         document = CRIMTreatise.objects.filter(document_id=url_arg)
         if not document.exists():
-            document = CRIMTreatise.objects.filter(name_sort__iexact=url_arg)
+            document = CRIMTreatise.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(document)
         self.check_object_permissions(self.request, obj)

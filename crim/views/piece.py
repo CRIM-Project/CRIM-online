@@ -101,7 +101,7 @@ class PieceDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['piece_id']
         piece = CRIMPiece.objects.filter(piece_id=url_arg)
         if not piece.exists():
-            piece = CRIMPiece.objects.filter(name_sort__iexact=url_arg)
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(piece)
         self.check_object_permissions(self.request, obj)
@@ -144,7 +144,7 @@ class PieceDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['piece_id']
         piece = CRIMPiece.objects.filter(piece_id=url_arg)
         if not piece.exists():
-            piece = CRIMPiece.objects.filter(name_sort__iexact=url_arg)
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(piece)
         self.check_object_permissions(self.request, obj)

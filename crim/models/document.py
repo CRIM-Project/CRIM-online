@@ -18,7 +18,7 @@ class CRIMDocument(models.Model):
 
     document_id = models.CharField(
         'Document ID',
-        max_length=16,
+        max_length=32,
         unique=True,
         db_index=True,
     )

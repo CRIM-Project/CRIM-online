@@ -101,7 +101,7 @@ class SourceDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['document_id']
         document = CRIMSource.objects.filter(document_id=url_arg)
         if not document.exists():
-            document = CRIMSource.objects.filter(name_sort__iexact=url_arg)
+            document = CRIMSource.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(document)
         self.check_object_permissions(self.request, obj)
@@ -134,7 +134,7 @@ class SourceDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['document_id']
         document = CRIMSource.objects.filter(document_id=url_arg)
         if not document.exists():
-            document = CRIMSource.objects.filter(name_sort__iexact=url_arg)
+            document = CRIMSource.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(document)
         self.check_object_permissions(self.request, obj)
