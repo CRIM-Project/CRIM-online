@@ -7,7 +7,7 @@ from crim.serializers.role import CRIMRoleSerializer
 from crim.models.role import CRIMRole
 
 
-class RoleList(generics.ListAPIView):
+class RoleListData(generics.ListAPIView):
     model = CRIMRole
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRoleSerializer
@@ -17,7 +17,7 @@ class RoleList(generics.ListAPIView):
         return CRIMRole.objects.all()
 
 
-class RoleDetail(generics.RetrieveAPIView):
+class RoleDetailData(generics.RetrieveAPIView):
     model = CRIMRole
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRoleSerializer

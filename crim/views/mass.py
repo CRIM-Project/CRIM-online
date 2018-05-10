@@ -61,7 +61,6 @@ class MassList(generics.ListAPIView):
     serializer_class = CRIMMassListSerializer
     renderer_classes = (
         MassListHTMLRenderer,
-        JSONRenderer,
     )
 
     def get_queryset(self):
@@ -75,6 +74,38 @@ class MassDetail(generics.RetrieveAPIView):
     serializer_class = CRIMMassDetailSerializer
     renderer_classes = (
         MassDetailHTMLRenderer,
+    )
+    queryset = CRIMMass.objects.all()
+
+    def get_object(self):
+        url_arg = self.kwargs['mass_id']
+        mass = CRIMMass.objects.filter(mass_id=url_arg)
+        if not mass.exists():
+            mass = CRIMMass.objects.filter(name_sort__iexact=url_arg)
+
+        obj = get_object_or_404(mass)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class MassListData(generics.ListAPIView):
+    model = CRIMMass
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMMassListSerializer
+    renderer_classes = (
+        JSONRenderer,
+    )
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'mass_id')
+        return CRIMMass.objects.all().order_by(order_by)
+
+
+class MassDetailData(generics.RetrieveAPIView):
+    model = CRIMMass
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMMassDetailSerializer
+    renderer_classes = (
         JSONRenderer,
     )
     queryset = CRIMMass.objects.all()
