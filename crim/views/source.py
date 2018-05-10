@@ -79,6 +79,7 @@ class SourceList(generics.ListAPIView):
     serializer_class = CRIMSourceListSerializer
     renderer_classes = (
         SourceListHTMLRenderer,
+        JSONRenderer,
     )
 
     def get_queryset(self):
@@ -92,6 +93,7 @@ class SourceDetail(generics.RetrieveAPIView):
     serializer_class = CRIMSourceDetailSerializer
     renderer_classes = (
         SourceDetailHTMLRenderer,
+        JSONRenderer,
     )
     queryset = CRIMSource.objects.all()
 

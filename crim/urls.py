@@ -97,6 +97,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/json/$', PieceDetailData.as_view(), name='crimpiece-detail-data'),
         re_path(r'^relationships/json/$', RelationshipListData.as_view(), name='crimrelationship-list-data'),
         re_path(r'^relationship/(?P<pk>[0-9]+)/json/$', RelationshipDetailData.as_view(), name='crimrelationship-detail-data'),
+        re_path(r'^roles/json/$', RoleListData.as_view(), name='crimrole-list'),
+        re_path(r'^role/(?P<pk>[0-9]+)/json/$', RoleDetailData.as_view(), name='crimrole-detail'),
         re_path(r'^roletypes/json/$', RoleTypeListData.as_view(), name='crimroletype-list-data'),
         re_path(r'^roletype/(?P<role_type_id>[-A-Za-z0-9]+)/json/$', RoleTypeDetailData.as_view(), name='crimroletype-detail-data'),
         re_path(r'^sources/json/$', SourceListData.as_view(), name='crimsource-list-data'),

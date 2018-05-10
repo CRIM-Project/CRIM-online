@@ -52,6 +52,7 @@ class PersonList(generics.ListAPIView):
     serializer_class = CRIMPersonListSerializer
     renderer_classes = (
         PersonListHTMLRenderer,
+        JSONRenderer,
     )
 
     def get_queryset(self):
@@ -65,6 +66,7 @@ class PersonDetail(generics.RetrieveAPIView):
     serializer_class = CRIMPersonDetailSerializer
     renderer_classes = (
         PersonDetailHTMLRenderer,
+        JSONRenderer,
     )
     queryset = CRIMPerson.objects.all()
 

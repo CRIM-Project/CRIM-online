@@ -61,6 +61,7 @@ class MassList(generics.ListAPIView):
     serializer_class = CRIMMassListSerializer
     renderer_classes = (
         MassListHTMLRenderer,
+        JSONRenderer,
     )
 
     def get_queryset(self):
@@ -74,6 +75,7 @@ class MassDetail(generics.RetrieveAPIView):
     serializer_class = CRIMMassDetailSerializer
     renderer_classes = (
         MassDetailHTMLRenderer,
+        JSONRenderer,
     )
     queryset = CRIMMass.objects.all()
 

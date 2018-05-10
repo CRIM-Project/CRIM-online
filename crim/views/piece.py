@@ -60,18 +60,10 @@ class PieceList(generics.ListAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceListSerializer
-    renderer_classes = (PieceListHTMLRenderer,)
-
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.all().order_by(order_by)
-
-
-class PieceListData(generics.ListAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceListSerializer
-    renderer_classes = (JSONRenderer,)
+    renderer_classes = (
+        PieceListHTMLRenderer,
+        JSONRenderer,
+    )
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
@@ -82,18 +74,10 @@ class ModelList(generics.ListAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceListSerializer
-    renderer_classes = (PieceListHTMLRenderer,)
-
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.filter(mass=None).order_by(order_by)
-
-
-class ModelListData(generics.ListAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceListSerializer
-    renderer_classes = (JSONRenderer,)
+    renderer_classes = (
+        PieceListHTMLRenderer,
+        JSONRenderer,
+    )
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
@@ -104,7 +88,10 @@ class PieceDetail(generics.RetrieveAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceDetailSerializer
-    renderer_classes = (PieceDetailHTMLRenderer,)
+    renderer_classes = (
+        PieceDetailHTMLRenderer,
+        JSONRenderer,
+    )
     queryset = CRIMPiece.objects.all()
 
     def get_queryset(self):
@@ -119,6 +106,28 @@ class PieceDetail(generics.RetrieveAPIView):
         obj = get_object_or_404(piece)
         self.check_object_permissions(self.request, obj)
         return obj
+
+
+class PieceListData(generics.ListAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceListSerializer
+    renderer_classes = (JSONRenderer,)
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'piece_id')
+        return CRIMPiece.objects.all().order_by(order_by)
+
+
+class ModelListData(generics.ListAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceListSerializer
+    renderer_classes = (JSONRenderer,)
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'piece_id')
+        return CRIMPiece.objects.filter(mass=None).order_by(order_by)
 
 
 class PieceDetailData(generics.RetrieveAPIView):
