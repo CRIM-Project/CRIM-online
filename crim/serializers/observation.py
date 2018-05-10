@@ -1,9 +1,35 @@
-from crim.models.relationship import CRIMObservation
+from crim.models.observation import CRIMObservation
 from rest_framework import serializers
+
+from crim.models.person import CRIMPerson
+from crim.models.piece import CRIMPiece
+
+
+class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+
+    class Meta:
+        model = CRIMPerson
+        fields = (
+            'url',
+            'name',
+        )
+
+
+class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+        )
 
 
 class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    piece = CRIMPieceObservationSerializer(read_only=True)
 
     class Meta:
         model = CRIMObservation
