@@ -74,7 +74,7 @@ class PersonDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['person_id']
         person = CRIMPerson.objects.filter(person_id=url_arg)
         if not person.exists():
-            person = CRIMPerson.objects.filter(name_sort__iexact=url_arg)
+            person = CRIMPerson.objects.filter(name__iexact=url_arg)
 
         obj = get_object_or_404(person)
         self.check_object_permissions(self.request, obj)
@@ -107,7 +107,7 @@ class PersonDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['person_id']
         person = CRIMPerson.objects.filter(person_id=url_arg)
         if not person.exists():
-            person = CRIMPerson.objects.filter(name_sort__iexact=url_arg)
+            person = CRIMPerson.objects.filter(name__iexact=url_arg)
 
         obj = get_object_or_404(person)
         self.check_object_permissions(self.request, obj)

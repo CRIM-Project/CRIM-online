@@ -57,7 +57,7 @@ class GenreDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['genre_id']
         genre = CRIMGenre.objects.filter(genre_id=url_arg)
         if not genre.exists():
-            genre = CRIMGenre.objects.filter(name_sort__iexact=url_arg)
+            genre = CRIMGenre.objects.filter(name__iexact=url_arg)
 
         obj = get_object_or_404(genre)
         self.check_object_permissions(self.request, obj)
@@ -75,7 +75,7 @@ class GenreDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['genre_id']
         genre = CRIMGenre.objects.filter(genre_id=url_arg)
         if not genre.exists():
-            genre = CRIMGenre.objects.filter(name_sort__iexact=url_arg)
+            genre = CRIMGenre.objects.filter(name__iexact=url_arg)
 
         obj = get_object_or_404(genre)
         self.check_object_permissions(self.request, obj)

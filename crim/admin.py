@@ -8,11 +8,14 @@ from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.genre import CRIMGenre
+from crim.models.part import CRIMPart
+from crim.models.phrase import CRIMPhrase
 from crim.models.piece import CRIMPiece, CRIMModel, CRIMMassMovement
 from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRole, CRIMRoleType
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
+from crim.models.voice import CRIMVoice
 
 from crim.models.note import CRIMNote
 from crim.models.comment import CRIMComment
@@ -325,6 +328,68 @@ class CRIMGenreAdmin(admin.ModelAdmin):
     )
 
 
+class CRIMPartAdmin(admin.ModelAdmin):
+    fields = (
+        'piece',
+        'name',
+        'order',
+        'remarks',
+    )
+    list_display = (
+        'part_id',
+        'piece_title',
+        'name',
+    )
+    ordering = (
+        'part_id',
+    )
+
+
+class CRIMPhraseAdmin(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'part':
+            formfield.widget = forms.NumberInput()
+        return formfield
+
+    fields = (
+        'piece',
+        'part_number',
+        'number',
+        'text',
+        'remarks',
+    )
+    list_display = (
+        'phrase_id',
+        'piece_title',
+        'part_name',
+        'text',
+    )
+    ordering = (
+        'phrase_id',
+    )
+
+
+class CRIMVoiceAdmin(admin.ModelAdmin):
+    fields = (
+        'piece',
+        'name',
+        'order',
+        'clef',
+        'supplied',
+        'remarks',
+    )
+    list_display = (
+        'voice_id',
+        'piece_title',
+        'name',
+        'order',
+    )
+    ordering = (
+        'voice_id',
+    )
+
+
 class CRIMRoleAdmin(admin.ModelAdmin):
     fields = (
         'person',
@@ -564,6 +629,10 @@ admin.site.register(CRIMModel, CRIMModelAdmin)
 admin.site.register(CRIMMassMovement, CRIMMassMovementAdmin)
 admin.site.register(CRIMTreatise, CRIMTreatiseAdmin)
 admin.site.register(CRIMSource, CRIMSourceAdmin)
+
+admin.site.register(CRIMPart, CRIMPartAdmin)
+admin.site.register(CRIMPhrase, CRIMPhraseAdmin)
+admin.site.register(CRIMVoice, CRIMVoiceAdmin)
 
 admin.site.register(CRIMRole, CRIMRoleAdmin)
 admin.site.register(CRIMObservation, CRIMObservationAdmin)

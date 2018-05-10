@@ -36,7 +36,9 @@ from crim.views.user import UserList, UserDetail
 # The following are for the JSON views
 from crim.views.genre import GenreListData, GenreDetailData
 from crim.views.mass import MassListData, MassDetailData
+from crim.views.part import PartListData, PartDetailData
 from crim.views.person import PersonListData, PersonDetailData
+from crim.views.phrase import PhraseListData, PhraseDetailData
 from crim.views.piece import PieceListData, ModelListData, PieceDetailData
 from crim.views.observation import ObservationListData, ObservationDetailData
 from crim.views.relationship import RelationshipListData, RelationshipDetailData
@@ -44,6 +46,7 @@ from crim.views.role import RoleListData, RoleDetailData
 from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
 from crim.views.source import SourceListData, SourceDetailData
 from crim.views.treatise import TreatiseListData, TreatiseDetailData
+from crim.views.voice import VoiceListData, VoiceDetailData
 
 admin.autodiscover()
 
@@ -91,8 +94,12 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^models/json/$', ModelListData.as_view(), name='crimmodel-list-data'),
         re_path(r'^observations/json/$', ObservationListData.as_view(), name='crimobservation-list-data'),
         re_path(r'^observation/(?P<pk>[0-9]+)/json/$', ObservationDetailData.as_view(), name='crimobservation-detail-data'),
+        re_path(r'^parts/json/$', PartListData.as_view(), name='crimpart-list'),
+        re_path(r'^part/(?P<part_id>[-_A-Za-z0-9\.]+)/json/$', PartDetailData.as_view(), name='crimpart-detail'),
         re_path(r'^people/json/$', PersonListData.as_view(), name='crimperson-list-data'),
         re_path(r'^person/(?P<person_id>[-_A-Za-z0-9]+)/json/$', PersonDetailData.as_view(), name='crimperson-detail-data'),
+        re_path(r'^phrases/json/$', PhraseListData.as_view(), name='crimphrase-list'),
+        re_path(r'^phrase/(?P<part_id>[-_A-Za-z0-9:]+)/json/$', PhraseDetailData.as_view(), name='crimphrase-detail'),
         re_path(r'^pieces/json/$', PieceListData.as_view(), name='crimpiece-list-data'),
         re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/json/$', PieceDetailData.as_view(), name='crimpiece-detail-data'),
         re_path(r'^relationships/json/$', RelationshipListData.as_view(), name='crimrelationship-list-data'),
@@ -105,6 +112,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^source/(?P<document_id>[-_A-Za-z0-9]+)/json/$', SourceDetailData.as_view(), name='crimsource-detail-data'),
         re_path(r'^treatises/json/$', TreatiseListData.as_view(), name='crimtreatise-list-data'),
         re_path(r'^treatise/(?P<document_id>[-_A-Za-z0-9]+)/json/$', TreatiseDetailData.as_view(), name='crimtreatise-detail-data'),
+        re_path(r'^voices/json/$', VoiceListData.as_view(), name='crimvoice-list'),
+        re_path(r'^voice/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/json/$', VoiceDetailData.as_view(), name='crimvoice-detail'),
     ]
 
     urlpatterns += [

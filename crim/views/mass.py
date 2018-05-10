@@ -83,7 +83,7 @@ class MassDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['mass_id']
         mass = CRIMMass.objects.filter(mass_id=url_arg)
         if not mass.exists():
-            mass = CRIMMass.objects.filter(name_sort__iexact=url_arg)
+            mass = CRIMMass.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(mass)
         self.check_object_permissions(self.request, obj)
@@ -116,7 +116,7 @@ class MassDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['mass_id']
         mass = CRIMMass.objects.filter(mass_id=url_arg)
         if not mass.exists():
-            mass = CRIMMass.objects.filter(name_sort__iexact=url_arg)
+            mass = CRIMMass.objects.filter(title__iexact=url_arg)
 
         obj = get_object_or_404(mass)
         self.check_object_permissions(self.request, obj)

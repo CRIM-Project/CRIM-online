@@ -27,8 +27,6 @@ class RoleDetailData(generics.RetrieveAPIView):
     def get_object(self):
         url_arg = self.kwargs['pk']
         role = CRIMRole.objects.filter(id=url_arg)
-        if not role.exists():
-            role = CRIMRole.objects.filter(name_sort__iexact=url_arg)
 
         obj = get_object_or_404(role)
         self.check_object_permissions(self.request, obj)

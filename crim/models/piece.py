@@ -42,7 +42,7 @@ class CRIMPiece(models.Model):
 
     piece_id = models.CharField(
         'Piece ID',
-        max_length=16,
+        max_length=32,
         unique=True,
         db_index=True,
     )
@@ -61,10 +61,6 @@ class CRIMPiece(models.Model):
         related_name='movements',
         null=True,
         db_index=True,
-    )
-    voices = models.TextField(
-        'voices (put each voice on a new line; use a single hyphen ‘-’ to indicate unknown parts; bracket editorial voice names)',
-        blank=True
     )
     number_of_voices = models.IntegerField(null=True)
 
@@ -99,8 +95,7 @@ class CRIMPiece(models.Model):
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
         if self.mass:
-            complete_title = self.mass.title + ': ' + self.title
-            if CRIMPiece.objects.filter(mass=self.mass, title=complete_title):
+            if CRIMPiece.objects.filter(mass=self.mass, title=self.title):
                 raise ValidationError('The ' + self.title + ' of ' + self.mass.title + ' already exists.')
         # Only validate Piece ID if it is not a mass movement
         else:

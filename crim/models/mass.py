@@ -17,11 +17,11 @@ class CRIMMass(models.Model):
 
     mass_id = models.CharField(
         'Mass ID',
-        max_length=16,
+        max_length=32,
         unique=True,
         db_index=True,
     )
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=128)
     genre = models.ForeignKey(
         CRIMGenre,
         on_delete=models.SET_NULL,

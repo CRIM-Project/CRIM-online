@@ -46,7 +46,7 @@ class RoleTypeDetail(generics.RetrieveAPIView):
         url_arg = self.kwargs['role_type_id']
         roletype = CRIMRoleType.objects.filter(role_type_id=url_arg)
         if not roletype.exists():
-            roletype = CRIMRoleType.objects.filter(name_sort__iexact=url_arg)
+            roletype = CRIMRoleType.objects.filter(name__iexact=url_arg)
 
         obj = get_object_or_404(roletype)
         self.check_object_permissions(self.request, obj)
@@ -75,7 +75,7 @@ class RoleTypeDetailData(generics.RetrieveAPIView):
         url_arg = self.kwargs['role_type_id']
         roletype = CRIMRoleType.objects.filter(role_type_id=url_arg)
         if not roletype.exists():
-            roletype = CRIMRoleType.objects.filter(name_sort__iexact=url_arg)
+            roletype = CRIMRoleType.objects.filter(name__iexact=url_arg)
 
         obj = get_object_or_404(roletype)
         self.check_object_permissions(self.request, obj)

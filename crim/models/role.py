@@ -97,7 +97,7 @@ class CRIMRole(models.Model):
 
     # For implementing using generic foreign keys
 #     document_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-#     document_id = models.CharField(max_length=16)
+#     document_id = models.CharField(max_length=32)
 #     document_object = GenericForeignKey(document_content_type, document_id)
 
     # Django doesn't make generic foreign keys or many-to-many relations
