@@ -10,6 +10,7 @@ class CRIMVoice(models.Model):
         verbose_name = 'Voice'
         verbose_name_plural = 'Voices'
         ordering = ['voice_id']
+        unique_together = ('piece', 'order')
 
     voice_id = models.CharField(
         'Voice ID',

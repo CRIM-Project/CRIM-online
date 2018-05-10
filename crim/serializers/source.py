@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 
 class CRIMRoleTypeSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail', lookup_field='role_type_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail-data', lookup_field='role_type_id')
 
     class Meta:
         model = CRIMRoleType
@@ -18,7 +18,7 @@ class CRIMRoleTypeSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPersonSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
 
     class Meta:
         model = CRIMPerson
@@ -29,7 +29,7 @@ class CRIMPersonSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRoleSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
     person = CRIMPersonSourceSerializer(read_only=True)
     role_type = CRIMRoleTypeSourceSerializer(read_only=True)
 
@@ -44,7 +44,7 @@ class CRIMRoleSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMMassSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail', lookup_field='mass_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail-data', lookup_field='mass_id')
     roles = CRIMRoleSourceSerializer(
         many=True,
         read_only=True,
@@ -64,7 +64,7 @@ class CRIMMassSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPieceSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
     roles = CRIMRoleSourceSerializer(
         many=True,
         read_only=True,
@@ -84,7 +84,7 @@ class CRIMPieceSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMTreatiseSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail', lookup_field='document_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail-data', lookup_field='document_id')
     roles = CRIMRoleSourceSerializer(
         many=True,
         read_only=True,
@@ -103,7 +103,7 @@ class CRIMTreatiseSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMSourceSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail', lookup_field='document_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail-data', lookup_field='document_id')
     roles = CRIMRoleSourceSerializer(
         many=True,
         read_only=True,
@@ -122,7 +122,7 @@ class CRIMSourceSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail', lookup_field='document_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail-data', lookup_field='document_id')
     roles = CRIMRoleSourceSerializer(
         many=True,
         read_only=True,
@@ -142,7 +142,7 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail', lookup_field='document_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail-data', lookup_field='document_id')
     mass_contents = CRIMMassSourceSerializer(
         many=True,
         read_only=True,

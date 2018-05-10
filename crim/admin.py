@@ -41,9 +41,28 @@ class CRIMPieceMassInline(admin.TabularInline):
     max_num = 5
 
 
+class CRIMPartPieceInline(admin.TabularInline):
+    model = CRIMPart
+    exclude = ('part_id', 'remarks')
+    extra = 1
+
+
+class CRIMPhrasePieceInline(admin.TabularInline):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'text':
+            formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 40})
+        return formfield
+
+    model = CRIMPhrase
+    exclude = ('phrase_id', 'part_number', 'remarks')
+    extra = 4
+
+
 class CRIMVoicePieceInline(admin.TabularInline):
     model = CRIMVoice
     exclude = ('voice_id', 'remarks')
+    extra = 1
 
 
 class CRIMRoleMassInline(admin.TabularInline):
@@ -167,8 +186,10 @@ class CRIMModelAdmin(admin.ModelAdmin):
         'remarks',
     )
     inlines = (
-        CRIMVoicePieceInline,
         CRIMRolePieceInline,
+        CRIMVoicePieceInline,
+        CRIMPartPieceInline,
+        CRIMPhrasePieceInline,
     )
     search_fields = (
         'piece_id',
@@ -336,8 +357,8 @@ class CRIMGenreAdmin(admin.ModelAdmin):
 class CRIMPartAdmin(admin.ModelAdmin):
     fields = (
         'piece',
-        'name',
         'order',
+        'name',
         'remarks',
     )
     list_display = (
@@ -353,13 +374,12 @@ class CRIMPartAdmin(admin.ModelAdmin):
 class CRIMPhraseAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == 'part':
-            formfield.widget = forms.NumberInput()
+        if db_field.name == 'text':
+            formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 60})
         return formfield
 
     fields = (
-        'piece',
-        'part_number',
+        'part',
         'number',
         'text',
         'remarks',
@@ -378,8 +398,8 @@ class CRIMPhraseAdmin(admin.ModelAdmin):
 class CRIMVoiceAdmin(admin.ModelAdmin):
     fields = (
         'piece',
-        'name',
         'order',
+        'name',
         'clef',
         'supplied',
         'remarks',
@@ -387,8 +407,8 @@ class CRIMVoiceAdmin(admin.ModelAdmin):
     list_display = (
         'voice_id',
         'piece_title',
-        'name',
         'order',
+        'name',
     )
     ordering = (
         'voice_id',

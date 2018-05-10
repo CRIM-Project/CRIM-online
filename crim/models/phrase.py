@@ -1,7 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
-
-from crim.models.part import CRIMPart
 
 
 class CRIMPhrase(models.Model):
@@ -10,6 +7,7 @@ class CRIMPhrase(models.Model):
         verbose_name = 'Phrase'
         verbose_name_plural = 'Phrases'
         ordering = ['phrase_id']
+        unique_together = ('piece', 'number')
 
     phrase_id = models.CharField(
         'Phrase ID',
@@ -35,8 +33,6 @@ class CRIMPhrase(models.Model):
         null=True,
         db_index=True,
     )
-    # Part number is also redundant, but used in admin to grab the correct part.
-    part_number = models.IntegerField('part')
     number = models.IntegerField('phrase number')
     text = models.TextField()
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
@@ -52,25 +48,9 @@ class CRIMPhrase(models.Model):
         return self.part.name
     piece_title.short_description = 'part'
 
-    def clean(self):
-        if CRIMPhrase.objects.filter(piece=self.piece, number=self.number):
-            raise ValidationError("Can't have multiple phrases with the number" + str(self.number))
-
     def save(self):
-        if not self.part:
-            matching_parts = CRIMPart.objects.filter(piece=self.piece, order=self.part_number)
-            if matching_parts:
-                part_to_add = matching_parts[0]
-            else:
-                part_to_add = CRIMPart(
-                    part_id=(self.piece.piece_id + '.' + str(self.part_number)),
-                    piece=self.piece,
-                    name='',
-                    order=self.part_number,
-                    remarks='',
-                )
-                part_to_add.save()
-            self.part = part_to_add
+        if not self.piece:
+            self.piece = self.part.piece
         if not self.phrase_id:
             self.phrase_id = (self.piece.piece_id + ':' + str(self.number))
         super().save()

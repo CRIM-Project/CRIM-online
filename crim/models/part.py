@@ -8,6 +8,7 @@ class CRIMPart(models.Model):
         verbose_name = 'Part'
         verbose_name_plural = 'Parts'
         ordering = ['part_id']
+        unique_together = ('piece', 'order')
 
     part_id = models.CharField(
         'Part ID',
@@ -24,8 +25,8 @@ class CRIMPart(models.Model):
         null=True,
         db_index=True,
     )
-    name = models.CharField(max_length=128)
     order = models.IntegerField()
+    name = models.CharField(max_length=128)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
@@ -35,12 +36,6 @@ class CRIMPart(models.Model):
         else:
             return self.piece.title
     piece_title.short_description = 'piece'
-
-    def clean(self):
-        if CRIMPart.objects.filter(piece=self.piece, order=self.order):
-            raise ValidationError('Part ' + self.name + ' of ' + self.piece.title + ' already exists.')
-        if CRIMPart.objects.filter(piece=self.piece, order=self.order):
-            raise ValidationError('Part ' + str(self.order) + ' of ' + self.piece.title + ' already exists.')
 
     def save(self):
         if not self.part_id:
