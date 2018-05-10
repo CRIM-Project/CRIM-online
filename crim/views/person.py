@@ -79,18 +79,3 @@ class PersonDetail(generics.RetrieveAPIView):
         obj = get_object_or_404(person)
         self.check_object_permissions(self.request, obj)
         return obj
-
-    def post(self, request, *args, **kwargs):
-        remarks_text = request.DATA.get('remarks', None)
-        current_user = User.objects.get(pk=request.user.id)
-        person = current_user.profile.person
-
-        if person:
-            person.remarks = remarks_text
-            person.save()
-
-            serialized = CRIMPersonDetailSerializer(person).data
-
-            return Response(serialized, status=status.HTTP_202_ACCEPTED)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
