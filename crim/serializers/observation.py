@@ -6,7 +6,7 @@ from crim.models.piece import CRIMPiece
 
 
 class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
 
     class Meta:
         model = CRIMPerson
@@ -17,7 +17,7 @@ class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail', lookup_field='piece_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
 
     class Meta:
         model = CRIMPiece
@@ -27,7 +27,7 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail')
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data')
     observer = CRIMPersonObservationSerializer(read_only=True)
     piece = CRIMPieceObservationSerializer(read_only=True)
 

@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class CRIMGenreSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimgenre-detail', lookup_field='genre_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimgenre-detail-data', lookup_field='genre_id')
 
     class Meta:
         model = CRIMGenre

@@ -6,7 +6,7 @@ from rest_framework import serializers
 
 
 class CRIMRoleTypeTreatiseSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail', lookup_field='role_type_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail-data', lookup_field='role_type_id')
 
     class Meta:
         model = CRIMRoleType
@@ -17,7 +17,7 @@ class CRIMRoleTypeTreatiseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMPersonTreatiseSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail', lookup_field='person_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
 
     class Meta:
         model = CRIMPerson
@@ -28,7 +28,7 @@ class CRIMPersonTreatiseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRoleTreatiseSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
     person = CRIMPersonTreatiseSerializer(read_only=True)
     role_type = CRIMRoleTypeTreatiseSerializer(read_only=True)
 
@@ -44,7 +44,7 @@ class CRIMRoleTreatiseSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMSourceTreatiseSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='crimsource-detail',
+        view_name='crimsource-detail-data',
         lookup_field='document_id',
     )
     roles = CRIMRoleTreatiseSerializer(
@@ -63,7 +63,7 @@ class CRIMSourceTreatiseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail', lookup_field='document_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail-data', lookup_field='document_id')
     roles = CRIMRoleTreatiseSerializer(
         many=True,
         read_only=True,
@@ -83,7 +83,7 @@ class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail', lookup_field='document_id')
+    url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail-data', lookup_field='document_id')
     roles = CRIMRoleTreatiseSerializer(
         many=True,
         read_only=True,

@@ -120,16 +120,23 @@ class CRIMPiece(models.Model):
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
 
-        # Add voice count to the piece. Count up the number of voice objects
-        # that belong to this piece: if it's greater than the current voice
+        # Add voice count to the piece. Look at all the voice objects to determine
+        # the maximum voice number: if it's greater than the current voice
         # count, update the voice count; otherwise, leave it alone (or null).
         voices = CRIMVoice.objects.filter(piece=self)
-        if self.number_of_voices:
-            if voices and len(voices) > self.number_of_voices:
-                self.number_of_voices = len(voices)
-        elif voices:
-            self.number_of_voices = len(voices)
 
+        # recursive function using 0 as base case for empty voice list
+        def max_voice(voices, current_max=0):
+            if not voices:
+                return current_max
+            else:
+                return max_voice(voices[1:], current_max=max(current_max, voices[0].order))
+
+        # get the max number of voices, using the existing number of voices as the minumum
+        self.number_of_voices = max_voice(voices, self.number_of_voices if self.number_of_voices else 0)
+        # use None instead of 0 if there is no voice count
+        if not self.number_of_voices:
+            self.number_of_voices = None
         super().save()
 
     def __str__(self):
@@ -142,14 +149,14 @@ class CRIMPiece(models.Model):
 class CRIMModel(CRIMPiece):
     class Meta:
         app_label = 'crim'
-        verbose_name = 'Model'
-        verbose_name_plural = 'Models'
+        verbose_name = 'Piece: Model'
+        verbose_name_plural = 'Pieces: Models'
         proxy = True
 
 
 class CRIMMassMovement(CRIMPiece):
     class Meta:
         app_label = 'crim'
-        verbose_name = 'Mass movement'
-        verbose_name_plural = 'Mass movements'
+        verbose_name = 'Piece: Mass movement'
+        verbose_name_plural = 'Pieces: Mass movements'
         proxy = True

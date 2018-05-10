@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='user-detail', lookup_field='username')
+    url = serializers.HyperlinkedIdentityField(view_name='user-detail-data', lookup_field='username')
 
     class Meta:
         model = User
@@ -21,7 +21,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='user-detail', lookup_field='username')
+    url = serializers.HyperlinkedIdentityField(view_name='user-detail-data', lookup_field='username')
 
     class Meta:
         model = User
