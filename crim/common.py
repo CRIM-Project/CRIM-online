@@ -1,6 +1,13 @@
 import re
 
 
+def two_digit_string(n):
+    if eval(n) >= 0 and eval(n) < 10:
+        return '0' + str(n)
+    else:
+        return str(n)
+
+
 def get_date_sort(date):
     '''Given a date, return an integer year that approximates
     the latest date in the list.
