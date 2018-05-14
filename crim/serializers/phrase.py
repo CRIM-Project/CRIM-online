@@ -38,6 +38,9 @@ class CRIMPhraseSerializer(serializers.HyperlinkedModelSerializer):
             'piece',
             'part',
             'number',
+            'start_measure',
+            'stop_measure',
             'text',
+            'translation',
             'remarks',
         )

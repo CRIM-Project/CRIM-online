@@ -1,6 +1,7 @@
 from django.db import models
 
 from crim.models.person import CRIMPerson
+from crim.models.piece import CRIMPiece
 from crim.models.observation import CRIMObservation
 
 
@@ -31,7 +32,21 @@ class CRIMRelationship(models.Model):
         db_index=True,
         related_name='observations_as_derivative',
     )
-    reverse_direction = models.BooleanField(default=False)
+    # These next two fields are redundant, but make it easier
+    # to access all pieces which have relationships with a given
+    # piece.
+    model_piece = models.ForeignKey(
+        CRIMPiece,
+        on_delete=models.CASCADE,
+        db_index=True,
+        related_name='models',
+    )
+    derivative_piece = models.ForeignKey(
+        CRIMPiece,
+        on_delete=models.CASCADE,
+        db_index=True,
+        related_name='derivatives',
+    )
 
     rt_q = models.BooleanField('quotation', default=False)
     rt_q_exact = models.BooleanField('exact', default=False)
@@ -74,6 +89,9 @@ class CRIMRelationship(models.Model):
         )
 
     def save(self, *args, **kwargs):
+        # Add the model pieces fields based on the observations
+        self.model_piece = self.model_observation.piece
+        self.derivative_piece = self.derivative_observation.piece
         # Set the parent relationship type field to true if any of the subtypes are
         if self.rt_q_exact or self.rt_q_monnayage:
             self.rt_q = True

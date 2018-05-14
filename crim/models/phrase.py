@@ -16,7 +16,8 @@ class CRIMPhrase(models.Model):
         db_index=True,
     )
 
-    # This is redundant, but may make indexing easier.
+    # This is redundant (because we also have `part`),
+    # but may make indexing easier.
     piece = models.ForeignKey(
         'CRIMPiece',
         on_delete=models.CASCADE,
@@ -34,7 +35,10 @@ class CRIMPhrase(models.Model):
         db_index=True,
     )
     number = models.IntegerField('phrase number')
-    text = models.TextField()
+    start_measure = models.IntegerField(null=True)
+    stop_measure = models.IntegerField(null=True)
+    text = models.TextField(blank=True)
+    translation = models.TextField(blank=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def piece_title(self):
