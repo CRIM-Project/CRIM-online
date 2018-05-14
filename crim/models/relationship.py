@@ -38,12 +38,14 @@ class CRIMRelationship(models.Model):
     model_piece = models.ForeignKey(
         CRIMPiece,
         on_delete=models.CASCADE,
+        to_field='piece_id',
         db_index=True,
         related_name='models',
     )
     derivative_piece = models.ForeignKey(
         CRIMPiece,
         on_delete=models.CASCADE,
+        to_field='piece_id',
         db_index=True,
         related_name='derivatives',
     )

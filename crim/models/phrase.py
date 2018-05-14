@@ -1,5 +1,7 @@
 from django.db import models
 
+from crim.common import two_digit_string
+
 
 class CRIMPhrase(models.Model):
     class Meta:
@@ -48,15 +50,15 @@ class CRIMPhrase(models.Model):
             return self.piece.title
     piece_title.short_description = 'piece'
 
-    def part_name(self):
-        return self.part.name
-    piece_title.short_description = 'part'
+    def part_number(self):
+        return self.part.order
+    part_number.short_description = 'part'
 
     def save(self):
         if not self.piece:
             self.piece = self.part.piece
         if not self.phrase_id:
-            self.phrase_id = (self.piece.piece_id + ':' + str(self.number))
+            self.phrase_id = (self.piece.piece_id + ':' + two_digit_string(self.number))
         super().save()
 
     def __str__(self):

@@ -42,4 +42,13 @@ class CRIMPart(models.Model):
         super().save()
 
     def __str__(self):
-        return '[{0}] {1} - {2}'.format(self.part_id, self.piece.title, self.name)
+        # If the part has a name, use it in the string representation
+        if self.name:
+            return '[{0}] {1} - {2}'.format(self.part_id, self.piece.title, self.name)
+        # Otherwise, count how many parts there are for the piece
+        # and print the part number if there is more than one
+        parts = CRIMPart.objects.filter(piece=self.piece)
+        if len(parts) == 1:
+            return '[{0}] {1}'.format(self.part_id, self.piece.title)
+        else:
+            return '[{0}] {1} - Part {2}'.format(self.part_id, self.piece.title, str(self.order))

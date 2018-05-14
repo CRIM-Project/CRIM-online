@@ -10,7 +10,6 @@ django.setup()
 from collections import OrderedDict
 
 from crim.common import get_date_sort
-from crim.models.person import CRIMPerson
 
 FILE_IN = 'source/CRIM_Model_Catalog.csv'
 FILE_OUT = '../crim/fixtures/piece_roles.json'
