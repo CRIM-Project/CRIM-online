@@ -50,13 +50,13 @@ class CRIMPartPieceInline(admin.TabularInline):
 class CRIMPhrasePieceInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == 'text':
+        if db_field.name in ('text', 'translation'):
             formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 40})
         return formfield
 
     model = CRIMPhrase
     exclude = ('phrase_id', 'part_number', 'translation', 'remarks')
-    extra = 4
+    extra = 1
 
 
 class CRIMVoicePieceInline(admin.TabularInline):
@@ -226,8 +226,10 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'remarks',
     )
     inlines = (
-        CRIMVoicePieceInline,
         CRIMRolePieceInline,
+        CRIMVoicePieceInline,
+        CRIMPartPieceInline,
+        CRIMPhrasePieceInline,
     )
     search_fields = (
         'mass__mass_id',
@@ -364,17 +366,23 @@ class CRIMPartAdmin(admin.ModelAdmin):
     list_display = (
         'part_id',
         'piece_title',
+        'order',
         'name',
     )
     ordering = (
         'part_id',
+    )
+    search_fields = (
+        'piece__piece_id',
+        'piece__title',
+        'name',
     )
 
 
 class CRIMPhraseAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name == 'text':
+        if db_field.name in ('text', 'translation'):
             formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 60})
         return formfield
 
@@ -390,11 +398,17 @@ class CRIMPhraseAdmin(admin.ModelAdmin):
     list_display = (
         'phrase_id',
         'piece_title',
-        'part_name',
+        'part_number',
         'text',
     )
     ordering = (
         'phrase_id',
+    )
+    search_fields = (
+        'piece__piece_id',
+        'piece__title',
+        'text',
+        'translation',
     )
 
 
