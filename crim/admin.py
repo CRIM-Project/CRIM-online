@@ -55,7 +55,7 @@ class CRIMPhrasePieceInline(admin.TabularInline):
         return formfield
 
     model = CRIMPhrase
-    exclude = ('phrase_id', 'part_number', 'remarks')
+    exclude = ('phrase_id', 'part_number', 'translation', 'remarks')
     extra = 4
 
 
@@ -381,7 +381,10 @@ class CRIMPhraseAdmin(admin.ModelAdmin):
     fields = (
         'part',
         'number',
+        'start_measure',
+        'stop_measure',
         'text',
+        'translation',
         'remarks',
     )
     list_display = (

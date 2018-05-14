@@ -51,7 +51,6 @@ class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
             'observer',
             'model_observation',
             'derivative_observation',
-            'reverse_direction',
             'rt_q',
             'rt_q_exact',
             'rt_q_monnayage',
