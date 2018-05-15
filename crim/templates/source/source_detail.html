@@ -18,7 +18,7 @@
     </h1>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
+      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
     {% endfor %}
   </hgroup>
   
@@ -44,8 +44,8 @@
               <tr>
                 <td>{{ mass.mass_id }}</td>
                 <td>Mass</td>
-                <td><a href="{{ mass.url }}">{{ mass.title }}</a></td>
-                <td>{{ mass.creators_with_url|safe }}</td>
+                <td><a href="{{ mass.url|htmlsite }}">{{ mass.title }}</a></td>
+                <td>{{ mass.creators_with_url|htmlsite|safe }}</td>
                 <td>{{ mass.date }}</td>
                 <td>{{ mass.remarks|markdown|shorten|safe }}</td>
               </tr>
@@ -54,8 +54,8 @@
               <tr>
                 <td>{{ piece.piece_id }}</td>
                 <td>Piece</td>
-                <td><a href="{{ piece.url }}">{{ piece.title }}</a></td>
-                <td>{{ piece.creators_with_url|safe }}</td>
+                <td><a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a></td>
+                <td>{{ piece.creators_with_url|htmlsite|safe }}</td>
                 <td>{{ piece.date }}</td>
                 <td>{{ piece.remarks|markdown|shorten|safe }}</td>
               </tr>
@@ -64,8 +64,8 @@
               <tr>
                 <td>{{ treatise.document_id }}</td>
                 <td>Treatise</td>
-                <td><a href="{{ treatise.url }}">{{ treatise.title }}</a></td>
-                <td>{{ treatise.creators_with_url|safe }}</td>
+                <td><a href="{{ treatise.url|htmlsite }}">{{ treatise.title }}</a></td>
+                <td>{{ treatise.creators_with_url|htmlsite|safe }}</td>
                 <td>{{ treatise.date }}</td>
                 <td>{{ treatise.remarks|markdown|shorten|safe }}</td>
               </tr>

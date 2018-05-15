@@ -30,7 +30,7 @@
             </tr>
             {% for person in content %}
             <tr>
-                <td><a href="{{ person.url }}">{{ person.person_id }}</a></td>
+                <td><a href="{{ person.url|htmlsite }}">{{ person.person_id }}</a></td>
                 <td>{{ person.name_sort }}</td>
                 <td>
 			      {% if person.birth_date and person.death_date %}

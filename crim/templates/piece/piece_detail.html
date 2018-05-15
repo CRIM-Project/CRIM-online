@@ -27,10 +27,10 @@
 	  {% endfor %}
 	  <small>{{ content.piece_id }}</small>
     </h1>
-    <h2>{% if content.mass %}From <a href="">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
+    <h2>{% if content.mass %}From <a href="">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
+      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
 	  {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
     {% endfor %}
   </hgroup>
@@ -56,7 +56,7 @@
               <img src="{% static 'img/externallink.png' %}" height=24 />
             </a>
           {% endfor %}
-          <a href="{{ source.url }}">{{ source.document_id }}</a>
+          <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
         </td>
         <td>
           {{ source.title }}
