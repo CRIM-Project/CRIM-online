@@ -35,6 +35,7 @@ class CRIMObservationRelationshipSerializer(serializers.HyperlinkedModelSerializ
         fields = (
             'url',
             'piece',
+            'ema',
         )
 
 
