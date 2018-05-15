@@ -57,9 +57,9 @@
       {% for role in content.roles %}
         {% if role.mass %}
           <tr>
-            <td><a href="{{ role.mass.url }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
-            <td><a href="{{ role.mass.genre.url }}">{{ role.mass.genre.name }}</a></td>
-            <td><a href="{{ role.role_type.url }}">{{ role.role_type.name }}</a></td>
+            <td><a href="{{ role.mass.url|htmlsite }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
+            <td><a href="{{ role.mass.genre.url|htmlsite }}">{{ role.mass.genre.name }}</a></td>
+            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
             <td>{{ role.date }}</td>
             <td>{{ role.remarks }}</td>
           </tr>
@@ -68,9 +68,9 @@
       {% for role in content.roles %}
         {% if role.piece %}
           <tr>
-            <td><a href="{{ role.piece.url }}">{{ role.piece.title }}</a></td>
-            <td><a href="{{ role.piece.genre.url }}">{{ role.piece.genre.name }}</a></td>
-            <td><a href="{{ role.role_type.url }}">{{ role.role_type.name }}</a></td>
+            <td><a href="{{ role.piece.url|htmlsite }}">{{ role.piece.title }}</a></td>
+            <td><a href="{{ role.piece.genre.url|htmlsite }}">{{ role.piece.genre.name }}</a></td>
+            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
             <td>{{ role.date }}</td>
             <td>{{ role.remarks }}</td>
           </tr>
@@ -79,9 +79,9 @@
       {% for role in content.roles %}
         {% if role.treatise %}
           <tr>
-            <td><a href="{{ role.treatise.url }}">{{ role.treatise.title }}</a></td>
+            <td><a href="{{ role.treatise.url|htmlsite }}">{{ role.treatise.title }}</a></td>
             <td>Treatise</td>
-            <td><a href="{{ role.role_type.url }}">{{ role.role_type.name }}</a></td>
+            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
             <td>{{ role.date }}</td>
             <td>{{ role.remarks }}</td>
           </tr>
@@ -90,9 +90,9 @@
       {% for role in content.roles %}
         {% if role.source %}
           <tr>
-            <td><a href="{{ role.source.url }}">{{ role.source.title }}</a></td>
+            <td><a href="{{ role.source.url|htmlsite }}">{{ role.source.title }}</a></td>
             <td>Source</td>
-            <td><a href="{{ role.role_type.url }}">{{ role.role_type.name }}</a></td>
+            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
             <td>{{ role.date }}</td>
             <td>{{ role.remarks }}</td>
           </tr>

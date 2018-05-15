@@ -18,7 +18,7 @@
     </h1>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
+      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
     {% endfor %}
   </hgroup>
   
@@ -44,7 +44,7 @@
               <img src="{% static 'img/externallink.png' %}" height=24 />
             </a>
           {% endfor %}
-          <a href="{{ source.url }}">{{ source.document_id }}</a>
+          <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
         </td>
         <td>
           {{ source.title }}

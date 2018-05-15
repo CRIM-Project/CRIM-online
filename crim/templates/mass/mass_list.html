@@ -29,9 +29,9 @@
             </tr>
             {% for mass in content %}
             <tr>
-                <td><a href="{{ mass.url }}">{{ mass.mass_id }}</a></td>
+                <td><a href="{{ mass.url|htmlsite }}">{{ mass.mass_id }}</a></td>
                 <td>{{ mass.title }}</td>
-                <td>{{ mass.composers_with_url|safe }}</td>
+                <td>{{ mass.composers_with_url|htmlsite|safe }}</td>
                 <td>{{ mass.date }}</td>
                 <!-- <td>{{ mass.remarks|markdown|shorten|safe }}</td> -->
             </tr>
