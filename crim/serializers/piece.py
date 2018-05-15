@@ -120,18 +120,34 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    mass = CRIMMassPieceSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'mass',
+        )
+
+
 class CRIMObservationPieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='crimobservation-detail-data',
         lookup_field='pk',
     )
     observer = CRIMPersonPieceSerializer(read_only=True)
+    piece = CRIMPieceSummarySerializer(read_only=True)
 
     class Meta:
         model = CRIMObservation
         fields = (
             'url',
             'observer',
+            'piece',
             'ema',
             'mt_cf_voices',
             'mt_cf_dur',
@@ -290,10 +306,15 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
-    relationships = CRIMRelationshipPieceSerializer(
+    relationships_as_model = CRIMRelationshipPieceSerializer(
         many=True,
         read_only=True,
-        source='observations',
+        source='models',
+    )
+    relationships_as_derivative = CRIMRelationshipPieceSerializer(
+        many=True,
+        read_only=True,
+        source='derivatives',
     )
 
     class Meta:
@@ -308,7 +329,8 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'roles',
             'sources',
             'observations',
-            'relationships',
+            'relationships_as_model',
+            'relationships_as_derivative',
             'pdf_links',
             'mei_links',
             'remarks',
