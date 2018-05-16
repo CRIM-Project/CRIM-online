@@ -6,6 +6,10 @@
 
 {% block title %}
 <title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+<style>
+  .cw-score { width: 100%; height: 500px; }
+  .cw-highlighted { color: #ff9900; fill: currentColor}
+</style>
 {% endblock %}
 
 {% block wrap %}
@@ -19,7 +23,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="span8">
       <div id="cw-model-controls" class="pull-right">
         <div class="btn-group" role="group" aria-label="Score control button group">
           <button type="button" class="btn btn-primary cw-prev">&lt;</button>
@@ -29,12 +33,12 @@
       </div>
       <div id="modelScore" class="cw-score"></div>
     </div>
-    <div class="col-sm-2">
+    <div class="span2">
       Model observation data goes here.
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="span8">
       <div id="cw-mass-controls" class="pull-right">
         <div class="btn-group" role="group" aria-label="Score control button group">
           <button type="button" class="btn btn-primary cw-prev">&lt;</button>
@@ -44,7 +48,7 @@
       </div>
       <div id="massScore" class="cw-score"></div>
     </div>
-    <div class="col-sm-2">
+    <div class="span2">
       Mass observation data goes here.
     </div>
   </div>
