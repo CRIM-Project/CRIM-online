@@ -39,7 +39,7 @@ class RelationshipDetail(generics.RetrieveAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRelationshipSerializer
-    renderer_classes = (JSONRenderer,)  # add html later
+    renderer_classes = (JSONRenderer,RelationshipDetailHTMLRenderer)  # add html later
     queryset = CRIMRelationship.objects.all()
 
     def get_object(self):
