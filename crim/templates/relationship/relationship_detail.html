@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load static %}
+
+{% block title %}
+<title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup class="page-title">
+    <h1>Relationship view<!-- fill in template --></h1>
+  </hgroup>
+
+  <div class="row">
+    <div>
+      Relationship data goes here.
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div id="cw-model-controls" class="float-right">
+        <div class="btn-group" role="group" aria-label="Score control button group">
+          <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+          <button type="button" class="btn btn-primary cw-show">show</button>
+          <button type="button" class="btn btn-primary cw-next">&gt;</button>
+        </div>
+      </div>
+      <div id="modelScore" class="cw-score"></div>
+    </div>
+    <div class="col-sm-2">
+      Model observation data goes here.
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <div id="cw-mass-controls" class="float-right">
+        <div class="btn-group" role="group" aria-label="Score control button group">
+          <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+          <button type="button" class="btn btn-primary cw-show">show</button>
+          <button type="button" class="btn btn-primary cw-next">&gt;</button>
+        </div>
+      </div>
+      <div id="massScore" class="cw-score"></div>
+    </div>
+    <div class="col-sm-2">
+      Mass observation data goes here.
+    </div>
+  </div>
+
+  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
+
+  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+
+  <script type="text/javascript">
+    // CSRF Token Protection lifted from Django documentation. Consider moving to main template
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+    // test that a given url is a same-origin URL
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+      (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+      // or any other URL that isn't scheme relative or absolute i.e relative.
+      !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+              // Send the token to same-origin, relative URLs only.
+              // Send the token only if the method warrants CSRF protection
+              // Using the CSRFToken value acquired earlier
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+  </script>
+
+  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
+  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
+
+  <!-- Change this to get parameters from relationship data -->
+  <script>
+    var vrv = new window.verovio.toolkit()
+    var cwModel = new CrimViewer({
+      mei: 'http://92.154.49.37/CRIM/files/original/e9937cb1dcf2bc349852dba567393e0a.mei',
+      ema: '25-29/4,4,1+4-5,1+4-5,1/@4,@1-4,@2-4+@1-3+@1-3,@1+@1+@1,@1',
+      vrv: vrv,
+      div: 'modelScore',
+      controls: 'cw-model-controls'
+    })
+    cwModel.render()
+    var cwMass = new CrimViewer({
+      mei: 'http://92.154.49.37/CRIM/files/original/076954e0cc129d16e521173ba8ed1702.mei',
+      ema: '22-25/4,4,1+4-5,1+4-5/@4,@1-4,@2-4+@1-3+@1-3,@1+@1+@1',
+      vrv: vrv,
+      div: 'massScore',
+      controls: 'cw-mass-controls'
+    })
+    cwMass.render()
+  </script>
+
+{% endblock %}
