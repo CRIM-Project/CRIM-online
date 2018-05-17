@@ -53,6 +53,7 @@ class CRIMRelationship(models.Model):
     rt_q = models.BooleanField('quotation', default=False)
     rt_q_exact = models.BooleanField('exact', default=False)
     rt_q_monnayage = models.BooleanField('monnayage', default=False)
+
     rt_tm = models.BooleanField('mechanical transformation', default=False)
     rt_tm_snd = models.BooleanField('sounding in different voice(s)', default=False)
     rt_tm_minv = models.BooleanField('melodically inverted', default=False)
@@ -60,6 +61,7 @@ class CRIMRelationship(models.Model):
     rt_tm_ms = models.BooleanField('metrically shifted', default=False)
     rt_tm_transposed = models.BooleanField('transposed', default=False)
     rt_tm_invertible = models.BooleanField('double or invertible counterpoint', default=False)
+
     rt_tnm = models.BooleanField('non-mechanical transformation', default=False)
     rt_tnm_embellished = models.BooleanField('embellished', default=False)
     rt_tnm_reduced = models.BooleanField('reduced', default=False)
@@ -69,6 +71,7 @@ class CRIMRelationship(models.Model):
     rt_tnm_ocs = models.BooleanField('old counter-subject shifted', default=False)
     rt_tnm_ocst = models.BooleanField('old counter-subject transposed', default=False)
     rt_tnm_nc = models.BooleanField('new combination', default=False)
+
     rt_nm = models.BooleanField('new material', default=False)
     rt_om = models.BooleanField('omission', default=False)
 
@@ -76,7 +79,7 @@ class CRIMRelationship(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    needs_review = models.BooleanField(default=False)
+    status = models.BooleanField('status', default=True)
 
     def id_in_brackets(self):
         return '<R' + str(self.id) + '>'
