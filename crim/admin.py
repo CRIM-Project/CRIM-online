@@ -569,12 +569,12 @@ class CRIMObservationAdmin(admin.ModelAdmin):
             'fields': ('mt_fp_comment', 'mt_fp_ir', 'mt_fp_range'),
         }),
         ('Other', {
-            'fields': ('remarks', 'needs_review'),
+            'fields': ('remarks', 'status'),
         }),
     )
     list_display = (
         'id_in_brackets',
-        'needs_review',
+        'status',
         'observer',
         'piece',
         'created',
@@ -619,12 +619,12 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
             'fields': ('rt_om',),
         }),
         ('Other', {
-            'fields': ('remarks', 'needs_review'),
+            'fields': ('remarks', 'status'),
         }),
     )
     list_display = (
         'id_in_brackets',
-        'needs_review',
+        'status',
         'observer',
         'model_observation',
         'derivative_observation',
