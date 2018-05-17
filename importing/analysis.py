@@ -180,7 +180,7 @@ def add_orphan_assertion(item, assertion, processed_data):
     new_observation_fields['observer'] = PEOPLE[item['user']]
     new_observation_fields['created'] = item['created_at']
     new_observation_fields['updated'] = item['created_at']
-    new_observation_fields['needs_review'] = True
+    new_observation_fields['status'] = False
 
     OBSERVATION_COUNT += 1
     new_observation_row = {
@@ -205,22 +205,26 @@ def add_musical_types(assertion, new_observation):
     new observation object.'''
     new_observation['remarks'] = assertion['comment']
     if assertion['type'] == 'mt-cf':
+        new_observation['mt_cf'] = True
         new_observation['mt_cf_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_cf_dur'] = assertion['dur']
         new_observation['mt_cf_mel'] = assertion['mel']
     if assertion['type'] == 'mt-sog':
+        new_observation['mt_sog'] = True
         new_observation['mt_sog_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_sog_dur'] = assertion['dur']
         new_observation['mt_sog_mel'] = assertion['mel']
         new_observation['mt_sog_ostinato'] = assertion['ost']
         new_observation['mt_sog_periodic'] = assertion['per']
     if assertion['type'] == 'mt-csog':
+        new_observation['mt_csog'] = True
         new_observation['mt_csog_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_csog_dur'] = assertion['dur']
         new_observation['mt_csog_mel'] = assertion['mel']
     if assertion['type'] == 'mt-cd':
         new_observation['mt_cd_voices'] = _add_list_as_string(assertion['options'])
     if assertion['type'] == 'mt-fg':
+        new_observation['mt_fg'] = True
         new_observation['mt_fg_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_fg_periodic'] = assertion['pe']
         new_observation['mt_fg_strict'] = assertion['ste']
@@ -231,6 +235,7 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_fg_int'] = assertion['int']
         new_observation['mt_fg_tint'] = assertion['tint']
     if assertion['type'] == 'mt-id':
+        new_observation['mt_id'] = True
         new_observation['mt_id_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_id_strict'] = assertion['ste']
         new_observation['mt_id_flexed'] = assertion['fe']
@@ -239,6 +244,7 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_id_int'] = assertion['int']
         new_observation['mt_id_tint'] = assertion['tint']
     if assertion['type'] == 'mt-pe':
+        new_observation['mt_pe'] = True
         new_observation['mt_pe_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_pe_strict'] = assertion['ste']
         new_observation['mt_pe_flexed'] = assertion['fe']
@@ -249,6 +255,7 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_pe_int'] = assertion['int']
         new_observation['mt_pe_tint'] = assertion['tint']
     if assertion['type'] == 'mt-nid':
+        new_observation['mt_nid'] = True
         new_observation['mt_nid_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_nid_strict'] = assertion['ste']
         new_observation['mt_nid_flexed'] = assertion['fe']
@@ -258,12 +265,14 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_nid_int'] = assertion['int']
         new_observation['mt_nid_tint'] = assertion['tint']
     if assertion['type'] == 'mt-hr':
+        new_observation['mt_hr'] = True
         new_observation['mt_hr_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_hr_simple'] = assertion['s']
         new_observation['mt_hr_staggered'] = assertion['st']
         new_observation['mt_hr_sequential'] = assertion['se']
         new_observation['mt_hr_fauxbourdon'] = assertion['fa']
     if assertion['type'] == 'mt-cad':
+        new_observation['mt_cad'] = True
         new_observation['mt_cad_cantizans'] = assertion['options']['voice1']
         new_observation['mt_cad_tenorizans'] = assertion['options']['voice2']
         new_observation['mt_cad_authentic'] = assertion['a']
@@ -273,6 +282,7 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_cad_dtv'] = assertion['options']['dove_voice1']
         new_observation['mt_cad_dti'] = assertion['dove']
     if assertion['type'] == 'mt-int':
+        new_observation['mt_int'] = True
         new_observation['mt_int_voices'] = _add_list_as_string(assertion['options'])
         new_observation['mt_int_p6'] = assertion['p6']
         new_observation['mt_int_p3'] = assertion['p3']
@@ -280,6 +290,7 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_int_c83'] = assertion['c83']
         new_observation['mt_int_c65'] = assertion['c65']
     if assertion['type'] == 'mt-fp':
+        new_observation['mt_fp'] = True
         new_observation['mt_fp_comment'] = assertion['comment']
         new_observation['mt_fp_ir'] = assertion['ir']
         new_observation['mt_fp_range'] = assertion['r']
