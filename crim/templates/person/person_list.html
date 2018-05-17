@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load newline_to_break_tag %}
+{% load newlinereplace %}
 {% load markdown %}
 {% load shorten %}
 {% load shortendate %}
@@ -50,7 +50,7 @@
 			      {% endif %}
                 </td>
                 <td>{{ person.unique_roles }}</td>
-                <td>{{ person.name_alternate_list|newline_to_break_tag }}</td>
+                <td>{{ person.name_alternate_list|newlinereplace:', ' }}</td>
             </tr>
             {% endfor %}
         </table>

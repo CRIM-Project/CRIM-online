@@ -25,9 +25,9 @@
 	      </a>
 	    {% endif %}
 	  {% endfor %}
-	  <small>{{ content.piece_id }}</small>
+	  <small>[{{ content.piece_id }}]</small>
     </h1>
-    <h2>{% if content.mass %}From <a href="">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
+    <h2>{% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
       <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
