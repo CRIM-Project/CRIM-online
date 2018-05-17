@@ -4,6 +4,7 @@
 {% load markdown %}
 {% load static %}
 {% load shortendate %}
+{% load newlinereplace %}
 
 {% block title %}
 <title>CRIM | {{ content.name }}</title>
@@ -14,7 +15,7 @@
     <h1>{{ content.name|apostrophe }}
 	  <small>{{ content.person_id }}</small>
       {% if content.name_alternate_list %}
-        <small>({{ content.name_alternate_list|newline_to_break_tag }})</small>
+        <small>({{ content.name_alternate_list|newlinereplace:', ' }})</small>
       {% endif %}
     </h1>
     <h2>

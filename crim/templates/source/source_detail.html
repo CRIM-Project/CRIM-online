@@ -14,7 +14,7 @@
 	  {% for link in content.external_links %}
 	  <a href="{{ link }}"><img src="{% static 'img/externallink.png' %}" height=24 /></a>
 	  {% endfor %}
-	  <small>{{ content.document_id }}</small>
+	  <small>[{{ content.document_id }}]</small>
     </h1>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}

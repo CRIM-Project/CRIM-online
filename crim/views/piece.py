@@ -26,7 +26,7 @@ class PieceListHTMLRenderer(CustomHTMLRenderer):
             dates = []
             for role in piece['roles']:
                 if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    composer_html = ('<a href="' + role['person']['url'] +
+                    composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
                                      '">' + role['person']['name'] + '</a>')
                     composers.append(composer_html)
                     if role['date']:
