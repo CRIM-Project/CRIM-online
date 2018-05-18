@@ -143,8 +143,8 @@
         <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_fg_sequential }}</div>
         <div class=hanging><strong>Inverted:</strong> {{ content.model_observation.mt_fg_inverted }}</div>
         <div class=hanging><strong>Retrograde:</strong> {{ content.model_observation.mt_fg_retrograde }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_fg_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_fg_tint }}</div>
+        {% if content.model_observation.mt_fg_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_fg_int }}</div>{% endif %}
+        {% if content.model_observation.mt_fg_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_fg_tint }}</div>{% endif %}
       {% endif %}
       {% if content.model_observation.mt_id %}
         <h3 class="margin">Imitative duo</h3>
@@ -153,8 +153,8 @@
         <div class=hanging><strong>Flexed:</strong> {{ content.model_observation.mt_id_flexed }}</div>
         <div class=hanging><strong>Flexed, tonal:</strong> {{ content.model_observation.mt_id_flt }}</div>
         <div class=hanging><strong>Invertible:</strong> {{ content.model_observation.mt_id_invertible }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_id_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_id_tint }}</div>
+        {% if content.model_observation.mt_id_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_id_int }}</div>{% endif %}
+        {% if content.model_observation.mt_id_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_id_tint }}</div>{% endif %}
       {% endif %}
       {% if content.model_observation.mt_pe %}
         <h3 class="margin">Periodic entry</h3>
@@ -165,8 +165,8 @@
         <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_pe_sequential }}</div>
         <div class=hanging><strong>Added:</strong> {{ content.model_observation.mt_pe_added }}</div>
         <div class=hanging><strong>Invertible:</strong> {{ content.model_observation.mt_pe_invertible }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_pe_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_pe_tint }}</div>
+        {% if content.model_observation.mt_pe_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_pe_int }}</div>{% endif %}
+        {% if content.model_observation.mt_pe_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_pe_tint }}</div>{% endif %}
       {% endif %}
       {% if content.model_observation.mt_nid %}
         <h3 class="margin">Non-imitative duo</h3>
@@ -176,8 +176,8 @@
         <div class=hanging><strong>Flexed, tonal:</strong> {{ content.model_observation.mt_nid_flt }}</div>
         <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_nid_sequential }}</div>
         <div class=hanging><strong>Invertible:</strong> {{ content.model_observation.mt_nid_invertible }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_nid_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_nid_tint }}</div>
+        {% if content.model_observation.mt_nid_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_nid_int }}</div>{% endif %}
+        {% if content.model_observation.mt_nid_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_nid_tint }}</div>{% endif %}
       {% endif %}
       {% if content.model_observation.mt_hr %}
         <h3 class="margin">Homorhythm</h3>
@@ -272,8 +272,8 @@
         <div class=hanging><strong>Sequential:</strong> {{ content.derivative_observation.mt_fg_sequential }}</div>
         <div class=hanging><strong>Inverted:</strong> {{ content.derivative_observation.mt_fg_inverted }}</div>
         <div class=hanging><strong>Retrograde:</strong> {{ content.derivative_observation.mt_fg_retrograde }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_fg_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_fg_tint }}</div>
+        {% if content.derivative_observation.mt_fg_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_fg_int }}</div>{% endif %}
+        {% if content.derivative_observation.mt_fg_int %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_fg_tint }}</div>{% endif %}
       {% endif %}
       {% if content.derivative_observation.mt_id %}
         <h3 class="margin">Imitative duo</h3>
@@ -282,8 +282,8 @@
         <div class=hanging><strong>Flexed:</strong> {{ content.derivative_observation.mt_id_flexed }}</div>
         <div class=hanging><strong>Flexed, tonal:</strong> {{ content.derivative_observation.mt_id_flt }}</div>
         <div class=hanging><strong>Invertible:</strong> {{ content.derivative_observation.mt_id_invertible }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_id_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_id_tint }}</div>
+        {% if content.derivative_observation.mt_id_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_id_int }}</div>{% endif %}
+        {% if content.derivative_observation.mt_id_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_id_tint }}</div>{% endif %}
       {% endif %}
       {% if content.derivative_observation.mt_pe %}
         <h3 class="margin">Periodic entry</h3>
@@ -294,8 +294,8 @@
         <div class=hanging><strong>Sequential:</strong> {{ content.derivative_observation.mt_pe_sequential }}</div>
         <div class=hanging><strong>Added:</strong> {{ content.derivative_observation.mt_pe_added }}</div>
         <div class=hanging><strong>Invertible:</strong> {{ content.derivative_observation.mt_pe_invertible }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_pe_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_pe_tint }}</div>
+        {% if content.derivative_observation.mt_pe_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_pe_int }}</div>{% endif %}
+        {% if content.derivative_observation.mt_pe_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_pe_tint }}</div>{% endif %}
       {% endif %}
       {% if content.derivative_observation.mt_nid %}
         <h3 class="margin">Non-imitative duo</h3>
@@ -305,8 +305,8 @@
         <div class=hanging><strong>Flexed, tonal:</strong> {{ content.derivative_observation.mt_nid_flt }}</div>
         <div class=hanging><strong>Sequential:</strong> {{ content.derivative_observation.mt_nid_sequential }}</div>
         <div class=hanging><strong>Invertible:</strong> {{ content.derivative_observation.mt_nid_invertible }}</div>
-        <div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_nid_int }}</div>
-        <div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_nid_tint }}</div>
+        {% if content.derivative_observation.mt_nid_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.derivative_observation.mt_nid_int }}</div>{% endif %}
+        {% if content.derivative_observation.mt_nid_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.derivative_observation.mt_nid_tint }}</div>{% endif %}
       {% endif %}
       {% if content.derivative_observation.mt_hr %}
         <h3 class="margin">Homorhythm</h3>
