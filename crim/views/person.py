@@ -1,19 +1,22 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
-from rest_framework import permissions
 
-from django.contrib.auth.models import User
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.person import CRIMPersonListSerializer, CRIMPersonDetailSerializer
 from crim.models.person import CRIMPerson
-from rest_framework.response import Response
-from rest_framework import status
+
+
+class PersonSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 15
 
 
 class PersonListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        for p in data:
+        for p in data['results']:
             # Put roles into a single text field
             if p['unique_roles']:
                 p['unique_roles'] = ', '.join(p['unique_roles'])
@@ -24,7 +27,7 @@ class PersonListHTMLRenderer(CustomHTMLRenderer):
 
         template_names = ['person/person_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -50,6 +53,7 @@ class PersonList(generics.ListAPIView):
     model = CRIMPerson
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPersonListSerializer
+    pagination_class = PersonSetPagination
     renderer_classes = (
         PersonListHTMLRenderer,
         JSONRenderer,
