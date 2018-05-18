@@ -9,6 +9,8 @@ from crim.models.person import CRIMPerson
 
 
 class PersonSetPagination(PageNumberPagination):
+    # CAREFUL: the attribute `page_size` MUST match the
+    # `rangelist` parameter in the person_list.html template!
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 15
