@@ -17,7 +17,16 @@
 {% block wrap %}
   <hgroup class="page-title">
     <h1>
-      {{ content.model_observation.piece.title }} &rarr; {{ content.derivative_observation.piece.title }}
+      {% if content.model_observation.piece.mass %}
+        {{ content.model_observation.piece.mass.title }}:
+      {% endif %}
+      {{ content.model_observation.piece.title }}
+      &rarr;
+      {% if content.derivative_observation.piece.mass %}
+        {{ content.derivative_observation.piece.mass.title }}: {{ content.derivative_observation.piece.title }}
+      {% else %}
+        {{ content.derivative_observation.piece.title }}
+      {% endif %}
     	  <small>&lt;R{{ content.pk }}&gt;</small>
     	</h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
@@ -62,9 +71,10 @@
     	    <div id="model-header" class="span8">
     	      <h2>
     	        Model: {{ content.model_composers_with_urls|safe }},
-    	        <a href="{{ content.model_observation.piece.url|htmlsite }}">
-    	          {{ content.model_observation.piece.title }}
-    	        </a>
+            {% if content.model_observation.piece.mass %}
+              <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
+            {% endif %}
+            <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
     	      </h2>
     	    </div>
         <div id="cw-model-controls" class="span2 pull-right">
@@ -190,9 +200,10 @@
         <div id="derivative-header" class="span8">
       	  <h2>
       	      Derivative: {{ content.derivative_composers_with_urls|safe }},
-      	      <a href="{{ content.derivative_observation.piece.url|htmlsite }}">
-      	        {{ content.derivative_observation.piece.title }}
-      	      </a>
+            {% if content.derivative_observation.piece.mass %}
+              <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
+            {% endif %}
+            <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
     	      </h2>
         </div>
         <div id="cw-mass-controls" class="span2 pull-right">
