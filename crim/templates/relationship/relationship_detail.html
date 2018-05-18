@@ -7,7 +7,18 @@
 {% load newlineplural %}
 
 {% block title %}
-<title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+<title>
+  CRIM | Relationship &lt;R{{ content.pk }}&gt;
+  {% if content.model_observation.piece.mass %}
+    {{ content.model_observation.piece.mass.title }}:
+  {% endif %}
+  {{ content.model_observation.piece.title }}
+  &rarr;
+  {% if content.derivative_observation.piece.mass %}
+    {{ content.derivative_observation.piece.mass.title }}:
+  {% endif %}
+  {{ content.derivative_observation.piece.title }}
+</title>
 <style>
   .cw-score { width: 100%; height: 500px; }
   .cw-highlighted { color: #ff9900; fill: currentColor}
@@ -23,10 +34,9 @@
       {{ content.model_observation.piece.title }}
       &rarr;
       {% if content.derivative_observation.piece.mass %}
-        {{ content.derivative_observation.piece.mass.title }}: {{ content.derivative_observation.piece.title }}
-      {% else %}
-        {{ content.derivative_observation.piece.title }}
+        {{ content.derivative_observation.piece.mass.title }}:
       {% endif %}
+      {{ content.derivative_observation.piece.title }}
     	  <small>&lt;R{{ content.pk }}&gt;</small>
     	</h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
