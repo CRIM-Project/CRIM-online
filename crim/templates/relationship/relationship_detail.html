@@ -5,6 +5,7 @@
 {% load static %}
 {% load newlinereplace %}
 {% load newlineplural %}
+{% load firstitem %}
 
 {% block title %}
 <title>
@@ -216,7 +217,7 @@
             <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
     	      </h2>
         </div>
-        <div id="cw-mass-controls" class="span2 pull-right">
+        <div id="cw-derivative-controls" class="span2 pull-right">
           <div class="btn-group" role="group" aria-label="Score control button group">
             <button type="button" class="btn btn-primary cw-prev">&lt;</button>
             <button type="button" class="btn btn-primary cw-show">show</button>
@@ -224,7 +225,7 @@
           </div>
         </div>
       </div>
-      <div id="massScore" class="cw-score"></div>
+      <div id="derivativeScore" class="cw-score"></div>
     </div>
     <div class="span2">
       <h2 class="margin"><small>&lt;{{ content.derivative_observation.pk }}&gt;</small></h2>
@@ -385,21 +386,21 @@
   <script>
     var vrv = new window.verovio.toolkit()
     var cwModel = new CrimViewer({
-      mei: 'http://92.154.49.37/CRIM/files/original/e9937cb1dcf2bc349852dba567393e0a.mei',
-      ema: '25-29/4,4,1+4-5,1+4-5,1/@4,@1-4,@2-4+@1-3+@1-3,@1+@1+@1,@1',
+      mei: '{{ content.model_observation.piece.mei_links|firstitem }}',
+      ema: '{{ content.model_observation.ema }}',
       vrv: vrv,
       div: 'modelScore',
       controls: 'cw-model-controls'
     })
     cwModel.render()
-    var cwMass = new CrimViewer({
-      mei: 'http://92.154.49.37/CRIM/files/original/076954e0cc129d16e521173ba8ed1702.mei',
-      ema: '22-25/4,4,1+4-5,1+4-5/@4,@1-4,@2-4+@1-3+@1-3,@1+@1+@1',
+    var cwDerivative = new CrimViewer({
+      mei: '{{ content.derivative_observation.piece.mei_links|firstitem }}',
+      ema: '{{ content.derivative_observation.ema }}',
       vrv: vrv,
-      div: 'massScore',
-      controls: 'cw-mass-controls'
+      div: 'derivativeScore',
+      controls: 'cw-derivative-controls'
     })
-    cwMass.render()
+    cwDerivative.render()
   </script>
 
 {% endblock %}
