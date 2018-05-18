@@ -1,8 +1,9 @@
+from crim.models.mass import CRIMMass
 from crim.models.observation import CRIMObservation
-from rest_framework import serializers
-
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
+from crim.models.role import CRIMRole, CRIMRoleType
+from rest_framework import serializers
 
 
 class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,13 +17,72 @@ class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMRoleTypeObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail-data', lookup_field='role_type_id')
+
+    class Meta:
+        model = CRIMRoleType
+        fields = (
+            'url',
+            'name',
+        )
+
+
+class CRIMRoleObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
+    person = CRIMPersonObservationSerializer(read_only=True)
+    role_type = CRIMRoleTypeObservationSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMRole
+        fields = (
+            'url',
+            'person',
+            'role_type',
+        )
+
+
+class CRIMMassObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='crimmass-detail-data',
+        lookup_field='mass_id',
+    )
+    roles = CRIMRoleObservationSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_mass',
+    )
+
+    class Meta:
+        model = CRIMMass
+        fields = (
+            'url',
+            'mass_id',
+            'title',
+            'roles',
+        )
+
+
 class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    mass = CRIMMassObservationSerializer(read_only=True)
+    roles = CRIMRoleObservationSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
 
     class Meta:
         model = CRIMPiece
         fields = (
             'url',
+            'piece_id',
+            'title',
+            'mass',
+            'roles',
+            'number_of_voices',
+            'mei_links',
+            'pdf_links',
         )
 
 
@@ -35,6 +95,7 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMObservation
         fields = (
             'url',
+            'pk',
             'observer',
             'piece',
             'ema',

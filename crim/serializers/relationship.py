@@ -7,22 +7,22 @@ from crim.models.observation import CRIMObservation
 from rest_framework import serializers
 
 
-class CRIMRoleTypeRelationshipSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail-data', lookup_field='role_type_id')
+class CRIMPersonRelationshipSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
 
     class Meta:
-        model = CRIMRoleType
+        model = CRIMPerson
         fields = (
             'url',
             'name',
         )
 
 
-class CRIMPersonRelationshipSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
+class CRIMRoleTypeRelationshipSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimroletype-detail-data', lookup_field='role_type_id')
 
     class Meta:
-        model = CRIMPerson
+        model = CRIMRoleType
         fields = (
             'url',
             'name',

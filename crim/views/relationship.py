@@ -7,7 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer
 from crim.models.relationship import CRIMRelationship
 
-
 COMPOSER = 'Composer'
 
 
