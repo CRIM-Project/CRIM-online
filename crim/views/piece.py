@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
-from rest_framework import permissions
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer
@@ -11,7 +11,51 @@ from crim.common import earliest_date
 COMPOSER = 'Composer'
 
 
-class PieceListHTMLRenderer(CustomHTMLRenderer):
+class PieceSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 15
+
+
+class AllPieceListHTMLRenderer(CustomHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        for piece in data['results']:
+            # Put pdf and mei links into a list rather than a \n-separated string
+            piece['pdf_links'] = piece['pdf_links'].split('\n')
+            piece['mei_links'] = piece['mei_links'].split('\n')
+            # - Add `composer` field to content: only look at roles with
+            # the role type with name "Composer", and add all such names
+            # to the list, along with the url of the composer
+            # - Add `date` field to content: again, only look at roles
+            # with the role type "Composer"
+            composers = []
+            dates = []
+            for role in piece['roles']:
+                if role['role_type'] and role['role_type']['name'] == COMPOSER:
+                    composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
+                                     '">' + role['person']['name'] + '</a>')
+                    composers.append(composer_html)
+                    if role['date']:
+                        dates.append(role['date'])
+            if piece['mass']:
+                for role in piece['mass']['roles']:
+                    if role['role_type'] and role['role_type']['name'] == COMPOSER:
+                        composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
+                                         '">' + role['person']['name'] + '</a>')
+                        composers.append(composer_html)
+                        if role['date']:
+                            dates.append(role['date'])
+            piece['composers_with_url'] = '; '.join(composers) if composers else '-'
+            # Only add one composer's date for clarity, choosing the earliest.
+            piece['date'] = earliest_date(dates)
+
+        template_names = ['piece/all_piece_list.html']
+        template = self.resolve_template(template_names)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
+        return template.render(context)
+
+
+class ModelListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for piece in data:
             # Put pdf and mei links into a list rather than a \n-separated string
@@ -31,26 +75,21 @@ class PieceListHTMLRenderer(CustomHTMLRenderer):
                     composers.append(composer_html)
                     if role['date']:
                         dates.append(role['date'])
+            if piece['mass']:
+                for role in piece['mass']['roles']:
+                    if role['role_type'] and role['role_type']['name'] == COMPOSER:
+                        composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
+                                         '">' + role['person']['name'] + '</a>')
+                        composers.append(composer_html)
+                        if role['date']:
+                            dates.append(role['date'])
             piece['composers_with_url'] = '; '.join(composers) if composers else '-'
             # Only add one composer's date for clarity, choosing the earliest.
             piece['date'] = earliest_date(dates)
 
-
-class AllPieceListHTMLRenderer(PieceListHTMLRenderer):
-    def render(self, data, accepted_media_type=None, renderer_context=None):
-        super().render(data, accepted_media_type=None, renderer_context=None)
-        template_names = ['piece/piece_list.html']
+        template_names = ['piece/model_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data, 'title': 'All pieces'}, renderer_context)
-        return template.render(context)
-
-
-class ModelListHTMLRenderer(PieceListHTMLRenderer):
-    def render(self, data, accepted_media_type=None, renderer_context=None):
-        super().render(data, accepted_media_type=None, renderer_context=None)
-        template_names = ['piece/piece_list.html']
-        template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data, 'title': 'Models'}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -73,6 +112,7 @@ class PieceList(generics.ListAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceListSerializer
+    pagination_class = PieceSetPagination
     renderer_classes = (
         AllPieceListHTMLRenderer,
         JSONRenderer,

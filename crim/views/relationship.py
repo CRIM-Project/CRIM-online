@@ -42,7 +42,7 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
                     model_composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
                                            '">' + role['person']['name'] + '</a>')
                     model_composers.append(model_composer_html)
-        data['model_composers_with_urls'] = ', '.join(model_composers) if model_composers else None
+        data['model_composers_with_urls'] = ', '.join(model_composers)
 
         # Do the same for the derivative
         derivative_composers = []
@@ -57,7 +57,7 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
                     derivative_composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
                                                 '">' + role['person']['name'] + '</a>')
                     derivative_composers.append(derivative_composer_html)
-        data['derivative_composers_with_urls'] = ', '.join(derivative_composers) if derivative_composers else None
+        data['derivative_composers_with_urls'] = ', '.join(derivative_composers)
 
         template_names = ['relationship/relationship_detail.html']
         template = self.resolve_template(template_names)
