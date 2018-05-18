@@ -44,6 +44,8 @@
     <!-- <h2>Date: {{ content.created }}</h2> -->
   </hgroup>
 
+  <div class="row">
+  <div class="span4">
   {% if content.rt_q %}
     <h3>Quotation</h3>
     <p><strong>Exact:</strong> {{ content.rt_q_exact }}</p>
@@ -75,6 +77,14 @@
   {% if content.rt_om %}
     <h3>Omission</h3>
   {% endif %}
+  </div>
+  <div class="span8">
+  {% if content.remarks %}
+    <h3>&nbsp;</h3>
+    <p><strong>Remarks:</strong> {{ content.remarks }}</p>
+  {% endif %}
+  </div>
+  </div>
   
   <div class="row">
     <div class="span10">
@@ -338,10 +348,12 @@
     </div>
   </div>
   
+  <!--
   {% if content.remarks %}
     <h2>Remarks</h2>
     <p>{{ content.remarks }}</p>
   {% endif %}
+  -->
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
 
