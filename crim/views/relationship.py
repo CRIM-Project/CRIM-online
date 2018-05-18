@@ -1,20 +1,27 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
-from rest_framework import permissions
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer
 from crim.models.relationship import CRIMRelationship
 
+
 COMPOSER = 'Composer'
+
+
+class RelationshipSetPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 30
 
 
 class RelationshipListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         template_names = ['relationship/relationship_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -62,6 +69,7 @@ class RelationshipList(generics.ListAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRelationshipListSerializer
+    pagination_class = RelationshipSetPagination
     renderer_classes = (
         RelationshipListHTMLRenderer,
         JSONRenderer,
@@ -76,7 +84,10 @@ class RelationshipDetail(generics.RetrieveAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRelationshipDetailSerializer
-    renderer_classes = (JSONRenderer, RelationshipDetailHTMLRenderer)  # add html later
+    renderer_classes = (
+        RelationshipDetailHTMLRenderer,
+        JSONRenderer,
+    )
     queryset = CRIMRelationship.objects.all()
 
     def get_object(self):
