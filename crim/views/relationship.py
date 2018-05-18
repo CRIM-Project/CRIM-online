@@ -62,7 +62,10 @@ class RelationshipList(generics.ListAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRelationshipListSerializer
-    renderer_classes = (RelationshipListHTMLRenderer,)
+    renderer_classes = (
+        RelationshipListHTMLRenderer,
+        JSONRenderer,
+    )
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'model_observation__piece_id')

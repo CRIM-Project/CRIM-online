@@ -207,9 +207,15 @@ class CRIMRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMRelationship
         fields = (
             'url',
+            'pk',
             'observer',
             'model_observation',
             'derivative_observation',
+            'rt_q',
+            'rt_tm',
+            'rt_tnm',
+            'rt_nm',
+            'rt_om',
             'created',
             'updated',
         )
