@@ -11,6 +11,8 @@ COMPOSER = 'Composer'
 
 
 class RelationshipSetPagination(PageNumberPagination):
+    # CAREFUL: the attribute `page_size` MUST match the
+    # `rangelist` parameter in the relationship_list.html template!
     page_size = 20
     page_size_query_param = 'page_size'
     max_page_size = 30

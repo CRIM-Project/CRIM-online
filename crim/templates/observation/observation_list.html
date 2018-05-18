@@ -62,13 +62,16 @@
           {% else %}
             <li class="disabled pagination" id="first-child"><a>&laquo;</a></li>
           {% endif %}
+          <!-- CAREFUL: the parameter of rangelist MUST match
+          the page_size attribute in ObservationSetPagination,
+          found in views/observation.py -->
           {% for i in content.count|rangelist:30 %}
             {% if request.GET.page == i|string %}
               <li class="active pagination"><a>{{ i }}</a></li>
             {% elif not request.GET.page and i == 1 %}
               <li class="active pagination"><a>{{ i }}</a></li>
             {% else %}
-              <li class="pagination"><a href="?page={{ i }}">{{ i }}</a></li>
+              <li class="pagination"><a href="{% if request.GET.order_by %}?order_by={{ request.GET.order_by }}&{% else %}?{% endif %}page={{ i }}">{{ i }}</a></li>
             {% endif %}
           {% endfor %}
           {% if content.next %}
