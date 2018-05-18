@@ -1,23 +1,48 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
-from rest_framework import permissions
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.models.observation import CRIMObservation
+
+COMPOSER = 'Composer'
+
+
+class ObservationSetPagination(PageNumberPagination):
+    page_size = 30
+    page_size_query_param = 'page_size'
+    max_page_size = 45
 
 
 class ObservationListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         template_names = ['observation/observation_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # - Add `composer` field to content: only look at roles with
+        # the role type with name "Composer", and add all such names
+        # to the list, along with the url of the composer
+        composers = []
+        for role in data['piece']['roles']:
+            if role['role_type'] and role['role_type']['name'] == COMPOSER:
+                composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
+                                 '">' + role['person']['name'] + '</a>')
+                composers.append(composer_html)
+        if data['piece']['mass']:
+            for role in data['piece']['mass']['roles']:
+                if role['role_type'] and role['role_type']['name'] == COMPOSER:
+                    composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
+                                     '">' + role['person']['name'] + '</a>')
+                    composers.append(composer_html)
+        data['composers_with_urls'] = ', '.join(composers)
+
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
@@ -28,7 +53,11 @@ class ObservationList(generics.ListAPIView):
     model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMObservationSerializer
-    renderer_classes = (JSONRenderer,)  # add html later
+    pagination_class = ObservationSetPagination
+    renderer_classes = (
+        ObservationListHTMLRenderer,
+        JSONRenderer,
+    )
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
@@ -39,7 +68,10 @@ class ObservationDetail(generics.RetrieveAPIView):
     model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMObservationSerializer
-    renderer_classes = (JSONRenderer,)  # add html later
+    renderer_classes = (
+        ObservationDetailHTMLRenderer,
+        JSONRenderer,
+    )
     queryset = CRIMObservation.objects.all()
 
     def get_object(self):

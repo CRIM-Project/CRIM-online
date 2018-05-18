@@ -8,22 +8,22 @@
 {% load firstitem %}
 
 {% block title %}
-<title>
-  CRIM | Relationship &lt;R{{ content.pk }}&gt;
-  {% if content.model_observation.piece.mass %}
-    {{ content.model_observation.piece.mass.title }}:
-  {% endif %}
-  {{ content.model_observation.piece.title }}
-  &rarr;
-  {% if content.derivative_observation.piece.mass %}
-    {{ content.derivative_observation.piece.mass.title }}:
-  {% endif %}
-  {{ content.derivative_observation.piece.title }}
-</title>
-<style>
-  .cw-score { width: 100%; height: 500px; }
-  .cw-highlighted { color: #ff9900; fill: currentColor}
-</style>
+  <title>
+    CRIM | Relationship &lt;R{{ content.pk }}&gt;
+    {% if content.model_observation.piece.mass %}
+      {{ content.model_observation.piece.mass.title }}:
+    {% endif %}
+    {{ content.model_observation.piece.title }}
+    &rarr;
+    {% if content.derivative_observation.piece.mass %}
+      {{ content.derivative_observation.piece.mass.title }}:
+    {% endif %}
+    {{ content.derivative_observation.piece.title }}
+  </title>
+  <style>
+    .cw-score { width: 100%; height: 500px; }
+    .cw-highlighted { color: #ff9900; fill: currentColor}
+  </style>
 {% endblock %}
 
 {% block wrap %}
@@ -38,66 +38,66 @@
         {{ content.derivative_observation.piece.mass.title }}:
       {% endif %}
       {{ content.derivative_observation.piece.title }}
-    	  <small>&lt;R{{ content.pk }}&gt;</small>
-    	</h1>
+        <small>&lt;R{{ content.pk }}&gt;</small>
+      </h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
     <!-- <h2>Date: {{ content.created }}</h2> -->
   </hgroup>
 
   <div class="row">
-  <div class="span4">
-  {% if content.rt_q %}
-    <h3>Quotation</h3>
-    <p><strong>Exact:</strong> {{ content.rt_q_exact }}</p>
-    <p><strong>Monnayage:</strong> {{ content.rt_q_monnayage }}</p>
-  {% endif %}
-  {% if content.rt_tm %}
-    <h3>Mechanical transformation</h3>
-    <p><strong>Sounding in different voice(s):</strong> {{ content.rt_tm_snd }}</p>
-    <p><strong>Melodically inverted:</strong> {{ content.rt_tm_minv }}</p>
-    <p><strong>Retrograde:</strong> {{ content.rt_tm_retrograde }}</p>
-    <p><strong>Metrically shifted:</strong> {{ content.rt_tm_ms }}</p>
-    <p><strong>Transposed:</strong> {{ content.rt_tm_transposed }}</p>
-    <p><strong>Double or invertible counterpoint:</strong> {{ content.rt_tm_invertible }}</p>
-  {% endif %}
-  {% if content.rt_tnm %}
-    <h3>Non-mechanical transformation</h3>
-    <p><strong>Embellished:</strong> {{ content.rt_tnm_embellished }}</p>
-    <p><strong>Reduced:</strong> {{ content.rt_tnm_reduced }}</p>
-    <p><strong>Amplified:</strong> {{ content.rt_tnm_amplified }}</p>
-    <p><strong>Truncated:</strong> {{ content.rt_tnm_truncated }}</p>
-    <p><strong>New counter-subject:</strong> {{ content.rt_tnm_ncs }}</p>
-    <p><strong>Old counter-subject shifted:</strong> {{ content.rt_tnm_ocs }}</p>
-    <p><strong>Old counter-subject transposed:</strong> {{ content.rt_tnm_ocst }}</p>
-    <p><strong>New combination:</strong> {{ content.rt_tnm_nc }}</p>
-  {% endif %}
-  {% if content.rt_nm %}
-    <h3>New material</h3>
-  {% endif %}
-  {% if content.rt_om %}
-    <h3>Omission</h3>
-  {% endif %}
-  </div>
-  <div class="span8">
-  {% if content.remarks %}
-    <h3>&nbsp;</h3>
-    <p><strong>Remarks:</strong> {{ content.remarks }}</p>
-  {% endif %}
-  </div>
+    <div class="span4">
+      {% if content.rt_q %}
+        <h3>Quotation</h3>
+        <p><strong>Exact:</strong> {{ content.rt_q_exact }}</p>
+        <p><strong>Monnayage:</strong> {{ content.rt_q_monnayage }}</p>
+      {% endif %}
+      {% if content.rt_tm %}
+        <h3>Mechanical transformation</h3>
+        <p><strong>Sounding in different voice(s):</strong> {{ content.rt_tm_snd }}</p>
+        <p><strong>Melodically inverted:</strong> {{ content.rt_tm_minv }}</p>
+        <p><strong>Retrograde:</strong> {{ content.rt_tm_retrograde }}</p>
+        <p><strong>Metrically shifted:</strong> {{ content.rt_tm_ms }}</p>
+        <p><strong>Transposed:</strong> {{ content.rt_tm_transposed }}</p>
+        <p><strong>Double or invertible counterpoint:</strong> {{ content.rt_tm_invertible }}</p>
+      {% endif %}
+      {% if content.rt_tnm %}
+        <h3>Non-mechanical transformation</h3>
+        <p><strong>Embellished:</strong> {{ content.rt_tnm_embellished }}</p>
+        <p><strong>Reduced:</strong> {{ content.rt_tnm_reduced }}</p>
+        <p><strong>Amplified:</strong> {{ content.rt_tnm_amplified }}</p>
+        <p><strong>Truncated:</strong> {{ content.rt_tnm_truncated }}</p>
+        <p><strong>New counter-subject:</strong> {{ content.rt_tnm_ncs }}</p>
+        <p><strong>Old counter-subject shifted:</strong> {{ content.rt_tnm_ocs }}</p>
+        <p><strong>Old counter-subject transposed:</strong> {{ content.rt_tnm_ocst }}</p>
+        <p><strong>New combination:</strong> {{ content.rt_tnm_nc }}</p>
+      {% endif %}
+      {% if content.rt_nm %}
+        <h3>New material</h3>
+      {% endif %}
+      {% if content.rt_om %}
+        <h3>Omission</h3>
+      {% endif %}
+      </div>
+      <div class="span8">
+      {% if content.remarks %}
+        <h3>&nbsp;</h3>
+        <p><strong>Remarks:</strong> {{ content.remarks }}</p>
+      {% endif %}
+    </div>
   </div>
   
   <div class="row">
     <div class="span10">
       <div class="row">
-    	    <div id="model-header" class="span8">
-    	      <h2>
-    	        Model: {{ content.model_composers_with_urls|safe }},
+          <div id="model-header" class="span8">
+            <h2>
+              Model: {{ content.model_composers_with_urls|safe }},
             {% if content.model_observation.piece.mass %}
               <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
             {% endif %}
             <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
-    	      </h2>
-    	    </div>
+            </h2>
+          </div>
         <div id="cw-model-controls" class="span2 pull-right">
           <div class="btn-group" role="group" aria-label="Score control button group">
             <button type="button" class="btn btn-primary cw-prev">&lt;</button>
@@ -105,11 +105,11 @@
             <button type="button" class="btn btn-primary cw-next">&gt;</button>
           </div>
         </div>
-    	  </div>
+        </div>
       <div id="modelScore" class="cw-score"></div>
     </div>
     <div class="span2">
-      <h2 class="margin"><small>&lt;{{ content.model_observation.pk }}&gt;</small></h2>
+      <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.pk }}&gt;</a></small></h2>
       {% if content.model_observation.mt_cf %}
         <h3 class="margin">Cantus firmus</h3>
         <div class=hanging><strong>Voice{{ content.model_observation.mt_cf_voices|newlineplural }}:</strong><br/>{{ content.model_observation.mt_cf_voices|newlinereplace|safe }}</div>
@@ -219,13 +219,13 @@
     <div class="span10">
       <div class="row">
         <div id="derivative-header" class="span8">
-      	  <h2>
-      	      Derivative: {{ content.derivative_composers_with_urls|safe }},
+          <h2>
+              Derivative: {{ content.derivative_composers_with_urls|safe }},
             {% if content.derivative_observation.piece.mass %}
               <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
             {% endif %}
             <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
-    	      </h2>
+            </h2>
         </div>
         <div id="cw-derivative-controls" class="span2 pull-right">
           <div class="btn-group" role="group" aria-label="Score control button group">
@@ -238,7 +238,7 @@
       <div id="derivativeScore" class="cw-score"></div>
     </div>
     <div class="span2">
-      <h2 class="margin"><small>&lt;{{ content.derivative_observation.pk }}&gt;</small></h2>
+      <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.pk }}&gt;</a></small></h2>
       {% if content.derivative_observation.mt_cf %}
         <h3 class="margin">Cantus firmus</h3>
         <div class=hanging><strong>Voice{{ content.derivative_observation.mt_cf_voices|newlineplural }}:</strong><br/>{{ content.derivative_observation.mt_cf_voices|newlinereplace|safe }}</div>
@@ -342,9 +342,6 @@
         <div class=hanging><strong>Internal repetition:</strong> {{ content.derivative_observation.mt_fp_ir }}</div>
         <div class=hanging><strong>Range:</strong> {{ content.derivative_observation.mt_fp_range }}</div>
       {% endif %}
-
-
-
     </div>
   </div>
   
@@ -363,8 +360,8 @@
     // CSRF Token Protection lifted from Django documentation. Consider moving to main template
     var csrftoken = $.cookie('csrftoken');
     function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
     function sameOrigin(url) {
     // test that a given url is a same-origin URL
@@ -381,12 +378,12 @@
     }
     $.ajaxSetup({
       beforeSend: function(xhr, settings) {
-          if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-              // Send the token to same-origin, relative URLs only.
-              // Send the token only if the method warrants CSRF protection
-              // Using the CSRFToken value acquired earlier
-              xhr.setRequestHeader("X-CSRFToken", csrftoken);
-          }
+        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+          // Send the token to same-origin, relative URLs only.
+          // Send the token only if the method warrants CSRF protection
+          // Using the CSRFToken value acquired earlier
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
       }
   });
   </script>
@@ -394,7 +391,6 @@
   <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
   <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
 
-  <!-- Change this to get parameters from relationship data -->
   <script>
     var vrv = new window.verovio.toolkit()
     var cwModel = new CrimViewer({
