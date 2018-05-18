@@ -59,26 +59,26 @@
         {% endfor %}
       </table>
       
-      <div class="pagination-centered">
+      <div class="pagination">
         <ul class="pagination">
           {% if content.previous %}
-            <li><a href="{{ content.previous }}">&laquo;</a></li>
+            <li class="pagination" id="first-child"><a href="{{ content.previous }}">&laquo;</a></li>
           {% else %}
-            <li class="disabled"><a>&laquo;</a></li>
+            <li class="disabled pagination" id="first-child"><a>&laquo;</a></li>
           {% endif %}
           {% for i in content.count|rangelist:20 %}
             {% if request.GET.page == i|string %}
-              <li class="active"><a>{{ i }}</a></li>
+              <li class="active pagination"><a>{{ i }}</a></li>
             {% elif not request.GET.page and i == 1 %}
-              <li class="active"><a>{{ i }}</a></li>
+              <li class="active pagination"><a>{{ i }}</a></li>
             {% else %}
-              <li><a href="?page={{ i }}">{{ i }}</a></li>
+              <li class="pagination"><a href="?page={{ i }}">{{ i }}</a></li>
             {% endif %}
           {% endfor %}
           {% if content.next %}
-            <li><a href="{{ content.next }}">&raquo;</a></li>
+            <li class="pagination" id="last-child"><a href="{{ content.next }}">&raquo;</a></li>
           {% else %}
-            <li class="disabled"><a>&raquo;</a></li>
+            <li class="disabled pagination" id="last-child"><a>&raquo;</a></li>
           {% endif %}
         </ul>
       </div>
