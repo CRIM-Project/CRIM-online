@@ -35,9 +35,22 @@ class PieceListHTMLRenderer(CustomHTMLRenderer):
             # Only add one composer's date for clarity, choosing the earliest.
             piece['date'] = earliest_date(dates)
 
+
+class AllPieceListHTMLRenderer(PieceListHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        super().render(data, accepted_media_type=None, renderer_context=None)
         template_names = ['piece/piece_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'title': 'All pieces'}, renderer_context)
+        return template.render(context)
+
+
+class ModelListHTMLRenderer(PieceListHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        super().render(data, accepted_media_type=None, renderer_context=None)
+        template_names = ['piece/piece_list.html']
+        template = self.resolve_template(template_names)
+        context = self.get_template_context({'content': data, 'title': 'Models'}, renderer_context)
         return template.render(context)
 
 
@@ -61,7 +74,7 @@ class PieceList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceListSerializer
     renderer_classes = (
-        PieceListHTMLRenderer,
+        AllPieceListHTMLRenderer,
         JSONRenderer,
     )
 
@@ -75,7 +88,7 @@ class ModelList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceListSerializer
     renderer_classes = (
-        PieceListHTMLRenderer,
+        ModelListHTMLRenderer,
         JSONRenderer,
     )
 
