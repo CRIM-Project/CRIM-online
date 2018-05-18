@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
-from rest_framework import permissions
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.source import CRIMSourceListSerializer, CRIMSourceDetailSerializer
@@ -12,6 +12,12 @@ from crim.common import earliest_date
 AUTHOR = 'Author'
 COMPOSER = 'Composer'
 PUBLISHER = 'Publisher'
+
+
+class SourceSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 15
 
 
 class SourceListHTMLRenderer(CustomHTMLRenderer):
@@ -39,7 +45,7 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
 
         template_names = ['source/source_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -77,6 +83,7 @@ class SourceList(generics.ListAPIView):
     model = CRIMSource
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMSourceListSerializer
+    pagination_class = SourceSetPagination
     renderer_classes = (
         SourceListHTMLRenderer,
         JSONRenderer,
