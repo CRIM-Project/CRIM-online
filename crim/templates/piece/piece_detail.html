@@ -35,6 +35,7 @@
     {% endfor %}
   </hgroup>
   
+  <div id="pieceScore" class="cw-score"></div>
 
   {% if content.sources %}
     <h2>Sources</h2>
@@ -105,18 +106,19 @@
   });
   </script>
 
+  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
+  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
 
   <script>
     var vrv = new window.verovio.toolkit()
     var cwPiece = new CrimViewer({
-      mei: '{{ content.piece.mei_links|firstitem }}',
-      ema: '{{ content.ema }}',
+      mei: '{{ content.mei_links|firstitem }}',
+      ema: '',
       vrv: vrv,
       div: 'pieceScore',
       controls: 'cw-piece-controls'
     })
     cwPiece.render()
   </script>
-
 
 {% endblock %}
