@@ -27,7 +27,7 @@ from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
-from crim.views.piece import PieceList, ModelList, PieceDetail
+from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships
 from crim.views.roletype import RoleTypeList, RoleTypeDetail
 from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
@@ -39,7 +39,7 @@ from crim.views.mass import MassListData, MassDetailData
 from crim.views.part import PartListData, PartDetailData
 from crim.views.person import PersonListData, PersonDetailData
 from crim.views.phrase import PhraseListData, PhraseDetailData
-from crim.views.piece import PieceListData, ModelListData, PieceDetailData
+from crim.views.piece import PieceListData, ModelListData, PieceDetailData, PieceWithObservationsData, PieceWithRelationshipsData
 from crim.views.observation import ObservationListData, ObservationDetailData
 from crim.views.relationship import RelationshipListData, RelationshipDetailData
 from crim.views.role import RoleListData, RoleDetailData
@@ -78,6 +78,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^person/(?P<person_id>[-_A-Za-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
         re_path(r'^pieces/$', PieceList.as_view(), name='crimpiece-list'),
         re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
+        re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/observations/$', PieceWithObservations.as_view(), name='crimpiece-observations-detail'),
+        re_path(r'^piece/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationships.as_view(), name='crimpiece-relationships-detail'),
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationship/(?P<pk>[0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
@@ -102,6 +104,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/phrase/(?P<phrase_id>[-_A-Za-z0-9:]+)/$', PhraseDetailData.as_view(), name='crimphrase-detail-data'),
         re_path(r'^data/pieces/$', PieceListData.as_view(), name='crimpiece-list-data'),
         re_path(r'^data/piece/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetailData.as_view(), name='crimpiece-detail-data'),
+        re_path(r'^data/piece/(?P<piece_id>[-_A-Za-z0-9]+)/observations/$', PieceWithObservationsData.as_view(), name='crimpiece-observations-detail-data'),
+        re_path(r'^data/piece/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationshipsData.as_view(), name='crimpiece-relationships-detail-data'),
         re_path(r'^data/relationships/$', RelationshipListData.as_view(), name='crimrelationship-list-data'),
         re_path(r'^data/relationship/(?P<pk>[0-9]+)/$', RelationshipDetailData.as_view(), name='crimrelationship-detail-data'),
         re_path(r'^data/roles/$', RoleListData.as_view(), name='crimrole-list-data'),

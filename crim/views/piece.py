@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer
+from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer
 from crim.models.piece import CRIMPiece
 from crim.common import earliest_date
 
@@ -110,6 +110,36 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         return template.render(context)
 
 
+class PieceWithObservationsHTMLRenderer(CustomHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Put pdf and mei links into a list rather than a \n-separated string
+        data['pdf_links'] = data['pdf_links'].split('\n')
+        data['mei_links'] = data['mei_links'].split('\n')
+        # Sort roles alphabetically by role type
+        data['roles'] = sorted(data['roles'],
+                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
+        template_names = ['piece/piece_observations.html']
+        template = self.resolve_template(template_names)
+        context = self.get_template_context({'content': data}, renderer_context)
+        return template.render(context)
+
+
+class PieceWithRelationshipsHTMLRenderer(CustomHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Put pdf and mei links into a list rather than a \n-separated string
+        data['pdf_links'] = data['pdf_links'].split('\n')
+        data['mei_links'] = data['mei_links'].split('\n')
+        # Sort roles alphabetically by role type
+        data['roles'] = sorted(data['roles'],
+                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
+        template_names = ['piece/piece_relationships.html']
+        template = self.resolve_template(template_names)
+        context = self.get_template_context({'content': data}, renderer_context)
+        return template.render(context)
+
+
 class PieceList(generics.ListAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -163,6 +193,54 @@ class PieceDetail(generics.RetrieveAPIView):
         return obj
 
 
+class PieceWithObservations(generics.RetrieveAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceWithObservationsSerializer
+    renderer_classes = (
+        PieceWithObservationsHTMLRenderer,
+        JSONRenderer,
+    )
+    queryset = CRIMPiece.objects.all()
+
+    def get_queryset(self):
+        return CRIMPiece.objects.filter(mass=None)
+
+    def get_object(self):
+        url_arg = self.kwargs['piece_id']
+        piece = CRIMPiece.objects.filter(piece_id=url_arg)
+        if not piece.exists():
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
+
+        obj = get_object_or_404(piece)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class PieceWithRelationships(generics.RetrieveAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceWithRelationshipsSerializer
+    renderer_classes = (
+        PieceWithRelationshipsHTMLRenderer,
+        JSONRenderer,
+    )
+    queryset = CRIMPiece.objects.all()
+
+    def get_queryset(self):
+        return CRIMPiece.objects.filter(mass=None)
+
+    def get_object(self):
+        url_arg = self.kwargs['piece_id']
+        piece = CRIMPiece.objects.filter(piece_id=url_arg)
+        if not piece.exists():
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
+
+        obj = get_object_or_404(piece)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
 class PieceListData(generics.ListAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -189,6 +267,48 @@ class PieceDetailData(generics.RetrieveAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMPieceDetailSerializer
+    renderer_classes = (JSONRenderer,)
+    queryset = CRIMPiece.objects.all()
+
+    def get_queryset(self):
+        return CRIMPiece.objects.filter(mass=None)
+
+    def get_object(self):
+        url_arg = self.kwargs['piece_id']
+        piece = CRIMPiece.objects.filter(piece_id=url_arg)
+        if not piece.exists():
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
+
+        obj = get_object_or_404(piece)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class PieceWithObservationsData(generics.RetrieveAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceWithObservationsSerializer
+    renderer_classes = (JSONRenderer,)
+    queryset = CRIMPiece.objects.all()
+
+    def get_queryset(self):
+        return CRIMPiece.objects.filter(mass=None)
+
+    def get_object(self):
+        url_arg = self.kwargs['piece_id']
+        piece = CRIMPiece.objects.filter(piece_id=url_arg)
+        if not piece.exists():
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
+
+        obj = get_object_or_404(piece)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class PieceWithRelationshipsData(generics.RetrieveAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceWithRelationshipsSerializer
     renderer_classes = (JSONRenderer,)
     queryset = CRIMPiece.objects.all()
 
