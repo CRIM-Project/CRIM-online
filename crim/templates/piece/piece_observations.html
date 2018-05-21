@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load static %}
+
+{% block title %}
+<title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup class="page-title">
+    <h1>{{ content.title|apostrophe }}
+      {% for pdf_link in content.pdf_links %}
+        {% if pdf_link %}
+          <a href="{{ pdf_link }}">
+            <img src="{% static 'img/pdfdownload.png' %}" height=32 />
+          </a>
+        {% endif %}
+      {% endfor %}
+      {% for mei_link in content.mei_links %}
+        {% if mei_link %} 
+          <a href="{{ mei_link }}">
+            <img src="{% static 'img/meidownload.png' %}" height=24 />
+          </a>
+        {% endif %}
+      {% endfor %}
+      <small>[{{ content.piece_id }}]</small>
+    </h1>
+    <h2>{% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
+    {% for role in content.roles %}
+      <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
+      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
+      {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+    {% endfor %}
+  </hgroup>
+
+  {% if content.sources %}
+    <h2>Sources</h2>
+    <table class="table table-striped table-bordered table-hover">
+      <tr>
+        <th>Source ID</th>
+        <th>Title</th>
+        <th>Remarks</th>
+      </tr>
+      {% for source in content.sources %}
+        <tr>
+          <td>
+          {% for external_links in source.external_links %}
+            <a href="{{ external_link }}">
+              <img src="{% static 'img/externallink.png' %}" height=24 />
+            </a>
+          {% endfor %}
+          <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
+        </td>
+        <td>
+          {{ source.title }}
+        </td>
+          <td>{{ source.remarks|markdown|shorten|safe }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+  {% endif %}
+  
+  <h2>Observations</h2>
+  {% if content.observations %}
+      <table class="table table-striped table-bordered table-hover">
+        <tr>
+          <th>ID</th>
+          <th>Observer</th>
+          <th>Observation type</th>
+          <th>Show details</th>
+        </tr>
+        {% for observation in content.observations %}
+          <!-- Omit observations that don't have any metadata -->
+          {% if observation.mt_cf or observation.mt_sog or observation.mt_csog or observation.mt_fg or observation.mt_id or observation.mt_pe or observation.mt_nid or observation.mt_hr or observation.mt_cad or observation.mt_int or observation.mt_fp %}
+             <tr>
+               <td><a href="{{ observation.url|htmlsite }}">&lt;{{ observation.pk }}&gt;</a></td>
+               <td><a href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
+               <td>{% if observation.mt_cf %}Cantus firmus{% endif %}
+                   {% if observation.mt_sog %}Soggetto{% endif %}
+                   {% if observation.mt_csog %}Counter-soggetto{% endif %}
+                   {% if observation.mt_fg %}Fuga{% endif %}
+                   {% if observation.mt_id %}Imitative duo{% endif %}
+                   {% if observation.mt_pe %}Periodic entry{% endif %}
+                   {% if observation.mt_nid %}Non-imitative duo{% endif %}
+                   {% if observation.mt_hr %}Homorhythm{% endif %}
+                   {% if observation.mt_cad %}Cadence{% endif %}
+                   {% if observation.mt_int %}Interval pattern{% endif %}
+                   {% if observation.mt_fp %}Form and process{% endif %}
+               </td>
+               <td> 
+                 <a href="#" class="observation-info-expand" target="observation-info-{{ forloop.counter }}">Expand</a>
+               </td>
+             </tr>
+             <tr id="observation-info-{{ forloop.counter }}" class="observation-info">
+               <td colspan="4">
+                 {% include "observation/observation_expanded.html" %}
+               </td>
+             </tr>
+           {% endif %}
+        {% endfor %}
+      </table>
+  {% else %}
+    <p>No observations associated with this piece.</p>
+  {% endif %}
+
+  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
+
+  <!-- Can't import all the jquery and bootstrap, since they conflict with each other -->
+  <script type="text/JavaScript" src='{% static "js/jquery/src/effects.js" %}'></script>
+  <script type="text/JavaScript" src='{% static "js/bootstrap/bootstrap-modal.js" %}'></script>
+  <script type="text/JavaScript" src='{% static "js/bootstrap/bootstrap-transition.js" %}'></script>
+
+  <script type="text/javascript">
+    // This script expands and hides observation details
+    $('.observation-info').hide();
+    $('.observation-info-expand').on({
+      'click': function(event) {
+        event.preventDefault();
+        tgt = "#" + $(this).attr('target');
+        $(tgt).toggle();
+        tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+        $(this).text(tag);
+        return false;
+      }
+    })
+  </script>
+
+  <script type="text/javascript">
+    // CSRF Token Protection lifted from Django documentation. Consider moving to main template
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+    // test that a given url is a same-origin URL
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+      (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+      // or any other URL that isn't scheme relative or absolute i.e relative.
+      !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+              // Send the token to same-origin, relative URLs only.
+              // Send the token only if the method warrants CSRF protection
+              // Using the CSRFToken value acquired earlier
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+  </script>
+
+{% endblock %}
