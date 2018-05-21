@@ -1,0 +1,103 @@
+{% if observation.mt_cf %}
+  <h3 class="margin">Cantus firmus</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_cf_voices|newlineplural }}:</strong>{% if observation.mt_cf_voices %}<br/>{{ observation.mt_cf_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Durations only:</strong> {{ observation.mt_cf_dur }}</div>
+  <div class=hanging><strong>Intervals only:</strong> {{ observation.mt_cf_mel }}</div>
+{% endif %}
+{% if observation.mt_sog %}
+  <h3 class="margin">Soggetto</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_sog_voices|newlineplural }}:</strong>{% if observation.mt_sog_voices %}<br/>{{ observation.mt_sog_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Durations only:</strong> {{ observation.mt_sog_dur }}</div>
+  <div class=hanging><strong>Intervals only:</strong> {{ observation.mt_sog_mel }}</div>
+  <div class=hanging><strong>Ostinato:</strong> {{ observation.mt_sog_ostinato }}</div>
+  <div class=hanging><strong>Periodic:</strong> {{ observation.mt_sog_periodic }}</div>
+{% endif %}
+{% if observation.mt_csog %}
+  <h3 class="margin">Counter-soggetto</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_csog_voices|newlineplural }}:</strong>{% if observation.mt_csog_voices %}<br/>{{ observation.mt_csog_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Durations only:</strong> {{ observation.mt_csog_dur }}</div>
+  <div class=hanging><strong>Intervals only:</strong> {{ observation.mt_csog_mel }}</div>
+{% endif %}
+{% if observation.md_cd_voices %}
+  <h3 class="margin">Contrapuntal duo</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_cd_voices|newlineplural }}:</strong>{% if observation.mt_cd_voices %}<br/>{{ observation.mt_cd_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+{% endif %}
+{% if observation.mt_fg %}
+  <h3 class="margin">Fuga</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_fg_voices|newlineplural }}:</strong>{% if observation.mt_fg_voices %}<br/>{{ observation.mt_fg_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Periodic:</strong> {{ observation.mt_fg_periodic }}</div>
+  <div class=hanging><strong>Strict:</strong> {{ observation.mt_fg_strict }}</div>
+  <div class=hanging><strong>Flexed:</strong> {{ observation.mt_fg_flexed }}</div>
+  <div class=hanging><strong>Sequential:</strong> {{ observation.mt_fg_sequential }}</div>
+  <div class=hanging><strong>Inverted:</strong> {{ observation.mt_fg_inverted }}</div>
+  <div class=hanging><strong>Retrograde:</strong> {{ observation.mt_fg_retrograde }}</div>
+  {% if observation.mt_fg_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_fg_int }}</div>{% endif %}
+  {% if observation.mt_fg_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_fg_tint }}</div>{% endif %}
+{% endif %}
+{% if observation.mt_id %}
+  <h3 class="margin">Imitative duo</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_id_voices|newlineplural }}:</strong>{% if observation.mt_id_voices %}<br/>{{ observation.mt_id_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Strict:</strong> {{ observation.mt_id_strict }}</div>
+  <div class=hanging><strong>Flexed:</strong> {{ observation.mt_id_flexed }}</div>
+  <div class=hanging><strong>Flexed, tonal:</strong> {{ observation.mt_id_flt }}</div>
+  <div class=hanging><strong>Invertible:</strong> {{ observation.mt_id_invertible }}</div>
+  {% if observation.mt_id_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_id_int }}</div>{% endif %}
+  {% if observation.mt_id_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_id_tint }}</div>{% endif %}
+{% endif %}
+{% if observation.mt_pe %}
+  <h3 class="margin">Periodic entry</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_pe_voices|newlineplural }}:</strong>{% if observation.mt_pe_voices %}<br/>{{ observation.mt_pe_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Strict:</strong> {{ observation.mt_pe_strict }}</div>
+  <div class=hanging><strong>Flexed:</strong> {{ observation.mt_pe_flexed }}</div>
+  <div class=hanging><strong>Flexed, tonal:</strong> {{ observation.mt_pe_flt }}</div>
+  <div class=hanging><strong>Sequential:</strong> {{ observation.mt_pe_sequential }}</div>
+  <div class=hanging><strong>Added:</strong> {{ observation.mt_pe_added }}</div>
+  <div class=hanging><strong>Invertible:</strong> {{ observation.mt_pe_invertible }}</div>
+  {% if observation.mt_pe_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_pe_int }}</div>{% endif %}
+  {% if observation.mt_pe_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_pe_tint }}</div>{% endif %}
+{% endif %}
+{% if observation.mt_nid %}
+  <h3 class="margin">Non-imitative duo</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_nid_voices|newlineplural }}:</strong>{% if observation.mt_nid_voices %}<br/>{{ observation.mt_nid_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Strict:</strong> {{ observation.mt_nid_strict }}</div>
+  <div class=hanging><strong>Flexed:</strong> {{ observation.mt_nid_flexed }}</div>
+  <div class=hanging><strong>Flexed, tonal:</strong> {{ observation.mt_nid_flt }}</div>
+  <div class=hanging><strong>Sequential:</strong> {{ observation.mt_nid_sequential }}</div>
+  <div class=hanging><strong>Invertible:</strong> {{ observation.mt_nid_invertible }}</div>
+  {% if observation.mt_nid_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_nid_int }}</div>{% endif %}
+  {% if observation.mt_nid_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_nid_tint }}</div>{% endif %}
+{% endif %}
+{% if observation.mt_hr %}
+  <h3 class="margin">Homorhythm</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_hr_voices|newlineplural }}:</strong>{% if observation.mt_hr_voices %}<br/>{{ observation.mt_hr_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Simple:</strong> {{ observation.mt_hr_simple }}</div>
+  <div class=hanging><strong>Staggered:</strong> {{ observation.mt_hr_staggered }}</div>
+  <div class=hanging><strong>Sequential:</strong> {{ observation.mt_hr_sequential }}</div>
+  <div class=hanging><strong>Fauxbourdon:</strong> {{ observation.mt_hr_fauxbourdon }}</div>
+{% endif %}
+{% if observation.mt_cad %}
+  <h3 class="margin">Cadence</h3>
+  <div class=hanging><strong>Cantizans:</strong> {% if observation.mt_cad_cantizans %}{{ observation.mt_cad_cantizans }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Tenorizans:</strong> {% if observation.mt_cad_tenorizans %}{{ observation.mt_cad_tenorizans }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Authentic:</strong> {{ observation.mt_cad_authentic }}</div>
+  <div class=hanging><strong>Phrygian:</strong> {{ observation.mt_cad_phrygian }}</div>
+  <div class=hanging><strong>Plagal:</strong> {{ observation.mt_cad_plagal }}</div>
+  <div class=hanging><strong>Tone:</strong> {% if observation.mt_cad_tone %}{{ observation.mt_cad_tone }}{% else %}-{% endif %}</div>
+  {% if observation.mt_cad_dtv %}<div class=hanging><strong>Dovetail voice:</strong> {{ observation.mt_cad_dtv }}</div>{% endif %}
+  {% if observation.mt_cad_dti %}<div class=hanging><strong>Interval:</strong> {{ observation.mt_cad_dti }}</div>{% endif %}
+{% endif %}
+{% if observation.mt_int %}
+  <h3 class="margin">Interval patterns</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_int_voices|newlineplural }}:</strong>{% if observation.mt_int_voices %}<br/>{{ observation.mt_int_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Parallel 6:</strong> {{ observation.mt_int_p6 }}</div>
+  <div class=hanging><strong>Parallel 3 (or 10):</strong> {{ observation.mt_int_p3 }}</div>
+  <div class=hanging><strong>Chained 3 and 5:</strong> {{ observation.mt_int_c35 }}</div>
+  <div class=hanging><strong>Chained 8 and 3:</strong> {{ observation.mt_int_c83 }}</div>
+  <div class=hanging><strong>Chained 6 and 5:</strong> {{ observation.mt_int_c65 }}</div>
+{% endif %}
+{% if observation.mt_fp %}
+  <h3 class="margin">Form and process</h3>
+  {% if observation.mt_fp_comment %}<div class=hanging><strong>Comment:</strong> {{ observation.mt_fp_comment }}</div>{% endif %}
+  {% if observation.mt_fp_ir %}<div class=hanging><strong>Internal repetition:</strong> {{ observation.mt_fp_ir }}</div>{% endif %}
+  {% if observation.mt_fp_range %}<div class=hanging><strong>Range:</strong> {{ observation.mt_fp_range }}</div>{% endif %}
+{% endif %}
