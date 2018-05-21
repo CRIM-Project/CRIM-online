@@ -302,7 +302,70 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'genre',
+            'mass',
+            'number_of_voices',
+            'roles',
+            'sources',
+            'pdf_links',
+            'mei_links',
+            'remarks',
+        )
+
+
+class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    roles = CRIMRolePieceSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
+    mass = CRIMMassPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+    sources = CRIMSourcePieceSerializer(
+        many=True,
+        read_only=True,
+    )
     observations = CRIMObservationPieceSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'genre',
+            'mass',
+            'number_of_voices',
+            'roles',
+            'sources',
+            'observations',
+            'pdf_links',
+            'mei_links',
+            'remarks',
+        )
+
+
+class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    roles = CRIMRolePieceSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
+    mass = CRIMMassPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+    sources = CRIMSourcePieceSerializer(
         many=True,
         read_only=True,
     )
@@ -328,7 +391,6 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'number_of_voices',
             'roles',
             'sources',
-            'observations',
             'relationships_as_model',
             'relationships_as_derivative',
             'pdf_links',
