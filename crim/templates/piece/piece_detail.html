@@ -35,10 +35,6 @@
     {% endfor %}
   </hgroup>
   
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
 
   {% if content.sources %}
     <h2>Sources</h2>
@@ -65,6 +61,11 @@
         </tr>
       {% endfor %}
     </table>
+  {% endif %}
+  
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
   {% endif %}
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>

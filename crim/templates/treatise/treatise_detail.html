@@ -22,12 +22,6 @@
     {% endfor %}
   </hgroup>
   
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
-  
-
   {% if content.sources %}
     <h2>Sources</h2>
     <table class="table table-striped table-bordered table-hover">
@@ -55,11 +49,14 @@
     </table>
   {% endif %}
   
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+  {% endif %}  
   
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
 
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
-
 
   <script type="text/javascript">
     // CSRF Token Protection lifted from Django documentation. Consider moving to main template
