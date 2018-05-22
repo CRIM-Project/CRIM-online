@@ -37,44 +37,15 @@
         <small>&lt;R{{ content.pk }}&gt;</small>
       </h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
-    <!-- <h2>Date: {{ content.created }}</h2> -->
   </hgroup>
 
   <div class="row">
     <div class="span4">
-      {% if content.rt_q %}
-        <h3>Quotation</h3>
-        <p><strong>Exact:</strong> {{ content.rt_q_exact }}</p>
-        <p><strong>Monnayage:</strong> {{ content.rt_q_monnayage }}</p>
-      {% endif %}
-      {% if content.rt_tm %}
-        <h3>Mechanical transformation</h3>
-        <p><strong>Sounding in different voice(s):</strong> {{ content.rt_tm_snd }}</p>
-        <p><strong>Melodically inverted:</strong> {{ content.rt_tm_minv }}</p>
-        <p><strong>Retrograde:</strong> {{ content.rt_tm_retrograde }}</p>
-        <p><strong>Metrically shifted:</strong> {{ content.rt_tm_ms }}</p>
-        <p><strong>Transposed:</strong> {{ content.rt_tm_transposed }}</p>
-        <p><strong>Double or invertible counterpoint:</strong> {{ content.rt_tm_invertible }}</p>
-      {% endif %}
-      {% if content.rt_tnm %}
-        <h3>Non-mechanical transformation</h3>
-        <p><strong>Embellished:</strong> {{ content.rt_tnm_embellished }}</p>
-        <p><strong>Reduced:</strong> {{ content.rt_tnm_reduced }}</p>
-        <p><strong>Amplified:</strong> {{ content.rt_tnm_amplified }}</p>
-        <p><strong>Truncated:</strong> {{ content.rt_tnm_truncated }}</p>
-        <p><strong>New counter-subject:</strong> {{ content.rt_tnm_ncs }}</p>
-        <p><strong>Old counter-subject shifted:</strong> {{ content.rt_tnm_ocs }}</p>
-        <p><strong>Old counter-subject transposed:</strong> {{ content.rt_tnm_ocst }}</p>
-        <p><strong>New combination:</strong> {{ content.rt_tnm_nc }}</p>
-      {% endif %}
-      {% if content.rt_nm %}
-        <h3>New material</h3>
-      {% endif %}
-      {% if content.rt_om %}
-        <h3>Omission</h3>
-      {% endif %}
-      </div>
-      <div class="span8">
+      {% with relationship=content %}
+        {% include "relationship/relationship_expanded.html" %}
+      {% endwith %}
+    </div>
+    <div class="span8">
       {% if content.remarks %}
         <h3>&nbsp;</h3>
         <p><strong>Remarks:</strong> {{ content.remarks }}</p>
@@ -85,15 +56,15 @@
   <div class="row">
     <div class="span10">
       <div class="row">
-          <div id="model-header" class="span8">
-            <h2>
-              Model: {{ content.model_composers_with_urls|safe }},
+        <div id="model-header" class="span8">
+          <h2>
+            Model: {{ content.model_composers_with_urls|safe }},
             {% if content.model_observation.piece.mass %}
               <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
             {% endif %}
             <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
-            </h2>
-          </div>
+          </h2>
+        </div>
         <div id="cw-model-controls" class="span2 pull-right">
           <div class="btn-group" role="group" aria-label="Score control button group">
             <button type="button" class="btn btn-primary cw-prev">&lt;</button>
@@ -106,109 +77,9 @@
     </div>
     <div class="span2">
       <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.pk }}&gt;</a></small></h2>
-      {% if content.model_observation.mt_cf %}
-        <h3 class="margin">Cantus firmus</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_cf_voices|newlineplural }}:</strong>{% if content.model_observation.mt_cf_voices %}<br/>{{ content.model_observation.mt_cf_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Durations only:</strong> {{ content.model_observation.mt_cf_dur }}</div>
-        <div class=hanging><strong>Intervals only:</strong> {{ content.model_observation.mt_cf_mel }}</div>
-      {% endif %}
-      {% if content.model_observation.mt_sog %}
-        <h3 class="margin">Soggetto</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_sog_voices|newlineplural }}:</strong>{% if content.model_observation.mt_sog_voices %}<br/>{{ content.model_observation.mt_sog_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Durations only:</strong> {{ content.model_observation.mt_sog_dur }}</div>
-        <div class=hanging><strong>Intervals only:</strong> {{ content.model_observation.mt_sog_mel }}</div>
-        <div class=hanging><strong>Ostinato:</strong> {{ content.model_observation.mt_sog_ostinato }}</div>
-        <div class=hanging><strong>Periodic:</strong> {{ content.model_observation.mt_sog_periodic }}</div>
-      {% endif %}
-      {% if content.model_observation.mt_csog %}
-        <h3 class="margin">Counter-soggetto</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_csog_voices|newlineplural }}:</strong>{% if content.model_observation.mt_csog_voices %}<br/>{{ content.model_observation.mt_csog_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Durations only:</strong> {{ content.model_observation.mt_csog_dur }}</div>
-        <div class=hanging><strong>Intervals only:</strong> {{ content.model_observation.mt_csog_mel }}</div>
-      {% endif %}
-      {% if content.model_observation.md_cd_voices %}
-        <h3 class="margin">Contrapuntal duo</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_cd_voices|newlineplural }}:</strong>{% if content.model_observation.mt_cd_voices %}<br/>{{ content.model_observation.mt_cd_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-      {% endif %}
-      {% if content.model_observation.mt_fg %}
-        <h3 class="margin">Fuga</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_fg_voices|newlineplural }}:</strong>{% if content.model_observation.mt_fg_voices %}<br/>{{ content.model_observation.mt_fg_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Periodic:</strong> {{ content.model_observation.mt_fg_periodic }}</div>
-        <div class=hanging><strong>Strict:</strong> {{ content.model_observation.mt_fg_strict }}</div>
-        <div class=hanging><strong>Flexed:</strong> {{ content.model_observation.mt_fg_flexed }}</div>
-        <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_fg_sequential }}</div>
-        <div class=hanging><strong>Inverted:</strong> {{ content.model_observation.mt_fg_inverted }}</div>
-        <div class=hanging><strong>Retrograde:</strong> {{ content.model_observation.mt_fg_retrograde }}</div>
-        {% if content.model_observation.mt_fg_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_fg_int }}</div>{% endif %}
-        {% if content.model_observation.mt_fg_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_fg_tint }}</div>{% endif %}
-      {% endif %}
-      {% if content.model_observation.mt_id %}
-        <h3 class="margin">Imitative duo</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_id_voices|newlineplural }}:</strong>{% if content.model_observation.mt_id_voices %}<br/>{{ content.model_observation.mt_id_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Strict:</strong> {{ content.model_observation.mt_id_strict }}</div>
-        <div class=hanging><strong>Flexed:</strong> {{ content.model_observation.mt_id_flexed }}</div>
-        <div class=hanging><strong>Flexed, tonal:</strong> {{ content.model_observation.mt_id_flt }}</div>
-        <div class=hanging><strong>Invertible:</strong> {{ content.model_observation.mt_id_invertible }}</div>
-        {% if content.model_observation.mt_id_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_id_int }}</div>{% endif %}
-        {% if content.model_observation.mt_id_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_id_tint }}</div>{% endif %}
-      {% endif %}
-      {% if content.model_observation.mt_pe %}
-        <h3 class="margin">Periodic entry</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_pe_voices|newlineplural }}:</strong>{% if content.model_observation.mt_pe_voices %}<br/>{{ content.model_observation.mt_pe_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Strict:</strong> {{ content.model_observation.mt_pe_strict }}</div>
-        <div class=hanging><strong>Flexed:</strong> {{ content.model_observation.mt_pe_flexed }}</div>
-        <div class=hanging><strong>Flexed, tonal:</strong> {{ content.model_observation.mt_pe_flt }}</div>
-        <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_pe_sequential }}</div>
-        <div class=hanging><strong>Added:</strong> {{ content.model_observation.mt_pe_added }}</div>
-        <div class=hanging><strong>Invertible:</strong> {{ content.model_observation.mt_pe_invertible }}</div>
-        {% if content.model_observation.mt_pe_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_pe_int }}</div>{% endif %}
-        {% if content.model_observation.mt_pe_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_pe_tint }}</div>{% endif %}
-      {% endif %}
-      {% if content.model_observation.mt_nid %}
-        <h3 class="margin">Non-imitative duo</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_nid_voices|newlineplural }}:</strong>{% if content.model_observation.mt_nid_voices %}<br/>{{ content.model_observation.mt_nid_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Strict:</strong> {{ content.model_observation.mt_nid_strict }}</div>
-        <div class=hanging><strong>Flexed:</strong> {{ content.model_observation.mt_nid_flexed }}</div>
-        <div class=hanging><strong>Flexed, tonal:</strong> {{ content.model_observation.mt_nid_flt }}</div>
-        <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_nid_sequential }}</div>
-        <div class=hanging><strong>Invertible:</strong> {{ content.model_observation.mt_nid_invertible }}</div>
-        {% if content.model_observation.mt_nid_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ content.model_observation.mt_nid_int }}</div>{% endif %}
-        {% if content.model_observation.mt_nid_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ content.model_observation.mt_nid_tint }}</div>{% endif %}
-      {% endif %}
-      {% if content.model_observation.mt_hr %}
-        <h3 class="margin">Homorhythm</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_hr_voices|newlineplural }}:</strong>{% if content.model_observation.mt_hr_voices %}<br/>{{ content.model_observation.mt_hr_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Simple:</strong> {{ content.model_observation.mt_hr_simple }}</div>
-        <div class=hanging><strong>Staggered:</strong> {{ content.model_observation.mt_hr_staggered }}</div>
-        <div class=hanging><strong>Sequential:</strong> {{ content.model_observation.mt_hr_sequential }}</div>
-        <div class=hanging><strong>Fauxbourdon:</strong> {{ content.model_observation.mt_hr_fauxbourdon }}</div>
-      {% endif %}
-      {% if content.model_observation.mt_cad %}
-        <h3 class="margin">Cadence</h3>
-        <div class=hanging><strong>Cantizans:</strong> {% if content.model_observation.mt_cad_cantizans %}{{ content.model_observation.mt_cad_cantizans }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Tenorizans:</strong> {% if content.model_observation.mt_cad_tenorizans %}{{ content.model_observation.mt_cad_tenorizans }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Authentic:</strong> {{ content.model_observation.mt_cad_authentic }}</div>
-        <div class=hanging><strong>Phrygian:</strong> {{ content.model_observation.mt_cad_phrygian }}</div>
-        <div class=hanging><strong>Plagal:</strong> {{ content.model_observation.mt_cad_plagal }}</div>
-        <div class=hanging><strong>Tone:</strong> {% if content.model_observation.mt_cad_tone %}{{ content.model_observation.mt_cad_tone }}{% else %}-{% endif %}</div>
-        {% if content.model_observation.mt_cad_dtv %}<div class=hanging><strong>Dovetail voice:</strong> {{ content.model_observation.mt_cad_dtv }}</div>{% endif %}
-        {% if content.model_observation.mt_cad_dti %}<div class=hanging><strong>Interval:</strong> {{ content.model_observation.mt_cad_dti }}</div>{% endif %}
-      {% endif %}
-      {% if content.model_observation.mt_int %}
-        <h3 class="margin">Interval patterns</h3>
-        <div class=hanging><strong>Voice{{ content.model_observation.mt_int_voices|newlineplural }}:</strong>{% if content.model_observation.mt_int_voices %}<br/>{{ content.model_observation.mt_int_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-        <div class=hanging><strong>Parallel 6:</strong> {{ content.model_observation.mt_int_p6 }}</div>
-        <div class=hanging><strong>Parallel 3 (or 10):</strong> {{ content.model_observation.mt_int_p3 }}</div>
-        <div class=hanging><strong>Chained 3 and 5:</strong> {{ content.model_observation.mt_int_c35 }}</div>
-        <div class=hanging><strong>Chained 8 and 3:</strong> {{ content.model_observation.mt_int_c83 }}</div>
-        <div class=hanging><strong>Chained 6 and 5:</strong> {{ content.model_observation.mt_int_c65 }}</div>
-      {% endif %}
-      {% if content.model_observation.mt_fp %}
-        <h3 class="margin">Form and process</h3>
-        {% if content.model_observation.mt_fp_comment %}<div class=hanging><strong>Comment:</strong> {{ content.model_observation.mt_fp_comment }}</div>{% endif %}
-        {% if content.model_observation.mt_fp_ir %}<div class=hanging><strong>Internal repetition:</strong> {{ content.model_observation.mt_fp_ir }}</div>{% endif %}
-        {% if content.model_observation.mt_fp_range %}<div class=hanging><strong>Range:</strong> {{ content.model_observation.mt_fp_range }}</div>{% endif %}
-      {% endif %}
+      {% with observation=model_observation %}
+        {% include "observation/observation_expanded.html" %}
+      {% endwith %}
     </div>
   </div>
   <div class="row">
@@ -240,13 +111,6 @@
       {% endwith %}
     </div>
   </div>
-  
-  <!--
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p>{{ content.remarks }}</p>
-  {% endif %}
-  -->
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
 
