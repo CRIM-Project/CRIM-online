@@ -45,7 +45,7 @@
             <td>{{ piece.title }}</td>
             <td><a href="{{piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
             <td>{{ piece.composers_with_url|htmlsite|safe }}</td>
-            <td>{{ piece.date }}</td>
+            <td>{% if piece.date %}{{ piece.date }}{% else %}-{% endif %}</td>
           </tr>
         {% endfor %}
       </table>
