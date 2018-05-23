@@ -25,7 +25,7 @@ class CRIMPart(models.Model):
         db_index=True,
     )
     order = models.IntegerField()
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, blank=True)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
