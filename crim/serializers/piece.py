@@ -2,7 +2,9 @@ from crim.models.document import CRIMSource
 from crim.models.genre import CRIMGenre
 from crim.models.mass import CRIMMass
 from crim.models.observation import CRIMObservation
+from crim.models.part import CRIMPart
 from crim.models.person import CRIMPerson
+from crim.models.phrase import CRIMPhrase
 from crim.models.piece import CRIMPiece
 from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRoleType, CRIMRole
@@ -275,6 +277,34 @@ class CRIMRelationshipPieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMPartPieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpart-detail-data', lookup_field='part_id')
+
+    class Meta:
+        model = CRIMPart
+        fields = (
+            'url',
+            'name',
+            'order',
+        )
+
+
+class CRIMPhrasePieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimphrase-detail-data', lookup_field='phrase_id')
+    part = CRIMPartPieceSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMPhrase
+        fields = (
+            'url',
+            'part',
+            'number',
+            'start_measure',
+            'stop_measure',
+            'text',
+        )
+
+
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
     roles = CRIMRolePieceSerializer(
@@ -311,6 +341,10 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
     )
     mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
+    phrases = CRIMPhrasePieceSerializer(
+        read_only=True,
+        many=True,
+    )
     sources = CRIMSourcePieceSerializer(
         many=True,
         read_only=True,
@@ -324,6 +358,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'genre',
             'mass',
+            'phrases',
             'number_of_voices',
             'roles',
             'sources',
@@ -342,6 +377,10 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
     )
     mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
+    phrases = CRIMPhrasePieceSerializer(
+        read_only=True,
+        many=True,
+    )
     sources = CRIMSourcePieceSerializer(
         many=True,
         read_only=True,
@@ -359,6 +398,7 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
             'title',
             'genre',
             'mass',
+            'phrases',
             'number_of_voices',
             'roles',
             'sources',
@@ -378,6 +418,10 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
     )
     mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
+    phrases = CRIMPhrasePieceSerializer(
+        read_only=True,
+        many=True,
+    )
     sources = CRIMSourcePieceSerializer(
         many=True,
         read_only=True,
@@ -401,6 +445,7 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
             'title',
             'genre',
             'mass',
+            'phrases',
             'number_of_voices',
             'roles',
             'sources',

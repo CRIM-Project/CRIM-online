@@ -1,0 +1,28 @@
+{% load static %}
+
+{% if sources %}
+  <h2>Sources</h2>
+  <table class="table table-striped table-bordered table-hover">
+    <tr>
+      <th>Source ID</th>
+      <th>Title</th>
+      <th>Remarks</th>
+    </tr>
+    {% for source in sources %}
+      <tr>
+        <td>
+        {% for external_links in source.external_links %}
+          <a href="{{ external_link }}">
+            <img src="{% static 'img/externallink.png' %}" height=24 />
+          </a>
+        {% endfor %}
+        <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
+      </td>
+      <td>
+        {{ source.title }}
+      </td>
+        <td>{{ source.remarks|markdown|shorten|safe }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}

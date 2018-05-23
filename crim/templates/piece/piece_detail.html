@@ -11,58 +11,42 @@
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
-	  {% for pdf_link in content.pdf_links %}
-	    {% if pdf_link %}
-	      <a href="{{ pdf_link }}">
-	        <img src="{% static 'img/pdfdownload.png' %}" height=32 />
-	      </a>
-	    {% endif %}
-	  {% endfor %}
-	  {% for mei_link in content.mei_links %}
-	    {% if mei_link %} 
-	      <a href="{{ mei_link }}">
-	        <img src="{% static 'img/meidownload.png' %}" height=24 />
-	      </a>
-	    {% endif %}
-	  {% endfor %}
-	  <small>[{{ content.piece_id }}]</small>
-    </h1>
-    <h2>{% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
-    {% for role in content.roles %}
-      <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
-	  {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+    {% for pdf_link in content.pdf_links %}
+      {% if pdf_link %}
+        <a href="{{ pdf_link }}">
+          <img src="{% static 'img/pdfdownload.png' %}" height=32 />
+        </a>
+      {% endif %}
     {% endfor %}
+    {% for mei_link in content.mei_links %}
+      {% if mei_link %} 
+        <a href="{{ mei_link }}">
+          <img src="{% static 'img/meidownload.png' %}" height=24 />
+        </a>
+      {% endif %}
+    {% endfor %}
+    <small>[{{ content.piece_id }}]</small>
+    </h1>
+    <h2>
+      {% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}
+    </h2>
   </hgroup>
-  
+  {% for role in content.roles %}
+    <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
+      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}
+    </h3>
+    {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+  {% endfor %}
+
+  {% with phrases=content.phrases %}
+    {% include "piece/phrase_text.html" %}
+  {% endwith %}
+
   <div id="pieceScore" class="cw-score"></div>
 
-  {% if content.sources %}
-    <h2>Sources</h2>
-    <table class="table table-striped table-bordered table-hover">
-      <tr>
-        <th>Source ID</th>
-        <th>Title</th>
-        <th>Remarks</th>
-      </tr>
-      {% for source in content.sources %}
-        <tr>
-          <td>
-          {% for external_links in source.external_links %}
-            <a href="{{ external_link }}">
-              <img src="{% static 'img/externallink.png' %}" height=24 />
-            </a>
-          {% endfor %}
-          <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
-        </td>
-        <td>
-          {{ source.title }}
-        </td>
-          <td>{{ source.remarks|markdown|shorten|safe }}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  {% endif %}
+  {% with source=content.sources %}
+    {% include "piece/piece_sources.html" %}
+  {% endwith %}
   
   {% if content.remarks %}
     <h2>Remarks</h2>
