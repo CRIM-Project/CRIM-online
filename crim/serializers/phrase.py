@@ -23,6 +23,7 @@ class CRIMPartPhraseSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'name',
+            'order',
         )
 
 
