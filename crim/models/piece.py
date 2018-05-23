@@ -40,6 +40,7 @@ class CRIMPiece(models.Model):
         verbose_name = 'Piece'
         verbose_name_plural = 'Pieces'
         ordering = ['piece_id']
+        unique_together = ('mass', 'title')
 
     piece_id = models.CharField(
         'Piece ID',
@@ -98,13 +99,9 @@ class CRIMPiece(models.Model):
 
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
-        if self.mass:
-            if CRIMPiece.objects.filter(mass=self.mass, title=self.title):
-                raise ValidationError('The ' + self.title + ' of ' + self.mass.title + ' already exists.')
         # Only validate Piece ID if it is not a mass movement
-        else:
-            if not valid_regex.match(self.piece_id):
-                raise ValidationError('The Piece ID must consist of letters, numbers, hyphens, and underscores.')
+        if not self.mass and not valid_regex.match(self.piece_id):
+            raise ValidationError('The Piece ID must consist of letters, numbers, hyphens, and underscores.')
 
     def save(self):
         # If it is a mass movement, then fill in the Piece ID, title and genre
