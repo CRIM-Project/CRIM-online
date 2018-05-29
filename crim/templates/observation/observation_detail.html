@@ -8,13 +8,17 @@
 {% load firstitem %}
 
 {% block title %}
-<title>
-  CRIM | Observation &lt;{{ content.pk }}&gt;
-  {% if content.piece.mass %}
-    {{ content.piece.mass.title }}:
-  {% endif %}
-  {{ content.piece.title }}
-</title>
+  <title>
+    CRIM | Observation &lt;{{ content.pk }}&gt;
+    {% if content.piece.mass %}
+      {{ content.piece.mass.title }}:
+    {% endif %}
+    {{ content.piece.title }}
+  </title>
+  <style>
+    .cw-score { width: 100%; height: 500px }
+    .cw-highlighted { color: #c71a22; fill: currentColor }
+  </style>
 {% endblock %}
 
 {% block wrap %}
@@ -33,8 +37,7 @@
   <div class="row">
     <div class="span10">
       <div class="row">
-    	    <div id="piece-header" class="span8">
-    	    </div>
+        <div id="piece-header" class="span8"></div>
         <div id="cw-piece-controls" class="span2 pull-right">
           <div class="btn-group" role="group" aria-label="Score control button group">
             <button type="button" class="btn btn-primary cw-prev">&lt;</button>
@@ -42,7 +45,7 @@
             <button type="button" class="btn btn-primary cw-next">&gt;</button>
           </div>
         </div>
-    	  </div>
+      </div>
       <div id="pieceScore" class="cw-score"></div>
     </div>
     <div class="span2">
@@ -58,7 +61,20 @@
   {% endif %}
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
+  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
+
+  <script>
+    var vrv = new window.verovio.toolkit()
+    var cwPiece = new CrimViewer({
+      mei: '{{ content.piece.mei_links|firstitem }}',
+      ema: '{{ content.ema }}',
+      vrv: vrv,
+      div: 'pieceScore',
+      controls: 'cw-piece-controls'
+    })
+    cwPiece.render()
+  </script>
 
 {% endblock %}

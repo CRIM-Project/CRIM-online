@@ -5,7 +5,11 @@
 {% load static %}
 
 {% block title %}
-<title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+  <title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+  <style>
+    .cw-score { width: 100%; height: 500px }
+    .cw-highlighted { color: #000000; fill: currentColor }
+  </style>
 {% endblock %}
 
 {% block wrap %}
@@ -52,8 +56,21 @@
   {% with phrases=content.phrases %}
     {% include "piece/phrase_text.html" %}
   {% endwith %}
+  
+  <h2>Score</h2>
 
-  <div id="pieceScore" class="cw-score"></div>
+  <div class="row-fluid">
+    <div class="span10">
+      <div id="pieceScore" class="cw-score"></div>
+    </div>
+    <div id="cw-piece-controls" class="pull-left span2">
+      <div class="btn-group" role="group" aria-label="Score control button group" style="margin-top:36px;">
+        <button type="button" class="btn btn-primary cw-show">&lt;&lt;</button>
+        <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+        <button type="button" class="btn btn-primary cw-next">&gt;</button>
+      </div>
+    </div>
+  </div>
 
   {% with source=content.sources %}
     {% include "piece/piece_sources.html" %}
@@ -75,7 +92,7 @@
     var vrv = new window.verovio.toolkit()
     var cwPiece = new CrimViewer({
       mei: '{{ content.mei_links|firstitem }}',
-      ema: '',
+      ema: '1/1/@1',
       vrv: vrv,
       div: 'pieceScore',
       controls: 'cw-piece-controls'

@@ -20,6 +20,11 @@
     {% endif %}
     {{ content.derivative_observation.piece.title }}
   </title>
+  <style>
+    .cw-score-model { width: 100%; height: 500px }
+    .cw-score-derivative { width: 100%; height: 500px }
+    .cw-highlighted { color: #c71a22; fill: currentColor }
+  </style>
 {% endblock %}
 
 {% block wrap %}
@@ -73,7 +78,7 @@
           </div>
         </div>
         </div>
-      <div id="modelScore" class="cw-score"></div>
+      <div id="modelScore" class="cw-score-model"></div>
     </div>
     <div class="span2">
       <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.pk }}&gt;</a></small></h2>
@@ -102,7 +107,7 @@
           </div>
         </div>
       </div>
-      <div id="derivativeScore" class="cw-score"></div>
+      <div id="derivativeScore" class="cw-score-derivative"></div>
     </div>
     <div class="span2">
       <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.pk }}&gt;</a></small></h2>
@@ -113,9 +118,7 @@
   </div>
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
-
   <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
   <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
 
