@@ -57,7 +57,8 @@
           <th>ID</th>
           <th>Observer</th>
           <th>Relationship type</th>
-          <th>Derivative piece</th>
+          <th>Model</th>
+          <th>Derivative</th>
           <th>Show details</th>
         </tr>
       </thead>
@@ -67,14 +68,21 @@
             <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
             <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
             <td>{% if relationship.rt_q %}Quotation{% endif %}
-             {% if relationship.rt_tm %}Mechanical transformation{% endif %}
-             {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
-             {% if relationship.rt_nm %}New material{% endif %}
-             {% if relationship.rt_om %}Omission{% endif %}
+                {% if relationship.rt_tm %}Mechanical transformation{% endif %}
+                {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
+                {% if relationship.rt_nm %}New material{% endif %}
+                {% if relationship.rt_om %}Omission{% endif %}
             </td>
             <td>
+              <a href="{{ relationship.model_observation.url|htmlsite }}">
+                &lt;{{ relationship.model_observation.pk }}&gt;
+              </a>
+            </td>
+            <td>
+              <a href="{{ relationship.derivative_observation.url|htmlsite }}">
+                &lt;{{ relationship.derivative_observation.pk }}&gt;
+              </a>
               <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
-                [{{ relationship.derivative_observation.piece.piece_id }}]
                 {% if relationship.derivative_observation.piece.mass %}
                   {{relationship.derivative_observation.piece.mass.title}}:
                 {% endif %}
@@ -90,7 +98,7 @@
             </td>
           </tr>
           <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-            <td colspan="5" class="expansion">
+            <td colspan="6" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
           </tr>
@@ -105,7 +113,8 @@
           <th>ID</th>
           <th>Observer</th>
           <th>Relationship type</th>
-          <th>Model piece</th>
+          <th>Model</th>
+          <th>Derivative</th>
           <th>Show details</th>
         </tr>
         {% for relationship in content.relationships_as_derivative %}
@@ -119,12 +128,19 @@
                 {% if relationship.rt_om %}Omission{% endif %}
             </td>
             <td>
+              <a href="{{ relationship.model_observation.url|htmlsite }}">
+                &lt;{{ relationship.model_observation.pk }}&gt;
+              </a>
               <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
-                [{{ relationship.model_observation.piece.piece_id }}]
                 {% if relationship.model_observation.piece.mass %}
                   {{relationship.model_observation.piece.mass.title}}:
                 {% endif %}
                 {{ relationship.model_observation.piece.title }}
+              </a>
+            </td>
+            <td>
+              <a href="{{ relationship.derivative_observation.url|htmlsite }}">
+                &lt;{{ relationship.derivative_observation.pk }}&gt;
               </a>
             </td>
             <td> 
@@ -136,7 +152,7 @@
             </td>
           </tr>
           <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-            <td colspan="5" class="expansion">
+            <td colspan="6" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
           </tr>

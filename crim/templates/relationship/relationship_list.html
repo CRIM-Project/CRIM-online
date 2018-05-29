@@ -37,6 +37,9 @@
               <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
               <td>
                 <a href="{{ relationship.model_observation.url|htmlsite }}">
+                  &lt;{{ relationship.model_observation.pk }}&gt;
+                </a>
+                <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
                   {% if relationship.model_observation.piece.mass %}
                     {{relationship.model_observation.piece.mass.title}}:
                   {% endif %}
@@ -45,6 +48,9 @@
               </td>
               <td>
                 <a href="{{ relationship.derivative_observation.url|htmlsite }}">
+                  &lt;{{ relationship.derivative_observation.pk }}&gt;
+                </a>
+                <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
                   {% if relationship.derivative_observation.piece.mass %}
                     {{relationship.derivative_observation.piece.mass.title}}:
                   {% endif %}

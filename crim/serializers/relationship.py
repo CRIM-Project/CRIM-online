@@ -95,6 +95,7 @@ class CRIMObservationRelationshipListSerializer(serializers.HyperlinkedModelSeri
         model = CRIMObservation
         fields = (
             'url',
+            'pk',
             'piece',
             'ema',
         )
