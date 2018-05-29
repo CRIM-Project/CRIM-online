@@ -9,48 +9,50 @@
 {% endblock %}
 
 {% block wrap %}
-  <hgroup class="page-title">
-    <h1>{{ content.title|apostrophe }}
-      {% for pdf_link in content.pdf_links %}
-        {% if pdf_link %}
-          <a href="{{ pdf_link }}">
-            <img src="{% static 'img/pdfdownload.png' %}" height=32 />
-          </a>
-        {% endif %}
-      {% endfor %}
-      {% for mei_link in content.mei_links %}
-        {% if mei_link %} 
-          <a href="{{ mei_link }}">
-            <img src="{% static 'img/meidownload.png' %}" height=24 />
-          </a>
-        {% endif %}
-      {% endfor %}
-      <small>[{{ content.piece_id }}]</small>
-    </h1>
-    <h2>{% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}</h2>
-    {% for role in content.roles %}
-      <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
-      {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+  <h1>{{ content.title|apostrophe }}
+    {% for pdf_link in content.pdf_links %}
+      {% if pdf_link %}
+        <a href="{{ pdf_link }}">
+          <img src="{% static 'img/pdfdownload.png' %}" height=32 />
+        </a>
+      {% endif %}
     {% endfor %}
-  </hgroup>
-
-  {% with phrases=content.phrases %}
-    {% include "piece/phrase_text.html" %}
-  {% endwith %}
-
-  {% with source=content.sources %}
-    {% include "piece/piece_sources.html" %}
-  {% endwith %}
-  
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
+    {% for mei_link in content.mei_links %}
+      {% if mei_link %} 
+        <a href="{{ mei_link }}">
+          <img src="{% static 'img/meidownload.png' %}" height=24 />
+        </a>
+      {% endif %}
+    {% endfor %}
+    <small>[{{ content.piece_id }}]</small>
+  </h1>
+  <div class="row-fluid">
+    <div class="span9">
+      <hgroup class="page-title">
+        <h2>
+          {% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}
+        </h2>
+        {% for role in content.roles %}
+          <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
+            <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}
+          </h3>
+          {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+        {% endfor %}
+      </hgroup>
+    </div>
+    <div class="span3">
+      <div class="well span12">
+        <h3 class="well-heading"><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
+        <h3 class="well-heading"><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
+        <h3 class="well-heading">Piece relationships</h3>
+      </div>
+    </div>
+  </div>
   
   {% if content.relationships_as_model %}
     <h2>Relationships as model</h2>
-      <table class="table table-striped table-bordered table-hover">
+    <table class="table table-bordered table-hover">
+      <thead>
         <tr>
           <th>ID</th>
           <th>Observer</th>
@@ -58,6 +60,8 @@
           <th>Derivative piece</th>
           <th>Show details</th>
         </tr>
+      </thead>
+      <tbody>
         {% for relationship in content.relationships_as_model %}
           <tr>
             <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
@@ -81,21 +85,22 @@
               {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
                 <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
               {% else %}
-                Expand
+                -
               {% endif %}
             </td>
           </tr>
           <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-            <td colspan="5">
+            <td colspan="5" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
           </tr>
         {% endfor %}
-      </table>
+      </tbody>
+    </table>
   {% endif %}
   {% if content.relationships_as_derivative %}
     <h2>Relationships as derivative</h2>
-      <table class="table table-striped table-bordered table-hover">
+      <table class="table table-bordered table-hover">
         <tr>
           <th>ID</th>
           <th>Observer</th>
@@ -108,10 +113,10 @@
             <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
             <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
             <td>{% if relationship.rt_q %}Quotation{% endif %}
-             {% if relationship.rt_tm %}Mechanical transformation{% endif %}
-             {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
-             {% if relationship.rt_nm %}New material{% endif %}
-             {% if relationship.rt_om %}Omission{% endif %}
+                {% if relationship.rt_tm %}Mechanical transformation{% endif %}
+                {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
+                {% if relationship.rt_nm %}New material{% endif %}
+                {% if relationship.rt_om %}Omission{% endif %}
             </td>
             <td>
               <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
@@ -126,12 +131,12 @@
               {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
                 <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
               {% else %}
-                Expand
+                -
               {% endif %}
             </td>
           </tr>
           <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-            <td colspan="5">
+            <td colspan="5" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
           </tr>
