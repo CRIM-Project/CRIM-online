@@ -35,7 +35,7 @@
               <td><a href="{{ observation.url|htmlsite }}">&lt;{{ observation.pk }}&gt;</a></td>
               <td><a href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
               <td>
-                <a href="{{ observation.url|htmlsite }}">
+                <a href="{{ observation.piece.url|htmlsite }}">
                   [{{ observation.piece.piece_id }}]
                   {% if observation.piece.mass %}
                     {{observation.piece.mass.title}}:
