@@ -1,33 +1,31 @@
 <h2>Text</h2>
-<div class="row-fluid">
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Phrase</th>
+      <th>Measures</th>
+      <th>Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for phrase in phrases %}
       <tr>
-        <th>Part</th>
-        <th>Phrase</th>
-        <th>Measures</th>
-        <th>Text</th>
+        <td>
+          <strong>{{ phrase.part.order }}</strong> {% if phrase.part.name %}({{ phrase.part.name }}){% endif %}
+        </td>
+        <td>
+          {{ phrase.number }}
+        </td>
+        <td>
+          {% if phrase.start_measure %}
+            {{ phrase.start_measure }}&ndash;{{ phrase.stop_measure }}
+          {% endif %}
+        </td>
+        <td class="line-text">
+          {{ phrase.text|apostrophe }}
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for phrase in phrases %}
-        <tr>
-          <td>
-            <strong>{{ phrase.part.order }}</strong> {% if phrase.part.name %}({{ phrase.part.name }}){% endif %}
-          </td>
-          <td>
-            {{ phrase.number }}
-          </td>
-          <td>
-            {% if phrase.start_measure %}
-              {{ phrase.start_measure }}&ndash;{{ phrase.stop_measure }}
-            {% endif %}
-          </td>
-          <td class="line-text">
-            {{ phrase.text|apostrophe }}
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+    {% endfor %}
+  </tbody>
+</table>

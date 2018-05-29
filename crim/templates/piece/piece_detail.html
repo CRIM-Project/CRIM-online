@@ -43,6 +43,10 @@
           {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
         {% endfor %}
       </hgroup>
+      
+      {% with phrases=content.phrases %}
+        {% include "piece/phrase_text.html" %}
+      {% endwith %}
     </div>
     <div class="span3">
       <div class="well span12">
@@ -53,22 +57,21 @@
     </div>
   </div>
 
-  {% with phrases=content.phrases %}
-    {% include "piece/phrase_text.html" %}
-  {% endwith %}
-  
-  <h2>Score</h2>
-
-  <div class="row-fluid">
+  <div class="row">
     <div class="span10">
-      <div id="pieceScore" class="cw-score"></div>
-    </div>
-    <div id="cw-piece-controls" class="pull-left span2">
-      <div class="btn-group" role="group" aria-label="Score control button group" style="margin-top:36px;">
-        <button type="button" class="btn btn-primary cw-show">&lt;&lt;</button>
-        <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-        <button type="button" class="btn btn-primary cw-next">&gt;</button>
+      <div class="row">
+        <div id="piece-header" class="span8">
+          <h2>Score</h2>
+        </div>
+        <div id="cw-piece-controls" class="span2 pull-right">
+          <div class="btn-group" role="group" aria-label="Score control button group">
+            <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+            <button type="button" class="btn btn-primary cw-show">show</button>
+            <button type="button" class="btn btn-primary cw-next">&gt;</button>
+          </div>
+        </div>
       </div>
+      <div id="pieceScore" class="cw-score"></div>
     </div>
   </div>
 
