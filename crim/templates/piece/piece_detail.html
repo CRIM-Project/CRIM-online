@@ -9,8 +9,7 @@
 {% endblock %}
 
 {% block wrap %}
-  <hgroup class="page-title">
-    <h1>{{ content.title|apostrophe }}
+  <h1>{{ content.title|apostrophe }}
     {% for pdf_link in content.pdf_links %}
       {% if pdf_link %}
         <a href="{{ pdf_link }}">
@@ -26,17 +25,29 @@
       {% endif %}
     {% endfor %}
     <small>[{{ content.piece_id }}]</small>
-    </h1>
-    <h2>
-      {% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}
-    </h2>
-  </hgroup>
-  {% for role in content.roles %}
-    <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}
-    </h3>
-    {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
-  {% endfor %}
+  </h1>
+  <div class="row-fluid">
+    <div class="span9">
+      <hgroup class="page-title">
+        <h2>
+          {% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}
+        </h2>
+        {% for role in content.roles %}
+          <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
+            <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}
+          </h3>
+          {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+        {% endfor %}
+      </hgroup>
+    </div>
+    <div class="span3">
+      <div class="well span12">
+        <h3 class="well-heading">Piece details</h3>
+        <h3 class="well-heading"><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
+        <h3 class="well-heading"><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
+      </div>
+    </div>
+  </div>
 
   {% with phrases=content.phrases %}
     {% include "piece/phrase_text.html" %}
