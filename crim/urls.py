@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, logout
 from django.urls import path
+from django.views.generic.base import RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 
 from crim.views.auth import SessionAuth, SessionStatus, SessionClose
@@ -71,6 +72,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetail.as_view(), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
         re_path(r'^mass/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
+        re_path(r'^mass/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/piece/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail'),
         re_path(r'^models/$', ModelList.as_view(), name='crimmodel-list'),
         re_path(r'^observations/$', ObservationList.as_view(), name='crimobservation-list'),
         re_path(r'^observation/(?P<pk>[0-9]+)/$', ObservationDetail.as_view(), name='crimobservation-detail'),
@@ -93,6 +95,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/genre/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetailData.as_view(), name='crimgenre-detail-data'),
         re_path(r'^data/masses/$', MassListData.as_view(), name='crimmass-list-data'),
         re_path(r'^data/mass/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetailData.as_view(), name='crimmass-detail-data'),
+        re_path(r'^data/mass/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/data/piece/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail-data'),
         re_path(r'^data/models/$', ModelListData.as_view(), name='crimmodel-list-data'),
         re_path(r'^data/observations/$', ObservationListData.as_view(), name='crimobservation-list-data'),
         re_path(r'^data/observation/(?P<pk>[0-9]+)/$', ObservationDetailData.as_view(), name='crimobservation-detail-data'),
