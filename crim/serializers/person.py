@@ -1,6 +1,8 @@
 from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.genre import CRIMGenre
 from crim.models.mass import CRIMMass
+from crim.models.observation import CRIMObservation
+from crim.models.relationship import CRIMRelationship
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRoleType, CRIMRole
@@ -108,6 +110,8 @@ class CRIMPersonListSerializer(serializers.HyperlinkedModelSerializer):
                 role_type_name = crimrole.role_type.name
                 if role_type_name not in unique_roles:
                     unique_roles.append(role_type_name)
+        if CRIMObservation.objects.filter(observer=obj) or CRIMRelationship.objects.filter(observer=obj):
+            unique_roles.append('Analyst')
         unique_roles.sort()
         return unique_roles
 
@@ -138,6 +142,8 @@ class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
                 role_type_name = crimrole.role_type.name
                 if role_type_name not in unique_roles:
                     unique_roles.append(role_type_name)
+        if CRIMObservation.objects.filter(observer=obj) or CRIMRelationship.objects.filter(observer=obj):
+            unique_roles.append('Analyst')
         unique_roles.sort()
         return unique_roles
 
