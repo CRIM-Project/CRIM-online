@@ -72,6 +72,8 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_piece',
     )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -85,6 +87,12 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
             'mei_links',
             'pdf_links',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
 
 
 class CRIMObservationRelationshipListSerializer(serializers.HyperlinkedModelSerializer):

@@ -314,7 +314,8 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     )
     mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
-    # unique_roles = serializers.SerializerMethodField()
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -330,6 +331,12 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
             'mei_links',
             'remarks',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
 
 
 class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -349,6 +356,8 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -366,6 +375,12 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'mei_links',
             'remarks',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
 
 
 class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer):
@@ -389,6 +404,8 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
         many=True,
         read_only=True,
     )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -407,6 +424,12 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
             'mei_links',
             'remarks',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
 
 
 class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerializer):
@@ -436,6 +459,8 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
         read_only=True,
         source='derivatives',
     )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -455,3 +480,9 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
             'mei_links',
             'remarks',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')

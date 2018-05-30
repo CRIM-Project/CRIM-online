@@ -25,8 +25,6 @@ class SourceSetPagination(PageNumberPagination):
 class SourceListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for document in data:
-            # Put links into a list rather than a \n-separated string
-            document['external_links'] = document['external_links'].split('\n')
             # - Add `publisher` field to content: only look at roles with
             # the role type with name "Publisher", and add all such names
             # to the list, along with the url of the publisher
@@ -53,8 +51,6 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
 
 class SourceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Put links into a list rather than a \n-separated string
-        data['external_links'] = data['external_links'].split('\n')
         # See SourceListHTMLRenderer for comments on getting publisher
         # names and dates
         for item in (data['piece_contents'] + data['mass_contents'] +
