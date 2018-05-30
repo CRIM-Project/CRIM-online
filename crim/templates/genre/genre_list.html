@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load markdown %}
+{% load shorten %}
+{% load static %}
+
+{% block title %}
+<title>CRIM | Genres</title>
+{% endblock %}
+
+{% block wrap %}
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="show-heading row-fluid">
+        <hgroup class="show-title page-title span12">
+          <h1>Genres</h1>
+        </hgroup>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <table class="table table-white table-bordered table-hover">
+        <thead>
+	        <tr>
+	          <th>Name</th>
+	          <th>Number of pieces</th>
+	          <th>Remarks</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+          {% for genre in content %}
+            <tr>
+              <td><a href="{{ genre.url|htmlsite }}">{{ genre.name }}</a></td>
+              <td>{{ genre.number_of_pieces }}</td>
+              <td>{{ genre.remarks|markdown|safe|shorten }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
