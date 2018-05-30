@@ -83,7 +83,6 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'mass',
             'roles',
-            'number_of_voices',
             'mei_links',
             'pdf_links',
         )
