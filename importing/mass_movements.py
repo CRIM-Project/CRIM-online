@@ -29,8 +29,8 @@ def process_roles(csvfile):
         for i in range(5):
             new_fields = OrderedDict()
             new_fields['piece_id'] = old_row['CRIM_Mass_ID'] + '_' + str(i+1)
-            movement_title = dict((y, x) for x, y in CRIMPiece.MASS_MOVEMENT_ORDER)
-            new_fields['title'] = movement_title[str(i+1)]
+            movement_titles = dict((y, x) for x, y in CRIMPiece.MASS_MOVEMENT_ORDER)
+            new_fields['title'] = movement_titles[str(i+1)]
             new_fields['genre'] = CRIMGenre.objects.get(name='Mass').genre_id
             new_fields['pdf_links'] = pdf_links[i]
             new_fields['mei_links'] = mei_links[i]
