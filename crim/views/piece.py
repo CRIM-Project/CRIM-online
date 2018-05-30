@@ -22,9 +22,6 @@ class PieceSetPagination(PageNumberPagination):
 class AllPieceListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for piece in data['results']:
-            # Put pdf and mei links into a list rather than a \n-separated string
-            piece['pdf_links'] = piece['pdf_links'].split('\n')
-            piece['mei_links'] = piece['mei_links'].split('\n')
             # - Add `composer` field to content: only look at roles with
             # the role type with name "Composer", and add all such names
             # to the list, along with the url of the composer
@@ -60,9 +57,6 @@ class AllPieceListHTMLRenderer(CustomHTMLRenderer):
 class ModelListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for piece in data:
-            # Put pdf and mei links into a list rather than a \n-separated string
-            piece['pdf_links'] = piece['pdf_links'].split('\n')
-            piece['mei_links'] = piece['mei_links'].split('\n')
             # - Add `composer` field to content: only look at roles with
             # the role type with name "Composer", and add all such names
             # to the list, along with the url of the composer
@@ -97,9 +91,6 @@ class ModelListHTMLRenderer(CustomHTMLRenderer):
 
 class PieceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Put pdf and mei links into a list rather than a \n-separated string
-        data['pdf_links'] = data['pdf_links'].split('\n')
-        data['mei_links'] = data['mei_links'].split('\n')
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
@@ -112,9 +103,6 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
 
 class PieceWithObservationsHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Put pdf and mei links into a list rather than a \n-separated string
-        data['pdf_links'] = data['pdf_links'].split('\n')
-        data['mei_links'] = data['mei_links'].split('\n')
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
@@ -127,9 +115,6 @@ class PieceWithObservationsHTMLRenderer(CustomHTMLRenderer):
 
 class PieceWithRelationshipsHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Put pdf and mei links into a list rather than a \n-separated string
-        data['pdf_links'] = data['pdf_links'].split('\n')
-        data['mei_links'] = data['mei_links'].split('\n')
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')

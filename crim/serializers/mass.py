@@ -57,6 +57,8 @@ class CRIMRoleMassSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -67,6 +69,12 @@ class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
             'pdf_links',
             'mei_links',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
 
 
 class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):

@@ -128,6 +128,7 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_source',
     )
+    external_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMSource
@@ -139,6 +140,9 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
             'external_links',
             'remarks',
         )
+
+    def get_external_links(self, obj):
+        return obj.pdf_links.split('\n')
 
 
 class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -160,6 +164,7 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_source',
     )
+    external_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMSource
@@ -174,3 +179,6 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'treatise_contents',
             'remarks',
         )
+
+    def get_external_links(self, obj):
+        return obj.pdf_links.split('\n')
