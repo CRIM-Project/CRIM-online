@@ -19,9 +19,7 @@
       {% endif %}
     </h1>
     <h2>
-      {% if content.unique_roles %}{{ content.unique_roles }}{% endif %}{% if content.unique_roles %}{% if content.birth_date or content.death_date or content.active_date %},&nbsp;
-        {% endif %}
-      {% endif %}
+      {% if content.unique_roles %}{{ content.unique_roles }}{% endif %}{% if content.unique_roles %}{% if content.birth_date or content.death_date or content.active_date %},&nbsp;{% endif %}{% endif %}
       {% if content.birth_date and content.death_date %}
         {{ content.birth_date|apostrophe|shortendate }}&ndash;{{ content.death_date|apostrophe|shortendate }}
       {% else %}

@@ -49,7 +49,7 @@
                 {% endif %}
               {% endif %}
             </td>
-            <td>{{ person.unique_roles }}</td>
+            <td>{% if person.unique_roles %}{{ person.unique_roles }}{% else %}-{% endif %}</td>
             <td>{{ person.name_alternate_list|newlinereplace:', ' }}</td>
           </tr>
         {% endfor %}
