@@ -36,7 +36,7 @@ class CRIMPieceMassInline(admin.TabularInline):
 
     form = CRIMPieceMassForm
     model = CRIMPiece
-    exclude = ('piece_id', 'genre', 'number_of_voices', 'remarks')
+    exclude = ('piece_id', 'genre', 'remarks')
     extra = 5
     max_num = 5
 
@@ -199,7 +199,6 @@ class CRIMModelAdmin(admin.ModelAdmin):
         'title_with_id',
         'composer',
         'genre',
-        'number_of_voices',
         'date',
     )
     ordering = (
@@ -207,7 +206,6 @@ class CRIMModelAdmin(admin.ModelAdmin):
     )
     list_filter = (
         'genre',
-        'number_of_voices',
     )
 
 
@@ -241,7 +239,6 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
         'title_with_id',
         'composer',
         'date',
-        'number_of_voices',
     )
     ordering = (
         'piece_id',
