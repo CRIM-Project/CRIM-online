@@ -28,7 +28,10 @@ class RoleTypeList(generics.ListAPIView):
     model = CRIMRoleType
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRoleTypeSerializer
-    renderer_classes = (JSONRenderer,)  # add html later
+    renderer_classes = (
+        RoleTypeListHTMLRenderer,
+        JSONRenderer,
+    )
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'role_type_id')
@@ -39,7 +42,10 @@ class RoleTypeDetail(generics.RetrieveAPIView):
     model = CRIMRoleType
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRoleTypeSerializer
-    renderer_classes = (JSONRenderer,)  # add html later
+    renderer_classes = (
+        RoleTypeDetailHTMLRenderer,
+        JSONRenderer,
+    )
     queryset = CRIMRoleType.objects.all()
 
     def get_object(self):
@@ -53,30 +59,9 @@ class RoleTypeDetail(generics.RetrieveAPIView):
         return obj
 
 
-class RoleTypeListData(generics.ListAPIView):
-    model = CRIMRoleType
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRoleTypeSerializer
+class RoleTypeListData(RoleTypeList):
     renderer_classes = (JSONRenderer,)
 
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'role_type_id')
-        return CRIMRoleType.objects.all().order_by(order_by)
 
-
-class RoleTypeDetailData(generics.RetrieveAPIView):
-    model = CRIMRoleType
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRoleTypeSerializer
+class RoleTypeDetailData(RoleTypeDetail):
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMRoleType.objects.all()
-
-    def get_object(self):
-        url_arg = self.kwargs['role_type_id']
-        roletype = CRIMRoleType.objects.filter(role_type_id=url_arg)
-        if not roletype.exists():
-            roletype = CRIMRoleType.objects.filter(name__iexact=url_arg)
-
-        obj = get_object_or_404(roletype)
-        self.check_object_permissions(self.request, obj)
-        return obj
