@@ -145,9 +145,9 @@ class PieceList(generics.ListAPIView):
         order_by = self.request.GET.get('order_by', 'piece_id')
         if self.request.GET.get('genre') and CRIMGenre.objects.filter(genre_id=self.request.GET.get('genre')):
             genre = CRIMGenre.objects.get(genre_id=self.request.GET.get('genre'))
-            return CRIMPiece.objects.filter(genre=genre).order_by(order_by)
+            return CRIMPiece.objects.filter(genre=genre).distinct().order_by(order_by)
         else:
-            return CRIMPiece.objects.all().order_by(order_by)
+            return CRIMPiece.objects.all().distinct().order_by(order_by)
 
 
 class ModelList(generics.ListAPIView):
