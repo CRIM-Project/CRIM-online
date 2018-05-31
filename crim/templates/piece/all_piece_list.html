@@ -2,9 +2,10 @@
 {% load markdown %}
 {% load shorten %}
 {% load static %}
+{% load get_string %}
 
 {% block title %}
-  <title>CRIM | All pieces</title>
+  <title>CRIM | {% if content.filter_genre %}Pieces: {{ content.filter_genre.name_plural }}{% else %}Pieces (all){% endif %}</title>
 {% endblock %}
 
 {% block wrap %}
@@ -12,7 +13,16 @@
     <div class="span12">
       <div class="show-heading row-fluid">
         <hgroup class="show-title page-title span12">
-          <h1>All pieces</h1>
+          {% if content.filter_genre %}
+            <h1>Pieces: {{ content.filter_genre.name_plural }}</h1>
+            <p>See <a href="/genres/">list of genres</a>, or <a href="/pieces/">all pieces</a>.</p>
+          {% else %}
+            <h1>Pieces (all)</h1>
+            <p>See <a href="/genres/">list of genres</a>.</p>
+          {% endif %}
+          {% if content.filter_genre.remarks %}
+            <p><strong>Remarks:</strong> {{ content.filter_genre.remarks }}</p>
+          {% endif %}
         </hgroup>
       </div>
     </div>
@@ -70,7 +80,7 @@
             {% elif not request.GET.page and i == 1 %}
               <li class="active pagination"><a>{{ i }}</a></li>
             {% else %}
-              <li class="pagination"><a href="{% if request.GET.order_by %}?order_by={{ request.GET.order_by }}&{% else %}?{% endif %}page={{ i }}">{{ i }}</a></li>
+              <li class="pagination"><a href='?{% get_string "page" i %}'>{{ i }}</a></li>
             {% endif %}
           {% endfor %}
           {% if content.next %}

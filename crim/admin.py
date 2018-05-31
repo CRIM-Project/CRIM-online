@@ -343,6 +343,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
 class CRIMGenreAdmin(admin.ModelAdmin):
     fields = (
         'name',
+        'name_plural',
         'remarks',
     )
     list_display = (
@@ -473,6 +474,7 @@ class CRIMRoleAdmin(admin.ModelAdmin):
 class CRIMRoleTypeAdmin(admin.ModelAdmin):
     fields = (
         'name',
+        'name_plural',
         'remarks',
     )
     list_display = (

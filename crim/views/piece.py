@@ -5,6 +5,7 @@ from rest_framework.renderers import JSONRenderer
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer
+from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
 from crim.common import earliest_date
 
@@ -47,6 +48,11 @@ class AllPieceListHTMLRenderer(CustomHTMLRenderer):
             piece['composers_with_url'] = '; '.join(composers) if composers else '-'
             # Only add one composer's date for clarity, choosing the earliest.
             piece['date'] = earliest_date(dates)
+
+        # Add `content.filter_genre` item if there is a url parameter
+        # that matches a genre in the database.
+        if renderer_context['request'].GET.get('genre') and CRIMGenre.objects.filter(genre_id=renderer_context['request'].GET.get('genre')):
+            data['filter_genre'] = CRIMGenre.objects.get(genre_id=renderer_context['request'].GET.get('genre'))
 
         template_names = ['piece/all_piece_list.html']
         template = self.resolve_template(template_names)
@@ -137,7 +143,11 @@ class PieceList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.all().order_by(order_by)
+        if self.request.GET.get('genre') and CRIMGenre.objects.filter(genre_id=self.request.GET.get('genre')):
+            genre = CRIMGenre.objects.get(genre_id=self.request.GET.get('genre'))
+            return CRIMPiece.objects.filter(genre=genre).order_by(order_by)
+        else:
+            return CRIMPiece.objects.all().order_by(order_by)
 
 
 class ModelList(generics.ListAPIView):
@@ -226,86 +236,21 @@ class PieceWithRelationships(generics.RetrieveAPIView):
         return obj
 
 
-class PieceListData(generics.ListAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceListSerializer
+class PieceListData(PieceList):
     renderer_classes = (JSONRenderer,)
 
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.all().order_by(order_by)
 
-
-class ModelListData(generics.ListAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceListSerializer
+class ModelListData(ModelList):
     renderer_classes = (JSONRenderer,)
 
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.filter(mass=None).order_by(order_by)
 
-
-class PieceDetailData(generics.RetrieveAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceDetailSerializer
+class PieceDetailData(PieceDetail):
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMPiece.objects.all()
-
-    def get_queryset(self):
-        return CRIMPiece.objects.filter(mass=None)
-
-    def get_object(self):
-        url_arg = self.kwargs['piece_id']
-        piece = CRIMPiece.objects.filter(piece_id=url_arg)
-        if not piece.exists():
-            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
-
-        obj = get_object_or_404(piece)
-        self.check_object_permissions(self.request, obj)
-        return obj
 
 
-class PieceWithObservationsData(generics.RetrieveAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceWithObservationsSerializer
+class PieceWithObservationsData(PieceWithObservations):
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMPiece.objects.all()
-
-    def get_queryset(self):
-        return CRIMPiece.objects.filter(mass=None)
-
-    def get_object(self):
-        url_arg = self.kwargs['piece_id']
-        piece = CRIMPiece.objects.filter(piece_id=url_arg)
-        if not piece.exists():
-            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
-
-        obj = get_object_or_404(piece)
-        self.check_object_permissions(self.request, obj)
-        return obj
 
 
-class PieceWithRelationshipsData(generics.RetrieveAPIView):
-    model = CRIMPiece
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMPieceWithRelationshipsSerializer
+class PieceWithRelationshipsData(PieceWithRelationships):
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMPiece.objects.all()
-
-    def get_queryset(self):
-        return CRIMPiece.objects.filter(mass=None)
-
-    def get_object(self):
-        url_arg = self.kwargs['piece_id']
-        piece = CRIMPiece.objects.filter(piece_id=url_arg)
-        if not piece.exists():
-            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
-
-        obj = get_object_or_404(piece)
-        self.check_object_permissions(self.request, obj)
-        return obj
