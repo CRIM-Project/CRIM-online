@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 
 from crim.models.genre import CRIMGenre
 from crim.models.role import CRIMRole
-from crim.models.voice import CRIMVoice
 
 import re
 

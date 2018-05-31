@@ -23,13 +23,13 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from crim.views.auth import SessionAuth, SessionStatus, SessionClose
 from crim.views.main import home, profile
-from crim.views.genre import GenreList, GenreDetail
+from crim.views.genre import GenreList
 from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
 from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships
-from crim.views.roletype import RoleTypeList, RoleTypeDetail
+from crim.views.roletype import RoleTypeList
 from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserList, UserDetail
@@ -69,7 +69,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^user/(?P<username>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
 
         re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
-        re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetail.as_view(), name='crimgenre-detail'),
+        re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/pieces/?genre=%(genre_id)s', permanent=False), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
         re_path(r'^mass/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
         re_path(r'^mass/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/piece/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail'),
@@ -85,7 +85,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationship/(?P<pk>[0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
-        re_path(r'^roletype/(?P<role_type_id>[-A-Za-z0-9]+)/$', RoleTypeDetail.as_view(), name='crimroletype-detail'),
+        re_path(r'^roletype/(?P<role_type_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/people/?role=%(role_type_id)s', permanent=False), name='crimroletype-detail'),
         re_path(r'^sources/$', SourceList.as_view(), name='crimsource-list'),
         re_path(r'^source/(?P<document_id>[-_A-Za-z0-9]+)/$', SourceDetail.as_view(), name='crimsource-detail'),
         re_path(r'^treatises/$', TreatiseList.as_view(), name='crimtreatise-list'),
