@@ -85,34 +85,9 @@ class TreatiseDetail(generics.RetrieveAPIView):
         return obj
 
 
-class TreatiseListData(generics.ListAPIView):
-    model = CRIMTreatise
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMTreatiseListSerializer
-    renderer_classes = (
-        JSONRenderer,
-    )
-
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'document_id')
-        return CRIMTreatise.objects.all().order_by(order_by)
+class TreatiseListData(TreatiseList):
+    renderer_classes = (JSONRenderer,)
 
 
-class TreatiseDetailData(generics.RetrieveAPIView):
-    model = CRIMTreatise
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMTreatiseDetailSerializer
-    renderer_classes = (
-        JSONRenderer,
-    )
-    queryset = CRIMTreatise.objects.all()
-
-    def get_object(self):
-        url_arg = self.kwargs['document_id']
-        document = CRIMTreatise.objects.filter(document_id=url_arg)
-        if not document.exists():
-            document = CRIMTreatise.objects.filter(title__iexact=url_arg)
-
-        obj = get_object_or_404(document)
-        self.check_object_permissions(self.request, obj)
-        return obj
+class TreatiseDetailData(TreatiseDetail):
+    renderer_classes = (JSONRenderer,)

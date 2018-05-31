@@ -84,27 +84,9 @@ class ObservationDetail(generics.RetrieveAPIView):
         return obj
 
 
-class ObservationListData(generics.ListAPIView):
-    model = CRIMObservation
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMObservationSerializer
+class ObservationListData(ObservationList):
     renderer_classes = (JSONRenderer,)
 
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMObservation.objects.all().order_by(order_by)
 
-
-class ObservationDetailData(generics.RetrieveAPIView):
-    model = CRIMObservation
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMObservationSerializer
+class ObservationDetailData(ObservationDetail):
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMObservation.objects.all()
-
-    def get_object(self):
-        url_arg = self.kwargs['pk']
-        observation = CRIMObservation.objects.filter(pk=url_arg)
-        obj = get_object_or_404(observation)
-        self.check_object_permissions(self.request, obj)
-        return obj
