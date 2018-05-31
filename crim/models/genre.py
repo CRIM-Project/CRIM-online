@@ -14,6 +14,7 @@ class CRIMGenre(models.Model):
         db_index=True,
     )
     name = models.CharField(max_length=32)
+    name_plural = models.CharField(max_length=32, blank=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def __str__(self):

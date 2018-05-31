@@ -4,7 +4,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.genre import CRIMGenreListSerializer, CRIMGenreDetailSerializer
+from crim.serializers.genre import CRIMGenreSerializer
 from crim.models.genre import CRIMGenre
 from crim.common import earliest_date
 
@@ -57,7 +57,7 @@ class GenreDetailHTMLRenderer(CustomHTMLRenderer):
 class GenreList(generics.ListAPIView):
     model = CRIMGenre
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMGenreListSerializer
+    serializer_class = CRIMGenreSerializer
     renderer_classes = (
         GenreListHTMLRenderer,
         JSONRenderer,
@@ -68,21 +68,10 @@ class GenreList(generics.ListAPIView):
         return CRIMGenre.objects.all().order_by(order_by)
 
 
-class GenreListData(generics.ListAPIView):
-    model = CRIMGenre
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMGenreListSerializer
-    renderer_classes = (JSONRenderer,)
-
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'genre_id')
-        return CRIMGenre.objects.all().order_by(order_by)
-
-
 class GenreDetail(generics.RetrieveAPIView):
     model = CRIMGenre
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMGenreDetailSerializer
+    serializer_class = CRIMGenreSerializer
     renderer_classes = (
         GenreDetailHTMLRenderer,
         JSONRenderer,
@@ -100,19 +89,9 @@ class GenreDetail(generics.RetrieveAPIView):
         return obj
 
 
-class GenreDetailData(generics.RetrieveAPIView):
-    model = CRIMGenre
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMGenreDetailSerializer
+class GenreListData(GenreList):
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMGenre.objects.all()
 
-    def get_object(self):
-        url_arg = self.kwargs['genre_id']
-        genre = CRIMGenre.objects.filter(genre_id=url_arg)
-        if not genre.exists():
-            genre = CRIMGenre.objects.filter(name__iexact=url_arg)
 
-        obj = get_object_or_404(genre)
-        self.check_object_permissions(self.request, obj)
-        return obj
+class GenreDetailData(GenreDetail):
+    renderer_classes = (JSONRenderer,)

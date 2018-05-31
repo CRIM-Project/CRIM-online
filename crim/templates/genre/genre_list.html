@@ -23,15 +23,13 @@
         <thead>
 	        <tr>
 	          <th>Name</th>
-	          <th>Number of pieces</th>
 	          <th>Remarks</th>
 	        </tr>
 	    </thead>
 	    <tbody>
           {% for genre in content %}
             <tr>
-              <td><a href="{{ genre.url|htmlsite }}">{{ genre.name }}</a></td>
-              <td>{{ genre.number_of_pieces }}</td>
+              <td><a href="/pieces/?genre={{ genre.genre_id }}">{{ genre.name }}</a></td>
               <td>{{ genre.remarks|markdown|safe|shorten }}</td>
             </tr>
           {% endfor %}
