@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load markdown %}
+{% load shorten %}
+{% load static %}
+
+{% block title %}
+<title>CRIM | Role types</title>
+{% endblock %}
+
+{% block wrap %}
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="show-heading row-fluid">
+        <hgroup class="show-title page-title span12">
+          <h1>Role types</h1>
+        </hgroup>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <table class="table table-white table-bordered table-hover">
+        <thead>
+	        <tr>
+	          <th>Name</th>
+	          <th>Remarks</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+          {% for roletype in content %}
+            <tr>
+              <td><a href="/people/?role={{ roletype.role_type_id }}">{{ roletype.name }}</a></td>
+              <td>{{ roletype.remarks|markdown|safe|shorten }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

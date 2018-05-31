@@ -3,9 +3,10 @@
 {% load markdown %}
 {% load shorten %}
 {% load shortendate %}
+{% load get_string %}
 
 {% block title %}
-<title>CRIM | People</title>
+  <title>CRIM | {% if content.filter_roletype %}People: {{ content.filter_roletype.name_plural }}{% else %}People{% endif %}</title>
 {% endblock %}
 
 {% block wrap %}
@@ -13,7 +14,16 @@
     <div class="span12">
       <div class="show-heading row-fluid">
         <hgroup class="show-title page-title span12">
-          <h1>People</h1>
+          {% if content.filter_roletype %}
+            <h1>People: {{ content.filter_roletype.name_plural }}</h1>
+            <p>See <a href="/roletypes/">list of role types</a>, or <a href="/people/">all people</a>.</p>
+          {% else %}
+            <h1>People</h1>
+            <p>See <a href="/roletypes/">list of role types</a>.</p>
+          {% endif %}
+          {% if content.filter_roletype.remarks %}
+            <p><strong>Remarks:</strong> {{ content.filter_roletype.remarks }}</p>
+          {% endif %}
         </hgroup>
       </div>
     </div>
@@ -21,38 +31,42 @@
   <div class="row-fluid">
     <div class="span12">
       <table class="table table-white table-bordered table-hover">
-        <tr>
+        <thead>
+          <tr>
             <th><a href="?order_by=person_id">Person ID</a></th>
             <th><a href="?order_by=name_sort">Name</a></th>
             <th><a href="?order_by=date_sort">Dates</a></th>
             <th>Roles</th>
             <th>Alternate Names</th>
-        </tr>
-        {% for person in content.results %}
-          <tr>
-            <td><a href="{{ person.url|htmlsite }}">{{ person.person_id }}</a></td>
-            <td>{{ person.name_sort }}</td>
-            <td>
-              {% if person.birth_date and person.death_date %}
-                {{ person.birth_date|apostrophe|shortendate }}&ndash;{{ person.death_date|apostrophe|shortendate }}
-              {% else %}
-                {% if person.birth_date and not person.death_date %}
-                  b. {{ person.birth_date|apostrophe|figuredash|shortendate }}
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in content.results %}
+            <tr>
+              <td><a href="{{ person.url|htmlsite }}">{{ person.person_id }}</a></td>
+              <td>{{ person.name_sort }}</td>
+              <td>
+                {% if person.birth_date and person.death_date %}
+                  {{ person.birth_date|apostrophe|shortendate }}&ndash;{{ person.death_date|apostrophe|shortendate }}
                 {% else %}
-                  {% if person.death_date and not person.birth_date %}
-                    d. {{ person.death_date|apostrophe|figuredash|shortendate }}
+                  {% if person.birth_date and not person.death_date %}
+                    b. {{ person.birth_date|apostrophe|figuredash|shortendate }}
                   {% else %}
-                    {% if person.active_date %}
-                      fl. {{ person.active_date|apostrophe|figuredash }}
+                    {% if person.death_date and not person.birth_date %}
+                      d. {{ person.death_date|apostrophe|figuredash|shortendate }}
+                    {% else %}
+                      {% if person.active_date %}
+                        fl. {{ person.active_date|apostrophe|figuredash }}
+                      {% endif %}
                     {% endif %}
                   {% endif %}
                 {% endif %}
-              {% endif %}
-            </td>
-            <td>{% if person.unique_roles %}{{ person.unique_roles }}{% else %}-{% endif %}</td>
-            <td>{{ person.name_alternate_list|newlinereplace:', ' }}</td>
-          </tr>
-        {% endfor %}
+              </td>
+              <td>{% if person.unique_roles %}{{ person.unique_roles }}{% else %}-{% endif %}</td>
+              <td>{{ person.name_alternate_list|newlinereplace:', ' }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
       </table>
        
       <div class="pagination">
@@ -71,7 +85,7 @@
             {% elif not request.GET.page and i == 1 %}
               <li class="active pagination"><a>{{ i }}</a></li>
             {% else %}
-              <li class="pagination"><a href="{% if request.GET.order_by %}?order_by={{ request.GET.order_by }}&{% else %}?{% endif %}page={{ i }}">{{ i }}</a></li>
+              <li class="pagination"><a href='?{% get_string "page" i %}'>{{ i }}</a></li>
             {% endif %}
           {% endfor %}
           {% if content.next %}
