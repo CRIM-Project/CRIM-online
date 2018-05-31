@@ -1,9 +1,6 @@
 from django.shortcuts import render
-from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_change
-from django.http import HttpResponseRedirect
-from django.template import RequestContext
 
 
 def home(request):
