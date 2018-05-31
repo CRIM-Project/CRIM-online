@@ -61,6 +61,7 @@ class CRIMRole(models.Model):
         blank=True,
         null=True,
         db_index=True,
+        related_name='roles',
     )
 
     date = models.CharField(

@@ -74,12 +74,12 @@ class PersonList(generics.ListAPIView):
         order_by = self.request.GET.get('order_by', 'person_id')
         if self.request.GET.get('role') and CRIMRoleType.objects.filter(role_type_id=self.request.GET.get('role')):
             if self.request.GET.get('role') == ANALYST:
-                return CRIMPerson.objects.exclude(observations__isnull=True, relationships__isnull=True).order_by(order_by)
+                return CRIMPerson.objects.exclude(observations__isnull=True, relationships__isnull=True).distinct().order_by(order_by)
             else:
                 role_type = CRIMRoleType.objects.get(role_type_id=self.request.GET.get('role'))
-                return CRIMPerson.objects.filter(roles__role_type=role_type).order_by(order_by)
+                return CRIMPerson.objects.filter(roles__role_type=role_type).distinct().order_by(order_by)
         else:
-            return CRIMPerson.objects.all().order_by(order_by)
+            return CRIMPerson.objects.all().distinct().order_by(order_by)
 
 
 class PersonDetail(generics.RetrieveAPIView):
