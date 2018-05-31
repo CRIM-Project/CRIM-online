@@ -50,6 +50,6 @@ def latest_date(dates):
             if (get_date_sort(date) and get_date_sort(latest_date) and
                     get_date_sort(date) and get_date_sort(date) > get_date_sort(latest_date)):
                 latest_date = date
-        return latest_date
+        return latest_date if latest_date else None
     else:
         return None
