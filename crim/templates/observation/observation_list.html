@@ -2,6 +2,7 @@
 {% load markdown %}
 {% load shorten %}
 {% load static %}
+{% load get_string %}
 
 {% block title %}
   <title>CRIM | Observations</title>
@@ -91,7 +92,7 @@
             {% elif not request.GET.page and i == 1 %}
               <li class="active pagination"><a>{{ i }}</a></li>
             {% else %}
-              <li class="pagination"><a href="{% if request.GET.order_by %}?order_by={{ request.GET.order_by }}&{% else %}?{% endif %}page={{ i }}">{{ i }}</a></li>
+              <li class="pagination"><a href='?{% get_string "page" i %}'>{{ i }}</a></li>
             {% endif %}
           {% endfor %}
           {% if content.next %}
