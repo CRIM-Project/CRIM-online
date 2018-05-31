@@ -113,34 +113,9 @@ class SourceDetail(generics.RetrieveAPIView):
         return obj
 
 
-class SourceListData(generics.ListAPIView):
-    model = CRIMSource
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMSourceListSerializer
-    renderer_classes = (
-        JSONRenderer,
-    )
-
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'document_id')
-        return CRIMSource.objects.all().order_by(order_by)
+class SourceListData(SourceList):
+    renderer_classes = (JSONRenderer,)
 
 
-class SourceDetailData(generics.RetrieveAPIView):
-    model = CRIMSource
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMSourceDetailSerializer
-    renderer_classes = (
-        JSONRenderer,
-    )
-    queryset = CRIMSource.objects.all()
-
-    def get_object(self):
-        url_arg = self.kwargs['document_id']
-        document = CRIMSource.objects.filter(document_id=url_arg)
-        if not document.exists():
-            document = CRIMSource.objects.filter(title__iexact=url_arg)
-
-        obj = get_object_or_404(document)
-        self.check_object_permissions(self.request, obj)
-        return obj
+class SourceDetailData(SourceDetail):
+    renderer_classes = (JSONRenderer,)
