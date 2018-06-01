@@ -5,16 +5,16 @@
 {% load static %}
 
 {% block title %}
-<title>CRIM | {{ content.title }}</title>
+  <title>CRIM | {{ content.title }}</title>
 {% endblock %}
 
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
-	  {% for link in content.external_links %}
-	  <a href="{{ link }}"><img src="{% static 'img/externallink.png' %}" height=24 /></a>
-	  {% endfor %}
-	  <small>[{{ content.document_id }}]</small>
+    {% for link in content.external_links %}
+    <a href="{{ link }}"><img src="{% static 'img/externallink.png' %}" height=24 /></a>
+    {% endfor %}
+    <small>[{{ content.document_id }}]</small>
     </h1>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
@@ -28,18 +28,21 @@
   {% endif %}
 
   {% if content.mass_contents or content.piece_contents or content.treatise_contents %}
-  <h2>Contents</h2>
-  <div class="row-fluid">
-    <div class="span12">
+    <h2>Contents</h2>
+    <div class="row-fluid">
+      <div class="span12">
         <table class="table table-white table-bordered table-hover">
+          <thead>
             <tr>
-                <th>ID</th>
-                <th>Type</th>
-                <th>Title</th>
-                <th>Author or Composer</th>
-                <th>Date</th>
-                <th>Remarks</th>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Title</th>
+              <th>Author or Composer</th>
+              <th>Date</th>
+              <th>Remarks</th>
             </tr>
+          </thead>
+          <tbody>
             {% for mass in content.mass_contents %}
               <tr>
                 <td>{{ mass.mass_id }}</td>
@@ -70,14 +73,13 @@
                 <td>{{ treatise.remarks|markdown|shorten|safe }}</td>
               </tr>
             {% endfor %}
+          </tbody>
         </table>
+      </div>
     </div>
-</div>
   {% endif %}
   
-
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
 
 {% endblock %}

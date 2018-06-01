@@ -11,78 +11,86 @@
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
-	  <small>[{{ content.mass_id }}]</small>
-	  {% if content.pdf_links %}{% for pdf_link in content.pdf_links %}
-	  <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
-	  {% endfor %}{% endif %}
-	  {% if content.mei_links %}{% for mei_link in content.mei_links %}
-	  <a href="{{ mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
-	  {% endfor %}{% endif %}
+    <small>[{{ content.mass_id }}]</small>
+    {% if content.pdf_links %}{% for pdf_link in content.pdf_links %}
+    <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
+    {% endfor %}{% endif %}
+    {% if content.mei_links %}{% for mei_link in content.mei_links %}
+    <a href="{{ mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
+    {% endfor %}{% endif %}
     </h1>
     <h2>{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% else %}Mass{% endif %}</h2>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
       <a href="{{ role.person.url|htmlsite}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
-	  {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
+    {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
     {% endfor %}
   </hgroup>
 
   {% if content.movements %}
     <h2>Movements</h2>
     <table class="table table-white table-bordered table-hover">
-      <tr>
-        <th>Piece ID</th>
-        <th>Title</th>
-        <th>Remarks</th>
-      </tr>
-      {% for piece in content.movements %}
+      <thead>
         <tr>
-          <td>
-          {% for pdf_link in piece.pdf_links %}
-            <a href="{{ pdf_link }}">
-              <img src="{% static 'img/pdfdownload.png' %}" height=21 />
-            </a>
-          {% endfor %}
-          {% for mei_link in piece.mei_links %}
-            <a href="{{ mei_link }}">
-              <img src="{% static 'img/meidownload.png' %}" height=16 />
-            </a>
-          {% endfor %}
-          <a href="{{ piece.url|htmlsite }}">{{ piece.piece_id }}</a>
-        </td>
-        <td>
-          {{ content.title }}: {{ piece.title }}
-        </td>
-          <td>{{ piece.remarks|markdown|shorten|safe }}</td>
+          <th>Piece ID</th>
+          <th>Title</th>
+          <th>Remarks</th>
         </tr>
-      {% endfor %}
+      </thead>
+      <tbody>
+        {% for piece in content.movements %}
+          <tr>
+            <td>
+            {% for pdf_link in piece.pdf_links %}
+              <a href="{{ pdf_link }}">
+                <img src="{% static 'img/pdfdownload.png' %}" height=21 />
+              </a>
+            {% endfor %}
+            {% for mei_link in piece.mei_links %}
+              <a href="{{ mei_link }}">
+                <img src="{% static 'img/meidownload.png' %}" height=16 />
+              </a>
+            {% endfor %}
+            <a href="{{ piece.url|htmlsite }}">{{ piece.piece_id }}</a>
+          </td>
+          <td>
+            {{ content.title }}: {{ piece.title }}
+          </td>
+            <td>{{ piece.remarks|markdown|shorten|safe }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   {% endif %}
 
   {% if content.sources %}
     <h2>Sources</h2>
     <table class="table table-white table-bordered table-hover">
-      <tr>
-        <th>Source ID</th>
-        <th>Title</th>
-        <th>Remarks</th>
-      </tr>
-      {% for source in content.sources %}
+      <thead>
         <tr>
-          <td>
-          {% for external_links in source.external_links %}
-            <a href="{{ external_link }}">
-              <img src="{% static 'img/externallink.png' %}" height=24 />
-            </a>
-          {% endfor %}
-          <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
-        </td>
-        <td>
-          {{ source.title }}
-        </td>
-          <td>{{ source.remarks|markdown|shorten|safe }}</td>
+          <th>Source ID</th>
+          <th>Title</th>
+          <th>Remarks</th>
         </tr>
-      {% endfor %}
+      </thead>
+      <tbody>
+        {% for source in content.sources %}
+          <tr>
+            <td>
+            {% for external_links in source.external_links %}
+              <a href="{{ external_link }}">
+                <img src="{% static 'img/externallink.png' %}" height=24 />
+              </a>
+            {% endfor %}
+            <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
+          </td>
+          <td>
+            {{ source.title }}
+          </td>
+            <td>{{ source.remarks|markdown|shorten|safe }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   {% endif %}
   

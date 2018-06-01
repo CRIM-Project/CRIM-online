@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block title %}
-<title>CRIM | Sources</title>
+  <title>CRIM | Sources</title>
 {% endblock %}
 
 {% block wrap %}
@@ -20,26 +20,30 @@
   <div class="row-fluid">
     <div class="span12">
       <table class="table table-white table-bordered table-hover">
-        <tr>
-          <th>Document ID</th>
-          <th>Title</th>
-          <th>Publisher</th>
-          <th>Date</th>
-        </tr>
-        {% for document in content.results %}
+        <thead>
           <tr>
-            <td>
-              {% for link in document.external_links %}
-                <a href="{{ link }}">
-                  <img src="{% static 'img/externallink.png' %}" height=16 />
-                </a>
-              {% endfor %}
-              <a href="{{ document.url|htmlsite }}">{{ document.document_id }}</a></td>
-            <td>{{ document.title }}</td>
-            <td>{{ document.publishers_with_url|htmlsite|safe }}</td>
-            <td>{{ document.date }}</td>
+            <th>Document ID</th>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Date</th>
           </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+          {% for document in content.results %}
+            <tr>
+              <td>
+                {% for link in document.external_links %}
+                  <a href="{{ link }}">
+                    <img src="{% static 'img/externallink.png' %}" height=16 />
+                  </a>
+                {% endfor %}
+                <a href="{{ document.url|htmlsite }}">{{ document.document_id }}</a></td>
+              <td>{{ document.title }}</td>
+              <td>{{ document.publishers_with_url|htmlsite|safe }}</td>
+              <td>{{ document.date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
       </table>
       
       <div class="pagination">

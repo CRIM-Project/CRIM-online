@@ -4,43 +4,47 @@
 {% load static %}
 
 {% block title %}
-<title>CRIM | Treatises</title>
+  <title>CRIM | Treatises</title>
 {% endblock %}
 
 {% block wrap %}
-<div class="row-fluid">
+  <div class="row-fluid">
     <div class="span12">
-        <div class="show-heading row-fluid">
-            <hgroup class="show-title page-title span12">
-              <h1>Treatises</h1>
-            </hgroup>
-        </div>
+      <div class="show-heading row-fluid">
+        <hgroup class="show-title page-title span12">
+          <h1>Treatises</h1>
+        </hgroup>
+      </div>
     </div>
-</div>
-<div class="row-fluid">
+  </div>
+  <div class="row-fluid">
     <div class="span12">
-        <table class="table table-white table-bordered table-hover">
-            <tr>
-                <th>Document ID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Date</th>
-            </tr>
-            {% for document in content %}
-            <tr>
-                <td>
-                  {% for link in document.external_links %}
-                    <a href="{{ link }}">
-                      <img src="{% static 'img/externallink.png' %}" height=16 />
-                    </a>
-                  {% endfor %}
-                  <a href="{{ document.url|htmlsite }}">{{ document.document_id }}</a></td>
-                <td>{{ document.title }}</td>
-                <td>{{ document.authors_with_url|htmlsite|safe }}</td>
-                <td>{{ document.date }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+      <table class="table table-white table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Document ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for document in content %}
+          <tr>
+            <td>
+              {% for link in document.external_links %}
+                <a href="{{ link }}">
+                  <img src="{% static 'img/externallink.png' %}" height=16 />
+                </a>
+              {% endfor %}
+              <a href="{{ document.url|htmlsite }}">{{ document.document_id }}</a></td>
+            <td>{{ document.title }}</td>
+            <td>{{ document.authors_with_url|htmlsite|safe }}</td>
+            <td>{{ document.date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-</div>
+  </div>
 {% endblock %}
