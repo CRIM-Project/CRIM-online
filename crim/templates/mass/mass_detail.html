@@ -9,106 +9,64 @@
 {% endblock %}
 
 {% block wrap %}
-  <hgroup class="page-title">
-    <h1>{{ content.title|apostrophe }}
-    <small>[{{ content.mass_id }}]</small>
-    {% if content.pdf_links %}{% for pdf_link in content.pdf_links %}
-    <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
-    {% endfor %}{% endif %}
-    {% if content.mei_links %}{% for mei_link in content.mei_links %}
-    <a href="{{ mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
-    {% endfor %}{% endif %}
-    </h1>
-    <!-- If we have more specific genres for masses, we can add them here. -->
-    <h2><a href="/masses/">Mass</a></h2>
-    {% for role in content.roles %}
-      <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
-      <a href="{{ role.person.url|htmlsite}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
-    {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
-    {% endfor %}
-  </hgroup>
-
-  {% if content.movements %}
-    <h2>Movements</h2>
-    <table class="table table-white table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Piece ID</th>
-          <th>Title</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for piece in content.movements %}
-          <tr>
-            <td>
-            {% for pdf_link in piece.pdf_links %}
-              <a href="{{ pdf_link }}">
-                <img src="{% static 'img/pdfdownload.png' %}" height=21 />
-              </a>
+  <div class="row-fluid">
+    <div class="span9">
+      <hgroup class="page-title">
+        <h1>
+          {{ content.title|apostrophe }}
+          <small>[{{ content.mass_id }}]</small>
+          {% if content.pdf_links %}
+            {% for pdf_link in content.pdf_links %}
+              <a href="{{ pdf_link }}"><img src="{% static 'img/pdfdownload.png' %}" height=32 /></a>
             {% endfor %}
-            {% for mei_link in piece.mei_links %}
-              <a href="{{ mei_link }}">
-                <img src="{% static 'img/meidownload.png' %}" height=16 />
-              </a>
+          {% endif %}
+          {% if content.mei_links %}
+            {% for mei_link in content.mei_links %}
+              <a href="{{ mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
             {% endfor %}
-            <a href="{{ piece.url|htmlsite }}">{{ piece.piece_id }}</a>
-          </td>
-          <td>
-            {{ content.title }}: {{ piece.title }}
-          </td>
-            <td>{{ piece.remarks|markdown|shorten|safe }}</td>
-          </tr>
+          {% endif %}
+        </h1>
+        <!-- If we have more specific genres for masses, we can add them here. -->
+        <h2><a href="/masses/">Mass</a></h2>
+        {% for role in content.roles %}
+          <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
+          <a href="{{ role.person.url|htmlsite}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
+        {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
         {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
-
-  {% if content.sources %}
-    <h2>Sources</h2>
-    <table class="table table-white table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Source ID</th>
-          <th>Title</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for source in content.sources %}
-          <tr>
-            <td>
-            {% for external_links in source.external_links %}
-              <a href="{{ external_link }}">
-                <img src="{% static 'img/externallink.png' %}" height=24 />
-              </a>
-            {% endfor %}
-            <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
-          </td>
-          <td>
-            {{ source.title }}
-          </td>
-            <td>{{ source.remarks|markdown|shorten|safe }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
-  
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
+      </hgroup>
+      {% if content.remarks %}
+        <h2>Remarks</h2>
+        <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+      {% endif %}
+      {% with sources=content.sources %}
+        {% include "source/source_block.html" %}
+      {% endwith %}
+    </div>
+    <div class="span3">
+      {% if content.movements %}
+        <div class="well span12">
+          <h2>Mass movements</h2>
+          {% for piece in content.movements %}
+            <h3>
+              {% for pdf_link in piece.pdf_links %}
+                <a href="{{ pdf_link }}">
+                  <img src="{% static 'img/pdfdownload.png' %}" height=21 />
+                </a>
+              {% endfor %}
+              {% for mei_link in piece.mei_links %}
+                <a href="{{ mei_link }}">
+                  <img src="{% static 'img/meidownload.png' %}" height=16 />
+                </a>
+              {% endfor %}
+              <a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a>
+            </h3>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-  <script>
-    $(document).ready(function (){
-      attachPhraseClickEvents();
-      editRemarksAction();
-      submitRemarksAction();
-    });
-  </script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
 
 {% endblock %}
