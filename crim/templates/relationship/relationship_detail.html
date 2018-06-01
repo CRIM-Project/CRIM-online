@@ -44,13 +44,13 @@
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
   </hgroup>
 
-  <div class="row">
-    <div class="span4">
+  <div class="row-fluid">
+    <div class="span6">
       {% with relationship=content %}
         {% include "relationship/relationship_expanded.html" %}
       {% endwith %}
     </div>
-    <div class="span8">
+    <div class="span6">
       {% if content.remarks %}
         <h3>&nbsp;</h3>
         <p><strong>Remarks:</strong> {{ content.remarks }}</p>
@@ -58,58 +58,63 @@
     </div>
   </div>
   
-  <div class="row">
-    <div class="span10">
-      <div class="row">
-        <div id="model-header" class="span8">
-          <h2>
-            Model: {{ content.model_composers_with_urls|safe }},
-            {% if content.model_observation.piece.mass %}
-              <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
-            {% endif %}
-            <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
-          </h2>
-        </div>
-        <div id="cw-model-controls" class="span2 pull-right">
-          <div class="btn-group" role="group" aria-label="Score control button group">
-            <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-            <button type="button" class="btn btn-primary cw-show">show</button>
-            <button type="button" class="btn btn-primary cw-next">&gt;</button>
+  <div class="row-fluid">
+    <div class="span9">
+      <div class="row-fluid">
+        <div id="model-header">
+          <div class="span9">
+            <h2>
+              Model: {{ content.model_composers_with_urls|safe }},
+              {% if content.model_observation.piece.mass %}
+                <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
+              {% endif %}
+              <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
+            </h2>
+          </div>
+          <div id="cw-model-controls" class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
+              <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+              <button type="button" class="btn btn-primary cw-show">highlight</button>
+              <button type="button" class="btn btn-primary cw-next">&gt;</button>
+            </div>
           </div>
         </div>
-        </div>
+      </div>
       <div id="modelScore" class="cw-score-model"></div>
     </div>
-    <div class="span2">
+    <div class="span3">
       <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.pk }}&gt;</a></small></h2>
-      {% with observation=model_observation %}
+      {% with observation=content.model_observation %}
         {% include "observation/observation_expanded.html" %}
       {% endwith %}
     </div>
   </div>
-  <div class="row">
-    <div class="span10">
-      <div class="row">
-        <div id="derivative-header" class="span8">
-          <h2>
+  
+  <div class="row-fluid">
+    <div class="span9">
+      <div class="row-fluid">
+        <div id="derivative-header">
+          <div class="span9">
+            <h2>
               Derivative: {{ content.derivative_composers_with_urls|safe }},
-            {% if content.derivative_observation.piece.mass %}
-              <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
-            {% endif %}
-            <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
+              {% if content.derivative_observation.piece.mass %}
+                <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
+              {% endif %}
+              <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
             </h2>
-        </div>
-        <div id="cw-derivative-controls" class="span2 pull-right">
-          <div class="btn-group" role="group" aria-label="Score control button group">
-            <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-            <button type="button" class="btn btn-primary cw-show">show</button>
-            <button type="button" class="btn btn-primary cw-next">&gt;</button>
+          </div>
+          <div id="cw-derivative-controls" class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
+              <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+              <button type="button" class="btn btn-primary cw-show">highlight</button>
+              <button type="button" class="btn btn-primary cw-next">&gt;</button>
+            </div>
           </div>
         </div>
       </div>
       <div id="derivativeScore" class="cw-score-derivative"></div>
     </div>
-    <div class="span2">
+    <div class="span3">
       <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.pk }}&gt;</a></small></h2>
       {% with observation=content.derivative_observation %}
         {% include "observation/observation_expanded.html" %}
