@@ -93,6 +93,7 @@ class PersonDetail(generics.RetrieveAPIView):
 
 
 class PersonListData(PersonList):
+    pagination_class = None
     renderer_classes = (JSONRenderer,)
 
 

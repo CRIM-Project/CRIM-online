@@ -100,6 +100,7 @@ class RelationshipDetail(generics.RetrieveAPIView):
 
 
 class RelationshipListData(RelationshipList):
+    pagination_class = None
     renderer_classes = (JSONRenderer,)
 
 

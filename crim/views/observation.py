@@ -85,6 +85,7 @@ class ObservationDetail(generics.RetrieveAPIView):
 
 
 class ObservationListData(ObservationList):
+    pagination_class = None
     renderer_classes = (JSONRenderer,)
 
 
