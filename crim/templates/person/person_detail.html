@@ -61,7 +61,8 @@
           {% if role.mass %}
             <tr>
               <td><a href="{{ role.mass.url|htmlsite }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
-              <td><a href="{{ role.mass.genre.url|htmlsite }}">{{ role.mass.genre.name }}</a></td>
+              <td><a href="/masses/">Mass</a></td>
+              <!-- The above could be made into a specific genre if we were to add more specific genres to masses. -->
               <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
               <td>{{ role.date }}</td>
               <td>{{ role.remarks }}</td>
