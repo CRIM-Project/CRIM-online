@@ -7,13 +7,13 @@
 {% load newlinereplace %}
 
 {% block title %}
-<title>CRIM | {{ content.name }}</title>
+  <title>CRIM | {{ content.name }}</title>
 {% endblock %}
 
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.name|apostrophe }}
-	  <small>{{ content.person_id }}</small>
+    <small>{{ content.person_id }}</small>
       {% if content.name_alternate_list %}
         <small>({{ content.name_alternate_list|newlinereplace:', ' }})</small>
       {% endif %}
@@ -46,62 +46,65 @@
   {% if content.has_works %}
     <h2>Works</h2>
     <table class="table table-white table-bordered table-hover">
-      <tr>
-        <th><a href="?order_by=date_sort">Title</a></th>
-        <th>Genre</th>
-        <th>Role</th>
-        <th>Date</th>
-        <th>Remarks</th>
-      </tr>
-      {% for role in content.roles %}
-        {% if role.mass %}
-          <tr>
-            <td><a href="{{ role.mass.url|htmlsite }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
-            <td><a href="{{ role.mass.genre.url|htmlsite }}">{{ role.mass.genre.name }}</a></td>
-            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
-            <td>{{ role.date }}</td>
-            <td>{{ role.remarks }}</td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-      {% for role in content.roles %}
-        {% if role.piece %}
-          <tr>
-            <td><a href="{{ role.piece.url|htmlsite }}">{{ role.piece.title }}</a></td>
-            <td><a href="{{ role.piece.genre.url|htmlsite }}">{{ role.piece.genre.name }}</a></td>
-            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
-            <td>{{ role.date }}</td>
-            <td>{{ role.remarks }}</td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-      {% for role in content.roles %}
-        {% if role.treatise %}
-          <tr>
-            <td><a href="{{ role.treatise.url|htmlsite }}">{{ role.treatise.title }}</a></td>
-            <td>Treatise</td>
-            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
-            <td>{{ role.date }}</td>
-            <td>{{ role.remarks }}</td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-      {% for role in content.roles %}
-        {% if role.source %}
-          <tr>
-            <td><a href="{{ role.source.url|htmlsite }}">{{ role.source.title }}</a></td>
-            <td>Source</td>
-            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
-            <td>{{ role.date }}</td>
-            <td>{{ role.remarks }}</td>
-          </tr>
-        {% endif %}
-      {% endfor %}
+      <thead>
+        <tr>
+          <th><a href="?order_by=date_sort">Title</a></th>
+          <th>Genre</th>
+          <th>Role</th>
+          <th>Date</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for role in content.roles %}
+          {% if role.mass %}
+            <tr>
+              <td><a href="{{ role.mass.url|htmlsite }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
+              <td><a href="{{ role.mass.genre.url|htmlsite }}">{{ role.mass.genre.name }}</a></td>
+              <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
+              <td>{{ role.date }}</td>
+              <td>{{ role.remarks }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+        {% for role in content.roles %}
+          {% if role.piece %}
+            <tr>
+              <td><a href="{{ role.piece.url|htmlsite }}">{{ role.piece.title }}</a></td>
+              <td><a href="{{ role.piece.genre.url|htmlsite }}">{{ role.piece.genre.name }}</a></td>
+              <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
+              <td>{{ role.date }}</td>
+              <td>{{ role.remarks }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+        {% for role in content.roles %}
+          {% if role.treatise %}
+            <tr>
+              <td><a href="{{ role.treatise.url|htmlsite }}">{{ role.treatise.title }}</a></td>
+              <td>Treatise</td>
+              <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
+              <td>{{ role.date }}</td>
+              <td>{{ role.remarks }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+        {% for role in content.roles %}
+          {% if role.source %}
+            <tr>
+              <td><a href="{{ role.source.url|htmlsite }}">{{ role.source.title }}</a></td>
+              <td>Source</td>
+              <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
+              <td>{{ role.date }}</td>
+              <td>{{ role.remarks }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
     </table>
   {% endif %}
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
 
 {% endblock %}

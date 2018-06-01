@@ -5,16 +5,16 @@
 {% load static %}
 
 {% block title %}
-<title>CRIM | {{ content.title }}</title>
+  <title>CRIM | {{ content.title }}</title>
 {% endblock %}
 
 {% block wrap %}
   <hgroup class="page-title">
     <h1>{{ content.title|apostrophe }}
-	  {% for link in content.external_links %}
-	  <a href="{{ link }}"><img src="{% static 'img/externallink.png' %}" height=24 /></a>
-	  {% endfor %}
-	  <small>[{{ content.document_id }}]</small>
+    {% for link in content.external_links %}
+    <a href="{{ link }}"><img src="{% static 'img/externallink.png' %}" height=24 /></a>
+    {% endfor %}
+    <small>[{{ content.document_id }}]</small>
     </h1>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
@@ -25,27 +25,31 @@
   {% if content.sources %}
     <h2>Sources</h2>
     <table class="table table-white table-bordered table-hover">
-      <tr>
-        <th>Source ID</th>
-        <th>Title</th>
-        <th>Remarks</th>
-      </tr>
-      {% for source in content.sources %}
+      <thead>
         <tr>
-          <td>
-          {% for external_links in source.external_links %}
-            <a href="{{ external_link }}">
-              <img src="{% static 'img/externallink.png' %}" height=24 />
-            </a>
-          {% endfor %}
-          <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
-        </td>
-        <td>
-          {{ source.title }}
-        </td>
-          <td>{{ source.remarks|markdown|shorten|safe }}</td>
+          <th>Source ID</th>
+          <th>Title</th>
+          <th>Remarks</th>
         </tr>
-      {% endfor %}
+      </thead>
+      <tbody>
+        {% for source in content.sources %}
+          <tr>
+            <td>
+            {% for external_links in source.external_links %}
+              <a href="{{ external_link }}">
+                <img src="{% static 'img/externallink.png' %}" height=24 />
+              </a>
+            {% endfor %}
+            <a href="{{ source.url|htmlsite }}">{{ source.document_id }}</a>
+          </td>
+          <td>
+            {{ source.title }}
+          </td>
+            <td>{{ source.remarks|markdown|shorten|safe }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   {% endif %}
   
@@ -55,7 +59,6 @@
   {% endif %}  
   
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
 
 {% endblock %}
