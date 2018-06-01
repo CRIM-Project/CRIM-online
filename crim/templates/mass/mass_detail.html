@@ -19,7 +19,8 @@
     <a href="{{ mei_link }}"><img src="{% static 'img/meidownload.png' %}" height=24 /></a>
     {% endfor %}{% endif %}
     </h1>
-    <h2>{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% else %}Mass{% endif %}</h2>
+    <!-- If we have more specific genres for masses, we can add them here. -->
+    <h2><a href="/masses/">Mass</a></h2>
     {% for role in content.roles %}
       <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
       <a href="{{ role.person.url|htmlsite}}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
