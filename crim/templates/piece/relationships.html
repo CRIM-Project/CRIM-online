@@ -116,3 +116,18 @@
   <h2>Relationships</h2>
   <p>No relationships associated with this piece.</p>
 {% endif %}
+
+<script type="text/javascript">
+  // This script expands and hides relationship details
+  $('.relationship-info').hide();
+  $('.relationship-info-expand').on({
+    'click': function(event) {
+      event.preventDefault();
+      tgt = "#" + $(this).attr('target');
+      $(tgt).toggle();
+      tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+      $(this).text(tag);
+      return false;
+    }
+  })
+</script>

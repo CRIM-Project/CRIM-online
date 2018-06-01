@@ -48,3 +48,18 @@
 {% else %}
   <p>No observations associated with this piece.</p>
 {% endif %}
+
+<script type="text/javascript">
+  // This script expands and hides observation details
+  $('.observation-info').hide();
+  $('.observation-info-expand').on({
+    'click': function(event) {
+      event.preventDefault();
+      tgt = "#" + $(this).attr('target');
+      $(tgt).toggle();
+      tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+      $(this).text(tag);
+      return false;
+    }
+  })
+</script>

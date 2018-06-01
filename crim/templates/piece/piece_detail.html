@@ -64,6 +64,14 @@
         
         {% include "piece/score.html" %}
       {% endif %}
+      
+      {% if content.show_observations %}
+        {% include "piece/observations.html" %}
+      {% endif %}
+      
+      {% if content.show_relationships %}
+        {% include "piece/relationships.html" %}
+      {% endif %}
     </div>
     <div class="span3">
       <!-- Sidebar giving all mass movements -->
@@ -85,7 +93,13 @@
               {% if piece.url == content.url %}
                 {{ piece.title }}
               {% else %}
-                <a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a>
+                {% if content.show_observations %}
+                  <a href="{{ piece.url|htmlsite }}observations/">{{ piece.title }}</a>
+                {% elif content.show_relationships %}
+                  <a href="{{ piece.url|htmlsite }}relationships/">{{ piece.title }}</a>
+                {% else %}
+                  <a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a>
+                {% endif %}
               {% endif %}
             </h3>
           {% endfor %}
