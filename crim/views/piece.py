@@ -100,32 +100,31 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
-
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)
 
 
-class PieceWithObservationsHTMLRenderer(CustomHTMLRenderer):
+class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        data['show_observations'] = True
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
-
-        template_names = ['piece/piece_observations.html']
+        template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)
 
 
-class PieceWithRelationshipsHTMLRenderer(CustomHTMLRenderer):
+class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        data['show_relationships'] = True
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
-
-        template_names = ['piece/piece_relationships.html']
+        template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
         return template.render(context)

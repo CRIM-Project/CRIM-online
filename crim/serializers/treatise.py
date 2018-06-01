@@ -51,6 +51,7 @@ class CRIMSourceTreatiseSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
+    external_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMSource
@@ -59,7 +60,11 @@ class CRIMSourceTreatiseSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
+            'external_links',
         )
+
+    def get_external_links(self, obj):
+        return obj.external_links.split('\n')
 
 
 class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
@@ -83,7 +88,7 @@ class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.external_links.split('\n')
 
 
 class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -113,4 +118,4 @@ class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.external_links.split('\n')
