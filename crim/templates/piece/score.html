@@ -1,0 +1,29 @@
+<div class="row-fluid">
+  <div id="piece-header">
+    <div class="span9"><h2>Score</h2></div>
+    <div id="cw-piece-controls" class="span3">
+      <div class="btn-group pull-right" role="group" aria-label="Score control button group">
+        <button type="button" class="btn btn-primary cw-prev">&lt;</button>
+        <button type="button" class="btn btn-primary cw-show">start</button>
+        <button type="button" class="btn btn-primary cw-next">&gt;</button>
+      </div>
+    </div>
+  </div>
+  <div id="pieceScore" class="cw-score"></div>
+</div>
+
+<script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
+<script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
+
+<script>
+  var vrv = new window.verovio.toolkit()
+  var cwPiece = new CrimViewer({
+    mei: '{{ content.mei_links|firstitem }}',
+    ema: '1/1/@1',
+    vrv: vrv,
+    div: 'pieceScore',
+    controls: 'cw-piece-controls'
+  })
+  cwPiece.render()
+</script>
+  

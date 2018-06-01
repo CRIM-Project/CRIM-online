@@ -1,0 +1,50 @@
+<h2>Observations</h2>
+{% if content.observations %}
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Observer</th>
+        <th>Observation type</th>
+        <th>Show details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for observation in content.observations %}
+         <tr>
+           <td><a href="{{ observation.url|htmlsite }}">&lt;{{ observation.pk }}&gt;</a></td>
+           <td><a href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
+           <td>{% if observation.mt_cf %}Cantus firmus{% endif %}
+               {% if observation.mt_sog %}Soggetto{% endif %}
+               {% if observation.mt_csog %}Counter-soggetto{% endif %}
+               {% if observation.mt_fg %}Fuga{% endif %}
+               {% if observation.mt_id %}Imitative duo{% endif %}
+               {% if observation.mt_pe %}Periodic entry{% endif %}
+               {% if observation.mt_nid %}Non-imitative duo{% endif %}
+               {% if observation.mt_hr %}Homorhythm{% endif %}
+               {% if observation.mt_cad %}Cadence{% endif %}
+               {% if observation.mt_int %}Interval pattern{% endif %}
+               {% if observation.mt_fp %}Form and process{% endif %}
+               {% if not observation.mt_cf and not observation.mt_sog and not observation.mt_csog and not observation.mt_fg and not observation.mt_id and not observation.mt_pe and not observation.mt_nid and not observation.mt_hr and not observation.mt_cad and not observation.mt_int and not observation.mt_fp %}
+                 None
+               {% endif %}
+           </td>
+           <td>
+              {% if observation.mt_cf or observation.mt_sog or observation.mt_csog or observation.mt_fg or observation.mt_id or observation.mt_pe or observation.mt_nid or observation.mt_hr or observation.mt_cad or observation.mt_int or observation.mt_fp %}
+                <a href="#" class="observation-info-expand" target="observation-info-{{ forloop.counter }}">Expand</a>
+              {% else %}
+                -
+              {% endif %}
+           </td>
+         </tr>
+         <tr id="observation-info-{{ forloop.counter }}" class="observation-info">
+           <td colspan="4" class="expansion">
+             {% include "observation/observation_expanded.html" %}
+           </td>
+         </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No observations associated with this piece.</p>
+{% endif %}
