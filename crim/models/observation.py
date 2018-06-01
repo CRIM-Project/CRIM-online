@@ -1,8 +1,5 @@
 from django.db import models
 
-from crim.models.person import CRIMPerson
-from crim.models.piece import CRIMPiece
-
 
 class CRIMObservation(models.Model):
     class Meta:
@@ -11,7 +8,7 @@ class CRIMObservation(models.Model):
         verbose_name_plural = 'Observations'
 
     observer = models.ForeignKey(
-        CRIMPerson,
+        'CRIMPerson',
         on_delete=models.SET_NULL,
         to_field='person_id',
         null=True,
@@ -20,7 +17,7 @@ class CRIMObservation(models.Model):
     )
 
     piece = models.ForeignKey(
-        CRIMPiece,
+        'CRIMPiece',
         on_delete=models.CASCADE,
         to_field='piece_id',
         db_index=True,

@@ -4,9 +4,10 @@
 {% load shorten %}
 {% load shortendate %}
 {% load get_string %}
+{% load format_role_types %}
 
 {% block title %}
-  <title>CRIM | {% if content.filter_roletype %}People: {{ content.filter_roletype.name_plural }}{% else %}People{% endif %}</title>
+  <title>CRIM | {% if content.filter_role_type %}People: {{ content.filter_role_type.name_plural }}{% else %}People{% endif %}</title>
 {% endblock %}
 
 {% block wrap %}
@@ -14,15 +15,15 @@
     <div class="span12">
       <div class="show-heading row-fluid">
         <hgroup class="show-title page-title span12">
-          {% if content.filter_roletype %}
-            <h1>People: {{ content.filter_roletype.name_plural }}</h1>
+          {% if content.filter_role_type %}
+            <h1>People: {{ content.filter_role_type.name_plural }}</h1>
             <p>See <a href="/roletypes/">list of role types</a>, or <a href="/people/">all people</a>.</p>
           {% else %}
             <h1>People</h1>
             <p>See <a href="/roletypes/">list of role types</a>.</p>
           {% endif %}
-          {% if content.filter_roletype.remarks %}
-            <p><strong>Remarks:</strong> {{ content.filter_roletype.remarks }}</p>
+          {% if content.filter_role_type.remarks %}
+            <p><strong>Remarks:</strong> {{ content.filter_role_type.remarks }}</p>
           {% endif %}
         </hgroup>
       </div>
@@ -62,7 +63,7 @@
                   {% endif %}
                 {% endif %}
               </td>
-              <td>{% if person.unique_roles %}{{ person.unique_roles }}{% else %}-{% endif %}</td>
+              <td>{% if person.role_types %}{{ person.role_types|format_role_types|safe }}{% else %}-{% endif %}</td>
               <td>{{ person.name_alternate_list|newlinereplace:', ' }}</td>
             </tr>
           {% endfor %}

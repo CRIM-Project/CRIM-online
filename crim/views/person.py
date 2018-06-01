@@ -22,19 +22,10 @@ class PersonSetPagination(PageNumberPagination):
 
 class PersonListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        for p in data['results']:
-            # Put roles into a single text field
-            if p['unique_roles']:
-                p['unique_roles'] = ', '.join(p['unique_roles'])
-            else:
-                p['unique_roles'] = ''
-            # Could add work count to table
-            # p['work_count'] = len(p['roles'])
-
-        # Add `content.filter_roletype` item if there is a url parameter
+        # Add `content.filter_role_type` item if there is a url parameter
         # that matches a role type in the database.
         if renderer_context['request'].GET.get('role') and CRIMRoleType.objects.filter(role_type_id=renderer_context['request'].GET.get('role')):
-            data['filter_roletype'] = CRIMRoleType.objects.get(role_type_id=renderer_context['request'].GET.get('role'))
+            data['filter_role_type'] = CRIMRoleType.objects.get(role_type_id=renderer_context['request'].GET.get('role'))
 
         template_names = ['person/person_list.html']
         template = self.resolve_template(template_names)
@@ -51,8 +42,6 @@ class PersonDetailHTMLRenderer(CustomHTMLRenderer):
             if role_has_work(role):
                 data['has_works'] = True
                 break
-        # Put roles into a single text field
-        data['unique_roles'] = ', '.join(data['unique_roles'])
 
         template_names = ['person/person_detail.html']
         template = self.resolve_template(template_names)
@@ -107,5 +96,5 @@ class PersonListData(PersonList):
     renderer_classes = (JSONRenderer,)
 
 
-class PersonDetailData(generics.RetrieveAPIView):
+class PersonDetailData(PersonDetail):
     renderer_classes = (JSONRenderer,)

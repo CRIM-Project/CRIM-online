@@ -1,9 +1,5 @@
 from django.db import models
 
-from crim.models.person import CRIMPerson
-from crim.models.piece import CRIMPiece
-from crim.models.observation import CRIMObservation
-
 
 class CRIMRelationship(models.Model):
     class Meta:
@@ -12,7 +8,7 @@ class CRIMRelationship(models.Model):
         verbose_name_plural = 'Relationships'
 
     observer = models.ForeignKey(
-        CRIMPerson,
+        'CRIMPerson',
         on_delete=models.SET_NULL,
         to_field='person_id',
         null=True,
@@ -21,13 +17,13 @@ class CRIMRelationship(models.Model):
     )
 
     model_observation = models.ForeignKey(
-        CRIMObservation,
+        'CRIMObservation',
         on_delete=models.CASCADE,
         db_index=True,
         related_name='observations_as_model',
     )
     derivative_observation = models.ForeignKey(
-        CRIMObservation,
+        'CRIMObservation',
         on_delete=models.CASCADE,
         db_index=True,
         related_name='observations_as_derivative',
@@ -36,14 +32,14 @@ class CRIMRelationship(models.Model):
     # to access all pieces which have relationships with a given
     # piece.
     model_piece = models.ForeignKey(
-        CRIMPiece,
+        'CRIMPiece',
         on_delete=models.CASCADE,
         to_field='piece_id',
         db_index=True,
         related_name='models',
     )
     derivative_piece = models.ForeignKey(
-        CRIMPiece,
+        'CRIMPiece',
         on_delete=models.CASCADE,
         to_field='piece_id',
         db_index=True,
