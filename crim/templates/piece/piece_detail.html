@@ -5,7 +5,7 @@
 {% load static %}
 
 {% block title %}
-  <title>CRIM | {% if content.mass %}{{ content.mass.title }}: {% endif %}{{ content.title }}</title>
+  <title>CRIM | {% if content.mass %}{{ content.mass.title }}:{% endif %} {{ content.title }}</title>
   <style>
     .cw-score { width: 100%; height: 500px }
     .cw-highlighted { color: #000000; fill: currentColor }
@@ -13,29 +13,33 @@
 {% endblock %}
 
 {% block wrap %}
-  <h1>{{ content.title|apostrophe }}
-    {% for pdf_link in content.pdf_links %}
-      {% if pdf_link %}
-        <a href="{{ pdf_link }}">
-          <img src="{% static 'img/pdfdownload.png' %}" height=32 />
-        </a>
-      {% endif %}
-    {% endfor %}
-    {% for mei_link in content.mei_links %}
-      {% if mei_link %} 
-        <a href="{{ mei_link }}">
-          <img src="{% static 'img/meidownload.png' %}" height=24 />
-        </a>
-      {% endif %}
-    {% endfor %}
-    <small>[{{ content.piece_id }}]</small>
-  </h1>
   <div class="row-fluid">
     <div class="span9">
       <hgroup class="page-title">
-        <h2>
-          {% if content.mass %}From <a href="{{ content.mass.url|htmlsite }}">{{ content.mass.title }}</a>{% else %}{% if content.genre %}<a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a>{% endif %}{% endif %}
-        </h2>
+        <h1>
+          {% if content.mass %}{{ content.mass.title|apostrophe }}:{% endif %} {{ content.title|apostrophe }}
+          <!-- Don't include links for mass movements because they already appear at the sidebar -->
+          {% if not content.mass %}
+            {% for pdf_link in content.pdf_links %}
+              {% if pdf_link %}
+                <a href="{{ pdf_link }}">
+                  <img src="{% static 'img/pdfdownload.png' %}" height=32 />
+                </a>
+              {% endif %}
+            {% endfor %}
+            {% for mei_link in content.mei_links %}
+              {% if mei_link %} 
+                <a href="{{ mei_link }}">
+                  <img src="{% static 'img/meidownload.png' %}" height=24 />
+                </a>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          <small>[{{ content.piece_id }}]</small>
+        </h1>
+        {% if content.genre %}
+          <h2><a href="{{ content.genre.url|htmlsite }}">{{ content.genre.name }}</a></h2>
+        {% endif %}
         {% for role in content.roles %}
           <h3>{% if role.role_type.name %}{{ role.role_type.name }}: {% endif %}
             <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}
@@ -43,64 +47,74 @@
           {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
         {% endfor %}
       </hgroup>
+  
+      {% if content.remarks %}
+        <h2>Remarks</h2>
+        <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+      {% endif %}
       
-      {% with phrases=content.phrases %}
-        {% include "piece/phrase_text.html" %}
-      {% endwith %}
+      {% if not content.show_observations and not content.show_relationships %}
+        {% with phrases=content.phrases %}
+          {% include "piece/text.html" %}
+        {% endwith %}
+        
+        {% with sources=content.sources %}
+          {% include "source/source_block.html" %}
+        {% endwith %}
+        
+        {% include "piece/score.html" %}
+      {% endif %}
     </div>
     <div class="span3">
+      <!-- Sidebar giving all mass movements -->
+      {% if content.mass %}
+        <div class="well span12">
+          <h2><a href="{{ content.mass.url|htmlsite }}">Mass movements</a></h2>
+          {% for piece in content.mass.movements %}
+            <h3>
+              {% for pdf_link in piece.pdf_links %}
+                <a href="{{ pdf_link }}">
+                  <img src="{% static 'img/pdfdownload.png' %}" height=21 />
+                </a>
+              {% endfor %}
+              {% for mei_link in piece.mei_links %}
+                <a href="{{ mei_link }}">
+                  <img src="{% static 'img/meidownload.png' %}" height=16 />
+                </a>
+              {% endfor %}
+              {% if piece.url == content.url %}
+                {{ piece.title }}
+              {% else %}
+                <a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a>
+              {% endif %}
+            </h3>
+          {% endfor %}
+        </div>
+      {% endif %}
       <div class="well span12">
-        <h3 class="well-heading">Piece details</h3>
-        <h3 class="well-heading"><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
-        <h3 class="well-heading"><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
+        {% if not content.show_observations and not content.show_relationships %}
+          <h3>Piece details</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
+        {% endif %}
+        
+        {% if content.show_observations %}
+          <h3>Piece observations</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
+        {% endif %}
+        
+        {% if content.show_relationships %}
+          <h3>Piece relationships</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
+        {% endif %}
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="span10">
-      <div class="row">
-        <div id="piece-header" class="span8">
-          <h2>Score</h2>
-        </div>
-        <div id="cw-piece-controls" class="span2 pull-right">
-          <div class="btn-group" role="group" aria-label="Score control button group">
-            <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-            <button type="button" class="btn btn-primary cw-show">show</button>
-            <button type="button" class="btn btn-primary cw-next">&gt;</button>
-          </div>
-        </div>
-      </div>
-      <div id="pieceScore" class="cw-score"></div>
-    </div>
-  </div>
-
-  {% with source=content.sources %}
-    {% include "piece/piece_sources.html" %}
-  {% endwith %}
-  
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-
   <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
-
-  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
-  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
-
-  <script>
-    var vrv = new window.verovio.toolkit()
-    var cwPiece = new CrimViewer({
-      mei: '{{ content.mei_links|firstitem }}',
-      ema: '1/1/@1',
-      vrv: vrv,
-      div: 'pieceScore',
-      controls: 'cw-piece-controls'
-    })
-    cwPiece.render()
-  </script>
 
 {% endblock %}
