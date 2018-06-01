@@ -7,8 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.source import CRIMSourceListSerializer, CRIMSourceDetailSerializer
 from crim.models.document import CRIMSource
 
-from crim.common import earliest_date
-
 AUTHOR = 'Author'
 COMPOSER = 'Composer'
 PUBLISHER = 'Publisher'
@@ -24,25 +22,6 @@ class SourceSetPagination(PageNumberPagination):
 
 class SourceListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        for document in data:
-            # - Add `publisher` field to content: only look at roles with
-            # the role type with name "Publisher", and add all such names
-            # to the list, along with the url of the publisher
-            # - Add `date` field to content: again, only look at roles
-            # with the role type "Publisher"
-            publishers = []
-            dates = []
-            for role in document['roles']:
-                if role['role_type'] and role['role_type']['name'] == PUBLISHER:
-                    publisher_html = ('<a href="' + role['person']['url'] +
-                                      '">' + role['person']['name'] + '</a>')
-                    publishers.append(publisher_html)
-                    if role['date']:
-                        dates.append(role['date'])
-            document['publishers_with_url'] = '; '.join(publishers) if publishers else '-'
-            # Only add one publisher's date for clarity, choosing the earliest
-            document['date'] = earliest_date(dates)
-
         template_names = ['source/source_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
@@ -51,8 +30,11 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
 
 class SourceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # See SourceListHTMLRenderer for comments on getting publisher
-        # names and dates
+        # - Add `publisher` field to content: only look at roles with
+        # the role type with name "Publisher", and add all such names
+        # to the list, along with the url of the publisher
+        # - Add `date` field to content: again, only look at roles
+        # with the role type "Publisher"
         for item in (data['piece_contents'] + data['mass_contents'] +
                      data['treatise_contents']):
             creators = []
@@ -114,6 +96,7 @@ class SourceDetail(generics.RetrieveAPIView):
 
 
 class SourceListData(SourceList):
+    pagination_class = None
     renderer_classes = (JSONRenderer,)
 
 

@@ -236,10 +236,12 @@ class PieceWithRelationships(generics.RetrieveAPIView):
 
 
 class PieceListData(PieceList):
+    pagination_class = None
     renderer_classes = (JSONRenderer,)
 
 
 class ModelListData(ModelList):
+    pagination_class = None
     renderer_classes = (JSONRenderer,)
 
 
