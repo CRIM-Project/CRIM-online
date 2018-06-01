@@ -65,6 +65,8 @@ class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
         view_name='crimpiece-detail-data',
         lookup_field='piece_id',
     )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMPiece
@@ -72,7 +74,15 @@ class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'pdf_links',
+            'mei_links',
         )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
 
 
 class CRIMMassPieceSerializer(serializers.HyperlinkedModelSerializer):
@@ -111,6 +121,7 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_source',
     )
+    external_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMSource
@@ -119,7 +130,11 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
+            'external_links',
         )
+
+    def get_external_links(self, obj):
+        return obj.external_links.split('\n')
 
 
 class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):

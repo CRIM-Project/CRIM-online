@@ -87,6 +87,7 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_source',
     )
+    external_links = serializers.SerializerMethodField()
 
     class Meta:
         model = CRIMSource
@@ -95,7 +96,11 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
             'document_id',
             'title',
             'roles',
+            'external_links',
         )
+
+    def get_external_links(self, obj):
+        return obj.external_links.split('\n')
 
 
 class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
