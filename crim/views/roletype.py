@@ -44,11 +44,11 @@ class RoleTypeDetail(generics.RetrieveAPIView):
 
     def get_object(self):
         url_arg = self.kwargs['role_type_id']
-        roletype = CRIMRoleType.objects.filter(role_type_id=url_arg)
-        if not roletype.exists():
-            roletype = CRIMRoleType.objects.filter(name__iexact=url_arg)
+        role_type = CRIMRoleType.objects.filter(role_type_id=url_arg)
+        if not role_type.exists():
+            role_type = CRIMRoleType.objects.filter(name__iexact=url_arg)
 
-        obj = get_object_or_404(roletype)
+        obj = get_object_or_404(role_type)
         self.check_object_permissions(self.request, obj)
         return obj
 

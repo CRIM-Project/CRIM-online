@@ -1,8 +1,14 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.text import slugify
 from django.utils.html import escape
 from crim.common import latest_date
+from crim.models.observation import CRIMObservation
+from crim.models.relationship import CRIMRelationship
+from crim.models.role import CRIMRoleType
 import re
+
+ANALYST = 'analyst'
 
 
 class CRIMPerson(models.Model):
@@ -68,3 +74,12 @@ class CRIMPerson(models.Model):
 
         # Finalize changes
         super().save()
+
+    # Return the unique role types associated with this person. If the person
+    # has observations or relationships, then we add the Analyst role type.
+    @property
+    def role_types(self):
+        if CRIMObservation.objects.filter(observer=self).exists() or CRIMRelationship.objects.filter(observer=self).exists():
+            return CRIMRoleType.objects.filter(Q(roles__person=self) | Q(role_type_id=ANALYST)).distinct()
+        else:
+            return CRIMRoleType.objects.filter(roles__person=self).distinct()

@@ -27,10 +27,10 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-          {% for roletype in content %}
+          {% for role_type in content %}
             <tr>
-              <td><a href="/people/?role={{ roletype.role_type_id }}">{{ roletype.name }}</a></td>
-              <td>{{ roletype.remarks|markdown|safe|shorten }}</td>
+              <td><a href="/people/?role={{ role_type.role_type_id }}">{{ role_type.name }}</a></td>
+              <td>{{ role_type.remarks|markdown|safe|shorten }}</td>
             </tr>
           {% endfor %}
         </tbody>
