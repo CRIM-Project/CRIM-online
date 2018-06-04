@@ -18,7 +18,7 @@ ANONYMOUS = 'CRIM_Person_0012'
 
 def add_publisher(old_row, new_role_fields, publisher_id=ANONYMOUS):
     new_role_fields['person'] = publisher_id
-    new_role_fields['role_type'] = 'publisher'
+    new_role_fields['role_type'] = 'printer'
     new_role_fields['date'] = old_row['Date']
     new_role_fields['date_sort'] = get_date_sort(old_row['Date'])
     new_role_fields['source'] = old_row['CRIM_Source_ID']

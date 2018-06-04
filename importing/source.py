@@ -8,9 +8,29 @@ django.setup()
 
 from collections import OrderedDict
 from crim.models.document import CRIMSource
+from crim.models.mass import CRIMMass
+from crim.models.piece import CRIMPiece
 
 FILE_IN = 'source/CRIM_Source_Catalog.csv'
 FILE_OUT = '../crim/fixtures/source.json'
+
+
+def add_contents(contents, fields):
+    mass_contents = []
+    piece_contents = []
+    for item in contents:
+        if 'Model' in item:
+            piece = CRIMPiece.objects.get(piece_id=item)
+            piece_contents.append(piece.pk)
+        elif 'Mass' in item:
+            mass = CRIMMass.objects.get(mass_id=item)
+            mass_contents.append(mass.pk)
+        else:
+            print('Can’t tell what type {} is'.format(item))
+    if mass_contents:
+        fields['mass_contents'] = mass_contents
+    if piece_contents:
+        fields['piece_contents'] = piece_contents
 
 
 def add_source(old_row, new_fields):
@@ -23,6 +43,8 @@ def add_source(old_row, new_fields):
         new_fields['source_type'] = CRIMSource.MANUSCRIPT
     else:
         new_fields['source_type'] = CRIMSource.PRINT
+    contents = old_row['Contents'].split(' | ')
+    add_contents(contents, new_fields)
     new_fields['remarks'] = 'Copy used: ' + old_row['Copies Used (Location)']
     new_fields['external_links'] = old_row['URL of Facsimile']
 
