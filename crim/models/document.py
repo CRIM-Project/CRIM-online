@@ -5,8 +5,8 @@ from crim.models.role import CRIMRole
 
 import re
 
-AUTHOR = 'Author'
-PUBLISHER = 'Publisher'
+AUTHOR = 'author'
+PUBLISHER = 'printer'
 
 
 class CRIMDocument(models.Model):
@@ -47,7 +47,7 @@ class CRIMTreatise(CRIMDocument):
         verbose_name_plural = 'Treatises'
 
     def author(self):
-        roles = CRIMRole.objects.filter(treatise=self, role_type__name=AUTHOR)
+        roles = CRIMRole.objects.filter(treatise=self, role_type__role_type_id=AUTHOR)
         if roles:
             return roles[0].person
     author.short_description = 'author'
@@ -95,7 +95,7 @@ class CRIMSource(CRIMDocument):
     )
 
     def publisher(self):
-        roles = CRIMRole.objects.filter(source=self, role_type__name=PUBLISHER)
+        roles = CRIMRole.objects.filter(source=self, role_type__role_type_id=PUBLISHER)
         if roles:
             return roles[0].person
     publisher.short_description = 'publisher'
