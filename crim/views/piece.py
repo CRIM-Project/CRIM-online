@@ -9,7 +9,8 @@ from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
 from crim.common import earliest_date
 
-COMPOSER = 'Composer'
+COMPOSER = 'composer'
+PUBLISHER = 'printer'
 
 
 class PieceSetPagination(PageNumberPagination):
@@ -31,21 +32,19 @@ class AllPieceListHTMLRenderer(CustomHTMLRenderer):
             composers = []
             dates = []
             for role in piece['roles']:
-                if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
-                                     '">' + role['person']['name'] + '</a>')
+                if role['role_type'] and role['role_type']['role_type_id'] == COMPOSER:
+                    composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                     composers.append(composer_html)
                     if role['date']:
                         dates.append(role['date'])
             if piece['mass']:
                 for role in piece['mass']['roles']:
-                    if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                        composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
-                                         '">' + role['person']['name'] + '</a>')
+                    if role['role_type'] and role['role_type']['role_type_id'] == COMPOSER:
+                        composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                         composers.append(composer_html)
                         if role['date']:
                             dates.append(role['date'])
-            piece['composers_with_url'] = '; '.join(composers) if composers else '-'
+            piece['composers_with_url'] = ', '.join(composers) if composers else '-'
             # Only add one composer's date for clarity, choosing the earliest.
             piece['date'] = earliest_date(dates)
 
@@ -71,21 +70,19 @@ class ModelListHTMLRenderer(CustomHTMLRenderer):
             composers = []
             dates = []
             for role in piece['roles']:
-                if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
-                                     '">' + role['person']['name'] + '</a>')
+                if role['role_type'] and role['role_type']['role_type_id'] == COMPOSER:
+                    composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                     composers.append(composer_html)
                     if role['date']:
                         dates.append(role['date'])
             if piece['mass']:
                 for role in piece['mass']['roles']:
-                    if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                        composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
-                                         '">' + role['person']['name'] + '</a>')
+                    if role['role_type'] and role['role_type']['role_type_id'] == COMPOSER:
+                        composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                         composers.append(composer_html)
                         if role['date']:
                             dates.append(role['date'])
-            piece['composers_with_url'] = '; '.join(composers) if composers else '-'
+            piece['composers_with_url'] = ', '.join(composers) if composers else '-'
             # Only add one composer's date for clarity, choosing the earliest.
             piece['date'] = earliest_date(dates)
 
@@ -97,6 +94,17 @@ class ModelListHTMLRenderer(CustomHTMLRenderer):
 
 class PieceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Add printers and dates to source entries
+        for source in data['sources']:
+            publishers = []
+            for role in source['roles']:
+                if role['role_type'] and role['role_type']['role_type_id'] in (PUBLISHER,):
+                    publisher_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
+                    publishers.append(publisher_html)
+            dates = [role['date'] for role in source['roles']]
+            source['publishers_with_url'] = ', '.join(publishers) if publishers else '-'
+            source['date'] = earliest_date(dates) if dates else '-'
+
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')

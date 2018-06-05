@@ -35,21 +35,20 @@
               <th>Title</th>
               <th>Author or Composer</th>
               <th>Date</th>
-              <th>Remarks</th>
             </tr>
           </thead>
           <tbody>
             {% for mass in content.mass_contents %}
               <tr>
-                <td>{{ mass.mass_id }}</td>
+                <td><a href="{{ mass.url|htmlsite }}">{{ mass.mass_id }}</a></td>
                 <td>Mass</td>
-                <td><a href="{{ mass.url|htmlsite }}">{{ mass.title }}</a></td>
+                <td>{{ mass.title }}</td>
                 <td>{{ mass.creators_with_url|htmlsite|safe }}</td>
                 <td>{{ mass.date }}</td>
-                <td>{{ mass.remarks|markdown|shorten|safe }}</td>
               </tr>
             {% endfor %}
             {% for piece in content.piece_contents %}
+              {% if piece.mass not in content.mass_contents %}
               <tr>
                 <td>{{ piece.piece_id }}</td>
                 <td>Piece</td>
@@ -58,6 +57,7 @@
                 <td>{{ piece.date }}</td>
                 <td>{{ piece.remarks|markdown|shorten|safe }}</td>
               </tr>
+              {% endif %}
             {% endfor %}
             {% for treatise in content.treatise_contents %}
               <tr>
