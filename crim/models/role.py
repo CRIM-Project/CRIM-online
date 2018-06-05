@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
-from crim.common import latest_date
+from crim.common import get_date_sort
 
 
 class CRIMRoleType(models.Model):
@@ -167,6 +167,6 @@ class CRIMRole(models.Model):
 
     def save(self, *args, **kwargs):
         # Add sortable date fields
-        self.date_sort = latest_date(self.date)
+        self.date_sort = get_date_sort(self.date)
         # Finalize changes
         super().save()

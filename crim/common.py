@@ -36,7 +36,7 @@ def earliest_date(dates):
             if (get_date_sort(date) and get_date_sort(earliest_date) and
                     get_date_sort(date) and get_date_sort(date) < get_date_sort(earliest_date)):
                 earliest_date = date
-        return earliest_date
+        return earliest_date if latest_date else None
     else:
         return None
 
