@@ -22,11 +22,6 @@
       <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
     {% endfor %}
   </hgroup>
-  
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
 
   {% if content.mass_contents or content.piece_contents or content.treatise_contents %}
     <h2>Contents</h2>
@@ -78,6 +73,11 @@
         </table>
       </div>
     </div>
+  {% endif %}
+  
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
   {% endif %}
   
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
