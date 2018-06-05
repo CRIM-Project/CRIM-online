@@ -194,6 +194,7 @@ class CRIMModelAdmin(admin.ModelAdmin):
     search_fields = (
         'piece_id',
         'title',
+        'remarks',
     )
     list_display = (
         'title_with_id',
@@ -264,6 +265,7 @@ class CRIMMassAdmin(admin.ModelAdmin):
     search_fields = (
         'mass_id',
         'title',
+        'remarks',
     )
     ordering = (
         'mass_id',
@@ -289,6 +291,7 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
     search_fields = (
         'document_id',
         'title',
+        'remarks',
     )
     list_display = (
         'title_with_id',
@@ -328,6 +331,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     search_fields = (
         'document_id',
         'title',
+        'remarks',
     )
     list_display = (
         'title_with_id',
