@@ -8,7 +8,8 @@ from crim.serializers.treatise import CRIMTreatiseListSerializer, CRIMTreatiseDe
 from crim.models.document import CRIMTreatise
 from crim.common import earliest_date
 
-AUTHOR = 'Author'
+AUTHOR = 'author'
+PUBLISHER = 'printer'
 
 
 class TreatiseListHTMLRenderer(CustomHTMLRenderer):
@@ -22,13 +23,12 @@ class TreatiseListHTMLRenderer(CustomHTMLRenderer):
             authors = []
             dates = []
             for role in document['roles']:
-                if role['role_type'] and role['role_type']['name'] == AUTHOR:
-                    author_html = ('<a href="' + role['person']['url'] +
-                                   '">' + role['person']['name'] + '</a>')
+                if role['role_type'] and role['role_type']['role_type_id'] == AUTHOR:
+                    author_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                     authors.append(author_html)
                     if role['date']:
                         dates.append(role['date'])
-            document['authors_with_url'] = '; '.join(authors) if authors else '-'
+            document['authors_with_url'] = ', '.join(authors) if authors else '-'
             # Only add one author's date for clarity, choosing the earliest.
             document['date'] = earliest_date(dates)
 
@@ -40,6 +40,17 @@ class TreatiseListHTMLRenderer(CustomHTMLRenderer):
 
 class TreatiseDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        # Add printers and dates to source entries
+        for source in data['sources']:
+            publishers = []
+            for role in source['roles']:
+                if role['role_type'] and role['role_type']['role_type_id'] in (PUBLISHER,):
+                    publisher_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
+                    publishers.append(publisher_html)
+            dates = [role['date'] for role in source['roles']]
+            source['publishers_with_url'] = ', '.join(publishers) if publishers else '-'
+            source['date'] = earliest_date(dates) if dates else '-'
+
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')

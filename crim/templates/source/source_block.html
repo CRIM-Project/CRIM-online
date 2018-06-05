@@ -7,6 +7,8 @@
       <tr>
         <th>Source ID</th>
         <th>Title</th>
+        <th>Publisher</th>
+        <th>Date</th>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +24,12 @@
         </td>
         <td>
           {{ source.title }}
+        </td>
+        <td>
+          {{ source.publishers_with_url|htmlsite|safe }}
+        </td>
+        <td>
+          {{ source.date }}
         </td>
       {% endfor %}
     </tbody>

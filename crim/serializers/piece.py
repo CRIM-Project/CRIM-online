@@ -18,6 +18,7 @@ class CRIMRoleTypePieceSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMRoleType
         fields = (
             'url',
+            'role_type_id',
             'name',
         )
 

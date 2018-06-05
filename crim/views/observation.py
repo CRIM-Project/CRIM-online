@@ -34,14 +34,12 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
         composers = []
         for role in data['piece']['roles']:
             if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
-                                 '">' + role['person']['name'] + '</a>')
+                composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                 composers.append(composer_html)
         if data['piece']['mass']:
             for role in data['piece']['mass']['roles']:
                 if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    composer_html = ('<a href="' + role['person']['url'].replace('/data/', '/') +
-                                     '">' + role['person']['name'] + '</a>')
+                    composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                     composers.append(composer_html)
         data['composers_with_urls'] = ', '.join(composers)
 

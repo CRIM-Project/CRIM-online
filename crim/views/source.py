@@ -27,7 +27,7 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
             publishers = []
             for role in source['roles']:
                 if role['role_type'] and role['role_type']['role_type_id'] in (PUBLISHER,):
-                    publisher_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'].replace('/data/', '/'), role['person']['name']))
+                    publisher_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                     publishers.append(publisher_html)
             dates = [role['date'] for role in source['roles']]
             source['publishers_with_url'] = ', '.join(publishers) if publishers else '-'
@@ -52,7 +52,7 @@ class SourceDetailHTMLRenderer(CustomHTMLRenderer):
             dates = []
             for role in item['roles']:
                 if role['role_type'] and role['role_type']['role_type_id'] in (COMPOSER, AUTHOR):
-                    creator_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'].replace('/data/', '/'), role['person']['name']))
+                    creator_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
                     creators.append(creator_html)
                     if role['date']:
                         dates.append(role['date'])
