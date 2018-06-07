@@ -7,7 +7,6 @@ import django
 django.setup()
 
 from collections import OrderedDict
-from crim.models.genre import CRIMGenre
 
 FILE_IN = 'source/CRIM_Mass_Catalog.csv'
 FILE_OUT = '../crim/fixtures/mass.json'
@@ -16,7 +15,6 @@ FILE_OUT = '../crim/fixtures/mass.json'
 def add_mass(old_row, new_fields):
     new_fields['mass_id'] = old_row['CRIM_Mass_ID']
     new_fields['title'] = old_row['Title']
-    new_fields['genre'] = CRIMGenre.objects.get(name='Mass').genre_id
     new_fields['remarks'] = old_row['Notes']
 
 

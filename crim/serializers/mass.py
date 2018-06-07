@@ -4,6 +4,7 @@ from crim.models.mass import CRIMMass
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRoleType, CRIMRole
+from crim.models.voice import CRIMVoice
 from rest_framework import serializers
 
 
@@ -56,8 +57,22 @@ class CRIMRoleMassSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMVoiceMassSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimvoice-detail-data', lookup_field='voice_id')
+
+    class Meta:
+        model = CRIMVoice
+        fields = (
+            'url',
+        )
+
+
 class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    voices = CRIMVoiceMassSerializer(
+        many=True,
+        read_only=True,
+    )
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
 
@@ -67,6 +82,7 @@ class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'voices',
             'pdf_links',
             'mei_links',
         )
@@ -112,6 +128,10 @@ class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='roles_as_mass',
     )
+    movements = CRIMPieceMassSerializer(
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = CRIMMass
@@ -121,6 +141,7 @@ class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'genre',
             'roles',
+            'movements',
             'remarks',
         )
 

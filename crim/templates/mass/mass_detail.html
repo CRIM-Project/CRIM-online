@@ -34,9 +34,7 @@
         {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
         {% endfor %}
       </hgroup>
-      {% with sources=content.sources %}
-        {% include "source/source_block.html" %}
-      {% endwith %}
+      {% include "source/source_block.html" with sources=content.sources %}
       {% if content.remarks %}
         <h2>Remarks</h2>
         <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>

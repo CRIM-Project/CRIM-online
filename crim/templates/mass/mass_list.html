@@ -24,6 +24,7 @@
             <th>Mass ID</th>
             <th>Title</th>
             <th>Composer</th>
+            <th>Voices</th>
             <th>Date</th>
           </tr>
         </thead>
@@ -33,6 +34,7 @@
               <td><a href="{{ mass.url|htmlsite }}">{{ mass.mass_id }}</a></td>
               <td>{{ mass.title }}</td>
               <td>{{ mass.composers_with_url|htmlsite|safe }}</td>
+              <td>{{ mass.number_of_voices|figuredash }}</td>
               <td>{{ mass.date }}</td>
             </tr>
           {% endfor %}
