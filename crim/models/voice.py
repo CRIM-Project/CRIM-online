@@ -10,7 +10,10 @@ class CRIMVoice(models.Model):
         verbose_name = 'Voice'
         verbose_name_plural = 'Voices'
         ordering = ['voice_id']
-        unique_together = ('piece', 'order')
+        unique_together = (
+            ('piece', 'order'),
+            ('piece', 'regularized_name'),
+        )
 
     voice_id = models.CharField(
         'Voice ID',
@@ -27,9 +30,9 @@ class CRIMVoice(models.Model):
         null=True,
         db_index=True,
     )
-    name = models.CharField(max_length=128)
     order = models.IntegerField()
-    supplied = models.BooleanField(default=False)
+    original_name = models.CharField(max_length=128, blank=True)
+    regularized_name = models.CharField(max_length=128, blank=True)
     clef = models.CharField(max_length=8, blank=True)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
@@ -49,7 +52,9 @@ class CRIMVoice(models.Model):
     def save(self):
         if not self.voice_id:
             self.voice_id = (self.piece.piece_id + '(' + str(self.order) + ')')
+        if self.original_name and not self.regularized_name:
+            self.regularized_name = self.original_name
         super().save()
 
     def __str__(self):
-        return '[{0}] {1} ({2})'.format(self.voice_id, self.piece.title, self.name)
+        return '[{0}] {1} ({2})'.format(self.voice_id, self.piece.title, self.regularized_name)

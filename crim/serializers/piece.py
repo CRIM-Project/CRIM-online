@@ -8,6 +8,7 @@ from crim.models.phrase import CRIMPhrase
 from crim.models.piece import CRIMPiece
 from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRoleType, CRIMRole
+from crim.models.voice import CRIMVoice
 from rest_framework import serializers
 
 
@@ -321,8 +322,26 @@ class CRIMPhrasePieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMVoicePieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimvoice-detail-data', lookup_field='voice_id')
+
+    class Meta:
+        model = CRIMVoice
+        fields = (
+            'url',
+            'order',
+            'original_name',
+            'regularized_name',
+            'clef',
+        )
+
+
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    voices = CRIMVoicePieceSerializer(
+        many=True,
+        read_only=True,
+    )
     roles = CRIMRolePieceSerializer(
         many=True,
         read_only=True,
@@ -341,6 +360,7 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'genre',
             'mass',
+            'voices',
             'roles',
             'pdf_links',
             'mei_links',
@@ -367,6 +387,10 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         many=True,
     )
+    voices = CRIMVoicePieceSerializer(
+        many=True,
+        read_only=True,
+    )
     sources = CRIMSourcePieceSerializer(
         many=True,
         read_only=True,
@@ -383,6 +407,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'genre',
             'mass',
             'phrases',
+            'voices',
             'roles',
             'sources',
             'pdf_links',

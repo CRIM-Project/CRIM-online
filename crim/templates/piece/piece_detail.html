@@ -49,13 +49,8 @@
       </hgroup>
       
       {% if not content.show_observations and not content.show_relationships %}
-        {% with phrases=content.phrases %}
-          {% include "piece/text.html" %}
-        {% endwith %}
-        
-        {% with sources=content.sources %}
-          {% include "source/source_block.html" %}
-        {% endwith %}
+        {% include "piece/text.html" with phrases=content.phrases %}
+        {% include "source/source_block.html" with sources=content.sources %}
       {% endif %}
       
       {% if content.remarks %}

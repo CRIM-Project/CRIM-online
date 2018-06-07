@@ -418,16 +418,16 @@ class CRIMVoiceAdmin(admin.ModelAdmin):
     fields = (
         'piece',
         'order',
-        'name',
+        'original_name',
+        'regularized_name',
         'clef',
-        'supplied',
         'remarks',
     )
     list_display = (
         'voice_id',
         'piece_title',
         'order',
-        'name',
+        'regularized_name',
     )
     ordering = (
         'voice_id',

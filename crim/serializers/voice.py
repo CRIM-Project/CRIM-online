@@ -24,8 +24,8 @@ class CRIMVoiceSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece',
             'order',
-            'name',
-            'supplied',
+            'original_name',
+            'regularized_name',
             'clef',
             'remarks',
         )

@@ -46,9 +46,7 @@
 
   <div class="row-fluid">
     <div class="span6">
-      {% with relationship=content %}
-        {% include "relationship/relationship_expanded.html" %}
-      {% endwith %}
+      {% include "relationship/relationship_expanded.html" with relationship=content %}
     </div>
     <div class="span6">
       {% if content.remarks %}
@@ -84,9 +82,7 @@
     </div>
     <div class="span3">
       <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.pk }}&gt;</a></small></h2>
-      {% with observation=content.model_observation %}
-        {% include "observation/observation_expanded.html" %}
-      {% endwith %}
+      {% include "observation/observation_expanded.html" with observation=content.model_observation %}
     </div>
   </div>
   
@@ -116,9 +112,7 @@
     </div>
     <div class="span3">
       <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.pk }}&gt;</a></small></h2>
-      {% with observation=content.derivative_observation %}
-        {% include "observation/observation_expanded.html" %}
-      {% endwith %}
+      {% include "observation/observation_expanded.html" with observation=content.derivative_observation %}
     </div>
   </div>
 

@@ -33,6 +33,15 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
             # Only add one composer's date for clarity, choosing the earliest.
             mass['date'] = earliest_date(dates)
 
+            # Add the number of voices, based on the voices in the constituent movements
+            list_of_voice_counts = [len(movement['voices']) for movement in mass['movements']]
+            if min(list_of_voice_counts) == max(list_of_voice_counts):
+                mass['number_of_voices'] = str(max(list_of_voice_counts))
+            else:
+                mass['number_of_voices'] = '{}-{}'.format(
+                    str(min(list_of_voice_counts)), str(max(list_of_voice_counts))
+                )
+
         template_names = ['mass/mass_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
