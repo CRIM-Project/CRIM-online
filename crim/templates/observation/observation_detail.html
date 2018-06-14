@@ -6,6 +6,7 @@
 {% load newlinereplace %}
 {% load newlineplural %}
 {% load firstitem %}
+{% load people %}
 
 {% block title %}
   <title>
@@ -33,8 +34,9 @@
         <div id="piece-header">
           <div class="span9">
             <h2>
-              {{ content.composers_with_urls|safe }},
-              {% if content.piece.mass %}
+              {% if content.piece.roles|people:"composer" %}{{ content.piece.roles|people:"composer"|safe }},
+              {% elif content.piece.mass.roles|people:"composer" %}{{ content.piece.mass.roles|people:"composer"|safe }},
+              {% endif %}{% if content.piece.mass %}
                 <a href="{{ content.piece.mass.url|htmlsite }}">{{ content.piece.mass.title }}</a>:
               {% endif %}
               <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.title }}</a>

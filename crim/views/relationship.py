@@ -28,34 +28,6 @@ class RelationshipListHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # - Add `composer` field to content: only look at roles with
-        # the role type with name "Composer", and add all such names
-        # to the list, along with the url of the composer
-        model_composers = []
-        for role in data['model_observation']['piece']['roles']:
-            if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                model_composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                model_composers.append(model_composer_html)
-        if data['model_observation']['piece']['mass']:
-            for role in data['model_observation']['piece']['mass']['roles']:
-                if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    model_composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    model_composers.append(model_composer_html)
-        data['model_composers_with_urls'] = ', '.join(model_composers)
-
-        # Do the same for the derivative
-        derivative_composers = []
-        for role in data['derivative_observation']['piece']['roles']:
-            if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                derivative_composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                derivative_composers.append(derivative_composer_html)
-        if data['derivative_observation']['piece']['mass']:
-            for role in data['derivative_observation']['piece']['mass']['roles']:
-                if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    derivative_composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    derivative_composers.append(derivative_composer_html)
-        data['derivative_composers_with_urls'] = ', '.join(derivative_composers)
-
         template_names = ['relationship/relationship_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)

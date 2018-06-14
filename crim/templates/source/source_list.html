@@ -2,6 +2,8 @@
 {% load markdown %}
 {% load shorten %}
 {% load static %}
+{% load people %}
+{% load earliest_date %}
 
 {% block title %}
   <title>CRIM | Sources</title>
@@ -39,8 +41,8 @@
                 {% endfor %}
                 <a href="{{ document.url|htmlsite }}">{{ document.document_id }}</a></td>
               <td>{{ document.title }}</td>
-              <td>{{ document.publishers_with_url|htmlsite|safe }}</td>
-              <td>{{ document.date }}</td>
+              <td>{{ document.roles|people:"printer"|safe }}</td>
+              <td>{{ document.roles|earliest_date:"printer" }}</td>
             </tr>
           {% endfor %}
         </tbody>
