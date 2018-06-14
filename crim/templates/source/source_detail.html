@@ -3,6 +3,8 @@
 {% load figuredash %}
 {% load markdown %}
 {% load static %}
+{% load people %}
+{% load earliest_date %}
 
 {% block title %}
   <title>CRIM | {{ content.title }}</title>
@@ -43,8 +45,8 @@
                 <td><a href="{{ mass.url|htmlsite }}">{{ mass.mass_id }}</a></td>
                 <td>Mass</td>
                 <td>{{ mass.title }}</td>
-                <td>{{ mass.creators_with_url|htmlsite|safe }}</td>
-                <td>{{ mass.date }}</td>
+                <td>{{ mass.roles|people:"composer"|safe }}</td>
+                <td>{{ mass.roles|earliest_date:"composer" }}</td>
               </tr>
             {% endfor %}
             {% for piece in content.piece_contents %}
@@ -53,8 +55,8 @@
                 <td>{{ piece.piece_id }}</td>
                 <td>Piece</td>
                 <td><a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a></td>
-                <td>{{ piece.creators_with_url|htmlsite|safe }}</td>
-                <td>{{ piece.date }}</td>
+                <td>{{ piece.roles|people:"composer"|safe }}</td>
+                <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% elif piece.mass.roles|earliest_date:"composer" %}{{ piece.mass.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
                 <td>{{ piece.remarks|markdown|shorten|safe }}</td>
               </tr>
               {% endif %}
@@ -64,8 +66,8 @@
                 <td>{{ treatise.document_id }}</td>
                 <td>Treatise</td>
                 <td><a href="{{ treatise.url|htmlsite }}">{{ treatise.title }}</a></td>
-                <td>{{ treatise.creators_with_url|htmlsite|safe }}</td>
-                <td>{{ treatise.date }}</td>
+                <td>{{ treatise.roles|people:"author"|htmlsite|safe }}</td>
+                <td>{{ treatise.roles|earliest_date:"author" }}</td>
                 <td>{{ treatise.remarks|markdown|shorten|safe }}</td>
               </tr>
             {% endfor %}

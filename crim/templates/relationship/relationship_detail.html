@@ -6,6 +6,7 @@
 {% load newlinereplace %}
 {% load newlineplural %}
 {% load firstitem %}
+{% load people %}
 
 {% block title %}
   <title>
@@ -62,11 +63,10 @@
         <div id="model-header">
           <div class="span9">
             <h2>
-              Model: {{ content.model_composers_with_urls|safe }},
-              {% if content.model_observation.piece.mass %}
-                <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
-              {% endif %}
-              <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
+              Model:
+                {% if content.model_observation.piece.roles|people:"composer" %}{{ content.model_observation.piece.roles|people:"composer"|safe }},
+                {% elif content.model_observation.piece.mass.roles|people:"composer" %}{{ content.model_observation.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}<a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
             </h2>
           </div>
           <div id="cw-model-controls" class="span3">
@@ -92,8 +92,9 @@
         <div id="derivative-header">
           <div class="span9">
             <h2>
-              Derivative: {{ content.derivative_composers_with_urls|safe }},
-              {% if content.derivative_observation.piece.mass %}
+              Derivative:
+                {% if content.derivative_observation.piece.roles|people:"composer" %}{{ content.derivative_observation.piece.roles|people:"composer"|safe }},
+                {% elif content.derivative_observation.piece.mass.roles|people:"composer" %}{{ content.derivative_observation.piece.mass.roles|people:"composer"|safe }},{% endif %}{% if content.derivative_observation.piece.mass %}
                 <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
               {% endif %}
               <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>

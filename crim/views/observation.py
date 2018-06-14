@@ -28,21 +28,6 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # - Add `composer` field to content: only look at roles with
-        # the role type with name "Composer", and add all such names
-        # to the list, along with the url of the composer
-        composers = []
-        for role in data['piece']['roles']:
-            if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                composers.append(composer_html)
-        if data['piece']['mass']:
-            for role in data['piece']['mass']['roles']:
-                if role['role_type'] and role['role_type']['name'] == COMPOSER:
-                    composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    composers.append(composer_html)
-        data['composers_with_urls'] = ', '.join(composers)
-
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data}, renderer_context)
