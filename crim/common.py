@@ -11,10 +11,12 @@ def two_digit_string(n):
 def get_date_sort(date):
     '''Given a date, return an integer year that approximates
     the latest date in the list.
-
     If given a string instead of a list, perform the evaluation
     on just the one string.
     '''
+    if not date:
+        return None
+
     yyyy_mm_dd = r'.*([0-9x]{4})-[0-9x]{2}-[0-9x]{2}[^0-9]*'
     yyyy = r'.*([0-9x]{4})[^0-9]*'
     yyy = r'.*([0-9x]{3})[^0-9]*'
@@ -27,29 +29,30 @@ def get_date_sort(date):
     return int(match.group(1).replace('x', '0')) if match else None
 
 
+def get_nonempty(a, b, comparator, processor):
+    '''Return the higher of function(a) and function(b),
+    with None counting as lowest.'''
+    if processor(a) is None:
+        return b
+    elif processor(b) is None:
+        return a
+    else:
+        return comparator(a, b)
+
+
 def earliest_date(dates):
     '''Takes a list of dates as strings, parses them,
     and returns the earliest one.'''
-    if dates:
-        earliest_date = dates[0]
-        for date in dates:
-            if (get_date_sort(date) and get_date_sort(earliest_date) and
-                    get_date_sort(date) and get_date_sort(date) < get_date_sort(earliest_date)):
-                earliest_date = date
-        return earliest_date if latest_date else None
-    else:
+    if not dates:
         return None
+    else:
+        return get_nonempty(dates[0], latest_date(dates[1:]), min, get_date_sort)
 
 
 def latest_date(dates):
     '''Takes a list of dates as strings, parses them,
     and returns the latest one.'''
-    if dates:
-        latest_date = dates[0]
-        for date in dates:
-            if (get_date_sort(date) and get_date_sort(latest_date) and
-                    get_date_sort(date) and get_date_sort(date) > get_date_sort(latest_date)):
-                latest_date = date
-        return latest_date if latest_date else None
-    else:
+    if not dates:
         return None
+    else:
+        return get_nonempty(dates[0], latest_date(dates[1:]), max, get_date_sort)
