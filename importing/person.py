@@ -82,9 +82,10 @@ def process_person(csvfile):
         add_dates(old_row, new_fields)
         new_fields['remarks'] = ''
 
-        new_row = {'model': 'crim.crimperson',
-                   'fields': new_fields,
-                   }
+        new_row = {
+            'model': 'crim.crimperson',
+            'fields': new_fields,
+        }
         data.append(new_row)
     return data
 

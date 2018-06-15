@@ -1,4 +1,6 @@
 {% load static %}
+{% load people %}
+{% load earliest_date %}
 
 {% if sources %}
   <h2>Sources</h2>
@@ -26,10 +28,10 @@
           {{ source.title }}
         </td>
         <td>
-          {{ source.publishers_with_url|htmlsite|safe }}
+          {{ source.roles|people:"printer"|safe }}
         </td>
         <td>
-          {{ source.date }}
+          {{ source.roles|earliest_date:"printer" }}
         </td>
       {% endfor %}
     </tbody>
