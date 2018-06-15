@@ -7,8 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.models.mass import CRIMMass
 from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializer
 
-from crim.common import earliest_date
-
 COMPOSER = 'composer'
 PUBLISHER = 'printer'
 
