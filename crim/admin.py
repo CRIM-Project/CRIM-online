@@ -149,7 +149,7 @@ class CRIMPersonAdmin(admin.ModelAdmin):
     list_display = (
         'person_id',
         'sorted_name',
-        'sorted_date',
+        'date_sort',
     )
     search_fields = (
         'person_id',
@@ -160,7 +160,6 @@ class CRIMPersonAdmin(admin.ModelAdmin):
     ordering = (
         'person_id',
         'name_sort',
-        'date_sort',
     )
 
 
@@ -448,7 +447,7 @@ class CRIMRoleAdmin(admin.ModelAdmin):
     list_display = (
         'person_with_role',
         'work',
-        'sorted_date',
+        'date_sort',
     )
     search_fields = (
         'person__person_id',
