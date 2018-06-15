@@ -3,14 +3,9 @@ from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 
-from crim.common import earliest_date
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.source import CRIMSourceListSerializer, CRIMSourceDetailSerializer
 from crim.models.document import CRIMSource
-
-AUTHOR = 'author'
-COMPOSER = 'composer'
-PUBLISHER = 'printer'
 
 
 class SourceSetPagination(PageNumberPagination):
@@ -23,16 +18,6 @@ class SourceSetPagination(PageNumberPagination):
 
 class SourceListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        for source in data['results']:
-            publishers = []
-            for role in source['roles']:
-                if role['role_type'] and role['role_type']['role_type_id'] in (PUBLISHER,):
-                    publisher_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    publishers.append(publisher_html)
-            dates = [role['date'] for role in source['roles']]
-            source['publishers_with_url'] = ', '.join(publishers) if publishers else '-'
-            source['date'] = earliest_date(dates) if dates else '-'
-
         template_names = ['source/source_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
@@ -41,24 +26,6 @@ class SourceListHTMLRenderer(CustomHTMLRenderer):
 
 class SourceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # - Add `publisher` field to content: only look at roles with
-        # the role type with name "Publisher", and add all such names
-        # to the list, along with the url of the publisher
-        # - Add `date` field to content: again, only look at roles
-        # with the role type "Publisher"
-        for item in (data['piece_contents'] + data['mass_contents'] +
-                     data['treatise_contents']):
-            creators = []
-            dates = []
-            for role in item['roles']:
-                if role['role_type'] and role['role_type']['role_type_id'] in (COMPOSER, AUTHOR):
-                    creator_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    creators.append(creator_html)
-                    if role['date']:
-                        dates.append(role['date'])
-            item['creators_with_url'] = ', '.join(creators) if creators else '-'
-            item['date'] = earliest_date(dates) if dates else '-'
-
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')

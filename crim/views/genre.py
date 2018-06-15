@@ -7,8 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.genre import CRIMGenreSerializer
 from crim.models.genre import CRIMGenre
 
-COMPOSER = 'Composer'
-
 
 class GenreListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):

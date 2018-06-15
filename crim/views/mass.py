@@ -7,8 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.models.mass import CRIMMass
 from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializer
 
-from crim.common import earliest_date
-
 COMPOSER = 'composer'
 PUBLISHER = 'printer'
 
@@ -16,23 +14,6 @@ PUBLISHER = 'printer'
 class MassListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for mass in data:
-            # - Add `composer` field to content: only look at roles with
-            # the role type with name "Composer", and add all such names
-            # to the list, along with the url of the composer
-            # - Add `date` field to content: again, only look at roles
-            # with the role type "Composer"
-            composers = []
-            dates = []
-            for role in mass['roles']:
-                if role['role_type'] and role['role_type']['role_type_id'] == COMPOSER:
-                    composer_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    composers.append(composer_html)
-                    if role['date']:
-                        dates.append(role['date'])
-            mass['composers_with_url'] = ', '.join(composers) if composers else '-'
-            # Only add one composer's date for clarity, choosing the earliest.
-            mass['date'] = earliest_date(dates)
-
             # Add the number of voices, based on the voices in the constituent movements
             list_of_voice_counts = [len(movement['voices']) for movement in mass['movements']]
             if min(list_of_voice_counts) == max(list_of_voice_counts):
@@ -50,17 +31,6 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
 
 class MassDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Add printers and dates to source entries
-        for source in data['sources']:
-            publishers = []
-            for role in source['roles']:
-                if role['role_type'] and role['role_type']['role_type_id'] in (PUBLISHER,):
-                    publisher_html = ('<a href="{0}">{1}</a>'.format(role['person']['url'], role['person']['name']))
-                    publishers.append(publisher_html)
-            dates = [role['date'] for role in source['roles']]
-            source['publishers_with_url'] = ', '.join(publishers) if publishers else '-'
-            source['date'] = earliest_date(dates) if dates else '-'
-
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
