@@ -1,0 +1,1 @@
+{% if object.roles_as_piece.all|composer %}{{ object.roles_as_piece.all|composer }}{% elif object.mass.roles_as_mass.all|composer %}{{ object.mass.roles_as_mass.all|composer }}{% endif %}
