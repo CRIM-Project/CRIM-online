@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from crim.common import get_date_sort
 from crim.models.genre import CRIMGenre
 from crim.models.role import CRIMRole
 
@@ -91,9 +92,9 @@ class CRIMPiece(models.Model):
         composer_roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
         mass_composer_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
         if composer_roles:
-            return composer_roles[0].date_sort
+            return get_date_sort(composer_roles[0].date)
         elif mass_composer_roles:
-            return mass_composer_roles[0].date_sort
+            return get_date_sort(mass_composer_roles[0].date)
         else:
             return None
 
