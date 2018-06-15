@@ -46,17 +46,15 @@ class CRIMTreatise(CRIMDocument):
         verbose_name = 'Treatise'
         verbose_name_plural = 'Treatises'
 
+    @property
     def author(self):
-        roles = CRIMRole.objects.filter(treatise=self, role_type__role_type_id=AUTHOR)
-        if roles:
-            return roles[0].person
-    author.short_description = 'author'
+        author_roles = CRIMRole.objects.filter(treatise=self, role_type__role_type_id=AUTHOR)
+        return author_roles[0].person if author_roles else None
 
+    @property
     def date(self):
         roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
-        if roles:
-            return roles[0].date_sort
-    date.short_description = 'date'
+        return roles[0].date_sort if roles else None
 
 
 class CRIMSource(CRIMDocument):
@@ -94,14 +92,12 @@ class CRIMSource(CRIMDocument):
         related_name='sources',
     )
 
+    @property
     def publisher(self):
-        roles = CRIMRole.objects.filter(source=self, role_type__role_type_id=PUBLISHER)
-        if roles:
-            return roles[0].person
-    publisher.short_description = 'publisher'
+        publisher_roles = CRIMRole.objects.filter(source=self, role_type__role_type_id=PUBLISHER)
+        return publisher_roles[0].person if publisher_roles else None
 
+    @property
     def date(self):
         roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
-        if roles:
-            return roles[0].date_sort
-    date.short_description = 'date'
+        return roles[0].date_sort if roles else None
