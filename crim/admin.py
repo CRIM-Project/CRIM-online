@@ -199,7 +199,7 @@ class CRIMModelAdmin(admin.ModelAdmin):
         'title_with_id',
         'composer',
         'genre',
-        'date',
+        'date_sort',
     )
     ordering = (
         'piece_id',
@@ -238,7 +238,7 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     list_display = (
         'title_with_id',
         'composer',
-        'date',
+        'date_sort',
     )
     ordering = (
         'piece_id',
@@ -259,7 +259,7 @@ class CRIMMassAdmin(admin.ModelAdmin):
     list_display = (
         'title_with_id',
         'composer',
-        'date',
+        'date_sort',
     )
     search_fields = (
         'mass_id',
@@ -295,7 +295,7 @@ class CRIMTreatiseAdmin(admin.ModelAdmin):
     list_display = (
         'title_with_id',
         'author',
-        'date',
+        'date_sort',
     )
     ordering = (
         'document_id',
@@ -335,7 +335,7 @@ class CRIMSourceAdmin(admin.ModelAdmin):
     list_display = (
         'title_with_id',
         'publisher',
-        'date',
+        'date_sort',
         'source_type',
     )
     ordering = (

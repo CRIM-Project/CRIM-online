@@ -87,7 +87,7 @@ class CRIMPiece(models.Model):
             return None
 
     @property
-    def date(self):
+    def date_sort(self):
         composer_roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
         mass_composer_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
         if composer_roles:
