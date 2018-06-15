@@ -7,7 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer
 from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
-from crim.common import earliest_date
 
 COMPOSER = 'composer'
 PUBLISHER = 'printer'

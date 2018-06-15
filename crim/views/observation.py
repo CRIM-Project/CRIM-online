@@ -7,8 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.models.observation import CRIMObservation
 
-COMPOSER = 'Composer'
-
 
 class ObservationSetPagination(PageNumberPagination):
     # CAREFUL: the attribute `page_size` MUST match the

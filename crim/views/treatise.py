@@ -6,10 +6,6 @@ from rest_framework import permissions
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.treatise import CRIMTreatiseListSerializer, CRIMTreatiseDetailSerializer
 from crim.models.document import CRIMTreatise
-from crim.common import earliest_date
-
-AUTHOR = 'author'
-PUBLISHER = 'printer'
 
 
 class TreatiseListHTMLRenderer(CustomHTMLRenderer):
