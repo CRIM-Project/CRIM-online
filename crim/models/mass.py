@@ -43,7 +43,7 @@ class CRIMMass(models.Model):
         return composer_roles[0].person if composer_roles else None
 
     @property
-    def date(self):
+    def date_sort(self):
         composer_roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
         return composer_roles[0].date_sort if composer_roles else None
 
