@@ -69,7 +69,10 @@ class CRIMRole(models.Model):
         blank=True,
         db_index=True,
     )
-    date_sort = models.IntegerField(null=True)
+
+    @property
+    def date_sort(self):
+        get_date_sort(self.date)
 
     def person_with_role(self):
         if self.role_type:
@@ -79,6 +82,7 @@ class CRIMRole(models.Model):
     person_with_role.short_description = 'Role'
     person_with_role.admin_order_field = 'person'
 
+    @property
     def work(self):
         if self.piece:
             return self.piece
@@ -90,17 +94,6 @@ class CRIMRole(models.Model):
             return self.source
         else:  # should not happen after validation
             return None
-    work.short_description = 'work'
-
-    def sorted_date(self):
-        return self.date_sort
-    sorted_date.short_description = 'date'
-    sorted_date.admin_order_field = 'date_sort'
-
-    # For implementing using generic foreign keys
-#     document_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-#     document_id = models.CharField(max_length=32)
-#     document_object = GenericForeignKey(document_content_type, document_id)
 
     # Django doesn't make generic foreign keys or many-to-many relations
     # easy, so we have a separate field for each type that could be
@@ -166,7 +159,5 @@ class CRIMRole(models.Model):
             raise ValidationError('You may assign no more than one work to a single role.')
 
     def save(self, *args, **kwargs):
-        # Add sortable date fields
-        self.date_sort = get_date_sort(self.date)
         # Finalize changes
         super().save()

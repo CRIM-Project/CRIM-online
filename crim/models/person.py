@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.text import slugify
 from django.utils.html import escape
-from crim.common import latest_date
+from crim.common import get_date_sort, latest_date
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRoleType
@@ -29,17 +29,16 @@ class CRIMPerson(models.Model):
     active_date = models.CharField(max_length=32, blank=True, db_index=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
-    date_sort = models.IntegerField(null=True)
+    @property
+    def date_sort(self):
+        # Add sortable date field based on birth, death and active dates
+        dates = [self.birth_date, self.death_date, self.active_date]
+        return get_date_sort(latest_date(dates))
 
     def sorted_name(self):
         return self.name_sort
     sorted_name.short_description = 'name'
     sorted_name.admin_order_field = 'name_sort'
-
-    def sorted_date(self):
-        return self.date_sort
-    sorted_date.short_description = 'date'
-    sorted_date.admin_order_field = 'date_sort'
 
     def __str__(self):
         return '{0}'.format(self.name_sort)
@@ -54,20 +53,12 @@ class CRIMPerson(models.Model):
         return unique_slug
 
     def save(self, *args, **kwargs):
-        # Create unique person_id based on the name
-        if not self.person_id:
-            self.person_id = self._get_unique_slug()
-
         # Need to clean `name` field, because its html ends up being parsed!
         self.name = escape(self.name)
 
         # Add sorted name if it was left blank
         if not self.name_sort:
             self.name_sort = self.name
-
-        # Add sortable date field based on birth, death and active dates
-        dates = [self.birth_date, self.death_date, self.active_date]
-        self.date_sort = latest_date(dates)
 
         # Remove extraneous newlines
         self.name_alternate_list = re.sub(r'[\n\r]+', r'\n', self.name_alternate_list)
