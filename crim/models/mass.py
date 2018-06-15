@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from crim.common import get_date_sort
 from crim.models.genre import CRIMGenre
 from crim.models.role import CRIMRole
 
@@ -44,8 +45,8 @@ class CRIMMass(models.Model):
 
     @property
     def date_sort(self):
-        composer_roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
-        return composer_roles[0].date_sort if composer_roles else None
+        composer_roles = CRIMRole.objects.filter(mass=self, role_type__name=COMPOSER)
+        return get_date_sort(composer_roles[0].date) if composer_roles else None
 
     def save(self, *args, **kwargs):
         super().save()
