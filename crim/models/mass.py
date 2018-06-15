@@ -37,17 +37,15 @@ class CRIMMass(models.Model):
     title_with_id.short_description = 'mass'
     title_with_id.admin_order_field = 'title'
 
+    @property
     def composer(self):
-        roles = CRIMRole.objects.filter(mass=self, role_type__name=COMPOSER)
-        if roles:
-            return roles[0].person
-    composer.short_description = 'composer'
+        composer_roles = CRIMRole.objects.filter(mass=self, role_type__name=COMPOSER)
+        return composer_roles[0].person if composer_roles else None
 
+    @property
     def date(self):
-        roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
-        if roles:
-            return roles[0].date_sort
-    date.short_description = 'date'
+        composer_roles = CRIMRole.objects.filter(mass=self).order_by('date_sort')
+        return composer_roles[0].date_sort if composer_roles else None
 
     def save(self, *args, **kwargs):
         super().save()

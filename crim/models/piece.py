@@ -75,23 +75,27 @@ class CRIMPiece(models.Model):
     title_with_id.short_description = 'piece'
     title_with_id.admin_order_field = 'title'
 
+    @property
     def composer(self):
-        roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
-        mass_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
-        if roles:
-            return roles[0].person
-        elif mass_roles:
-            return mass_roles[0].person
-    composer.short_description = 'composer'
+        composer_roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
+        mass_composer_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
+        if composer_roles:
+            return composer_roles[0].person
+        elif mass_composer_roles:
+            return mass_composer_roles[0].person
+        else:
+            return None
 
+    @property
     def date(self):
-        roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
-        mass_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
-        if roles:
-            return roles[0].date_sort
-        elif mass_roles:
-            return mass_roles[0].date_sort
-    date.short_description = 'date'
+        composer_roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
+        mass_composer_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
+        if composer_roles:
+            return composer_roles[0].date_sort
+        elif mass_composer_roles:
+            return mass_composer_roles[0].date_sort
+        else:
+            return None
 
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
