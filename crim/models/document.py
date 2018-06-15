@@ -52,7 +52,7 @@ class CRIMTreatise(CRIMDocument):
         return author_roles[0].person if author_roles else None
 
     @property
-    def date(self):
+    def date_sort(self):
         roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
         return roles[0].date_sort if roles else None
 
@@ -98,6 +98,6 @@ class CRIMSource(CRIMDocument):
         return publisher_roles[0].person if publisher_roles else None
 
     @property
-    def date(self):
+    def date_sort(self):
         roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
         return roles[0].date_sort if roles else None
