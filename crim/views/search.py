@@ -7,5 +7,9 @@ class FacetedSearchForm(BaseFacetedSearchForm):
         return self.searchqueryset.auto_query('')
 
 
-class CRIMFacetedSearchView(FacetedSearchView):
-    pass
+class FacetedSearchView(BaseFacetedSearchView):
+    form_class = FacetedSearchForm
+    # List of facets on relationship objects
+    facet_fields = ['composer', 'genre']
+
+    context_object_name = 'page_object'
