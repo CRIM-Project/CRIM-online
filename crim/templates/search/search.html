@@ -43,8 +43,8 @@
         {% endif %}
       </div>
       <div id="sidebar" class="span3">
-        {% include "search/sidebar/piece_composer.html" %}
-        {% include "search/sidebar/piece_genre.html" %}
+        {% include "search/sidebar/composer.html" %}
+        {% include "search/sidebar/genre.html" %}
       </div>
     </div>
   {% else %}{# if not query #}
@@ -59,8 +59,8 @@
               <input type="text" name="q" class="search-input"/>
               <div class="accordion" id="search-accordion">
                 <h2>Limit by:</h2>
-                {% include "search/blocks/piece_composer.html" %}
-                {% include "search/blocks/piece_genre.html" %}
+                {% include "search/blocks/composer.html" %}
+                {% include "search/blocks/genre.html" %}
               </div> <!-- .accordion -->
               <div class="search-buttons">
                 <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
@@ -77,6 +77,6 @@
         </div><!--/row-->
       </div><!--/span-->
     </div><!--/row-->
-    {# include "search/searchjs.html" #}
+    {% include "search/searchjs.html" %}
   {% endif %}
 {% endblock %}
