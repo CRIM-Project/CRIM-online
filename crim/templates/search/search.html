@@ -1,40 +1,82 @@
 {% extends "base.html" %}
 
+{% block title %}
+<title>CRIM | {% if query %}Search results{% else %}Search{% endif %}</title>
+{% endblock %}
+
+{% block header %}
+  <script type="text/javascript">
+    $(document).ready(function ($) {
+      $("#search-form").on({
+        'submit': function(event) {
+          $(':input[value="None"]', $("#search-form")).each(function(){
+            $(this).attr('disabled', true);
+          })
+        }
+      })
+    });
+  </script>
+{% endblock %}
+
 {% block wrap %}
-  <h2>Search</h2>
-
-  <form method="get" action=".">
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td>&nbsp;</td>
-        <td>
-          <input type="submit" value="Search">
-        </td>
-      </tr>
-    </table>
-
-    {% if query %}
-      <h3>Results</h3>
-
-      {% for result in page.object_list %}
-        <p>
-          <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
-        </p>
-      {% empty %}
-        <p>No results found.</p>
-      {% endfor %}
-
-      {% if page.has_previous or page.has_next %}
-        <div>
-          {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-          |
-          {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+  {% if query or request.GET.selected_facets %}
+    <div class="row-fluid">
+      <div class="span9">
+        <hgroup>
+          <h1>Search results</h1>
+          <h2>Pieces</h2>
+        </hgroup>
+        {% for result in page_obj.object_list %}
+          <p>
+            <a href="{{ result.object.get_absolute_url }}">[{{ result.object.piece_id }}] {% if result.object.mass %}{{ result.object.mass.title }}: {% endif %}{{ result.object.title }}</a>
+          </p>
+        {% empty %}
+          <p>No results found.</p>
+        {% endfor %}
+    
+        {% if page.has_previous or page.has_next %}
+          <div>
+            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+            |
+            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <div id="sidebar" class="span3">
+        {% include "search/sidebar/piece_composer.html" %}
+        {% include "search/sidebar/piece_genre.html" %}
+      </div>
+    </div>
+  {% else %}{# if not query #}
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="search-heading row-fluid">
+          <h1 class="search-title page-title span8">Advanced search</h1>
         </div>
-      {% endif %}
-    {% else %}
-      No query
-      {# Show some example queries to run, maybe query syntax, something else? #}
-    {% endif %}
-  </form>
+        <div class="row-fluid">
+          <div class="span9 search-container content-container">
+            <form id="search-form" action="/search" method="get">
+              <input type="text" name="q" class="search-input"/>
+              <div class="accordion" id="search-accordion">
+                <h2>Limit by:</h2>
+                {% include "search/blocks/piece_composer.html" %}
+                {% include "search/blocks/piece_genre.html" %}
+              </div> <!-- .accordion -->
+              <div class="search-buttons">
+                <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
+                <button type="reset" class="btn btn-large">Clear</button>
+              </div>
+            </form>
+          </div><!--/span-->
+          <div id="sidebar" class="span3">
+            {# <h3>Search help</h3> #}
+            <div id="search-help">
+              {# See Du Chemin for ideas #}
+            </div>
+          </div><!--/span-->
+        </div><!--/row-->
+      </div><!--/span-->
+    </div><!--/row-->
+    {% include "search/searchjs.html" %}
+  {% endif %}
 {% endblock %}

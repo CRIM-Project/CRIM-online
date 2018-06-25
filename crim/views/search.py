@@ -1,9 +1,10 @@
-from haystack.forms import FacetedSearchForm
-from haystack.views import FacetedSearchView
+from haystack.forms import FacetedSearchForm as BaseFacetedSearchForm
+from haystack.generic_views import FacetedSearchView as BaseFacetedSearchView
 
 
-class CRIMFacetedSearchForm(FacetedSearchForm):
-    pass
+class FacetedSearchForm(BaseFacetedSearchForm):
+    def no_query_found(self):
+        return self.searchqueryset.auto_query('')
 
 
 class CRIMFacetedSearchView(FacetedSearchView):

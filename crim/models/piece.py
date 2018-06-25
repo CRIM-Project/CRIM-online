@@ -98,6 +98,10 @@ class CRIMPiece(models.Model):
         else:
             return None
 
+    # Indexing with Haystack requires this method.
+    def get_absolute_url(self):
+        return '/piece/{0}/'.format(self.piece_id)
+
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
         # Only validate Piece ID if it is not a mass movement

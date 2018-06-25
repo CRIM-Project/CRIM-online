@@ -127,6 +127,10 @@ class CRIMObservation(models.Model):
     id_in_brackets.short_description = 'ID'
     id_in_brackets.admin_order_field = 'id'
 
+    # Indexing with Haystack requires this method.
+    def get_absolute_url(self):
+        return '/observation/{0}/'.format(self.pk)
+
     def __save__(self):
         # Set the parent relationship type field to true if any of the subtypes are
         if self.mt_cf_voices or self.mt_cf_dur or self.mt_cf_mel:

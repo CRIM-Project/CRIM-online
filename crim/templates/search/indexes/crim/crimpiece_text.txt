@@ -2,7 +2,6 @@
 {{ object.mass.title }}
 {{ object.title }}
 {{ object.genre.name }}
-{{ object.remarks }}
 {% for role in object.roles_as_piece.all %}
 {{ role.person.name }}
 {% endfor %}

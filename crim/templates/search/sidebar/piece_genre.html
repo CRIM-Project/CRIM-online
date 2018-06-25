@@ -1,0 +1,12 @@
+<div>
+  <dl>
+    {% if facets.fields.genre %}
+      <dt>Genre</dt>
+      {% for genre in facets.fields.genre %}
+        <dd><a href="{{ request.get_full_path }}&amp;selected_facets=genre_exact:{{ genre.0|urlencode }}">{{ genre.0 }}</a> ({{ genre.1 }})</dd>
+      {% endfor %}
+    {% else %}
+      <p>No genre facets.</p>
+    {% endif %}
+  </dl>
+</div>
