@@ -1,0 +1,10 @@
+{{ object.piece_id }}
+{{ object.mass.title }}
+{{ object.title }}
+{{ object.genre.name }}
+{% for role in object.roles_as_piece.all %}
+{{ role.person.name }}
+{% endfor %}
+{% for role in object.mass.roles_as_mass.all %}
+{{ role.person.name }}
+{% endfor %}
