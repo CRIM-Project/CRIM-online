@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Lost Voices &mdash; Search Results</title>
+{% endblock %}
+
+{% block header %}
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet"></link>
+<script src="{{ STATIC_URL }}js/search.js"></script>
+<script src="{{ STATIC_URL }}js/notation.js"></script>
+<script src="{{ STATIC_URL }}js/favourites.js"></script>
+<script type="text/javascript" src="http://vm-duchemin.haverford.edu:8080/assets/scripts/libs/vexflow-free.js"></script>
+<script type="text/javascript" src="http://vm-duchemin.haverford.edu:8080/assets/scripts/libs/meitovexflow.js"></script>
+<script type="text/javascript">
+$(document).ready(function ($) {
+    fetchWorkResults();
+    fetchElementResults();
+    fetchFacets();
+    attachFavouritesAction();
+});
+</script>
+{% endblock %}
+
+{% block wrap %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="results-heading row-fluid">
+            <h1 class="results-title page-title span5"><span class="searched-for">Results</span></h1>
+            <div class="row-fluid">
+                <div class="span8 results-container content-container">
+                    <ul id="results-tab" class="nav nav-tabs">
+                        <li class="active"><a href="#works" data-toggle="tab">Works<span id="works-count" class="results-count"></span></a></li>
+                        <li class=""><a href="#elements" data-toggle="tab">Observations<span id="element-count" class="results-count"></span></a></li>
+                        <!-- <li class=""><a href="#pages" data-toggle="tab">Pages <span class="results-count">(2)</span></a></li> -->
+                    </ul>
+                    <div class="tab-content" id="results-tab-content">
+                        <div id="works" class="tab-pane fade active in">
+
+                        </div>
+                        <div id="elements" class="tab-pane fade">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="sidebar" class="span4">
+                    <div id="facets"> </div>
+                </div><!--/span-->
+            </div><!--/row-->
+        </div><!--/span-->
+    </div><!--/row-->
+  <!-- meiView dependencies and scripts -->
+
+  <script type="text/JavaScript" src="/static/js/vexflow/vexflow-min.js"></script>
+  <script type="text/JavaScript" src="/static/js/deps/Fabric-all.js"></script>
+  <script type="text/JavaScript" src="/static/js/deps/meitovexflow.min.js"></script>
+
+  <script type="text/JavaScript" src="/static/js/dist/meiview.js"></script>
+  <link rel="stylesheet" href="/static/css/dist/meiview.css"/>
+
+{% endblock %}

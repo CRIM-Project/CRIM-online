@@ -1,0 +1,10 @@
+{% load bootstrap_pagination %}
+
+{% include "analysis/analysis_table.html" with analyses=element_results.object_list %}
+
+{% bootstrap_paginate element_results range=10 url_param_name="epage" %}
+
+<script type="text/javascript">
+    attachPagerActions();
+    attachPhraseClickEvents();
+</script>
