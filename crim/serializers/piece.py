@@ -268,7 +268,7 @@ class CRIMRelationshipPieceSerializer(serializers.HyperlinkedModelSerializer):
             'model_observation',
             'derivative_observation',
             'rt_q',
-            'rt_q_exact',
+            'rt_q_x',
             'rt_q_monnayage',
             'rt_tm',
             'rt_tm_snd',

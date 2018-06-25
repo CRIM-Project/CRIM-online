@@ -16,6 +16,12 @@
       })
     });
   </script>
+  <script type="text/javascript">
+    var inputs = document.getElementsByClassName("tristate");
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].indeterminate = true;
+    }
+  </script>
 {% endblock %}
 
 {% block wrap %}
@@ -24,11 +30,11 @@
       <div class="span9">
         <hgroup>
           <h1>Search results</h1>
-          <h2>Pieces</h2>
+          <h2>Relationships</h2>
         </hgroup>
         {% for result in page_obj.object_list %}
           <p>
-            <a href="{{ result.object.get_absolute_url }}">[{{ result.object.piece_id }}] {% if result.object.mass %}{{ result.object.mass.title }}: {% endif %}{{ result.object.title }}</a>
+            <a href="{{ result.object.get_absolute_url }}">&lt;R{{ result.object.id }}&gt; {% if result.object.model_observation.piece.mass %}{{ result.object.model_observation.piece.mass.title }}: {% endif %}{{ result.object.model_observation.piece.title }} &rarr; {% if result.object.derivative_observation.piece.mass %}{{ result.object.derivative_observation.piece.mass.title }}: {% endif %}{{ result.object.derivative_observation.piece.title }} ({{ result.object.observer.name }})</a>
           </p>
         {% empty %}
           <p>No results found.</p>
@@ -43,8 +49,7 @@
         {% endif %}
       </div>
       <div id="sidebar" class="span3">
-        {% include "search/sidebar/composer.html" %}
-        {% include "search/sidebar/genre.html" %}
+        {# include "search/sidebar/composer.html" #}
       </div>
     </div>
   {% else %}{# if not query #}
@@ -59,8 +64,8 @@
               <input type="text" name="q" class="search-input"/>
               <div class="accordion" id="search-accordion">
                 <h2>Limit by:</h2>
-                {% include "search/blocks/composer.html" %}
-                {% include "search/blocks/genre.html" %}
+                {% include "search/blocks/observer.html" %}
+                {% include "search/blocks/rt.html" %}
               </div> <!-- .accordion -->
               <div class="search-buttons">
                 <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
@@ -77,6 +82,5 @@
         </div><!--/row-->
       </div><!--/span-->
     </div><!--/row-->
-    {% include "search/searchjs.html" %}
   {% endif %}
 {% endblock %}
