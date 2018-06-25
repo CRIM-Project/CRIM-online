@@ -65,6 +65,10 @@ class CRIMRelationship(models.Model):
     id_in_brackets.short_description = 'ID'
     id_in_brackets.admin_order_field = 'id'
 
+    # Indexing with Haystack requires this method.
+    def get_absolute_url(self):
+        return '/relationship/{0}/'.format(self.pk)
+
     def __str__(self):
         return '<R{0}> {1}, {2}'.format(
             self.id,
