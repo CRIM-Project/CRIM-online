@@ -37,7 +37,7 @@ class CRIMRelationshipIndex(indexes.SearchIndex, indexes.Indexable):
     observer_name_sort = indexes.CharField(model_attr='observer__name_sort', faceted=True, null=False)
 
     rt_q = indexes.BooleanField(model_attr='rt_q', faceted=True)
-    rt_q_exact = indexes.BooleanField(model_attr='rt_q_exact', faceted=True)
+    rt_q_x = indexes.BooleanField(model_attr='rt_q_x', faceted=True)
     rt_q_monnayage = indexes.BooleanField(model_attr='rt_q_monnayage', faceted=True)
 
     rt_tm = indexes.BooleanField(model_attr='rt_tm', faceted=True)

@@ -11,10 +11,9 @@ class FacetedSearchView(BaseFacetedSearchView):
     form_class = FacetedSearchForm
     # List of facets on relationship objects
     facet_fields = [
-        'observer_person_id',
         'observer_name_sort',
         'rt_q',
-        'rt_q_exact',
+        'rt_q_x',
         'rt_q_monnayage',
         'rt_tm',
         'rt_tm_snd',
