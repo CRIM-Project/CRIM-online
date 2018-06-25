@@ -1,0 +1,12 @@
+{% with rt_q=facets.fields.rt_q %}
+  <h3>Relationship types</h3>
+  <p>
+    <ul class="column-checklist four-columns">
+        <li>
+          <label class="checkbox" for="rt_q">
+            <input class="tristate" type="checkbox" id="rt_q" name="selected_facets" value="rt_q_exact:true" />Quotation ({{ rt_q.1.1 }})
+          </label>
+        </li>
+    </ul>
+  </p>
+{% endwith %}
