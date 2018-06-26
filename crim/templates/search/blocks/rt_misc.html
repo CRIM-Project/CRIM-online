@@ -1,0 +1,35 @@
+<div class="span2">
+<h4>Other</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="rt_nm">
+        <input type="checkbox" class="rt_nm" id="rt_nm" name="selected_facets" value="rt_nm:true" />New material ({{ facets.fields.rt_nm.1.1 }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_om">
+        <input type="checkbox" class="rt_om" id="rt_om" name="selected_facets" value="rt_om:true" />Omission ({{ facets.fields.rt_om.1.1 }})
+      </label>
+    </li>
+</p>
+</div>
+
+<script>
+  $('#rt_nm').change (function () {
+    if ($('#rt_nm').is(':checked')) {
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_om').change (function () {
+    if ($('#rt_om').is(':checked')) {
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+    }
+  });
+</script>

@@ -68,7 +68,7 @@ class CRIMRelationshipIndex(indexes.SearchIndex, indexes.Indexable):
 
     # Information about the model CRIMObservation
 
-    model_observer_person_id = indexes.CharField(model_attr='model_observation__observer__person_id', faceted=True)
+    model_observer_person_id = indexes.CharField(model_attr='model_observation__observer__person_id')
     model_observer_name_sort = indexes.CharField(model_attr='model_observation__observer__name_sort', faceted=True)
 
     model_ema = indexes.CharField(model_attr='model_observation__ema')
@@ -183,7 +183,7 @@ class CRIMRelationshipIndex(indexes.SearchIndex, indexes.Indexable):
 
     # Information about the derivative CRIMObservation
 
-    derivative_observer_person_id = indexes.CharField(model_attr='derivative_observation__observer__person_id', faceted=True)
+    derivative_observer_person_id = indexes.CharField(model_attr='derivative_observation__observer__person_id')
     derivative_observer_name_sort = indexes.CharField(model_attr='derivative_observation__observer__name_sort', faceted=True)
 
     derivative_ema = indexes.CharField(model_attr='derivative_observation__ema')

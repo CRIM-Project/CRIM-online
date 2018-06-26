@@ -16,12 +16,6 @@
       })
     });
   </script>
-  <script type="text/javascript">
-    var inputs = document.getElementsByClassName("tristate");
-    for (var i = 0; i < inputs.length; i++) {
-      inputs[i].indeterminate = true;
-    }
-  </script>
 {% endblock %}
 
 {% block wrap %}
@@ -56,20 +50,28 @@
     <div class="row-fluid">
       <div class="span12">
         <div class="search-heading row-fluid">
-          <h1 class="search-title page-title span8">Advanced search</h1>
+          <h1 class="search-title page-title">Advanced search</h1>
+          <p>Returns relationships matching <strong>all</strong> of the selected features.</p>
         </div>
         <div class="row-fluid">
-          <div class="span9 search-container content-container">
+          <div class="search-container content-container">
             <form id="search-form" action="/search" method="get">
+              <h3>All fields</h3>
               <input type="text" name="q" class="search-input"/>
-              <div class="accordion" id="search-accordion">
-                <h2>Limit by:</h2>
+              <div>
                 {% include "search/blocks/observer.html" %}
-                {% include "search/blocks/rt.html" %}
-              </div> <!-- .accordion -->
+                <h3>Relationship types</h3>
+                <div class="row-fluid">
+                  {% include "search/blocks/rt_q.html" %}
+                  {% include "search/blocks/rt_tm.html" %}
+                  {% include "search/blocks/rt_tnm.html" %}
+                  {% include "search/blocks/rt_misc.html" %}
+                  
+                </div>
+              </div>
               <div class="search-buttons">
                 <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
-                <button type="reset" class="btn btn-large">Clear</button>
+                <button id="search-reset" type="reset" class="btn btn-large">Clear</button>
               </div>
             </form>
           </div><!--/span-->

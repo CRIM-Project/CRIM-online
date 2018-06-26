@@ -1,12 +1,56 @@
-{% with rt_q=facets.fields.rt_q %}
-  <h3>Relationship types</h3>
-  <p>
-    <ul class="column-checklist four-columns">
-        <li>
-          <label class="checkbox" for="rt_q">
-            <input class="tristate" type="checkbox" id="rt_q" name="selected_facets" value="rt_q_exact:true" />Quotation ({{ rt_q.1.1 }})
-          </label>
-        </li>
-    </ul>
-  </p>
-{% endwith %}
+<div class="span2">
+<h4>Quotation</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="rt_q">
+        <input type="checkbox" class="rt_q" id="rt_q" name="selected_facets" value="rt_q:true" />Any ({{ facets.fields.rt_q.1.1 }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_q_x">
+        <input type="checkbox" class="rt_q" id="rt_q_x" name="selected_facets" value="rt_q_x:true" />Exact ({{ facets.fields.rt_q_x.1.1 }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_q_monnayage">
+        <input type="checkbox" class="rt_q" id="rt_q_monnayage" name="selected_facets" value="rt_q_monnayage:true" />Monnayage ({{ facets.fields.rt_q_monnayage.1.1 }})
+      </label>
+    </li>
+  </ul>
+</p>
+</div>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#rt_q').change (function () {
+    if ($('#rt_q').is(':checked')) {
+      $('#rt_q_x').prop('checked', false);
+      $('#rt_q_monnayage').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_q_x').change (function () {
+    if ($('#rt_q_x').is(':checked')) {
+      $('#rt_q').prop('checked', false);
+      $('#rt_q_monnayage').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_q_monnayage').change (function () {
+    if ($('#rt_q_monnayage').is(':checked')) {
+      $('#rt_q').prop('checked', false);
+      $('#rt_q_x').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+</script>
