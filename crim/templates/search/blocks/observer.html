@@ -1,9 +1,14 @@
-<h3>Observer</h3>
+<h3>Observers</h3>
+{{ observer }}
 <p>
-  <select name="selected_facets">
-    <option value=""/>
-    {% for observer in facets.fields.observer_name_sort %}
-      <option id="observer{{ forloop.counter }}" value="observer_name_sort_exact:{{ observer.0 }}">{{ observer.0 }} ({{ observer.1 }})</option>
+  <ul class="column-checklist four-columns">
+    {% for o in observer %}
+      <li>
+        <label class="checkbox" for="observer{{ forloop.counter }}">
+          <input type="checkbox" id="observer{{ forloop.counter }}" name="observer" value="{{ o.0 }}" />{{ o.0 }} ({{ o.1 }})
+        </label>
+      </li>
     {% endfor %}
-  </select>
+  </ul>
+      <!-- <br class="stop-columns" /> -->
 </p>

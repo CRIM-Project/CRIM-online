@@ -7,6 +7,9 @@
 {% block header %}
   <script type="text/javascript">
     $(document).ready(function ($) {
+    	  fetchPieceResults();
+    	  fetchRelationshipResults();
+    	  fetchFacets();
       $("#search-form").on({
         'submit': function(event) {
           $(':input[value="None"]', $("#search-form")).each(function(){
@@ -19,70 +22,35 @@
 {% endblock %}
 
 {% block wrap %}
-  {% if query or request.GET.selected_facets %}
-    <div class="row-fluid">
-      <div class="span9">
-        <hgroup>
-          <h1>Search results</h1>
-          <h2>Relationships</h2>
-        </hgroup>
-        {% for result in page_obj.object_list %}
-          <p>
-            <a href="{{ result.object.get_absolute_url }}">&lt;R{{ result.object.id }}&gt; {% if result.object.model_observation.piece.mass %}{{ result.object.model_observation.piece.mass.title }}: {% endif %}{{ result.object.model_observation.piece.title }} &rarr; {% if result.object.derivative_observation.piece.mass %}{{ result.object.derivative_observation.piece.mass.title }}: {% endif %}{{ result.object.derivative_observation.piece.title }} ({{ result.object.observer.name }})</a>
-          </p>
-        {% empty %}
-          <p>No results found.</p>
-        {% endfor %}
-    
-        {% if page.has_previous or page.has_next %}
-          <div>
-            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-            |
-            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
-          </div>
-        {% endif %}
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="search-heading row-fluid">
+        <h1 class="search-title page-title">Advanced search</h1>
+        <p>Returns relationships matching <strong>all</strong> of the selected features.</p>
       </div>
-      <div id="sidebar" class="span3">
-        {# include "search/sidebar/composer.html" #}
-      </div>
-    </div>
-  {% else %}{# if not query #}
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="search-heading row-fluid">
-          <h1 class="search-title page-title">Advanced search</h1>
-          <p>Returns relationships matching <strong>all</strong> of the selected features.</p>
-        </div>
-        <div class="row-fluid">
-          <div class="search-container content-container">
-            <form id="search-form" action="/search" method="get">
-              <h3>All fields</h3>
-              <input type="text" name="q" class="search-input"/>
-              <div>
-                {% include "search/blocks/observer.html" %}
-                <h3>Relationship types</h3>
-                <div class="row-fluid">
-                  {% include "search/blocks/rt_q.html" %}
-                  {% include "search/blocks/rt_tm.html" %}
-                  {% include "search/blocks/rt_tnm.html" %}
-                  {% include "search/blocks/rt_misc.html" %}
-                  
-                </div>
+      <div class="row-fluid">
+        <div class="search-container content-container">
+          <form id="search-form" action="/search" method="get">
+            <h3>All fields</h3>
+            <input type="text" name="q" class="search-input"/>
+            <div>
+              {% include "search/blocks/observer.html" %}
+              <h3>Relationship types</h3>
+              <div class="row-fluid">
+                {% include "search/blocks/rt_q.html" %}
+                {% include "search/blocks/rt_tm.html" %}
+                {% include "search/blocks/rt_tnm.html" %}
+                {% include "search/blocks/rt_misc.html" %}
+                
               </div>
-              <div class="search-buttons">
-                <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
-                <button id="search-reset" type="reset" class="btn btn-large">Clear</button>
-              </div>
-            </form>
-          </div><!--/span-->
-          <div id="sidebar" class="span3">
-            {# <h3>Search help</h3> #}
-            <div id="search-help">
-              {# See Du Chemin for ideas #}
             </div>
-          </div><!--/span-->
-        </div><!--/row-->
-      </div><!--/span-->
-    </div><!--/row-->
-  {% endif %}
+            <div class="search-buttons">
+              <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
+              <button id="search-reset" type="reset" class="btn btn-large">Clear</button>
+            </div>
+          </form>
+        </div><!--/span-->
+      </div><!--/row-->
+    </div><!--/span-->
+  </div><!--/row-->
 {% endblock %}

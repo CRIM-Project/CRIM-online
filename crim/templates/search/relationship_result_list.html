@@ -1,0 +1,9 @@
+{% load bootstrap_pagination %}
+
+{% include "relationship/relationship_expanded" with relationships=relationship_results.object_list %}
+
+{% bootstrap_paginate relationship_results range=10 url_param_name="relationship_page" %}
+
+<script type="text/javascript">
+    attachPagerActions();
+</script>

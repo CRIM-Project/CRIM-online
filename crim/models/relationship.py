@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 
 class CRIMRelationship(models.Model):
@@ -65,7 +67,6 @@ class CRIMRelationship(models.Model):
     id_in_brackets.short_description = 'ID'
     id_in_brackets.admin_order_field = 'id'
 
-    # Indexing with Haystack requires this method.
     def get_absolute_url(self):
         return '/relationship/{0}/'.format(self.pk)
 
@@ -89,3 +90,40 @@ class CRIMRelationship(models.Model):
             self.rt_tnm = True
         # Finalize changes
         super().save()
+
+
+@receiver(post_save, sender=CRIMRelationship)
+def solr_index(sender, instance, created, **kwargs):
+    print('Indexing in Solr')
+    from django.conf import settings
+    import solr
+
+    solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+    record = solrconn.query("analysis_id:{0}".format(instance.id))
+    if record:
+        # the record already exists, so we'll remove it first.
+        print("Deleting ".format(record.results[0]['id']))
+        solrconn.delete(record.results[0]['id'])
+
+    observer = instance.observer.name_sort
+
+    d = {
+        'type': 'crim_relationship',
+        'id': id,
+        'observer': observer.name_sort,
+    }
+    solrconn.add(**d)
+    solrconn.commit()
+
+
+@receiver(post_delete, sender=CRIMRelationship)
+def solr_delete(sender, instance, **kwargs):
+    from django.conf import settings
+    import solr
+
+    solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+    record = solrconn.query("id:{0}".format(instance.id))
+    if record:
+        # the record already exists, so we'll remove it first.
+        print("Deleting ".format(record.results[0]['id']))
+        solrconn.delete(record.results[0]['id'])
