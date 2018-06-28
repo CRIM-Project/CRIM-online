@@ -5,7 +5,7 @@
       {% for genre in genres %}
         <li>
           <label class="checkbox" for="genre{{ forloop.counter }}">
-            <input type="checkbox" id="genre{{ forloop.counter }}" name="selected_facets" value="genre_exact:{{ genre.0 }}" />{{ genre.0 }} ({{ genre.1 }})
+            <input type="checkbox" id="genre{{ forloop.counter }}" name="genre" value="{{ genre.0 }}" />{{ genre.0 }} ({{ genre.1 }})
           </label>
         </li>
       {% endfor %}

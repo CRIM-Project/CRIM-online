@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +131,12 @@ SITE_ID = 2
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'crim/static')
 
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 1000  # Edit later
+SOLR_FACET_FIELDS = [
+    'observer',
+    'model_observer',
+    'model_composer',
+    'model_genre',
+    'derivative_observer',
+    'derivative_composer',
+    'derivative_genre',
+]

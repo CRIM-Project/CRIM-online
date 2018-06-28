@@ -5,7 +5,7 @@
       {% for composer in composers %}
         <li>
           <label class="checkbox" for="composer{{ forloop.counter }}">
-            <input type="checkbox" id="composer{{ forloop.counter }}" name="selected_facets" value="composer_exact:{{ composer.0 }}" />{{ composer.0 }} ({{ composer.1 }})
+            <input type="checkbox" id="composer{{ forloop.counter }}" name="composer" value="{{ composer.0 }}" />{{ composer.0 }} ({{ composer.1 }})
           </label>
         </li>
       {% endfor %}
