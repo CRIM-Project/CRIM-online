@@ -300,7 +300,7 @@ def add_relationship_types(old_relationship, new_relationship):
     new_relationship['remarks'] = old_relationship['comment']
     if old_relationship['type'] == 'rt-q':
         new_relationship['rt_q'] = True
-        new_relationship['rt_q_exact'] = old_relationship['ex']
+        new_relationship['rt_q_x'] = old_relationship['ex']
         new_relationship['rt_q_monnayage'] = old_relationship['mo']
     if old_relationship['type'] == 'rt-tm':
         new_relationship['rt_tm'] = True
