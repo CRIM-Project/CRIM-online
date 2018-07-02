@@ -30,7 +30,7 @@ class CRIMRelationship(models.Model):
     )
 
     rt_q = models.BooleanField('quotation', default=False)
-    rt_q_exact = models.BooleanField('exact', default=False)
+    rt_q_x = models.BooleanField('exact', default=False)
     rt_q_monnayage = models.BooleanField('monnayage', default=False)
 
     rt_tm = models.BooleanField('mechanical transformation', default=False)
@@ -78,7 +78,7 @@ class CRIMRelationship(models.Model):
 
     def save(self, *args, **kwargs):
         # Set the parent relationship type field to true if any of the subtypes are
-        if self.rt_q_exact or self.rt_q_monnayage:
+        if self.rt_q_x or self.rt_q_monnayage:
             self.rt_q = True
         if (self.rt_tm_snd or self.rt_tm_minv or self.rt_tm_retrograde or
                 self.rt_tm_ms or self.rt_tm_transposed or self.rt_tm_invertible):
