@@ -30,7 +30,6 @@ from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
 from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships
 from crim.views.roletype import RoleTypeList
-from crim.views.search import FacetedSearchView
 from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserList, UserDetail
@@ -68,8 +67,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^profile/', profile),
         re_path(r'^users/$', UserList.as_view(), name='user-list'),
         re_path(r'^user/(?P<username>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
-
-        re_path(r'^search/', FacetedSearchView.as_view(), name='haystack_search'),
 
         re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
         re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/pieces/?genre=%(genre_id)s', permanent=False), name='crimgenre-detail'),
