@@ -55,7 +55,7 @@ class CRIMSolrSearch(object):
         if self.parsed_request:
             print(self.parsed_request)
             arr = []
-            for k, v in self.parsed_request.iteritems():
+            for k, v in self.parsed_request.items():
                 if not v:
                     continue
                 if k == 'q':

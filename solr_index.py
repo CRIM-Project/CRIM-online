@@ -20,7 +20,7 @@ if __name__ == '__main__':
         d = {
             'type': 'crim_relationship',
             'id': relationship.id,
-            'observer': relationship.observer.name_sort,
+            'observer': relationship.observer.name,
 
             # Information about the relationship type
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
             # Information about the model CRIMObservation
 
-            'model_observer': relationship.model_observation.observer.name_sort,
+            'model_observer': relationship.model_observation.observer.name,
             'model_ema': relationship.model_observation.ema,
 
             'model_mt_cf': relationship.model_observation.mt_cf,
@@ -160,7 +160,7 @@ if __name__ == '__main__':
             'model_piece_id': relationship.model_observation.piece.piece_id,
             'model_title': relationship.model_observation.piece.title,
             'model_mass_title': relationship.model_observation.piece.mass.title if relationship.model_observation.piece.mass else None,
-            'model_composer': relationship.model_observation.piece.composer.name_sort,
+            'model_composer': relationship.model_observation.piece.composer.name,
             'model_genre': relationship.model_observation.piece.genre,
             'model_date': relationship.model_observation.piece.date_sort,
             'model_pdf_links': relationship.model_observation.piece.pdf_links,
@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
             # Information about the derivative CRIMObservation
 
-            'derivative_observer': relationship.derivative_observation.observer.name_sort,
+            'derivative_observer': relationship.derivative_observation.observer.name,
             'derivative_ema': relationship.derivative_observation.ema,
 
             'derivative_mt_cf': relationship.derivative_observation.mt_cf,
@@ -273,7 +273,7 @@ if __name__ == '__main__':
             'derivative_piece_id': relationship.derivative_observation.piece.piece_id,
             'derivative_title': relationship.derivative_observation.piece.title,
             'derivative_mass_title': relationship.derivative_observation.piece.mass.title if relationship.derivative_observation.piece.mass else None,
-            'derivative_composer': relationship.derivative_observation.piece.composer.name_sort,
+            'derivative_composer': relationship.derivative_observation.piece.composer.name,
             'derivative_genre': relationship.derivative_observation.piece.genre,
             'derivative_date': relationship.derivative_observation.piece.date_sort,
             'derivative_pdf_links': relationship.derivative_observation.piece.pdf_links,
