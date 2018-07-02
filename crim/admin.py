@@ -600,7 +600,7 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
             'fields': ('observer', 'model_observation', 'derivative_observation'),
         }),
         ('Quotation', {
-            'fields': ('rt_q', ('rt_q_exact', 'rt_q_monnayage')),
+            'fields': ('rt_q', ('rt_q_x', 'rt_q_monnayage')),
         }),
         ('Mechanical transformation', {
             'fields': ('rt_tm',
