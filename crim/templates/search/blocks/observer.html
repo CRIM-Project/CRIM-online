@@ -1,14 +1,12 @@
 <h3>Observers</h3>
-{{ observer }}
 <p>
   <ul class="column-checklist four-columns">
-    {% for o in observer %}
+    {% for obs in observer %}
       <li>
         <label class="checkbox" for="observer{{ forloop.counter }}">
-          <input type="checkbox" id="observer{{ forloop.counter }}" name="observer" value="{{ o.0 }}" />{{ o.0 }} ({{ o.1 }})
+          <input type="checkbox" id="observer{{ forloop.counter }}" name="observer" value="{{ obs }}" />{{ obs }} ({{ observer|dictkey:obs }})
         </label>
       </li>
     {% endfor %}
   </ul>
-      <!-- <br class="stop-columns" /> -->
 </p>
