@@ -206,31 +206,7 @@ class CRIMObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSe
         )
 
 
-class CRIMRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data')
-    observer = CRIMPersonRelationshipSerializer(read_only=True)
-    model_observation = CRIMObservationRelationshipListSerializer(read_only=True)
-    derivative_observation = CRIMObservationRelationshipListSerializer(read_only=True)
-
-    class Meta:
-        model = CRIMRelationship
-        fields = (
-            'url',
-            'pk',
-            'observer',
-            'model_observation',
-            'derivative_observation',
-            'rt_q',
-            'rt_tm',
-            'rt_tnm',
-            'rt_nm',
-            'rt_om',
-            'created',
-            'updated',
-        )
-
-
-class CRIMRelationshipDetailSerializer(serializers.HyperlinkedModelSerializer):
+class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data')
     observer = CRIMPersonRelationshipSerializer(read_only=True)
     model_observation = CRIMObservationRelationshipDetailSerializer(read_only=True)

@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer
+from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.models.relationship import CRIMRelationship
 
 
@@ -35,7 +35,7 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
 class RelationshipList(generics.ListAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRelationshipListSerializer
+    serializer_class = CRIMRelationshipSerializer
     pagination_class = RelationshipSetPagination
     renderer_classes = (
         RelationshipListHTMLRenderer,
@@ -50,7 +50,7 @@ class RelationshipList(generics.ListAPIView):
 class RelationshipDetail(generics.RetrieveAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRelationshipDetailSerializer
+    serializer_class = CRIMRelationshipSerializer
     renderer_classes = (
         RelationshipDetailHTMLRenderer,
         JSONRenderer,
