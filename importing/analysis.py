@@ -41,7 +41,7 @@ def process_json():
 
 def handle_item(item, processed_data, unprocessed_data, log):
     if eval(item['user']) not in USERS_TO_KEEP:
-        leave_unprocessed(item, unprocessed_data, log, 'User {0} not in list of approved analysts.'.format(item['user']))
+        pass  # leave_unprocessed(item, unprocessed_data, log, 'User {0} not in list of approved analysts.'.format(item['user']))
     elif len(item['scores']) > 2:
         leave_unprocessed(item, unprocessed_data, log, 'Too many scores (%d)' % len(item['scores']))
     elif 'relationships' not in item or not item['relationships']:
@@ -81,8 +81,6 @@ def create_item(item, processed_data, unprocessed_data, log):
             new_relationship_fields['observer'] = PEOPLE[item['user']]
             new_relationship_fields['model_observation'] = model_observation_fields['id']
             new_relationship_fields['derivative_observation'] = derivative_observation_fields['id']
-            new_relationship_fields['model_piece'] = model_observation_fields['piece']
-            new_relationship_fields['derivative_piece'] = derivative_observation_fields['piece']
             new_relationship_fields['created'] = item['created_at']
             new_relationship_fields['updated'] = item['created_at']
             add_relationship_types(relationship_to_process, new_relationship_fields)
