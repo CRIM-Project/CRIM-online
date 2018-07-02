@@ -14,7 +14,7 @@ PUBLISHER = 'printer'
 
 class PieceSetPagination(PageNumberPagination):
     # CAREFUL: the attribute `page_size` MUST match the
-    # `rangelist` parameter in the piece_list.html template!
+    # `rangelist` parameter in the all_piece_list.html template!
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 15
