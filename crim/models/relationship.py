@@ -127,3 +127,40 @@ def solr_delete(sender, instance, **kwargs):
         # the record already exists, so we'll remove it first.
         print("Deleting ".format(record.results[0]['id']))
         solrconn.delete(record.results[0]['id'])
+# @receiver(post_save, sender=CRIMRelationship)
+# def solr_index(sender, instance, created, **kwargs):
+#     print('Indexing in Solr')
+#     from django.conf import settings
+#     import solr
+#
+#     solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+#     record = solrconn.query("analysis_id:{0}".format(instance.id))
+#     if record:
+#         # the record already exists, so we'll remove it first.
+#         print("Deleting ".format(record.results[0]['id']))
+#         solrconn.delete(record.results[0]['id'])
+#
+#     d = {
+#         'type': 'crim_relationship',
+#         'id': id,
+#         'observer_person_id': instance.observer.person_id,
+#         'observer_name': instance.observer.name,
+#         'model_piece_id': instance.model_observation.piece.piece_id,
+#         'model_title': instance.model_observation.piece.title,
+#         'model_mass': instance.model_observation.piece.mass.title,
+#     }
+#     solrconn.add(**d)
+#     solrconn.commit()
+#
+#
+# @receiver(post_delete, sender=CRIMRelationship)
+# def solr_delete(sender, instance, **kwargs):
+#     from django.conf import settings
+#     import solr
+#
+#     solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+#     record = solrconn.query("id:{0}".format(instance.id))
+#     if record:
+#         # the record already exists, so we'll remove it first.
+#         print("Deleting ".format(record.results[0]['id']))
+#         solrconn.delete(record.results[0]['id'])

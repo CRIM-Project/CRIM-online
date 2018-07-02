@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'bootstrap_pagination',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -140,3 +141,15 @@ SOLR_FACET_FIELDS = [
     'derivative_composer',
     'derivative_genre',
 ]
+# The mapping between the search form parameters and the
+# Solr fields.
+SEARCH_PARAM_MAP = {
+    'q': 'q',
+    'observer': 'observer',
+    'model-observer': 'model_observer',
+    'model-composer': 'model_composer',
+    'model-genre': 'model_genre',
+    'derivative-observer': 'derivative_observer',
+    'derivative-composer': 'derivative_composer',
+    'derivative-genre': 'derivative_genre',
+}
