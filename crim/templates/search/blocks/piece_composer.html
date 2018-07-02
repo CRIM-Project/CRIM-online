@@ -1,15 +1,13 @@
-{% with composers=facets.fields.composer %}
-  <h3>Composers</h3>
-  <p>
-    <ul class="column-checklist four-columns">
-      {% for composer in composers %}
-        <li>
-          <label class="checkbox" for="composer{{ forloop.counter }}">
-            <input type="checkbox" id="composer{{ forloop.counter }}" name="composer" value="{{ composer.0 }}" />{{ composer.0 }} ({{ composer.1 }})
-          </label>
-        </li>
-      {% endfor %}
-    </ul>
-        <!-- <br class="stop-columns" /> -->
-  </p>
-{% endwith %}
+<h3>Composers</h3>
+<p>
+  <ul class="column-checklist four-columns">
+    {% for c in composer %}
+      <li>
+        <label class="checkbox" for="composer{{ forloop.counter }}">
+          <input type="checkbox" id="composer{{ forloop.counter }}" name="composer" value="{{ c }}" />{{ c }} ({{ composer|dictkey:c }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+      <!-- <br class="stop-columns" /> -->
+</p>
