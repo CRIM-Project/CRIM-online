@@ -83,6 +83,9 @@ def create_item(item, processed_data, unprocessed_data, log):
             new_relationship_fields['derivative_observation'] = derivative_observation_fields['id']
             new_relationship_fields['created'] = item['created_at']
             new_relationship_fields['updated'] = item['created_at']
+            new_relationship_fields['status'] = False if 'needs_review' in item and item['needs_review'] else True
+            model_observation_fields['status'] = new_relationship_fields['status']
+            derivative_observation_fields['status'] = new_relationship_fields['status']
             add_relationship_types(relationship_to_process, new_relationship_fields)
 
             model_observation_row = {
