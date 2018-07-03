@@ -1,0 +1,14 @@
+<div class="span4">
+  <h3>Composer of derivative</h3>
+  <p>
+    <ul class="column-checklist two-columns">
+      {% for c in derivative_composer %}
+        <li>
+          <label class="checkbox" for="observer{{ forloop.counter }}">
+            <input type="checkbox" id="observer{{ forloop.counter }}" name="derivative-composer" value="{{ c }}" />{{ c }} ({{ derivative_composer|dictkey:c }})
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+  </p>
+</div>
