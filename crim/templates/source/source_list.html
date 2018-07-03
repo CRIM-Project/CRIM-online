@@ -60,9 +60,9 @@
           found in views/source.py -->
           {% for i in content.count|rangelist:10 %}
             {% if request.GET.page == i|string %}
-              <li class="active pagination"><a>{{ i }}</a></li>
+              <li class="active">{{ i }}</li>
             {% elif not request.GET.page and i == 1 %}
-              <li class="active pagination"><a>{{ i }}</a></li>
+              <li class="active">{{ i }}</li>
             {% else %}
               <li class="pagination"><a href="{% if request.GET.order_by %}?order_by={{ request.GET.order_by }}&{% else %}?{% endif %}page={{ i }}">{{ i }}</a></li>
             {% endif %}
@@ -70,7 +70,7 @@
           {% if content.next %}
             <li class="pagination" id="last-child"><a href="{{ content.next }}">&raquo;</a></li>
           {% else %}
-            <li class="disabled pagination" id="last-child"><a>&raquo;</a></li>
+            <li class="disabled" id="last-child">&raquo;</li>
           {% endif %}
         </ul>
       </div>
