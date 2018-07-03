@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}
 <title>CRIM | Search results</title>
 {% endblock %}
 
 {% block header %}
+  <script src="{% static 'js/search.js' %}"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
-    	    fetchWorkResults();
-    	    fetchElementResults();
-    	    fetchFacets();
-      })
+      /* fetchPieceResults(); */
+      fetchRelationshipResults();
+      /* fetchFacets(); */
+      attachPagerActions();
     });
   </script>
 {% endblock %}
@@ -20,26 +23,12 @@
     <div class="span9">
       <hgroup>
         <h1>Search results</h1>
-        <h2>Relationships</h2>
       </hgroup>
-      {% for result in page_obj.object_list %}
-        <p>
-          <a href="{{ result.object.get_absolute_url }}">&lt;R{{ result.object.id }}&gt; {% if result.object.model_observation.piece.mass %}{{ result.object.model_observation.piece.mass.title }}: {% endif %}{{ result.object.model_observation.piece.title }} &rarr; {% if result.object.derivative_observation.piece.mass %}{{ result.object.derivative_observation.piece.mass.title }}: {% endif %}{{ result.object.derivative_observation.piece.title }} ({{ result.object.observer.name }})</a>
-        </p>
-      {% empty %}
-        <p>No results found.</p>
-      {% endfor %}
-  
-      {% if page.has_previous or page.has_next %}
-        <div>
-          {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-          |
-          {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
-        </div>
-      {% endif %}
+      {# This next div is completely filled in using fetchRelationshipResults using relationship_results.html #}
+      <div id="relationships" />
     </div>
     <div id="sidebar" class="span3">
-      {# include "search/sidebar/composer.html" #}
+      {# include "search/sidebar/observer.html" #}
     </div>
   </div>
 {% endblock %}
