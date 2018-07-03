@@ -22,35 +22,37 @@
 {% endblock %}
 
 {% block wrap %}
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="search-heading row-fluid">
-        <h1 class="search-title page-title">Advanced search</h1>
-        <p>Returns relationships matching at least one checked item in each selected category.</p>
+  <div class="search-heading">
+    <h1 class="search-title page-title">Advanced search</h1>
+    <p>Returns relationships matching at least one checked item in each selected category.</p>
+  </div>
+  <div class="search-container content-container">
+    <form id="search-form" action="/search" method="get">
+      <div class="row-fluid">
+        <div class="span4">
+          <h3>Any field</h3>
+          <input type="text" name="q" class="search-input"/>
+        </div>
+        {% include "search/blocks/model_genre.html" %}
+        {% include "search/blocks/derivative_genre.html" %}
       </div>
       <div class="row-fluid">
-        <div class="search-container content-container">
-          <form id="search-form" action="/search" method="get">
-            <h3>All fields</h3>
-            <input type="text" name="q" class="search-input"/>
-            <div>
-              {% include "search/blocks/observer.html" %}
-              <h3>Relationship types</h3>
-              <div class="row-fluid">
-                {% include "search/blocks/rt_q.html" %}
-                {% include "search/blocks/rt_tm.html" %}
-                {% include "search/blocks/rt_tnm.html" %}
-                {% include "search/blocks/rt_misc.html" %}
-                
-              </div>
-            </div>
-            <div class="search-buttons">
-              <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
-              <button id="search-reset" type="reset" class="btn btn-large">Clear</button>
-            </div>
-          </form>
-        </div><!--/span-->
-      </div><!--/row-->
-    </div><!--/span-->
-  </div><!--/row-->
+        {% include "search/blocks/observer.html" %}
+        {% include "search/blocks/model_composer.html" %}
+        {% include "search/blocks/derivative_composer.html" %}
+      </div>
+      <h3>Relationship type</h3>
+      <div class="row-fluid">
+        {% include "search/blocks/rt_q.html" %}
+        {% include "search/blocks/rt_tm.html" %}
+        {% include "search/blocks/rt_tnm.html" %}
+        {% include "search/blocks/rt_misc.html" %}
+      </div>
+      </div>
+      <div class="search-buttons">
+        <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
+        <button id="search-reset" type="reset" class="btn btn-large">Clear</button>
+      </div>
+    </form>
+  </div>
 {% endblock %}

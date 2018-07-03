@@ -1,11 +1,11 @@
 <div class="span4">
-  <h3>Observer</h3>
+  <h3>Composer of model</h3>
   <p>
     <ul class="column-checklist two-columns">
-      {% for obs in observer %}
+      {% for c in model_composer %}
         <li>
           <label class="checkbox" for="observer{{ forloop.counter }}">
-            <input type="checkbox" id="observer{{ forloop.counter }}" name="observer" value="{{ obs }}" />{{ obs }} ({{ observer|dictkey:obs }})
+            <input type="checkbox" id="observer{{ forloop.counter }}" name="model-composer" value="{{ c }}" />{{ c }} ({{ model_composer|dictkey:c }})
           </label>
         </li>
       {% endfor %}
