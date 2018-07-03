@@ -125,7 +125,8 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
         leave_unprocessed(item, unprocessed_data, log, 'Relationship does not contain EMA expressions.')
         return
 
-    if 'Model' in PIECES[relationship['titleA']]:
+    # Make a special exception for CRIM_Model_0022, which is a model-to-model relationship
+    if 'CRIM_Model' in PIECES[relationship['titleA']] and 'CRIM_Model_0022' not in PIECES[relationship['titleB']]:
         model_observation['piece'] = PIECES[relationship['titleA']]
         derivative_observation['piece'] = PIECES[relationship['titleB']]
         model_observation['ema'] = relationship['scoreA_ema']
