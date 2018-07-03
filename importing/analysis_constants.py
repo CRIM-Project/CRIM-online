@@ -74,10 +74,18 @@ PIECES = {
     'Lupi. Vidi speciosam sicut columbam': 'CRIM_Model_0001',
     'Champion. O gente brunette': 'CRIM_Model_0002',
     'Anonymus. Graduale triplex - Kyrie': 'CRIM_Model_0003',
+    # CRIM_Model_0004
+    # CRIM_Model_0005
+    # CRIM_Model_0006
+    # CRIM_Model_0007
     'Josquin. Ave Maria': 'CRIM_Model_0008',
     'Cadéac. Je suis déshéritée': 'CRIM_Model_0009',
     'Sermisy. Quare fremuerunt gentes': 'CRIM_Model_0010',
     'Sermisy, Claudin de: Sermisy. Tota pulchra es': 'CRIM_Model_0011',
+    # CRIM_Model_0012
+    # CRIM_Model_0013
+    # CRIM_Model_0014
+    # CRIM_Model_0015
     'Josquin. Mente Tota': 'CRIM_Model_0016',
     'Josquin. Benedicta es': 'CRIM_Model_0017',
     'Josquin Des Prés: Josquin. Baises moy': 'CRIM_Model_0018',
@@ -85,5 +93,6 @@ PIECES = {
     'Lassus, Roland de: Lassus. Susanne un jour': 'CRIM_Model_0020',
     'Benedicta es,cælorum Regina': 'CRIM_Model_0021',
     'Benedicta es': 'CRIM_Model_0022',
+    # CRIM_Model_0023
     'Lupi, Didier: Lupi. Susanne un jour': 'CRIM_Model_0024',
 }
