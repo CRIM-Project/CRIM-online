@@ -105,6 +105,8 @@ def solr_index(sender, instance, created, **kwargs):
         print("Deleting {}".format(record.results[0]['id']))
         solrconn.delete(record.results[0]['id'])
 
+    # The suffixes are for automatic creation of the schema using
+    # the correct types -- see http://yonik.com/solr-tutorial/
     d = {
         'type': 'crim_relationship',
         'id': instance.id,

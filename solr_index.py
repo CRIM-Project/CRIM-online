@@ -17,8 +17,8 @@ if __name__ == '__main__':
 
     relationships = CRIMRelationship.objects.all()
     for i, relationship in enumerate(relationships):
-        # The suffixes are for automatic creation of the schema
-        # using the correct types.
+        # The suffixes are for automatic creation of the schema using
+        # the correct types -- see http://yonik.com/solr-tutorial/
         d = {
             'type': 'crim_relationship',
             'id': relationship.id,
