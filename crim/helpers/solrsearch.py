@@ -78,23 +78,23 @@ class CRIMSolrSearch(object):
             for k, v in self.parsed_request.items():
                 if not v:
                     continue
-
-                if k == 'observer':
-                    add_values(k, observer)
-                elif k == 'model-composer':
-                    add_values(k, model_composer)
-                elif k == 'derivative-composer':
-                    add_values(k, derivative_composer)
-                elif k == 'model-genre':
-                    add_values(k, model_genre)
-                elif k == 'derivative-genre':
-                    add_values(k, derivative_genre)
-                elif k.startswith('rt-'):
-                    add_values(k, rt)
-                elif k.startswith('model-mt-'):
-                    add_values(k, model_mt)
-                elif k.startswith('derivative-mt-'):
-                    add_values(k, derivative_mt)
+                if k == 'observer_s':
+                    add_values(k, v, observer)
+                elif k == 'model_composer_s':
+                    add_values(k, v, model_composer)
+                elif k == 'derivative_composer_s':
+                    add_values(k, v, derivative_composer)
+                elif k == 'model_genre_s':
+                    add_values(k, v, model_genre)
+                elif k == 'derivative_genre_s':
+                    print('derivative genre!')
+                    add_values(k, v, derivative_genre)
+                elif k.startswith('rt_'):
+                    add_values(k, v, rt)
+                elif k.startswith('model_mt_'):
+                    add_values(k, v, model_mt)
+                elif k.startswith('derivative_mt_'):
+                    add_values(k, v, derivative_mt)
                 else:
                     query_values = ' OR '.join(['"{0}"'.format(s) for s in v if s])
                     if query_values:
