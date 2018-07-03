@@ -51,7 +51,15 @@ def _fetch_piece_results(request):
 
 def _fetch_relationship_results(request):
     s = CRIMSolrSearch(request)
-    rel_res = s.search(fq=['type:crim_relationship'], sort=['piece_id asc', 'phrase_number asc', 'start_measure asc'])
+    rel_res = s.search(
+        fq=['type:crim_relationship'],
+        sort=[
+            'model_piece_id_s asc',
+            'derivative_piece_id_s asc',
+            'model_ema_s asc',
+            'derivative_ema_s asc',
+        ]
+    )
 
     if rel_res.count == 0:
         return render(request, 'search/no_results.html')
@@ -88,11 +96,7 @@ def _fetch_facet_results(request):
         if k not in settings.DISPLAY_FACETS.keys():
             continue
         for facet_value, num in v.iteritems():
-            if k == "book_id_title":
-                facet_info = facet_value.split("_")
-                this_facet.append([facet_info[1], settings.DISPLAY_FACETS[k][0], facet_info[0]])
-            else:
-                this_facet.append([facet_value, settings.DISPLAY_FACETS[k][0]])
+            this_facet.append([facet_value, settings.DISPLAY_FACETS[k][0]])
 
         this_facet.sort()
         filtered_facets.append([settings.DISPLAY_FACETS[k][1], this_facet])
