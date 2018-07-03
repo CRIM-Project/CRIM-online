@@ -17,6 +17,9 @@ if __name__ == '__main__':
 
     relationships = CRIMRelationship.objects.all()
     for i, relationship in enumerate(relationships):
+        # Don't index "needs review" relationships
+        if not relationship.status:
+            continue
         # The suffixes are for automatic creation of the schema using
         # the correct types -- see http://yonik.com/solr-tutorial/
         d = {
