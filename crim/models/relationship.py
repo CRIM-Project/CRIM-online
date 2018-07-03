@@ -249,7 +249,7 @@ def solr_index(sender, instance, created, **kwargs):
 
         'model_piece_id_s': instance.model_observation.piece.piece_id,
         'model_title_s': instance.model_observation.piece.title,
-        'model_mass_title_s': instance.model_observation.piece.mass.title if instance.model_observation.piece.mass else None,
+        'model_mass_s': instance.model_observation.piece.mass.title if instance.model_observation.piece.mass else None,
         'model_composer_s': instance.model_observation.piece.composer.name,
         'model_genre_s': instance.model_observation.piece.genre,
         'model_date_i': instance.model_observation.piece.date_sort,
@@ -362,7 +362,7 @@ def solr_index(sender, instance, created, **kwargs):
 
         'derivative_piece_id_s': instance.derivative_observation.piece.piece_id,
         'derivative_title_s': instance.derivative_observation.piece.title,
-        'derivative_mass_title_s': instance.derivative_observation.piece.mass.title if instance.derivative_observation.piece.mass else None,
+        'derivative_mass_s': instance.derivative_observation.piece.mass.title if instance.derivative_observation.piece.mass else None,
         'derivative_composer_s': instance.derivative_observation.piece.composer.name,
         'derivative_genre_s': instance.derivative_observation.piece.genre,
         'derivative_date_i': instance.derivative_observation.piece.date_sort,
