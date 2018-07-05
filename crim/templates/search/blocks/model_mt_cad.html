@@ -1,0 +1,35 @@
+<h4>Homorhythm</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="model_mt_hr">
+        <input type="checkbox" class="model_mt_hr" id="model_mt_hr" name="model-mt-cf" value="true" />Any ({{ model_mt_hr.true }})
+      </label>
+    </li>
+    <!-- TODO: cantizans -->
+    <!-- TODO: tenorizans -->
+    <!-- TODO: cadence type (authentic, phrygian, plagal) -->
+    <!-- TODO: cadence tone -->
+    <!-- TODO: cadence dovetail voice -->
+    <!-- TODO: cadence dovetail interval -->
+  </ul>
+</p>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#model_mt_cad').change (function () {
+    if ($('#model_mt_cad').is(':checked')) {
+      $('.model_mt_cf').prop('checked', false);
+      $('.model_mt_sog').prop('checked', false);
+      $('.model_mt_csog').prop('checked', false);
+      $('.model_mt_cd').prop('checked', false);
+      $('.model_mt_fg').prop('checked', false);
+      $('.model_mt_pe').prop('checked', false);
+      $('.model_mt_id').prop('checked', false);
+      $('.model_mt_nid').prop('checked', false);
+      $('.model_mt_hr').prop('checked', false);
+      $('.model_mt_int').prop('checked', false);
+      $('.model_mt_fp').prop('checked', false);
+    }
+  });
+</script>

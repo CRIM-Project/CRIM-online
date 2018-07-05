@@ -1,14 +1,12 @@
-<div class="span4">
-  <h3>Genre of derivative</h3>
-  <p>
-    <ul class="column-checklist two-columns">
-      {% for g in derivative_genre %}
-        <li>
-          <label class="checkbox" for="observer{{ forloop.counter }}">
-            <input type="checkbox" id="observer{{ forloop.counter }}" name="derivative-genre" value="{{ g }}" />{{ g }} ({{ derivative_genre|dictkey:g }})
-          </label>
-        </li>
-      {% endfor %}
-    </ul>
-  </p>
-</div>
+<h3>Genre of derivative</h3>
+<p>
+  <ul class="column-checklist">
+    {% for g in derivative_genre %}
+      <li>
+        <label class="checkbox" for="derivative-genre{{ forloop.counter }}">
+          <input type="checkbox" id="derivative-genre{{ forloop.counter }}" name="derivative-genre" value="{{ g }}" />{{ g }} ({{ derivative_genre|dictkey:g }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+</p>

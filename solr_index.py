@@ -62,7 +62,7 @@ if __name__ == '__main__':
             # Information about the model CRIMObservation
 
             'model_observer_s': relationship.model_observation.observer.name,
-            'model_ema_s': relationship.model_observation.ema,
+            'model_ema_t': relationship.model_observation.ema,
 
             'model_mt_cf_b': relationship.model_observation.mt_cf,
             'model_mt_cf_voices_ss': relationship.model_observation.mt_cf_voices.split('\n'),
@@ -95,15 +95,6 @@ if __name__ == '__main__':
             'model_mt_fg_int_s': relationship.model_observation.mt_fg_int,
             'model_mt_fg_tint_s': relationship.model_observation.mt_fg_tint,
 
-            'model_mt_id_b': relationship.model_observation.mt_id,
-            'model_mt_id_voices_ss': relationship.model_observation.mt_id_voices.split('\n'),
-            'model_mt_id_strict_b': relationship.model_observation.mt_id_strict,
-            'model_mt_id_flexed_b': relationship.model_observation.mt_id_flexed,
-            'model_mt_id_flt_b': relationship.model_observation.mt_id_flt,
-            'model_mt_id_invertible_b': relationship.model_observation.mt_id_invertible,
-            'model_mt_id_int_s': relationship.model_observation.mt_id_int,
-            'model_mt_id_tint_s': relationship.model_observation.mt_id_tint,
-
             'model_mt_pe_b': relationship.model_observation.mt_pe,
             'model_mt_pe_voices_ss': relationship.model_observation.mt_pe_voices.split('\n'),
             'model_mt_pe_strict_b': relationship.model_observation.mt_pe_strict,
@@ -114,6 +105,15 @@ if __name__ == '__main__':
             'model_mt_pe_invertible_b': relationship.model_observation.mt_pe_invertible,
             'model_mt_pe_int_s': relationship.model_observation.mt_pe_int,
             'model_mt_pe_tint_s': relationship.model_observation.mt_pe_tint,
+
+            'model_mt_id_b': relationship.model_observation.mt_id,
+            'model_mt_id_voices_ss': relationship.model_observation.mt_id_voices.split('\n'),
+            'model_mt_id_strict_b': relationship.model_observation.mt_id_strict,
+            'model_mt_id_flexed_b': relationship.model_observation.mt_id_flexed,
+            'model_mt_id_flt_b': relationship.model_observation.mt_id_flt,
+            'model_mt_id_invertible_b': relationship.model_observation.mt_id_invertible,
+            'model_mt_id_int_s': relationship.model_observation.mt_id_int,
+            'model_mt_id_tint_s': relationship.model_observation.mt_id_tint,
 
             'model_mt_nid_b': relationship.model_observation.mt_nid,
             'model_mt_nid_voices_ss': relationship.model_observation.mt_nid_voices.split('\n'),
@@ -175,7 +175,7 @@ if __name__ == '__main__':
             # Information about the derivative CRIMObservation
 
             'derivative_observer_s': relationship.derivative_observation.observer.name,
-            'derivative_ema_s': relationship.derivative_observation.ema,
+            'derivative_ema_t': relationship.derivative_observation.ema,
 
             'derivative_mt_cf_b': relationship.derivative_observation.mt_cf,
             'derivative_mt_cf_voices_ss': relationship.derivative_observation.mt_cf_voices.split('\n'),
@@ -208,15 +208,6 @@ if __name__ == '__main__':
             'derivative_mt_fg_int_s': relationship.derivative_observation.mt_fg_int,
             'derivative_mt_fg_tint_s': relationship.derivative_observation.mt_fg_tint,
 
-            'derivative_mt_id_b': relationship.derivative_observation.mt_id,
-            'derivative_mt_id_voices_ss': relationship.derivative_observation.mt_id_voices.split('\n'),
-            'derivative_mt_id_strict_b': relationship.derivative_observation.mt_id_strict,
-            'derivative_mt_id_flexed_b': relationship.derivative_observation.mt_id_flexed,
-            'derivative_mt_id_flt_b': relationship.derivative_observation.mt_id_flt,
-            'derivative_mt_id_invertible_b': relationship.derivative_observation.mt_id_invertible,
-            'derivative_mt_id_int_s': relationship.derivative_observation.mt_id_int,
-            'derivative_mt_id_tint_s': relationship.derivative_observation.mt_id_tint,
-
             'derivative_mt_pe_b': relationship.derivative_observation.mt_pe,
             'derivative_mt_pe_voices_ss': relationship.derivative_observation.mt_pe_voices.split('\n'),
             'derivative_mt_pe_strict_b': relationship.derivative_observation.mt_pe_strict,
@@ -227,6 +218,15 @@ if __name__ == '__main__':
             'derivative_mt_pe_invertible_b': relationship.derivative_observation.mt_pe_invertible,
             'derivative_mt_pe_int_s': relationship.derivative_observation.mt_pe_int,
             'derivative_mt_pe_tint_s': relationship.derivative_observation.mt_pe_tint,
+
+            'derivative_mt_id_b': relationship.derivative_observation.mt_id,
+            'derivative_mt_id_voices_ss': relationship.derivative_observation.mt_id_voices.split('\n'),
+            'derivative_mt_id_strict_b': relationship.derivative_observation.mt_id_strict,
+            'derivative_mt_id_flexed_b': relationship.derivative_observation.mt_id_flexed,
+            'derivative_mt_id_flt_b': relationship.derivative_observation.mt_id_flt,
+            'derivative_mt_id_invertible_b': relationship.derivative_observation.mt_id_invertible,
+            'derivative_mt_id_int_s': relationship.derivative_observation.mt_id_int,
+            'derivative_mt_id_tint_s': relationship.derivative_observation.mt_id_tint,
 
             'derivative_mt_nid_b': relationship.derivative_observation.mt_nid,
             'derivative_mt_nid_voices_ss': relationship.derivative_observation.mt_nid_voices.split('\n'),

@@ -1,14 +1,12 @@
-<div class="span4">
-  <h3>Composer of model</h3>
-  <p>
-    <ul class="column-checklist two-columns">
-      {% for c in model_composer %}
-        <li>
-          <label class="checkbox" for="observer{{ forloop.counter }}">
-            <input type="checkbox" id="observer{{ forloop.counter }}" name="model-composer" value="{{ c }}" />{{ c }} ({{ model_composer|dictkey:c }})
-          </label>
-        </li>
-      {% endfor %}
-    </ul>
-  </p>
-</div>
+<h3>Composer of model</h3>
+<p>
+  <ul class="column-checklist">
+    {% for c in model_composer %}
+      <li>
+        <label class="checkbox" for="model-composer{{ forloop.counter }}">
+          <input type="checkbox" id="model-composer{{ forloop.counter }}" name="model-composer" value="{{ c }}" />{{ c }} ({{ model_composer|dictkey:c }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+</p>
