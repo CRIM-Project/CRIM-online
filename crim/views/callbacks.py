@@ -56,8 +56,8 @@ def _fetch_relationship_results(request):
         sort=[
             'model_piece_id_s asc',
             'derivative_piece_id_s asc',
-            'model_ema_s asc',
-            'derivative_ema_s asc',
+            'model_ema_t asc',
+            'derivative_ema_t asc',
         ]
     )
 

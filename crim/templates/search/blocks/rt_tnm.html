@@ -1,4 +1,3 @@
-<div class="span3">
 <h4>Non-mechanical transformation</h4>
 <p>
   <ul class="column-checklist">
@@ -49,4 +48,95 @@
     </li>
   </ul>
 </p>
-</div>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#rt_tnm').change (function () {
+    if ($('#rt_tnm').is(':checked')) {
+      $('#rt_tnm_embellished').prop('checked', false);
+      $('#rt_tnm_reduced').prop('checked', false);
+      $('#rt_tnm_amplified').prop('checked', false);
+      $('#rt_tnm_truncated').prop('checked', false);
+      $('#rt_tnm_ncs').prop('checked', false);
+      $('#rt_tnm_ocs').prop('checked', false);
+      $('#rt_tnm_ocst').prop('checked', false);
+      $('#rt_tnm_nc').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_embellished').change (function () {
+    if ($('#rt_tnm_embellished').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_reduced').change (function () {
+    if ($('#rt_tnm_reduced').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_amplified').change (function () {
+    if ($('#rt_tnm_amplified').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_truncated').change (function () {
+    if ($('#rt_tnm_truncated').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_ncs').change (function () {
+    if ($('#rt_tnm_ncs').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_ocs').change (function () {
+    if ($('#rt_tnm_ocs').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_ocst').change (function () {
+    if ($('#rt_tnm_ocst').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tnm_nc').change (function () {
+    if ($('#rt_tnm_nc').is(':checked')) {
+      $('#rt_tnm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+</script>

@@ -1,4 +1,3 @@
-<div class="span2">
 <h4>Quotation</h4>
 <p>
   <ul class="column-checklist">
@@ -19,4 +18,37 @@
     </li>
   </ul>
 </p>
-</div>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#rt_q').change (function () {
+    if ($('#rt_q').is(':checked')) {
+      $('#rt_q_x').prop('checked', false);
+      $('#rt_q_monnayage').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_q_x').change (function () {
+    if ($('#rt_q_x').is(':checked')) {
+      $('#rt_q').prop('checked', false);
+      $('#rt_q_monnayage').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_q_monnayage').change (function () {
+    if ($('#rt_q_monnayage').is(':checked')) {
+      $('#rt_q').prop('checked', false);
+      $('#rt_q_x').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+</script>

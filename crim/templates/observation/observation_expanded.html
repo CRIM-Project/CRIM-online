@@ -34,16 +34,6 @@
   {% if observation.mt_fg_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_fg_int }}</div>{% endif %}
   {% if observation.mt_fg_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_fg_tint }}</div>{% endif %}
 {% endif %}
-{% if observation.mt_id %}
-  <h3 class="margin">Imitative duo</h3>
-  <div class=hanging><strong>Voice{{ observation.mt_id_voices|newlineplural }}:</strong>{% if observation.mt_id_voices %}<br/>{{ observation.mt_id_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
-  <div class=hanging><strong>Strict:</strong> {{ observation.mt_id_strict }}</div>
-  <div class=hanging><strong>Flexed:</strong> {{ observation.mt_id_flexed }}</div>
-  <div class=hanging><strong>Flexed, tonal:</strong> {{ observation.mt_id_flt }}</div>
-  <div class=hanging><strong>Invertible:</strong> {{ observation.mt_id_invertible }}</div>
-  {% if observation.mt_id_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_id_int }}</div>{% endif %}
-  {% if observation.mt_id_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_id_tint }}</div>{% endif %}
-{% endif %}
 {% if observation.mt_pe %}
   <h3 class="margin">Periodic entry</h3>
   <div class=hanging><strong>Voice{{ observation.mt_pe_voices|newlineplural }}:</strong>{% if observation.mt_pe_voices %}<br/>{{ observation.mt_pe_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
@@ -55,6 +45,16 @@
   <div class=hanging><strong>Invertible:</strong> {{ observation.mt_pe_invertible }}</div>
   {% if observation.mt_pe_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_pe_int }}</div>{% endif %}
   {% if observation.mt_pe_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_pe_tint }}</div>{% endif %}
+{% endif %}
+{% if observation.mt_id %}
+  <h3 class="margin">Imitative duo</h3>
+  <div class=hanging><strong>Voice{{ observation.mt_id_voices|newlineplural }}:</strong>{% if observation.mt_id_voices %}<br/>{{ observation.mt_id_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
+  <div class=hanging><strong>Strict:</strong> {{ observation.mt_id_strict }}</div>
+  <div class=hanging><strong>Flexed:</strong> {{ observation.mt_id_flexed }}</div>
+  <div class=hanging><strong>Flexed, tonal:</strong> {{ observation.mt_id_flt }}</div>
+  <div class=hanging><strong>Invertible:</strong> {{ observation.mt_id_invertible }}</div>
+  {% if observation.mt_id_int %}<div class=hanging><strong>Melodic interval of entry:</strong> {{ observation.mt_id_int }}</div>{% endif %}
+  {% if observation.mt_id_tint %}<div class=hanging><strong>Time interval of entry:</strong> {{ observation.mt_id_tint }}</div>{% endif %}
 {% endif %}
 {% if observation.mt_nid %}
   <h3 class="margin">Non-imitative duo</h3>
