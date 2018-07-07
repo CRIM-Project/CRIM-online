@@ -79,12 +79,10 @@
   <h3 class="margin">Cadence</h3>
   <div class=hanging><strong>Cantizans:</strong> {% if observation.mt_cad_cantizans %}{{ observation.mt_cad_cantizans }}{% else %}-{% endif %}</div>
   <div class=hanging><strong>Tenorizans:</strong> {% if observation.mt_cad_tenorizans %}{{ observation.mt_cad_tenorizans }}{% else %}-{% endif %}</div>
-  <div class=hanging><strong>Authentic:</strong> {{ observation.mt_cad_authentic }}</div>
-  <div class=hanging><strong>Phrygian:</strong> {{ observation.mt_cad_phrygian }}</div>
-  <div class=hanging><strong>Plagal:</strong> {{ observation.mt_cad_plagal }}</div>
+  <div class=hanging><strong>Type:</strong> {{ observation.mt_cad_type }}</div>
   <div class=hanging><strong>Tone:</strong> {% if observation.mt_cad_tone %}{{ observation.mt_cad_tone }}{% else %}-{% endif %}</div>
   {% if observation.mt_cad_dtv %}<div class=hanging><strong>Dovetail voice:</strong> {{ observation.mt_cad_dtv }}</div>{% endif %}
-  {% if observation.mt_cad_dti %}<div class=hanging><strong>Interval:</strong> {{ observation.mt_cad_dti }}</div>{% endif %}
+  {% if observation.mt_cad_dti %}<div class=hanging><strong>Dovetail interval:</strong> {{ observation.mt_cad_dti }}</div>{% endif %}
 {% endif %}
 {% if observation.mt_int %}
   <h3 class="margin">Interval patterns</h3>

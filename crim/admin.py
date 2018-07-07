@@ -532,18 +532,18 @@ class CRIMObservationAdmin(admin.ModelAdmin):
                                           'mt_fg_inverted', 'mt_fg_retrograde'),
                        'mt_fg_int', 'mt_fg_tint'),
         }),
-        ('Imitative duo', {
-            'fields': ('mt_id_voices',
-                       ('mt_id_strict', 'mt_id_flexed',
-                        'mt_id_flt', 'mt_id_invertible'),
-                       'mt_id_int', 'mt_id_tint'),
-        }),
         ('Periodic entry', {
             'fields': ('mt_pe_voices',
                        ('mt_pe_strict', 'mt_pe_flexed', 'mt_pe_flt'),
                        ('mt_pe_sequential', 'mt_pe_added',
                         'mt_pe_invertible'), 'mt_pe_int',
                        'mt_pe_tint'),
+        }),
+        ('Imitative duo', {
+            'fields': ('mt_id_voices',
+                       ('mt_id_strict', 'mt_id_flexed',
+                        'mt_id_flt', 'mt_id_invertible'),
+                       'mt_id_int', 'mt_id_tint'),
         }),
         ('Non-imitative duo', {
             'fields': ('mt_nid_voices',
@@ -558,8 +558,7 @@ class CRIMObservationAdmin(admin.ModelAdmin):
         }),
         ('Cadence', {
             'fields': ('mt_cad_cantizans', 'mt_cad_tenorizans',
-                       ('mt_cad_authentic', 'mt_cad_phrygian',
-                        'mt_cad_plagal'), 'mt_cad_tone',
+                       'mt_cad_type', 'mt_cad_tone',
                        'mt_cad_dtv', 'mt_cad_dti'),
         }),
         ('Interval pattern', {
