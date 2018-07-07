@@ -1,0 +1,150 @@
+<h4>Interval pattern</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="derivative_mt_int">
+        <input type="checkbox" class="derivative_mt_int" id="derivative_mt_int" name="derivative-mt-int" value="true" />Any ({{ derivative_mt_int.true }})
+      </label>
+    </li>
+    <!-- TODO: list or text area for voices here -->
+    {% if derivative_mt_int_p6.true %}
+    <li>
+      <label class="checkbox" for="derivative_mt_int_p6">
+        <input type="checkbox" class="derivative_mt_int" id="derivative_mt_int_p6" name="derivative-mt-int-p6" value="true" />Parallel 6 ({{ derivative_mt_int_p6.true }})
+      </label>
+    </li>
+    {% endif %}
+    {% if derivative_mt_int_p3.true %}
+    <li>
+      <label class="checkbox" for="derivative_mt_int_p3">
+        <input type="checkbox" class="derivative_mt_int" id="derivative_mt_int_p3" name="derivative-mt-int-p3" value="true" />Parallel 3 [or 10] ({{ derivative_mt_int_p3.true }})
+      </label>
+    </li>
+    {% endif %}
+    {% if derivative_mt_int_c35.true %}
+    <li>
+      <label class="checkbox" for="derivative_mt_int_c35">
+        <input type="checkbox" class="derivative_mt_int" id="derivative_mt_int_c35" name="derivative-mt-int-35" value="true" />Chained 3 and 5 ({{ derivative_mt_int_c35.true }})
+      </label>
+    </li>
+    {% endif %}
+    {% if derivative_mt_int_c83.true %}
+    <li>
+      <label class="checkbox" for="derivative_mt_int_c83">
+        <input type="checkbox" class="derivative_mt_int" id="derivative_mt_int_83" name="derivative-mt-int-83" value="true" />Chained 8 and 3 ({{ derivative_mt_int_c83.true }})
+      </label>
+    </li>
+    {% endif %}
+    {% if derivative_mt_int_c65.true %}
+    <li>
+      <label class="checkbox" for="derivative_mt_int_c65">
+        <input type="checkbox" class="derivative_mt_int" id="derivative_mt_int_65" name="derivative-mt-int-65" value="true" />Chained 6 and 5 ({{ derivative_mt_int_c65.true }})
+      </label>
+    </li>
+    {% endif %}
+  </ul>
+</p>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#derivative_mt_int').change (function () {
+    if ($('#derivative_mt_int').is(':checked')) {
+      $('#derivative_mt_int_p6').prop('checked', false);
+      $('#derivative_mt_int_p3').prop('checked', false);
+      $('#derivative_mt_int_35').prop('checked', false);
+      $('#derivative_mt_int_83').prop('checked', false);
+      $('#derivative_mt_int_65').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_fp').prop('checked', false);
+    }
+  });
+  $('#derivative_mt_int_p6').change (function () {
+    if ($('#derivative_mt_int_p6').is(':checked')) {
+      $('#derivative_mt_int').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_fp').prop('checked', false);
+    }
+  });
+  $('#derivative_mt_int_p3').change (function () {
+    if ($('#derivative_mt_int_p3').is(':checked')) {
+      $('#derivative_mt_int').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_fp').prop('checked', false);
+    }
+  });
+  $('#derivative_mt_int_35').change (function () {
+    if ($('#derivative_mt_int_35').is(':checked')) {
+      $('#derivative_mt_int').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_fp').prop('checked', false);
+    }
+  });
+  $('#derivative_mt_int_83').change (function () {
+    if ($('#derivative_mt_int_83').is(':checked')) {
+      $('#derivative_mt_int').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_fp').prop('checked', false);
+    }
+  });
+  $('#derivative_mt_int_65').change (function () {
+    if ($('#derivative_mt_int_65').is(':checked')) {
+      $('#derivative_mt_int').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_fp').prop('checked', false);
+    }
+  });
+</script>

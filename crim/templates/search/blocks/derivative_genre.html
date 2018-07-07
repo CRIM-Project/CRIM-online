@@ -1,0 +1,15 @@
+<hgroup>
+  <h4>Genre of derivative</h4>
+  (Matches <em>any</em>)
+</hgroup>
+<p>
+  <ul class="column-checklist">
+    {% for g in derivative_genre %}
+      <li>
+        <label class="checkbox" for="derivative-genre{{ forloop.counter }}">
+          <input type="checkbox" id="derivative-genre{{ forloop.counter }}" name="derivative-genre" value="{{ g }}" />{{ g }} ({{ derivative_genre|dictkey:g }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+</p>

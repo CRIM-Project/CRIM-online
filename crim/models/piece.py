@@ -98,7 +98,6 @@ class CRIMPiece(models.Model):
         else:
             return None
 
-    # Indexing with Haystack requires this method.
     def get_absolute_url(self):
         return '/piece/{0}/'.format(self.piece_id)
 

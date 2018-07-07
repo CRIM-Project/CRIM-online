@@ -1,0 +1,15 @@
+<hgroup>
+  <h4>Composer of model</h4>
+  (Matches <em>any</em>)
+</hgroup>
+<p>
+  <ul class="column-checklist">
+    {% for c in model_composer %}
+      <li>
+        <label class="checkbox" for="model-composer{{ forloop.counter }}">
+          <input type="checkbox" id="model-composer{{ forloop.counter }}" name="model-composer" value="{{ c }}" />{{ c }} ({{ model_composer|dictkey:c }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+</p>

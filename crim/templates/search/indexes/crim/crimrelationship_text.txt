@@ -1,0 +1,31 @@
+{{ object.id }}
+{{ object.observer.person_id }}
+{{ object.observer.name_sort }}
+{{ object.remarks }}
+{{ object.created }}
+{{ object.updated }}
+{{ object.status }}
+
+{{ object.model_observation.observer.person_id }}
+{{ object.model_observation.observer.name_sort }}
+{{ object.model_observation.ema }}
+{{ object.model_observation.piece.remarks }}
+{{ object.model_observation.piece.piece_id }}
+{{ object.model_observation.piece.title }}
+{{ object.model_observation.piece.mass.title }}
+{{ object.model_observation.piece.composer.name_sort }}
+{{ object.model_observation.piece.genre.name }}
+{{ object.model_observation.piece.date_sort }}
+{{ object.model_observation.piece.remarks }}
+
+{{ object.derivative_observation.observer.person_id }}
+{{ object.derivative_observation.observer.name_sort }}
+{{ object.derivative_observation.ema }}
+{{ object.derivative_observation.piece.remarks }}
+{{ object.derivative_observation.piece.piece_id }}
+{{ object.derivative_observation.piece.title }}
+{{ object.derivative_observation.piece.mass.title }}
+{{ object.derivative_observation.piece.composer.name_sort }}
+{{ object.derivative_observation.piece.genre.name }}
+{{ object.derivative_observation.piece.date_sort }}
+{{ object.derivative_observation.piece.remarks }}

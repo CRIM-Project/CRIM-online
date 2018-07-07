@@ -1,0 +1,114 @@
+<h4>Mechanical transformation</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="rt_tm">
+        <input type="checkbox" class="rt_tm" id="rt_tm" name="rt-tm" value="true" />Any ({{ rt_tm.true }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_tm_snd">
+        <input type="checkbox" class="rt_tm" id="rt_tm_snd" name="rt-tm-snd" value="true" />Sounding in different voice(s) ({{ rt_tm_snd.true }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_tm_minv">
+        <input type="checkbox" class="rt_tm" id="rt_tm_minv" name="rt-tm-minv" value="true" />Melodically inverted ({{ rt_tm_minv.true }})
+      </label>
+    </li>
+    {% if rt_tm_retrograde.true %}
+    <li>
+      <label class="checkbox" for="rt_tm_retrograde">
+        <input type="checkbox" class="rt_tm" id="rt_tm_retrograde" name="rt-tm-retrograde" value="true" />Retrograde ({{ rt_tm_retrograde.true }})
+      </label>
+    </li>
+    {% endif %}
+    <li>
+      <label class="checkbox" for="rt_tm_ms">
+        <input type="checkbox" class="rt_tm" id="rt_tm_ms" name="rt-tm-ms" value="true" />Metrically shifted ({{ rt_tm_ms.true }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_tm_transposed">
+        <input type="checkbox" class="rt_tm" id="rt_tm_transposed" name="rt-tm-transposed" value="true" />Transposed ({{ rt_tm_transposed.true }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_tm_invertible">
+        <input type="checkbox" class="rt_tm" id="rt_tm_invertible" name="rt-tm-invertible" value="true" />Invertible ({{ rt_tm_invertible.true }})
+      </label>
+    </li>
+  </ul>
+</p>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#rt_tm').change (function () {
+    if ($('#rt_tm').is(':checked')) {
+      $('#rt_tm_snd').prop('checked', false);
+      $('#rt_tm_minv').prop('checked', false);
+      $('#rt_tm_retrograde').prop('checked', false);
+      $('#rt_tm_ms').prop('checked', false);
+      $('#rt_tm_transposed').prop('checked', false);
+      $('#rt_tm_invertible').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tm_snd').change (function () {
+    if ($('#rt_tm_snd').is(':checked')) {
+      $('#rt_tm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tm_minv').change (function () {
+    if ($('#rt_tm_minv').is(':checked')) {
+      $('#rt_tm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tm_retrograde').change (function () {
+    if ($('#rt_tm_retrograde').is(':checked')) {
+      $('#rt_tm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tm_ms').change (function () {
+    if ($('#rt_tm_ms').is(':checked')) {
+      $('#rt_tm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tm_transposed').change (function () {
+    if ($('#rt_tm_transposed').is(':checked')) {
+      $('#rt_tm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_tm_invertible').change (function () {
+    if ($('#rt_tm_invertible').is(':checked')) {
+      $('#rt_tm').prop('checked', false);
+      $('.rt_q').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+</script>

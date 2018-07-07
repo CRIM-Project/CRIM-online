@@ -1,0 +1,15 @@
+<hgroup>
+  <h4>Composer of derivative</h4>
+  (Matches <em>any</em>)
+</hgroup>
+<p>
+  <ul class="column-checklist">
+    {% for c in derivative_composer %}
+      <li>
+        <label class="checkbox" for="derivative-composer{{ forloop.counter }}">
+          <input type="checkbox" id="derivative-composer{{ forloop.counter }}" name="derivative-composer" value="{{ c }}" />{{ c }} ({{ derivative_composer|dictkey:c }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+</p>

@@ -8,7 +8,6 @@ django.setup()
 
 from collections import OrderedDict
 
-from crim.common import get_date_sort
 from crim.models.person import CRIMPerson
 
 FILE_IN = 'source/CRIM_Mass_Catalog.csv'
@@ -20,14 +19,12 @@ def add_composer(old_row, new_role_fields):
     new_role_fields['role_type'] = 'composer'
     new_role_fields['mass'] = old_row['CRIM_Mass_ID']
     new_role_fields['date'] = old_row['Date of Mass']
-    new_role_fields['date_sort'] = get_date_sort(old_row['Date of Mass'])
 
 
 def add_editor(old_row, new_role_fields):
     new_role_fields['person'] = CRIMPerson.objects.get(name=old_row['Editor']).person_id
     new_role_fields['role_type'] = 'editor'
     new_role_fields['date'] = old_row['Date']
-    new_role_fields['date_sort'] = get_date_sort(old_row['Date'])
     new_role_fields['mass'] = old_row['CRIM_Mass_ID']
 
 

@@ -56,15 +56,6 @@ class CRIMObservation(models.Model):
     mt_fg_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
     mt_fg_tint = models.CharField('time interval of entry', max_length=32, blank=True)
 
-    mt_id = models.BooleanField('imitative duo', default=False)
-    mt_id_voices = models.TextField('voices (one per line)', blank=True)
-    mt_id_strict = models.BooleanField('strict', default=False)
-    mt_id_flexed = models.BooleanField('flexed', default=False)
-    mt_id_flt = models.BooleanField('flexed, tonal', default=False)
-    mt_id_invertible = models.BooleanField('invertible', default=False)
-    mt_id_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_id_tint = models.CharField('time interval of entry', max_length=32, blank=True)
-
     mt_pe = models.BooleanField('periodic entry', default=False)
     mt_pe_voices = models.TextField('voices (one per line)', blank=True)
     mt_pe_strict = models.BooleanField('strict', default=False)
@@ -75,6 +66,15 @@ class CRIMObservation(models.Model):
     mt_pe_invertible = models.BooleanField('invertible', default=False)
     mt_pe_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
     mt_pe_tint = models.CharField('time interval of entry', max_length=32, blank=True)
+
+    mt_id = models.BooleanField('imitative duo', default=False)
+    mt_id_voices = models.TextField('voices (one per line)', blank=True)
+    mt_id_strict = models.BooleanField('strict', default=False)
+    mt_id_flexed = models.BooleanField('flexed', default=False)
+    mt_id_flt = models.BooleanField('flexed, tonal', default=False)
+    mt_id_invertible = models.BooleanField('invertible', default=False)
+    mt_id_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
+    mt_id_tint = models.CharField('time interval of entry', max_length=32, blank=True)
 
     mt_nid = models.BooleanField('non-imitative duo', default=False)
     mt_nid_voices = models.TextField('voices (one per line)', blank=True)
@@ -125,7 +125,6 @@ class CRIMObservation(models.Model):
     id_in_brackets.short_description = 'ID'
     id_in_brackets.admin_order_field = 'id'
 
-    # Indexing with Haystack requires this method.
     def get_absolute_url(self):
         return '/observation/{0}/'.format(self.pk)
 

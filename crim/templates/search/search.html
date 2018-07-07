@@ -7,6 +7,7 @@
 {% block header %}
   <script type="text/javascript">
     $(document).ready(function ($) {
+        fetchRelationshipResults();
       $("#search-form").on({
         'submit': function(event) {
           $(':input[value="None"]', $("#search-form")).each(function(){
@@ -19,64 +20,116 @@
 {% endblock %}
 
 {% block wrap %}
-  {% if query or request.GET.selected_facets %}
-    <div class="row-fluid">
-      <div class="span9">
-        <hgroup>
-          <h1>Search results</h1>
-          <h2>Pieces</h2>
-        </hgroup>
-        {% for result in page_obj.object_list %}
-          <p>
-            <a href="{{ result.object.get_absolute_url }}">[{{ result.object.piece_id }}] {% if result.object.mass %}{{ result.object.mass.title }}: {% endif %}{{ result.object.title }}</a>
-          </p>
-        {% empty %}
-          <p>No results found.</p>
-        {% endfor %}
-    
-        {% if page.has_previous or page.has_next %}
-          <div>
-            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-            |
-            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
-          </div>
-        {% endif %}
+  <div class="search-heading">
+    <h1 class="search-title page-title">Advanced search</h1>
+    <p>Returns relationships matching at least one checked item in each selected category.</p>
+  </div>
+  <div class="search-container content-container">
+    <form id="search-form" action="/search" method="get">
+      <div class="row-fluid">
+        <div class="span8">
+          <h3>Any field</h3>
+          <input type="text" name="q" class="search-input"/>
+        </div>
       </div>
-      <div id="sidebar" class="span3">
-        {% include "search/sidebar/piece_composer.html" %}
-        {% include "search/sidebar/piece_genre.html" %}
+      <hgroup>
+        <h3><a id="observer" class="detailed-search-heading">Observer</a></h3>
+      </hgroup>
+      <div id="observer-search-content" class="row-fluid detailed-search-content">
+        <div class="span8">
+          (Matches <em>any</em>)
+          {% include "search/blocks/observer.html" %}
+        </div>
       </div>
-    </div>
-  {% else %}{# if not query #}
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="search-heading row-fluid">
-          <h1 class="search-title page-title span8">Advanced search</h1>
+      <h3><a id="model" class="detailed-search-heading">Model</a></h3>
+      <div id="model-search-content" class="row-fluid detailed-search-content">
+        <div class="span4">
+          {% include "search/blocks/model_composer.html" %}
+        </div>
+        <div class="span4">
+          {% include "search/blocks/model_genre.html" %}
+        </div>
+      </div>
+      <h3><a id="derivative" class="detailed-search-heading">Derivative</a></h3>
+      <div id="derivative-search-content" class="row-fluid detailed-search-content">
+        <div class="span4">
+          {% include "search/blocks/derivative_composer.html" %}
+        </div>
+        <div class="span4">
+          {% include "search/blocks/derivative_genre.html" %}
+        </div>
+      </div>
+      <hgroup>
+        <h3><a id="relationship-type" class="detailed-search-heading">Relationship type</a></h3>
+      </hgroup>
+      <div id="relationship-type-search-content" class="row-fluid detailed-search-content">
+        <div class="span2">{% include "search/blocks/rt_q.html" %}</div>
+        <div class="span3">{% include "search/blocks/rt_tm.html" %}</div>
+        <div class="span3">{% include "search/blocks/rt_tnm.html" %}</div>
+        <div class="span2">{% include "search/blocks/rt_misc.html" %}</div>
+      </div>
+      <h3><a id="model-musical-type" class="detailed-search-heading">Model musical type</a></h3>
+      <div id="model-musical-type-search-content" class="detailed-search-content">
+        <div class="row-fluid">
+          <div class="span3">{% include "search/blocks/model_mt_cf.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_sog.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_csog.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_cd.html" %}</div>
         </div>
         <div class="row-fluid">
-          <div class="span9 search-container content-container">
-            <form id="search-form" action="/search" method="get">
-              <input type="text" name="q" class="search-input"/>
-              <div class="accordion" id="search-accordion">
-                <h2>Limit by:</h2>
-                {% include "search/blocks/piece_composer.html" %}
-                {% include "search/blocks/piece_genre.html" %}
-              </div> <!-- .accordion -->
-              <div class="search-buttons">
-                <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
-                <button type="reset" class="btn btn-large">Clear</button>
-              </div>
-            </form>
-          </div><!--/span-->
-          <div id="sidebar" class="span3">
-            {# <h3>Search help</h3> #}
-            <div id="search-help">
-              {# See Du Chemin for ideas #}
-            </div>
-          </div><!--/span-->
-        </div><!--/row-->
-      </div><!--/span-->
-    </div><!--/row-->
-    {# include "search/searchjs.html" #}
-  {% endif %}
+          <div class="span3">{% include "search/blocks/model_mt_fg.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_pe.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_id.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_nid.html" %}</div>
+        </div>
+        <div class="row-fluid">
+          <div class="span3">{% include "search/blocks/model_mt_hr.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_cad.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_int.html" %}</div>
+          <div class="span3">{% include "search/blocks/model_mt_fp.html" %}</div>
+        </div>
+      </div>
+      <h3><a id="derivative-musical-type" class="detailed-search-heading">Derivative musical type</a></h3>
+      <div id="derivative-musical-type-search-content" class="detailed-search-content">
+        <div class="row-fluid">
+          <div class="span3">{% include "search/blocks/derivative_mt_cf.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_sog.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_csog.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_cd.html" %}</div>
+        </div>
+        <div class="row-fluid">
+          <div class="span3">{% include "search/blocks/derivative_mt_fg.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_pe.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_id.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_nid.html" %}</div>
+        </div>
+        <div class="row-fluid">
+          <div class="span3">{% include "search/blocks/derivative_mt_hr.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_cad.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_int.html" %}</div>
+          <div class="span3">{% include "search/blocks/derivative_mt_fp.html" %}</div>
+        </div>
+      </div>
+      <div class="search-buttons">
+        <button id="search-submit" type="submit" class="btn btn-large btn-inverse">Search</button>
+        <button id="search-reset" type="reset" class="btn btn-large">Clear</button>
+      </div>
+    </form>
+  </div>
+  
+  <style>
+  .detailed-search-content  {
+     display: none;
+  }
+  </style>
+
+  <script>
+  $(function(){
+     $('.detailed-search-heading').click(function(){
+         var contentId = $(this).attr('id');
+         $('#' + contentId + '-search-content').toggle(100);
+      });
+  });
+  </script>
+  
 {% endblock %}

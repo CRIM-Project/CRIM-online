@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+<title>CRIM | Search results</title>
+{% endblock %}
+
+{% block header %}
+  <script src="{% static 'js/search.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function ($) {
+      /* fetchPieceResults(); */
+      fetchRelationshipResults();
+      /* fetchFacets(); */
+      attachPagerActions();
+    });
+  </script>
+{% endblock %}
+
+{% block wrap %}
+  <div class="row-fluid">
+    <div class="span9">
+      <hgroup>
+        <h1>Search results</h1>
+      </hgroup>
+      {# This next div is completely filled in using fetchRelationshipResults using relationship_results.html #}
+      <div id="relationships" />
+    </div>
+    <div id="sidebar" class="span3">
+      {# include "search/sidebar/observer.html" #}
+    </div>
+  </div>
+{% endblock %}
