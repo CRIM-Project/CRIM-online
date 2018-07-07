@@ -55,12 +55,12 @@
                   {% if observation.mt_cad %}Cadence{% endif %}
                   {% if observation.mt_int %}Interval pattern{% endif %}
                   {% if observation.mt_fp %}Form and process{% endif %}
-                  {% if not observation.mt_cf and not observation.mt_sog and not observation.mt_csog and not observation.mt_fg and not observation.mt_id and not observation.mt_pe and not observation.mt_nid and not observation.mt_hr and not observation.mt_cad and not observation.mt_int and not observation.mt_fp %}
+                  {% if not observation.mt_cf and not observation.mt_sog and not observation.mt_csog and not observation.mt_fg and not observation.mt_pe and not observation.mt_id and not observation.mt_nid and not observation.mt_hr and not observation.mt_cad and not observation.mt_int and not observation.mt_fp %}
                     None
                   {% endif %}
               </td>
               <td>
-                {% if observation.mt_cf or observation.mt_sog or observation.mt_csog or observation.mt_fg or observation.mt_id or observation.mt_pe or observation.mt_nid or observation.mt_hr or observation.mt_cad or observation.mt_int or observation.mt_fp %}
+                {% if observation.mt_cf or observation.mt_sog or observation.mt_csog or observation.mt_fg or observation.mt_pe or observation.mt_id or observation.mt_nid or observation.mt_hr or observation.mt_cad or observation.mt_int or observation.mt_fp %}
                   <a href="#" class="observation-info-expand" target="observation-info-{{ forloop.counter }}">Expand</a>
                 {% else %}
                   -
