@@ -17,21 +17,27 @@
         <input type="checkbox" class="model_mt_nid" id="model_mt_nid_flexed" name="model-mt-sog-flexed" value="true" />Flexed ({{ model_mt_nid_flexed.true }})
       </label>
     </li>
+    {% if model_mt_nid_flt.true %}
     <li>
       <label class="checkbox" for="model_mt_nid_flt">
         <input type="checkbox" class="model_mt_nid" id="model_mt_nid_flt" name="model-mt-sog-flt" value="true" />Flexed, tonal ({{ model_mt_nid_flt.true }})
       </label>
     </li>
+    {% endif %}
+    {% if model_mt_nid_sequential.true %}
     <li>
       <label class="checkbox" for="model_mt_nid_sequential">
         <input type="checkbox" class="model_mt_nid" id="model_mt_nid_sequential" name="model-mt-sog-sequential" value="true" />Sequential ({{ model_mt_nid_sequential.true }})
       </label>
     </li>
+    {% endif %}
+    {% if model_mt_nid_invertible.true %}
     <li>
       <label class="checkbox" for="model_mt_nid_invertible">
         <input type="checkbox" class="model_mt_nid" id="model_mt_nid_invertible" name="model-mt-sog-retrograde" value="true" />Retrograde ({{ model_mt_nid_invertible.true }})
       </label>
     </li>
+    {% endif %}
     <!-- TODO: list or text area for model_mt_nid_int here -->
     <!-- TODO: list or text area for model_mt_nid_tint here -->
   </ul>

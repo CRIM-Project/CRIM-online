@@ -56,8 +56,35 @@ def _fetch_relationship_results(request):
         sort=[
             'model_piece_id_s asc',
             'derivative_piece_id_s asc',
-            'model_ema_t asc',
-            'derivative_ema_t asc',
+            'rt_q_b desc',
+            'rt_tm_b desc',
+            'rt_tnm_b desc',
+            'rt_nm_b desc',
+            'rt_om_b desc',
+            'model_mt_cf_b desc',
+            'model_mt_sog_b desc',
+            'model_mt_csog_b desc',
+            'model_mt_cd_b desc',
+            'model_mt_fg_b desc',
+            'model_mt_pe_b desc',
+            'model_mt_id_b desc',
+            'model_mt_nid_b desc',
+            'model_mt_hr_b desc',
+            'model_mt_cad_b desc',
+            'model_mt_int_b desc',
+            'model_mt_fp_b desc',
+            'derivative_mt_cf_b desc',
+            'derivative_mt_sog_b desc',
+            'derivative_mt_csog_b desc',
+            'derivative_mt_cd_b desc',
+            'derivative_mt_fg_b desc',
+            'derivative_mt_pe_b desc',
+            'derivative_mt_id_b desc',
+            'derivative_mt_nid_b desc',
+            'derivative_mt_hr_b desc',
+            'derivative_mt_cad_b desc',
+            'derivative_mt_int_b desc',
+            'derivative_mt_fp_b desc',
         ]
     )
 
@@ -88,14 +115,14 @@ def _fetch_facet_results(request):
     }
     facet_res = s.facets(fq=['type:crim_relationship'], **facet_params)
     facets = facet_res.facet_counts['facet_fields']
-    # filtered_facets = dict([(k, v) for k, v in facets.iteritems() if k in settings.DISPLAY_FACETS])
+    # filtered_facets = dict([(k, v) for k, v in facets.items() if k in settings.DISPLAY_FACETS])
 
     filtered_facets = []
-    for k, v in facets.iteritems():
+    for k, v in facets.items():
         this_facet = []
         if k not in settings.DISPLAY_FACETS.keys():
             continue
-        for facet_value, num in v.iteritems():
+        for facet_value, num in v.items():
             this_facet.append([facet_value, settings.DISPLAY_FACETS[k][0]])
 
         this_facet.sort()
