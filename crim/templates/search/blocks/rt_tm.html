@@ -16,11 +16,13 @@
         <input type="checkbox" class="rt_tm" id="rt_tm_minv" name="rt-tm-minv" value="true" />Melodically inverted ({{ rt_tm_minv.true }})
       </label>
     </li>
+    {% if rt_tm_retrograde.true %}
     <li>
       <label class="checkbox" for="rt_tm_retrograde">
-        <input type="checkbox" class="rt_tm" id="rt_tm_retrograde" name="rt-tm-retrograde" value="true" />Retrograde ({% if rt_tm_retrograde.true %}{{ rt_tm_retrograde.true }}{% else %}0{% endif %})
+        <input type="checkbox" class="rt_tm" id="rt_tm_retrograde" name="rt-tm-retrograde" value="true" />Retrograde ({{ rt_tm_retrograde.true }})
       </label>
     </li>
+    {% endif %}
     <li>
       <label class="checkbox" for="rt_tm_ms">
         <input type="checkbox" class="rt_tm" id="rt_tm_ms" name="rt-tm-ms" value="true" />Metrically shifted ({{ rt_tm_ms.true }})

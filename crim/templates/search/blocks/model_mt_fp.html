@@ -1,0 +1,55 @@
+<h4>Form and process</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="model_mt_fp">
+        <input type="checkbox" class="model_mt_fp" id="model_mt_fp" name="model-mt-fp" value="true" />Any ({{ model_mt_fp.true }})
+      </label>
+    </li>
+    <!-- TODO: Mention comment here? though it is searched for in the main field above -->
+    {% if model_mt_fp_ir.true %}
+    <li>
+      <label class="checkbox" for="model_mt_fp_ir">
+        <input type="checkbox" class="model_mt_fp" id="model_mt_fp_ir" name="model-mt-fp-ir" value="true" />Internal repetition ({{ model_mt_fp_ir.true }})
+      </label>
+    </li>
+    {% endif %}
+    <!-- TODO: Mention "range" here even though it doesn't occur in the current data? -->
+  </ul>
+</p>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#model_mt_fp').change (function () {
+    if ($('#model_mt_fp').is(':checked')) {
+      $('#model_mt_fp_ir').prop('checked', false);
+      $('.model_mt_cf').prop('checked', false);
+      $('.model_mt_sog').prop('checked', false);
+      $('.model_mt_csog').prop('checked', false);
+      $('.model_mt_cd').prop('checked', false);
+      $('.model_mt_fg').prop('checked', false);
+      $('.model_mt_pe').prop('checked', false);
+      $('.model_mt_id').prop('checked', false);
+      $('.model_mt_nid').prop('checked', false);
+      $('.model_mt_hr').prop('checked', false);
+      $('.model_mt_cad').prop('checked', false);
+      $('.model_mt_int').prop('checked', false);
+    }
+  });
+  $('#model_mt_fp_ir').change (function () {
+    if ($('#model_mt_fp_ir').is(':checked')) {
+      $('#model_mt_fp').prop('checked', false);
+      $('.model_mt_cf').prop('checked', false);
+      $('.model_mt_sog').prop('checked', false);
+      $('.model_mt_csog').prop('checked', false);
+      $('.model_mt_cd').prop('checked', false);
+      $('.model_mt_fg').prop('checked', false);
+      $('.model_mt_pe').prop('checked', false);
+      $('.model_mt_id').prop('checked', false);
+      $('.model_mt_nid').prop('checked', false);
+      $('.model_mt_hr').prop('checked', false);
+      $('.model_mt_cad').prop('checked', false);
+      $('.model_mt_int').prop('checked', false);
+    }
+  });
+</script>

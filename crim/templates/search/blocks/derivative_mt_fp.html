@@ -1,0 +1,55 @@
+<h4>Form and process</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="derivative_mt_fp">
+        <input type="checkbox" class="derivative_mt_fp" id="derivative_mt_fp" name="derivative-mt-fp" value="true" />Any ({{ derivative_mt_fp.true }})
+      </label>
+    </li>
+    <!-- TODO: Mention comment here? though it is searched for in the main field above -->
+    {% if derivative_mt_fp_ir.true %}
+    <li>
+      <label class="checkbox" for="derivative_mt_fp_ir">
+        <input type="checkbox" class="derivative_mt_fp" id="derivative_mt_fp_ir" name="derivative-mt-fp-ir" value="true" />Internal repetition ({{ derivative_mt_fp_ir.true }})
+      </label>
+    </li>
+    {% endif %}
+    <!-- TODO: Mention "range" here even though it doesn't occur in the current data? -->
+  </ul>
+</p>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#derivative_mt_fp').change (function () {
+    if ($('#derivative_mt_fp').is(':checked')) {
+      $('#derivative_mt_fp_ir').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_int').prop('checked', false);
+    }
+  });
+  $('#derivative_mt_fp_ir').change (function () {
+    if ($('#derivative_mt_fp_ir').is(':checked')) {
+      $('#derivative_mt_fp').prop('checked', false);
+      $('.derivative_mt_cf').prop('checked', false);
+      $('.derivative_mt_sog').prop('checked', false);
+      $('.derivative_mt_csog').prop('checked', false);
+      $('.derivative_mt_cd').prop('checked', false);
+      $('.derivative_mt_fg').prop('checked', false);
+      $('.derivative_mt_pe').prop('checked', false);
+      $('.derivative_mt_id').prop('checked', false);
+      $('.derivative_mt_nid').prop('checked', false);
+      $('.derivative_mt_hr').prop('checked', false);
+      $('.derivative_mt_cad').prop('checked', false);
+      $('.derivative_mt_int').prop('checked', false);
+    }
+  });
+</script>

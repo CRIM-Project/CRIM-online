@@ -27,16 +27,20 @@
         <input type="checkbox" class="model_mt_fg" id="model_mt_fg_sequential" name="model-mt-sog-sequential" value="true" />Sequential ({{ model_mt_fg_sequential.true }})
       </label>
     </li>
+    {% if model_mt_fg_inverted.true %}
     <li>
       <label class="checkbox" for="model_mt_fg_inverted">
         <input type="checkbox" class="model_mt_fg" id="model_mt_fg_inverted" name="model-mt-sog-inverted" value="true" />Inverted ({{ model_mt_fg_inverted.true }})
       </label>
     </li>
+    {% endif %}
+    {% if model_mt_fg_retrograde.true %}
     <li>
       <label class="checkbox" for="model_mt_fg_retrograde">
         <input type="checkbox" class="model_mt_fg" id="model_mt_fg_retrograde" name="model-mt-sog-retrograde" value="true" />Retrograde ({{ model_mt_fg_retrograde.true }})
       </label>
     </li>
+    {% endif %}
     <!-- TODO: list or text area for model_mt_fg_int here -->
     <!-- TODO: list or text area for model_mt_fg_tint here -->
   </ul>
