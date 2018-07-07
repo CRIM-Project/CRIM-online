@@ -96,12 +96,10 @@ class CRIMObservation(models.Model):
     mt_cad = models.BooleanField('cadence', default=False)
     mt_cad_cantizans = models.TextField('cantizans', blank=True)
     mt_cad_tenorizans = models.TextField('tenorizans', blank=True)
-    mt_cad_authentic = models.BooleanField('authentic', default=False)
-    mt_cad_phrygian = models.BooleanField('phrygian', default=False)
-    mt_cad_plagal = models.BooleanField('plagal', default=False)
-    mt_cad_tone = models.CharField('tone', max_length=4, blank=True)
+    mt_cad_type = models.CharField('type', max_length=32, blank=True)
+    mt_cad_tone = models.CharField('tone', max_length=16, blank=True)
     mt_cad_dtv = models.CharField('dovetail voice', max_length=32, blank=True)
-    mt_cad_dti = models.CharField('interval', max_length=32, blank=True)
+    mt_cad_dti = models.CharField('dovetail interval', max_length=32, blank=True)
 
     mt_int = models.BooleanField('interval pattern', default=False)
     mt_int_voices = models.TextField('voices (one per line)', blank=True)
@@ -149,7 +147,7 @@ class CRIMObservation(models.Model):
             self.mt_nid = True
         if self.mt_hr_voices or self.mt_hr_simple or self.mt_hr_staggered or self.mt_hr_sequential or self.mt_hr_fauxbourdon:
             self.mt_hr = True
-        if self.mt_cad_cantizans or self.mt_cad_tenorizans or self.mt_cad_authentic or self.mt_cad_phrygian or self.mt_cad_plagal or self.mt_cad_tone or self.mt_cad_dtv or self.mt_cad_dti:
+        if self.mt_cad_cantizans or self.mt_cad_tenorizans or self.mt_cad_type or self.mt_cad_tone or self.mt_cad_dtv or self.mt_cad_dti:
             self.mt_cad = True
         if self.mt_int_voices or self.mt_int_p6 or self.mt_int_p3 or self.mt_int_c35 or self.mt_int_c83 or self.mt_int_c65:
             self.mt_int = True

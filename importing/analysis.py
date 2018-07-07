@@ -236,15 +236,6 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_fg_retrograde'] = assertion['re']
         new_observation['mt_fg_int'] = assertion['int']
         new_observation['mt_fg_tint'] = assertion['tint']
-    if assertion['type'] == 'mt-id':
-        new_observation['mt_id'] = True
-        new_observation['mt_id_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_id_strict'] = assertion['ste']
-        new_observation['mt_id_flexed'] = assertion['fe']
-        new_observation['mt_id_flt'] = assertion['fte']
-        new_observation['mt_id_invertible'] = assertion['ic']
-        new_observation['mt_id_int'] = assertion['int']
-        new_observation['mt_id_tint'] = assertion['tint']
     if assertion['type'] == 'mt-pe':
         new_observation['mt_pe'] = True
         new_observation['mt_pe_voices'] = _add_list_as_string(assertion['options'])
@@ -256,6 +247,15 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_pe_invertible'] = assertion['ic']
         new_observation['mt_pe_int'] = assertion['int']
         new_observation['mt_pe_tint'] = assertion['tint']
+    if assertion['type'] == 'mt-id':
+        new_observation['mt_id'] = True
+        new_observation['mt_id_voices'] = _add_list_as_string(assertion['options'])
+        new_observation['mt_id_strict'] = assertion['ste']
+        new_observation['mt_id_flexed'] = assertion['fe']
+        new_observation['mt_id_flt'] = assertion['fte']
+        new_observation['mt_id_invertible'] = assertion['ic']
+        new_observation['mt_id_int'] = assertion['int']
+        new_observation['mt_id_tint'] = assertion['tint']
     if assertion['type'] == 'mt-nid':
         new_observation['mt_nid'] = True
         new_observation['mt_nid_voices'] = _add_list_as_string(assertion['options'])
@@ -277,9 +277,15 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_cad'] = True
         new_observation['mt_cad_cantizans'] = assertion['options']['voice1']
         new_observation['mt_cad_tenorizans'] = assertion['options']['voice2']
-        new_observation['mt_cad_authentic'] = assertion['a']
-        new_observation['mt_cad_phrygian'] = assertion['ph']
-        new_observation['mt_cad_plagal'] = assertion['p']
+        if assertion['a']:
+            assert not assertion['ph'] and not assertion['p']
+            new_observation['mt_cad_type'] = 'authentic'
+        elif assertion['ph']:
+            assert not assertion['a'] and not assertion['p']
+            new_observation['mt_cad_type'] = 'phrygian'
+        elif assertion['p']:
+            assert not assertion['a'] and not assertion['ph']
+            new_observation['mt_cad_type'] = 'plagal'
         new_observation['mt_cad_tone'] = assertion['tone']
         new_observation['mt_cad_dtv'] = assertion['options']['dove_voice1']
         new_observation['mt_cad_dti'] = assertion['dove']
