@@ -497,7 +497,7 @@ class CRIMObservationAdmin(admin.ModelAdmin):
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 40})
         elif 'voice' in db_field.name:
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 30})
-        elif db_field.name in ('cantizans', 'tenorizans'):
+        elif db_field.name in ('mt_cad_cantizans', 'mt_cad_tenorizans'):
             formfield.widget = forms.Textarea(attrs={'rows': 1, 'cols': 30})
         return formfield
 

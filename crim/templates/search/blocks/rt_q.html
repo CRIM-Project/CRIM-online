@@ -1,0 +1,54 @@
+<h4>Quotation</h4>
+<p>
+  <ul class="column-checklist">
+    <li>
+      <label class="checkbox" for="rt_q">
+        <input type="checkbox" class="rt_q" id="rt_q" name="rt-q" value="true" />Any ({{ rt_q.true }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_q_x">
+        <input type="checkbox" class="rt_q" id="rt_q_x" name="rt-q-exact" value="true" />Exact ({{ rt_q_x.true }})
+      </label>
+    </li>
+    <li>
+      <label class="checkbox" for="rt_q_monnayage">
+        <input type="checkbox" class="rt_q" id="rt_q_monnayage" name="rt-q-monnayage" value="true" />Monnayage ({{ rt_q_monnayage.true }})
+      </label>
+    </li>
+  </ul>
+</p>
+
+<!-- Uncheck mutually exclusive types for user convenience -->
+<script>
+  $('#rt_q').change (function () {
+    if ($('#rt_q').is(':checked')) {
+      $('#rt_q_x').prop('checked', false);
+      $('#rt_q_monnayage').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_q_x').change (function () {
+    if ($('#rt_q_x').is(':checked')) {
+      $('#rt_q').prop('checked', false);
+      $('#rt_q_monnayage').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+  $('#rt_q_monnayage').change (function () {
+    if ($('#rt_q_monnayage').is(':checked')) {
+      $('#rt_q').prop('checked', false);
+      $('#rt_q_x').prop('checked', false);
+      $('.rt_tm').prop('checked', false);
+      $('.rt_tnm').prop('checked', false);
+      $('.rt_nm').prop('checked', false);
+      $('.rt_om').prop('checked', false);
+    }
+  });
+</script>
