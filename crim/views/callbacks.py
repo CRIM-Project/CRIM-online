@@ -115,12 +115,13 @@ def _fetch_facet_results(request):
     }
     facet_res = s.facets(fq=['type:crim_relationship'], **facet_params)
     facets = facet_res.facet_counts['facet_fields']
-    # filtered_facets = dict([(k, v) for k, v in facets.items() if k in settings.DISPLAY_FACETS])
+    print(settings.DISPLAY_FACETS.keys())
 
     filtered_facets = []
     for k, v in facets.items():
         this_facet = []
         if k not in settings.DISPLAY_FACETS.keys():
+            print(k, end=' not there\n')
             continue
         for facet_value, num in v.items():
             this_facet.append([facet_value, settings.DISPLAY_FACETS[k][0]])
@@ -129,6 +130,8 @@ def _fetch_facet_results(request):
         filtered_facets.append([settings.DISPLAY_FACETS[k][1], this_facet])
 
     filtered_facets.sort()
+    print('!!!')
+    print(filtered_facets)
 
     data = {
         'facet_results': filtered_facets

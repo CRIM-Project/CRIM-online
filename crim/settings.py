@@ -559,3 +559,7 @@ SEARCH_PARAM_MAP = {
     'derivative-mei-links': 'derivative_mei_links_ss',
     'derivative-remarks': 'derivative_remarks_t',
 }
+
+DISPLAY_FACETS = {
+    'observer_s': ('observer', 'Observer'),
+}

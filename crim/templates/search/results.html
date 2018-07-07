@@ -12,7 +12,7 @@
     $(document).ready(function ($) {
       /* fetchPieceResults(); */
       fetchRelationshipResults();
-      /* fetchFacets(); */
+      fetchFacets();
       attachPagerActions();
     });
   </script>
@@ -25,10 +25,10 @@
         <h1>Search results</h1>
       </hgroup>
       {# This next div is completely filled in using fetchRelationshipResults using relationship_results.html #}
-      <div id="relationships" />
+      <div id="relationships"></div>
     </div>
     <div id="sidebar" class="span3">
-      {# include "search/sidebar/observer.html" #}
+      <div id="facets"></div>
     </div>
   </div>
 {% endblock %}
