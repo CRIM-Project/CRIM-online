@@ -69,7 +69,7 @@
     </div>
     <div id="collapse_rt" class="accordion-body collapse in">
       <div class="accordion-inner">
-        {% if type_facets.rt_q_b %}
+        {% if type_facets.rt_q_b.true %}
           <h4>Quotation</h4>
           <ul class="unstyled">
             {% if not request.GET|dictkey:'rt-q-x' and not request.GET|dictkey:'rt-q-monnayage' %}
