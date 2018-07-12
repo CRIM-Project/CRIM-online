@@ -588,6 +588,7 @@ class CRIMObservationAdmin(admin.ModelAdmin):
     search_fields = (
         'piece__piece_id',
         'piece__title',
+        'piece__mass__title',
         'observer__person_id',
         'observer__name',
     )
@@ -640,8 +641,10 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
     search_fields = (
         'model_observation__piece__piece_id',
         'model_observation__piece__title',
+        'model_observation__piece__mass__title',
         'derivative_observation__piece__piece_id',
         'derivative_observation__piece__title',
+        'derivative_observation__piece__mass__title',
         'observer__person_id',
         'observer__name',
     )
