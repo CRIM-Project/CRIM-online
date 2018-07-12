@@ -121,19 +121,19 @@
   
   <style>
     .detailed-search-content  {
-       display: none;
+      display: none;
     }
-    .detailed-search-content a {
+    a.detailed-search-heading {
       cursor: pointer;
     }
   </style>
 
   <script>
   $(function(){
-     $('.detailed-search-heading').click(function(){
-         var contentId = $(this).attr('id');
-         $('#' + contentId + '-search-content').toggle(100);
-      });
+    $('.detailed-search-heading').click(function(){
+      var contentId = $(this).attr('id');
+      $('#' + contentId + '-search-content').toggle(100);
+    });
   });
   </script>
   
