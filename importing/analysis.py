@@ -224,6 +224,7 @@ def add_musical_types(assertion, new_observation):
         new_observation['mt_csog_dur'] = assertion['dur']
         new_observation['mt_csog_mel'] = assertion['mel']
     if assertion['type'] == 'mt-cd':
+        new_observation['mt_cd'] = True
         new_observation['mt_cd_voices'] = _add_list_as_string(assertion['options'])
     if assertion['type'] == 'mt-fg':
         new_observation['mt_fg'] = True
