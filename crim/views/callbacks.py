@@ -115,25 +115,34 @@ def _fetch_facet_results(request):
     }
     facet_res = s.facets(fq=['type:crim_relationship'], **facet_params)
     facets = facet_res.facet_counts['facet_fields']
-    print(settings.DISPLAY_FACETS.keys())
+    print(facets)
 
-    filtered_facets = []
+    filtered_facets_observer = []
+    filtered_facets_model = []
+    filtered_facets_derivative = []
+    filtered_facets_rt_mt = []
+
     for k, v in facets.items():
         this_facet = []
-        if k not in settings.DISPLAY_FACETS.keys():
-            print(k, end=' not there\n')
-            continue
-        for facet_value, num in v.items():
-            this_facet.append([facet_value, settings.DISPLAY_FACETS[k][0]])
-
-        this_facet.sort()
-        filtered_facets.append([settings.DISPLAY_FACETS[k][1], this_facet])
-
-    filtered_facets.sort()
-    print('!!!')
-    print(filtered_facets)
+        if k in settings.DISPLAY_FACETS_OBSERVER.keys():
+            for facet_value, num in v.items():
+                this_facet.append([facet_value, settings.DISPLAY_FACETS_OBSERVER[k][0], num])
+            filtered_facets_observer.append([settings.DISPLAY_FACETS_OBSERVER[k][1], this_facet])
+        elif k in settings.DISPLAY_FACETS_MODEL.keys():
+            for facet_value, num in v.items():
+                this_facet.append([facet_value, settings.DISPLAY_FACETS_MODEL[k][0], num])
+            filtered_facets_model.append([settings.DISPLAY_FACETS_MODEL[k][1], this_facet])
+        elif k in settings.DISPLAY_FACETS_DERIVATIVE.keys():
+            for facet_value, num in v.items():
+                this_facet.append([facet_value, settings.DISPLAY_FACETS_DERIVATIVE[k][0], num])
+            filtered_facets_derivative.append([settings.DISPLAY_FACETS_DERIVATIVE[k][1], this_facet])
+        else:
+            pass
 
     data = {
-        'facet_results': filtered_facets
+        'facet_results_observer': filtered_facets_observer,
+        'facet_results_model': filtered_facets_model,
+        'facet_results_derivative': filtered_facets_derivative,
+        'type_facets': {k: facets.get(k) for k in settings.TYPE_FACETS},
     }
     return render(request, 'search/facets.html', data)
