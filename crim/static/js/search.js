@@ -34,16 +34,20 @@ var attachFacetActions = function() {
     $('.facet-refine').on({
         'click': function(event) {
             qstr = window.location.search.replace("?", "");
+            // Replace %20 with + for consistent behavior
+            qstr = qstr.replace("%20", "+");
             var p = $(this).attr('name');
-            var v = $(this).attr('value');
+            var v = $(this).attr('value').replace(" ", "+");
             if ($(this).is(':checked')) {
-                qstr_add = "&" + p + "=" + v;
-                window.location.search = qstr + qstr_add;
+                new_qstr = qstr + "&" + p + "=" + v;
             } else {
-                console.log("Unchecked!");
-                qstr_remove = qstr.replace('&' + p + "=" + encodeURI(v), "");
-                console.log(qstr_remove);
-                window.location.search = qstr_remove;
+                new_qstr = qstr.replace('&' + p + "=" + encodeURI(v), "");
+            }
+            // Use ?q=* if we've cleared the last facet, but don't use the * otherwise
+            if (new_qstr == "q=") {
+                window.location.search = "?q=*";
+            } else {
+                window.location.search = new_qstr.replace("q=*&", "q=&");
             }
         }
     });
