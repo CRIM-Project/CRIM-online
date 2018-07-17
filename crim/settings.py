@@ -562,17 +562,17 @@ SEARCH_PARAM_MAP = {
 }
 
 DISPLAY_FACETS_OBSERVER = OrderedDict([
-    ('observer_s', ('observer', 'Observer')),
+    ('observer_s', ('observer', '')),
 ])
 
 DISPLAY_FACETS_MODEL = OrderedDict([
-    ('model_composer_s', ('model-composer', 'Composer of model')),
-    ('model_genre_s', ('model-genre', 'Genre of model')),
+    ('model_composer_s', ('model-composer', 'Composer')),
+    ('model_genre_s', ('model-genre', 'Genre')),
 ])
 
 DISPLAY_FACETS_DERIVATIVE = OrderedDict([
-    ('derivative_composer_s', ('derivative-composer', 'Composer of derivative')),
-    ('derivative_genre_s', ('derivative-genre', 'Genre of derivative')),
+    ('derivative_composer_s', ('derivative-composer', 'Composer')),
+    ('derivative_genre_s', ('derivative-genre', 'Genre')),
 ])
 
 TYPE_FACETS = (
