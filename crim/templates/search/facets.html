@@ -97,6 +97,62 @@
             {% endif %}
           </ul>
         {% endif %}
+        {% if type_facets.rt_tm_b.true %}
+          <h4>Mechanical transformation</h4>
+          <ul class="unstyled">
+            {% if not request.GET|dictkey:'rt_tm_snd_b' and not request.GET|dictkey:'rt_tm_minv_b' and not request.GET|dictkey:'rt_tm_retrograde_b' and not request.GET|dictkey:'rt_tm_ms_b' and not request.GET|dictkey:'rt_tm_transposed_b' and not request.GET|dictkey:'rt_tm_invertible_b' %}
+              <li>
+                <label class="checkbox">
+                  <input class="facet-refine" type="checkbox" name="rt-tm" value="true" />Any ({{ type_facets.rt_tm_b.true }})
+                </label>
+              </li>
+            {% endif %}
+            {% if request.GET|dictkey:'rt-tm' %}
+              {% if type_facets.rt_tm_snd_b.true %}
+                <li>
+                  <label class="checkbox">
+                    <input class="facet-refine" type="checkbox" name="rt-tm-snd" value="true" />Sounding in different voice(s) ({% if type_facets.rt_tm_snd_b.true %}{{ type_facets.rt_tm_snd_b.true }}{% else %}0{% endif %})
+                  </label>
+                </li>
+              {% endif %}
+              {% if type_facets.rt_tm_minv_b.true %}
+                <li>
+                  <label class="checkbox">
+                    <input class="facet-refine" type="checkbox" name="rt-tm-minv" value="true" />Melodically inverted ({% if type_facets.rt_tm_minv_b.true %}{{ type_facets.rt_tm_minv_b.true }}{% else %}0{% endif %})
+                  </label>
+                </li>
+              {% endif %}
+              {% if type_facets.rt_tm_retrograde_b.true %}
+                <li>
+                  <label class="checkbox">
+                    <input class="facet-refine" type="checkbox" name="rt-tm-retrograde" value="true" />Retrograde ({% if type_facets.rt_tm_retrograde_b.true %}{{ type_facets.rt_tm_retrograde_b.true }}{% else %}0{% endif %})
+                  </label>
+                </li>
+              {% endif %}
+              {% if type_facets.rt_tm_ms_b.true %}
+                <li>
+                  <label class="checkbox">
+                    <input class="facet-refine" type="checkbox" name="rt-tm-ms" value="true" />Metrically shifted ({% if type_facets.rt_tm_ms_b.true %}{{ type_facets.rt_tm_ms_b.true }}{% else %}0{% endif %})
+                  </label>
+                </li>
+              {% endif %}
+              {% if type_facets.rt_tm_transposed_b.true %}
+                <li>
+                  <label class="checkbox">
+                    <input class="facet-refine" type="checkbox" name="rt-tm-transposed" value="true" />Transposed ({% if type_facets.rt_tm_transposed_b.true %}{{ type_facets.rt_tm_transposed_b.true }}{% else %}0{% endif %})
+                  </label>
+                </li>
+              {% endif %}
+              {% if type_facets.rt_tm_invertible_b.true %}
+                <li>
+                  <label class="checkbox">
+                    <input class="facet-refine" type="checkbox" name="rt-tm-invertible" value="true" />Invertible ({% if type_facets.rt_tm_invertible_b.true %}{{ type_facets.rt_tm_invertible_b.true }}{% else %}0{% endif %})
+                  </label>
+                </li>
+              {% endif %}
+            {% endif %}
+          </ul>
+        {% endif %}
       </div>
     </div>
     <div class="accordion-heading">
