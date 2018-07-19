@@ -35,9 +35,9 @@ var attachFacetActions = function() {
         'click': function(event) {
             qstr = window.location.search.replace("?", "");
             // Replace %20 with + for consistent behavior
-            qstr = qstr.replace("%20", "+");
+            qstr = qstr.replace(/\%20/g, "+");
             var p = $(this).attr('name');
-            var v = $(this).attr('value').replace(" ", "+");
+            var v = $(this).attr('value').replace(/\ /g, "+");
             if ($(this).is(':checked')) {
                 new_qstr = qstr + "&" + p + "=" + v;
             } else {
