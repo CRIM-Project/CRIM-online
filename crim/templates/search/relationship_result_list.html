@@ -1,18 +1,16 @@
 {% load bootstrap_pagination %}
-<!-- {% load get_string %} -->
 
 <ul>
-{% for relationship in relationship_results.object_list %}
-  <li>
-  <a href="/relationship/{{ relationship.id }}">&lt;R{{ relationship.id }}&gt; {% if relationship.model_mass_s %}{{ relationship.model_mass_s }}: {% endif %}{{ relationship.model_title_s }} &rarr; {% if relationship.derivative_mass_s %}{{ relationship.derivative_mass_s }}: {% endif %}{{ relationship.derivative_title_s }} ({{ relationship.observer_s }})</a>
-  {# include "relationship/relationship_expanded.html" #}
-  </li>
-{% endfor %}
-
+  {% for relationship in relationship_results.object_list %}
+    <li>
+      <a href="/relationship/{{ relationship.id }}">&lt;R{{ relationship.id }}&gt; {% if relationship.model_mass_s %}{{ relationship.model_mass_s }}: {% endif %}{{ relationship.model_title_s }} &rarr; {% if relationship.derivative_mass_s %}{{ relationship.derivative_mass_s }}: {% endif %}{{ relationship.derivative_title_s }} ({{ relationship.observer_s }})</a>
+      {# include "relationship/relationship_expanded.html" #}
+    </li>
+  {% endfor %}
 </ul>
 
 {% bootstrap_paginate relationship_results range=10 url_param_name="relationship_page" %}
 
 <script type="text/javascript">
-    attachPagerActions();
+  attachPagerActions();
 </script>
