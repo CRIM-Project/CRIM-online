@@ -67,7 +67,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-rt-accordion" href="#collapse_rt">Relationship type</a>
     </div>
-    <div id="collapse_rt" class="accordion-body collapse {% if request.GET|dictkey:'rt-q' or request.GET|dictkey:'rt-tm' or request.GET|dictkey:'rt-tnm' or request.GET|dictkey:'rt-nm' or request.GET|dictkey:'rt-om' %}in{% endif %}">
+    <div id="collapse_rt" class="accordion-body collapse in {# if request.GET|dictkey:'rt-q' or request.GET|dictkey:'rt-tm' or request.GET|dictkey:'rt-tnm' or request.GET|dictkey:'rt-nm' or request.GET|dictkey:'rt-om' #}">
       <div class="accordion-inner">
         {% if type_facets.rt_q_b.true and request.GET|dictkey:'rt-q' %}
           <h4>Quotation</h4>
