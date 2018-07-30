@@ -24,21 +24,21 @@
     {% if model_mt_int_c35.true %}
     <li>
       <label class="checkbox" for="model_mt_int_c35">
-        <input type="checkbox" class="model_mt_int" id="model_mt_int_c35" name="model-mt-int-35" value="true" />Chained 3 and 5 ({{ model_mt_int_c35.true }})
+        <input type="checkbox" class="model_mt_int" id="model_mt_int_c35" name="model-mt-int-c35" value="true" />Chained 3 and 5 ({{ model_mt_int_c35.true }})
       </label>
     </li>
     {% endif %}
     {% if model_mt_int_c83.true %}
     <li>
       <label class="checkbox" for="model_mt_int_c83">
-        <input type="checkbox" class="model_mt_int" id="model_mt_int_83" name="model-mt-int-83" value="true" />Chained 8 and 3 ({{ model_mt_int_c83.true }})
+        <input type="checkbox" class="model_mt_int" id="model_mt_int_c83" name="model-mt-int-c83" value="true" />Chained 8 and 3 ({{ model_mt_int_c83.true }})
       </label>
     </li>
     {% endif %}
     {% if model_mt_int_c65.true %}
     <li>
       <label class="checkbox" for="model_mt_int_c65">
-        <input type="checkbox" class="model_mt_int" id="model_mt_int_65" name="model-mt-int-65" value="true" />Chained 6 and 5 ({{ model_mt_int_c65.true }})
+        <input type="checkbox" class="model_mt_int" id="model_mt_int_c65" name="model-mt-int-c65" value="true" />Chained 6 and 5 ({{ model_mt_int_c65.true }})
       </label>
     </li>
     {% endif %}
@@ -51,9 +51,9 @@
     if ($('#model_mt_int').is(':checked')) {
       $('#model_mt_int_p6').prop('checked', false);
       $('#model_mt_int_p3').prop('checked', false);
-      $('#model_mt_int_35').prop('checked', false);
-      $('#model_mt_int_83').prop('checked', false);
-      $('#model_mt_int_65').prop('checked', false);
+      $('#model_mt_int_c35').prop('checked', false);
+      $('#model_mt_int_c83').prop('checked', false);
+      $('#model_mt_int_c65').prop('checked', false);
       $('.model_mt_cf').prop('checked', false);
       $('.model_mt_sog').prop('checked', false);
       $('.model_mt_csog').prop('checked', false);
@@ -99,8 +99,8 @@
       $('.model_mt_fp').prop('checked', false);
     }
   });
-  $('#model_mt_int_35').change (function () {
-    if ($('#model_mt_int_35').is(':checked')) {
+  $('#model_mt_int_c35').change (function () {
+    if ($('#model_mt_int_c35').is(':checked')) {
       $('#model_mt_int').prop('checked', false);
       $('.model_mt_cf').prop('checked', false);
       $('.model_mt_sog').prop('checked', false);
@@ -115,8 +115,8 @@
       $('.model_mt_fp').prop('checked', false);
     }
   });
-  $('#model_mt_int_83').change (function () {
-    if ($('#model_mt_int_83').is(':checked')) {
+  $('#model_mt_int_c83').change (function () {
+    if ($('#model_mt_int_c83').is(':checked')) {
       $('#model_mt_int').prop('checked', false);
       $('.model_mt_cf').prop('checked', false);
       $('.model_mt_sog').prop('checked', false);
@@ -131,8 +131,8 @@
       $('.model_mt_fp').prop('checked', false);
     }
   });
-  $('#model_mt_int_65').change (function () {
-    if ($('#model_mt_int_65').is(':checked')) {
+  $('#model_mt_int_c65').change (function () {
+    if ($('#model_mt_int_c65').is(':checked')) {
       $('#model_mt_int').prop('checked', false);
       $('.model_mt_cf').prop('checked', false);
       $('.model_mt_sog').prop('checked', false);
