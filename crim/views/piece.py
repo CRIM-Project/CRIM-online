@@ -67,7 +67,7 @@ class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
 class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         data['show_relationships'] = True
-        # Sort roles alphabetically by role type
+        # Sort roles alphabetically by role type; if no role, put at end
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         template_names = ['piece/piece_detail.html']
