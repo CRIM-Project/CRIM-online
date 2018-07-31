@@ -31,8 +31,9 @@ class CRIMRelationship(models.Model):
         related_name='observations_as_derivative',
     )
     # These next two fields are redundant, but make it easier
-    # to access all pieces which have relationships with a given
-    # piece.
+    # to access all relationships associated with a piece using
+    # a reverse lookup.  Removing these fields will make the
+    # piece/xxx/relationship template not work.
     model_piece = models.ForeignKey(
         'CRIMPiece',
         on_delete=models.CASCADE,
