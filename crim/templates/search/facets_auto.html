@@ -1,70 +1,1008 @@
 <div class="accordion-heading">
   <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-model-mt-accordion" href="#collapse-model-mt">Model musical type</a>
 </div>
-<div id="collapse-model-mt" class="accordion-body collapse in {# if request.GET|dictkey:'mt-cf' or request.GET|dictkey:'mt-sog' or request.GET|dictkey:'mt-csog' or request.GET|dictkey:'mt-cd' or request.GET|dictkey:'mt-fg' or request.GET|dictkey:'mt-pe' or request.GET|dictkey:'mt-id' or request.GET|dictkey:'mt-nid' or request.GET|dictkey:'mt-hr' or request.GET|dictkey:'mt-cad' or request.GET|dictkey:'mt-int' or request.GET|dictkey:'mt-fp' #}">
+<div id="collapse-model-mt" class="accordion-body collapse {% if request.GET|dictkey:'model-mt-cf' or request.GET|dictkey:'model-mt-sog' or request.GET|dictkey:'model-mt-csog' or request.GET|dictkey:'model-mt-cd' or request.GET|dictkey:'model-mt-fg' or request.GET|dictkey:'model-mt-pe' or request.GET|dictkey:'model-mt-id' or request.GET|dictkey:'model-mt-nid' or request.GET|dictkey:'model-mt-hr' or request.GET|dictkey:'model-mt-cad' or request.GET|dictkey:'model-mt-int' or request.GET|dictkey:'model-mt-fp' %}in{% endif %}">
   <div class="accordion-inner">
-    {% if type_facets.mt_cf_b.true and request.GET|dictkey:'mt-cf' %}
+    {% if type_facets.model_mt_cf_b.true and request.GET|dictkey:'model-mt-cf' %}
       <h4>Cantus firmus</h4>
-    {% elif type_facets.mt_sog_b.true and request.GET|dictkey:'mt-sog' %}
+    {% elif type_facets.model_mt_sog_b.true and request.GET|dictkey:'model-mt-sog' %}
       <h4>Soggetto</h4>
-    {% elif type_facets.mt_csog_b.true and request.GET|dictkey:'mt-csog' %}
+    {% elif type_facets.model_mt_csog_b.true and request.GET|dictkey:'model-mt-csog' %}
       <h4>Counter-soggetto</h4>
-    {% elif type_facets.mt_cd_b.true and request.GET|dictkey:'mt-cd' %}
+    {% elif type_facets.model_mt_cd_b.true and request.GET|dictkey:'model-mt-cd' %}
       <h4>Contrapuntal duo</h4>
-    {% elif type_facets.mt_fg_b.true and request.GET|dictkey:'mt-fg' %}
+    {% elif type_facets.model_mt_fg_b.true and request.GET|dictkey:'model-mt-fg' %}
       <h4>Fuga</h4>
-    {% elif type_facets.mt_pe_b.true and request.GET|dictkey:'mt-pe' %}
+    {% elif type_facets.model_mt_pe_b.true and request.GET|dictkey:'model-mt-pe' %}
       <h4>Periodic entry</h4>
-    {% elif type_facets.mt_id_b.true and request.GET|dictkey:'mt-id' %}
+    {% elif type_facets.model_mt_id_b.true and request.GET|dictkey:'model-mt-id' %}
       <h4>Imitative duo</h4>
-    {% elif type_facets.mt_nid_b.true and request.GET|dictkey:'mt-nid' %}
+    {% elif type_facets.model_mt_nid_b.true and request.GET|dictkey:'model-mt-nid' %}
       <h4>Non-imitative duo</h4>
-    {% elif type_facets.mt_hr_b.true and request.GET|dictkey:'mt-hr' %}
+    {% elif type_facets.model_mt_hr_b.true and request.GET|dictkey:'model-mt-hr' %}
       <h4>Homorhythm</h4>
-    {% elif type_facets.mt_cad_b.true and request.GET|dictkey:'mt-cad' %}
+    {% elif type_facets.model_mt_cad_b.true and request.GET|dictkey:'model-mt-cad' %}
       <h4>Cadence</h4>
-    {% elif type_facets.mt_int_b.true and request.GET|dictkey:'mt-int' %}
+    {% elif type_facets.model_mt_int_b.true and request.GET|dictkey:'model-mt-int' %}
       <h4>Interval pattern</h4>
-    {% elif type_facets.mt_fp_b.true and request.GET|dictkey:'mt-fp' %}
+    {% elif type_facets.model_mt_fp_b.true and request.GET|dictkey:'model-mt-fp' %}
       <h4>Form and process</h4>
     {% else %}
       <h4></h4>
     {% endif %}
-
+    <ul class="unstyled">
+      {% if type_facets.model_mt_cf_b.true %}
+        {% if not request.GET|dictkey:'model-mt-cf-dur' and not request.GET|dictkey:'model-mt-cf-mel' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-cf" value="true" />{% if request.GET|dictkey:'model-mt-cf' %}Any{% else %}Cantus firmus{% endif %} ({{ type_facets.model_mt_cf_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-cf' %}
+          {% if type_facets.model_mt_cf_dur_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-cf-dur" value="true" />Durations only ({% if type_facets.model_mt_cf_dur_b.true %}{{ type_facets.model_mt_cf_dur_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_cf_mel_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-cf-mel" value="true" />Intervals only ({% if type_facets.model_mt_cf_mel_b.true %}{{ type_facets.model_mt_cf_mel_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_sog_b.true %}
+        {% if not request.GET|dictkey:'model-mt-sog-dur' and not request.GET|dictkey:'model-mt-sog-mel' and not request.GET|dictkey:'model-mt-sog-ostinato' and not request.GET|dictkey:'model-mt-sog-periodic' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-sog" value="true" />{% if request.GET|dictkey:'model-mt-sog' %}Any{% else %}Soggetto{% endif %} ({{ type_facets.model_mt_sog_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-sog' %}
+          {% if type_facets.model_mt_sog_dur_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-sog-dur" value="true" />Durations only ({% if type_facets.model_mt_sog_dur_b.true %}{{ type_facets.model_mt_sog_dur_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_sog_mel_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-sog-mel" value="true" />Intervals only ({% if type_facets.model_mt_sog_mel_b.true %}{{ type_facets.model_mt_sog_mel_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_sog_ostinato_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-sog-ostinato" value="true" />Ostinato ({% if type_facets.model_mt_sog_ostinato_b.true %}{{ type_facets.model_mt_sog_ostinato_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_sog_periodic_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-sog-periodic" value="true" />Periodic ({% if type_facets.model_mt_sog_periodic_b.true %}{{ type_facets.model_mt_sog_periodic_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_csog_b.true %}
+        {% if not request.GET|dictkey:'model-mt-csog-dur' and not request.GET|dictkey:'model-mt-csog-mel' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-csog" value="true" />{% if request.GET|dictkey:'model-mt-csog' %}Any{% else %}Counter-soggetto{% endif %} ({{ type_facets.model_mt_csog_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-csog' %}
+          {% if type_facets.model_mt_csog_dur_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-csog-dur" value="true" />Durations only ({% if type_facets.model_mt_csog_dur_b.true %}{{ type_facets.model_mt_csog_dur_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_csog_mel_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-csog-mel" value="true" />Intervals only ({% if type_facets.model_mt_csog_mel_b.true %}{{ type_facets.model_mt_csog_mel_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_cd_b.true %}
+        {% if true %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-cd" value="true" />{% if request.GET|dictkey:'model-mt-cd' %}Any{% else %}Contrapuntal duo{% endif %} ({{ type_facets.model_mt_cd_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-cd' %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_fg_b.true %}
+        {% if not request.GET|dictkey:'model-mt-fg-periodic' and not request.GET|dictkey:'model-mt-fg-strict' and not request.GET|dictkey:'model-mt-fg-flexed' and not request.GET|dictkey:'model-mt-fg-sequential' and not request.GET|dictkey:'model-mt-fg-inverted' and not request.GET|dictkey:'model-mt-fg-retrograde' and not request.GET|dictkey:'model-mt-fg-int' and not request.GET|dictkey:'model-mt-fg-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-fg" value="true" />{% if request.GET|dictkey:'model-mt-fg' %}Any{% else %}Fuga{% endif %} ({{ type_facets.model_mt_fg_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-fg' %}
+          {% if type_facets.model_mt_fg_periodic_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-periodic" value="true" />Periodic ({% if type_facets.model_mt_fg_periodic_b.true %}{{ type_facets.model_mt_fg_periodic_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-strict" value="true" />Strict ({% if type_facets.model_mt_fg_strict_b.true %}{{ type_facets.model_mt_fg_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-flexed" value="true" />Flexed ({% if type_facets.model_mt_fg_flexed_b.true %}{{ type_facets.model_mt_fg_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-sequential" value="true" />Sequential ({% if type_facets.model_mt_fg_sequential_b.true %}{{ type_facets.model_mt_fg_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_inverted_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-inverted" value="true" />Inverted ({% if type_facets.model_mt_fg_inverted_b.true %}{{ type_facets.model_mt_fg_inverted_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_retrograde_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-retrograde" value="true" />Retrograde ({% if type_facets.model_mt_fg_retrograde_b.true %}{{ type_facets.model_mt_fg_retrograde_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_fg_int_b.true %}{{ type_facets.model_mt_fg_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_fg_tint_b.true %}{{ type_facets.model_mt_fg_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_pe_b.true %}
+        {% if not request.GET|dictkey:'model-mt-pe-strict' and not request.GET|dictkey:'model-mt-pe-flexed' and not request.GET|dictkey:'model-mt-pe-flt' and not request.GET|dictkey:'model-mt-pe-sequential' and not request.GET|dictkey:'model-mt-pe-added' and not request.GET|dictkey:'model-mt-pe-invertible' and not request.GET|dictkey:'model-mt-pe-int' and not request.GET|dictkey:'model-mt-pe-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-pe" value="true" />{% if request.GET|dictkey:'model-mt-pe' %}Any{% else %}Periodic entry{% endif %} ({{ type_facets.model_mt_pe_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-pe' %}
+          {% if type_facets.model_mt_pe_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-strict" value="true" />Strict ({% if type_facets.model_mt_pe_strict_b.true %}{{ type_facets.model_mt_pe_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-flexed" value="true" />Flexed ({% if type_facets.model_mt_pe_flexed_b.true %}{{ type_facets.model_mt_pe_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_flt_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-flt" value="true" />Flexed, tonal ({% if type_facets.model_mt_pe_flt_b.true %}{{ type_facets.model_mt_pe_flt_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-sequential" value="true" />Sequential ({% if type_facets.model_mt_pe_sequential_b.true %}{{ type_facets.model_mt_pe_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_added_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-added" value="true" />Added ({% if type_facets.model_mt_pe_added_b.true %}{{ type_facets.model_mt_pe_added_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_invertible_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-invertible" value="true" />Invertible ({% if type_facets.model_mt_pe_invertible_b.true %}{{ type_facets.model_mt_pe_invertible_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_pe_int_b.true %}{{ type_facets.model_mt_pe_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_pe_tint_b.true %}{{ type_facets.model_mt_pe_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_id_b.true %}
+        {% if not request.GET|dictkey:'model-mt-id-strict' and not request.GET|dictkey:'model-mt-id-flexed' and not request.GET|dictkey:'model-mt-id-flt' and not request.GET|dictkey:'model-mt-id-invertible' and not request.GET|dictkey:'model-mt-id-int' and not request.GET|dictkey:'model-mt-id-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-id" value="true" />{% if request.GET|dictkey:'model-mt-id' %}Any{% else %}Imitative duo{% endif %} ({{ type_facets.model_mt_id_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-id' %}
+          {% if type_facets.model_mt_id_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-strict" value="true" />Strict ({% if type_facets.model_mt_id_strict_b.true %}{{ type_facets.model_mt_id_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_id_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-flexed" value="true" />Flexed ({% if type_facets.model_mt_id_flexed_b.true %}{{ type_facets.model_mt_id_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_id_flt_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-flt" value="true" />Flexed, tonal ({% if type_facets.model_mt_id_flt_b.true %}{{ type_facets.model_mt_id_flt_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_id_invertible_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-invertible" value="true" />Invertible ({% if type_facets.model_mt_id_invertible_b.true %}{{ type_facets.model_mt_id_invertible_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_id_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_id_int_b.true %}{{ type_facets.model_mt_id_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_id_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_id_tint_b.true %}{{ type_facets.model_mt_id_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_nid_b.true %}
+        {% if not request.GET|dictkey:'model-mt-nid-strict' and not request.GET|dictkey:'model-mt-nid-flexed' and not request.GET|dictkey:'model-mt-nid-flt' and not request.GET|dictkey:'model-mt-nid-sequential' and not request.GET|dictkey:'model-mt-nid-invertible' and not request.GET|dictkey:'model-mt-nid-int' and not request.GET|dictkey:'model-mt-nid-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-nid" value="true" />{% if request.GET|dictkey:'model-mt-nid' %}Any{% else %}Non-imitative duo{% endif %} ({{ type_facets.model_mt_nid_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-nid' %}
+          {% if type_facets.model_mt_nid_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-strict" value="true" />Strict ({% if type_facets.model_mt_nid_strict_b.true %}{{ type_facets.model_mt_nid_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-flexed" value="true" />Flexed ({% if type_facets.model_mt_nid_flexed_b.true %}{{ type_facets.model_mt_nid_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_flt_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-flt" value="true" />Flexed, tonal ({% if type_facets.model_mt_nid_flt_b.true %}{{ type_facets.model_mt_nid_flt_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-sequential" value="true" />Sequential ({% if type_facets.model_mt_nid_sequential_b.true %}{{ type_facets.model_mt_nid_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_invertible_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-invertible" value="true" />Invertible ({% if type_facets.model_mt_nid_invertible_b.true %}{{ type_facets.model_mt_nid_invertible_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_nid_int_b.true %}{{ type_facets.model_mt_nid_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_nid_tint_b.true %}{{ type_facets.model_mt_nid_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_hr_b.true %}
+        {% if not request.GET|dictkey:'model-mt-hr-simple' and not request.GET|dictkey:'model-mt-hr-staggered' and not request.GET|dictkey:'model-mt-hr-sequential' and not request.GET|dictkey:'model-mt-hr-fauxbourdon' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-hr" value="true" />{% if request.GET|dictkey:'model-mt-hr' %}Any{% else %}Homorhythm{% endif %} ({{ type_facets.model_mt_hr_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-hr' %}
+          {% if type_facets.model_mt_hr_simple_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-hr-simple" value="true" />Simple ({% if type_facets.model_mt_hr_simple_b.true %}{{ type_facets.model_mt_hr_simple_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_hr_staggered_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-hr-staggered" value="true" />Staggered ({% if type_facets.model_mt_hr_staggered_b.true %}{{ type_facets.model_mt_hr_staggered_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_hr_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-hr-sequential" value="true" />Sequential ({% if type_facets.model_mt_hr_sequential_b.true %}{{ type_facets.model_mt_hr_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_hr_fauxbourdon_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-hr-fauxbourdon" value="true" />Fauxbourdon ({% if type_facets.model_mt_hr_fauxbourdon_b.true %}{{ type_facets.model_mt_hr_fauxbourdon_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_cad_b.true %}
+        {% if true %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-cad" value="true" />{% if request.GET|dictkey:'model-mt-cad' %}Any{% else %}Cadence{% endif %} ({{ type_facets.model_mt_cad_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-cad' %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_int_b.true %}
+        {% if not request.GET|dictkey:'model-mt-int-p6' and not request.GET|dictkey:'model-mt-int-p3' and not request.GET|dictkey:'model-mt-int-c35' and not request.GET|dictkey:'model-mt-int-c83' and not request.GET|dictkey:'model-mt-int-c65' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-int" value="true" />{% if request.GET|dictkey:'model-mt-int' %}Any{% else %}Interval pattern{% endif %} ({{ type_facets.model_mt_int_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-int' %}
+          {% if type_facets.model_mt_int_p6_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-int-p6" value="true" />Parallel 6 ({% if type_facets.model_mt_int_p6_b.true %}{{ type_facets.model_mt_int_p6_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_int_p3_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-int-p3" value="true" />Parallel 3 (or 10) ({% if type_facets.model_mt_int_p3_b.true %}{{ type_facets.model_mt_int_p3_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_int_c35_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-int-c35" value="true" />Chained 3 and 5 ({% if type_facets.model_mt_int_c35_b.true %}{{ type_facets.model_mt_int_c35_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_int_c83_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-int-c83" value="true" />Chained 8 and 3 ({% if type_facets.model_mt_int_c83_b.true %}{{ type_facets.model_mt_int_c83_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_int_c65_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-int-c65" value="true" />Chained 6 and 5 ({% if type_facets.model_mt_int_c65_b.true %}{{ type_facets.model_mt_int_c65_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.model_mt_fp_b.true %}
+        {% if not request.GET|dictkey:'model-mt-fp-ir' and not request.GET|dictkey:'model-mt-fp-range' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="model-mt-fp" value="true" />{% if request.GET|dictkey:'model-mt-fp' %}Any{% else %}Form and process{% endif %} ({{ type_facets.model_mt_fp_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'model-mt-fp' %}
+          {% if type_facets.model_mt_fp_ir_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fp-ir" value="true" />Internal repetition ({% if type_facets.model_mt_fp_ir_b.true %}{{ type_facets.model_mt_fp_ir_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fp_range_s.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fp-range" value="true" />Range ({% if type_facets.model_mt_fp_range_s.true %}{{ type_facets.model_mt_fp_range_s.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </ul>
   </div>
 </div>
 <div class="accordion-heading">
   <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-derivative-mt-accordion" href="#collapse-derivative-mt">Derivative musical type</a>
 </div>
-<div id="collapse-derivative-mt" class="accordion-body collapse in {# if request.GET|dictkey:'mt-cf' or request.GET|dictkey:'mt-sog' or request.GET|dictkey:'mt-csog' or request.GET|dictkey:'mt-cd' or request.GET|dictkey:'mt-fg' or request.GET|dictkey:'mt-pe' or request.GET|dictkey:'mt-id' or request.GET|dictkey:'mt-nid' or request.GET|dictkey:'mt-hr' or request.GET|dictkey:'mt-cad' or request.GET|dictkey:'mt-int' or request.GET|dictkey:'mt-fp' #}">
+<div id="collapse-derivative-mt" class="accordion-body collapse {% if request.GET|dictkey:'derivative-mt-cf' or request.GET|dictkey:'derivative-mt-sog' or request.GET|dictkey:'derivative-mt-csog' or request.GET|dictkey:'derivative-mt-cd' or request.GET|dictkey:'derivative-mt-fg' or request.GET|dictkey:'derivative-mt-pe' or request.GET|dictkey:'derivative-mt-id' or request.GET|dictkey:'derivative-mt-nid' or request.GET|dictkey:'derivative-mt-hr' or request.GET|dictkey:'derivative-mt-cad' or request.GET|dictkey:'derivative-mt-int' or request.GET|dictkey:'derivative-mt-fp' %}in{% endif %}">
   <div class="accordion-inner">
-    {% if type_facets.mt_cf_b.true and request.GET|dictkey:'mt-cf' %}
+    {% if type_facets.derivative_mt_cf_b.true and request.GET|dictkey:'derivative-mt-cf' %}
       <h4>Cantus firmus</h4>
-    {% elif type_facets.mt_sog_b.true and request.GET|dictkey:'mt-sog' %}
+    {% elif type_facets.derivative_mt_sog_b.true and request.GET|dictkey:'derivative-mt-sog' %}
       <h4>Soggetto</h4>
-    {% elif type_facets.mt_csog_b.true and request.GET|dictkey:'mt-csog' %}
+    {% elif type_facets.derivative_mt_csog_b.true and request.GET|dictkey:'derivative-mt-csog' %}
       <h4>Counter-soggetto</h4>
-    {% elif type_facets.mt_cd_b.true and request.GET|dictkey:'mt-cd' %}
+    {% elif type_facets.derivative_mt_cd_b.true and request.GET|dictkey:'derivative-mt-cd' %}
       <h4>Contrapuntal duo</h4>
-    {% elif type_facets.mt_fg_b.true and request.GET|dictkey:'mt-fg' %}
+    {% elif type_facets.derivative_mt_fg_b.true and request.GET|dictkey:'derivative-mt-fg' %}
       <h4>Fuga</h4>
-    {% elif type_facets.mt_pe_b.true and request.GET|dictkey:'mt-pe' %}
+    {% elif type_facets.derivative_mt_pe_b.true and request.GET|dictkey:'derivative-mt-pe' %}
       <h4>Periodic entry</h4>
-    {% elif type_facets.mt_id_b.true and request.GET|dictkey:'mt-id' %}
+    {% elif type_facets.derivative_mt_id_b.true and request.GET|dictkey:'derivative-mt-id' %}
       <h4>Imitative duo</h4>
-    {% elif type_facets.mt_nid_b.true and request.GET|dictkey:'mt-nid' %}
+    {% elif type_facets.derivative_mt_nid_b.true and request.GET|dictkey:'derivative-mt-nid' %}
       <h4>Non-imitative duo</h4>
-    {% elif type_facets.mt_hr_b.true and request.GET|dictkey:'mt-hr' %}
+    {% elif type_facets.derivative_mt_hr_b.true and request.GET|dictkey:'derivative-mt-hr' %}
       <h4>Homorhythm</h4>
-    {% elif type_facets.mt_cad_b.true and request.GET|dictkey:'mt-cad' %}
+    {% elif type_facets.derivative_mt_cad_b.true and request.GET|dictkey:'derivative-mt-cad' %}
       <h4>Cadence</h4>
-    {% elif type_facets.mt_int_b.true and request.GET|dictkey:'mt-int' %}
+    {% elif type_facets.derivative_mt_int_b.true and request.GET|dictkey:'derivative-mt-int' %}
       <h4>Interval pattern</h4>
-    {% elif type_facets.mt_fp_b.true and request.GET|dictkey:'mt-fp' %}
+    {% elif type_facets.derivative_mt_fp_b.true and request.GET|dictkey:'derivative-mt-fp' %}
       <h4>Form and process</h4>
     {% else %}
       <h4></h4>
     {% endif %}
-
+    <ul class="unstyled">
+      {% if type_facets.derivative_mt_cf_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-cf-dur' and not request.GET|dictkey:'derivative-mt-cf-mel' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-cf" value="true" />{% if request.GET|dictkey:'derivative-mt-cf' %}Any{% else %}Cantus firmus{% endif %} ({{ type_facets.derivative_mt_cf_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-cf' %}
+          {% if type_facets.derivative_mt_cf_dur_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-cf-dur" value="true" />Durations only ({% if type_facets.derivative_mt_cf_dur_b.true %}{{ type_facets.derivative_mt_cf_dur_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_cf_mel_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-cf-mel" value="true" />Intervals only ({% if type_facets.derivative_mt_cf_mel_b.true %}{{ type_facets.derivative_mt_cf_mel_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_sog_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-sog-dur' and not request.GET|dictkey:'derivative-mt-sog-mel' and not request.GET|dictkey:'derivative-mt-sog-ostinato' and not request.GET|dictkey:'derivative-mt-sog-periodic' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-sog" value="true" />{% if request.GET|dictkey:'derivative-mt-sog' %}Any{% else %}Soggetto{% endif %} ({{ type_facets.derivative_mt_sog_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-sog' %}
+          {% if type_facets.derivative_mt_sog_dur_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-dur" value="true" />Durations only ({% if type_facets.derivative_mt_sog_dur_b.true %}{{ type_facets.derivative_mt_sog_dur_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_sog_mel_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-mel" value="true" />Intervals only ({% if type_facets.derivative_mt_sog_mel_b.true %}{{ type_facets.derivative_mt_sog_mel_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_sog_ostinato_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-ostinato" value="true" />Ostinato ({% if type_facets.derivative_mt_sog_ostinato_b.true %}{{ type_facets.derivative_mt_sog_ostinato_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_sog_periodic_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-periodic" value="true" />Periodic ({% if type_facets.derivative_mt_sog_periodic_b.true %}{{ type_facets.derivative_mt_sog_periodic_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_csog_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-csog-dur' and not request.GET|dictkey:'derivative-mt-csog-mel' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-csog" value="true" />{% if request.GET|dictkey:'derivative-mt-csog' %}Any{% else %}Counter-soggetto{% endif %} ({{ type_facets.derivative_mt_csog_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-csog' %}
+          {% if type_facets.derivative_mt_csog_dur_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-csog-dur" value="true" />Durations only ({% if type_facets.derivative_mt_csog_dur_b.true %}{{ type_facets.derivative_mt_csog_dur_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_csog_mel_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-csog-mel" value="true" />Intervals only ({% if type_facets.derivative_mt_csog_mel_b.true %}{{ type_facets.derivative_mt_csog_mel_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_cd_b.true %}
+        {% if true %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-cd" value="true" />{% if request.GET|dictkey:'derivative-mt-cd' %}Any{% else %}Contrapuntal duo{% endif %} ({{ type_facets.derivative_mt_cd_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-cd' %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_fg_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-fg-periodic' and not request.GET|dictkey:'derivative-mt-fg-strict' and not request.GET|dictkey:'derivative-mt-fg-flexed' and not request.GET|dictkey:'derivative-mt-fg-sequential' and not request.GET|dictkey:'derivative-mt-fg-inverted' and not request.GET|dictkey:'derivative-mt-fg-retrograde' and not request.GET|dictkey:'derivative-mt-fg-int' and not request.GET|dictkey:'derivative-mt-fg-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-fg" value="true" />{% if request.GET|dictkey:'derivative-mt-fg' %}Any{% else %}Fuga{% endif %} ({{ type_facets.derivative_mt_fg_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-fg' %}
+          {% if type_facets.derivative_mt_fg_periodic_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-periodic" value="true" />Periodic ({% if type_facets.derivative_mt_fg_periodic_b.true %}{{ type_facets.derivative_mt_fg_periodic_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-strict" value="true" />Strict ({% if type_facets.derivative_mt_fg_strict_b.true %}{{ type_facets.derivative_mt_fg_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-flexed" value="true" />Flexed ({% if type_facets.derivative_mt_fg_flexed_b.true %}{{ type_facets.derivative_mt_fg_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-sequential" value="true" />Sequential ({% if type_facets.derivative_mt_fg_sequential_b.true %}{{ type_facets.derivative_mt_fg_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_inverted_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-inverted" value="true" />Inverted ({% if type_facets.derivative_mt_fg_inverted_b.true %}{{ type_facets.derivative_mt_fg_inverted_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_retrograde_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-retrograde" value="true" />Retrograde ({% if type_facets.derivative_mt_fg_retrograde_b.true %}{{ type_facets.derivative_mt_fg_retrograde_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_fg_int_b.true %}{{ type_facets.derivative_mt_fg_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_fg_tint_b.true %}{{ type_facets.derivative_mt_fg_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_pe_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-pe-strict' and not request.GET|dictkey:'derivative-mt-pe-flexed' and not request.GET|dictkey:'derivative-mt-pe-flt' and not request.GET|dictkey:'derivative-mt-pe-sequential' and not request.GET|dictkey:'derivative-mt-pe-added' and not request.GET|dictkey:'derivative-mt-pe-invertible' and not request.GET|dictkey:'derivative-mt-pe-int' and not request.GET|dictkey:'derivative-mt-pe-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-pe" value="true" />{% if request.GET|dictkey:'derivative-mt-pe' %}Any{% else %}Periodic entry{% endif %} ({{ type_facets.derivative_mt_pe_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-pe' %}
+          {% if type_facets.derivative_mt_pe_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-strict" value="true" />Strict ({% if type_facets.derivative_mt_pe_strict_b.true %}{{ type_facets.derivative_mt_pe_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-flexed" value="true" />Flexed ({% if type_facets.derivative_mt_pe_flexed_b.true %}{{ type_facets.derivative_mt_pe_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_flt_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-flt" value="true" />Flexed, tonal ({% if type_facets.derivative_mt_pe_flt_b.true %}{{ type_facets.derivative_mt_pe_flt_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-sequential" value="true" />Sequential ({% if type_facets.derivative_mt_pe_sequential_b.true %}{{ type_facets.derivative_mt_pe_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_added_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-added" value="true" />Added ({% if type_facets.derivative_mt_pe_added_b.true %}{{ type_facets.derivative_mt_pe_added_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_invertible_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-invertible" value="true" />Invertible ({% if type_facets.derivative_mt_pe_invertible_b.true %}{{ type_facets.derivative_mt_pe_invertible_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_pe_int_b.true %}{{ type_facets.derivative_mt_pe_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_pe_tint_b.true %}{{ type_facets.derivative_mt_pe_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_id_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-id-strict' and not request.GET|dictkey:'derivative-mt-id-flexed' and not request.GET|dictkey:'derivative-mt-id-flt' and not request.GET|dictkey:'derivative-mt-id-invertible' and not request.GET|dictkey:'derivative-mt-id-int' and not request.GET|dictkey:'derivative-mt-id-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-id" value="true" />{% if request.GET|dictkey:'derivative-mt-id' %}Any{% else %}Imitative duo{% endif %} ({{ type_facets.derivative_mt_id_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-id' %}
+          {% if type_facets.derivative_mt_id_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-strict" value="true" />Strict ({% if type_facets.derivative_mt_id_strict_b.true %}{{ type_facets.derivative_mt_id_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_id_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-flexed" value="true" />Flexed ({% if type_facets.derivative_mt_id_flexed_b.true %}{{ type_facets.derivative_mt_id_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_id_flt_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-flt" value="true" />Flexed, tonal ({% if type_facets.derivative_mt_id_flt_b.true %}{{ type_facets.derivative_mt_id_flt_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_id_invertible_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-invertible" value="true" />Invertible ({% if type_facets.derivative_mt_id_invertible_b.true %}{{ type_facets.derivative_mt_id_invertible_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_id_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_id_int_b.true %}{{ type_facets.derivative_mt_id_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_id_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_id_tint_b.true %}{{ type_facets.derivative_mt_id_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_nid_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-nid-strict' and not request.GET|dictkey:'derivative-mt-nid-flexed' and not request.GET|dictkey:'derivative-mt-nid-flt' and not request.GET|dictkey:'derivative-mt-nid-sequential' and not request.GET|dictkey:'derivative-mt-nid-invertible' and not request.GET|dictkey:'derivative-mt-nid-int' and not request.GET|dictkey:'derivative-mt-nid-tint' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-nid" value="true" />{% if request.GET|dictkey:'derivative-mt-nid' %}Any{% else %}Non-imitative duo{% endif %} ({{ type_facets.derivative_mt_nid_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-nid' %}
+          {% if type_facets.derivative_mt_nid_strict_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-strict" value="true" />Strict ({% if type_facets.derivative_mt_nid_strict_b.true %}{{ type_facets.derivative_mt_nid_strict_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_flexed_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-flexed" value="true" />Flexed ({% if type_facets.derivative_mt_nid_flexed_b.true %}{{ type_facets.derivative_mt_nid_flexed_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_flt_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-flt" value="true" />Flexed, tonal ({% if type_facets.derivative_mt_nid_flt_b.true %}{{ type_facets.derivative_mt_nid_flt_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-sequential" value="true" />Sequential ({% if type_facets.derivative_mt_nid_sequential_b.true %}{{ type_facets.derivative_mt_nid_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_invertible_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-invertible" value="true" />Invertible ({% if type_facets.derivative_mt_nid_invertible_b.true %}{{ type_facets.derivative_mt_nid_invertible_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_nid_int_b.true %}{{ type_facets.derivative_mt_nid_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_nid_tint_b.true %}{{ type_facets.derivative_mt_nid_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_hr_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-hr-simple' and not request.GET|dictkey:'derivative-mt-hr-staggered' and not request.GET|dictkey:'derivative-mt-hr-sequential' and not request.GET|dictkey:'derivative-mt-hr-fauxbourdon' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-hr" value="true" />{% if request.GET|dictkey:'derivative-mt-hr' %}Any{% else %}Homorhythm{% endif %} ({{ type_facets.derivative_mt_hr_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-hr' %}
+          {% if type_facets.derivative_mt_hr_simple_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-hr-simple" value="true" />Simple ({% if type_facets.derivative_mt_hr_simple_b.true %}{{ type_facets.derivative_mt_hr_simple_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_hr_staggered_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-hr-staggered" value="true" />Staggered ({% if type_facets.derivative_mt_hr_staggered_b.true %}{{ type_facets.derivative_mt_hr_staggered_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_hr_sequential_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-hr-sequential" value="true" />Sequential ({% if type_facets.derivative_mt_hr_sequential_b.true %}{{ type_facets.derivative_mt_hr_sequential_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_hr_fauxbourdon_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-hr-fauxbourdon" value="true" />Fauxbourdon ({% if type_facets.derivative_mt_hr_fauxbourdon_b.true %}{{ type_facets.derivative_mt_hr_fauxbourdon_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_cad_b.true %}
+        {% if true %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-cad" value="true" />{% if request.GET|dictkey:'derivative-mt-cad' %}Any{% else %}Cadence{% endif %} ({{ type_facets.derivative_mt_cad_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-cad' %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_int_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-int-p6' and not request.GET|dictkey:'derivative-mt-int-p3' and not request.GET|dictkey:'derivative-mt-int-c35' and not request.GET|dictkey:'derivative-mt-int-c83' and not request.GET|dictkey:'derivative-mt-int-c65' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-int" value="true" />{% if request.GET|dictkey:'derivative-mt-int' %}Any{% else %}Interval pattern{% endif %} ({{ type_facets.derivative_mt_int_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-int' %}
+          {% if type_facets.derivative_mt_int_p6_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-int-p6" value="true" />Parallel 6 ({% if type_facets.derivative_mt_int_p6_b.true %}{{ type_facets.derivative_mt_int_p6_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_int_p3_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-int-p3" value="true" />Parallel 3 (or 10) ({% if type_facets.derivative_mt_int_p3_b.true %}{{ type_facets.derivative_mt_int_p3_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_int_c35_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-int-c35" value="true" />Chained 3 and 5 ({% if type_facets.derivative_mt_int_c35_b.true %}{{ type_facets.derivative_mt_int_c35_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_int_c83_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-int-c83" value="true" />Chained 8 and 3 ({% if type_facets.derivative_mt_int_c83_b.true %}{{ type_facets.derivative_mt_int_c83_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_int_c65_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-int-c65" value="true" />Chained 6 and 5 ({% if type_facets.derivative_mt_int_c65_b.true %}{{ type_facets.derivative_mt_int_c65_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      {% if type_facets.derivative_mt_fp_b.true %}
+        {% if not request.GET|dictkey:'derivative-mt-fp-ir' and not request.GET|dictkey:'derivative-mt-fp-range' %}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="derivative-mt-fp" value="true" />{% if request.GET|dictkey:'derivative-mt-fp' %}Any{% else %}Form and process{% endif %} ({{ type_facets.derivative_mt_fp_b.true }})
+            </label>
+          </li>
+        {% endif %}
+        {% if request.GET|dictkey:'derivative-mt-fp' %}
+          {% if type_facets.derivative_mt_fp_ir_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fp-ir" value="true" />Internal repetition ({% if type_facets.derivative_mt_fp_ir_b.true %}{{ type_facets.derivative_mt_fp_ir_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fp_range_s.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fp-range" value="true" />Range ({% if type_facets.derivative_mt_fp_range_s.true %}{{ type_facets.derivative_mt_fp_range_s.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </ul>
   </div>
 </div>

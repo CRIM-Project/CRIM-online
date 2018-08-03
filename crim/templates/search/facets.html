@@ -2,9 +2,9 @@
 <div class="accordion" id="facet-accordion">
   <div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-observer-accordion" href="#collapse_observer">Observer</a>
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-observer-accordion" href="#collapse-observer">Observer</a>
     </div>
-    <div id="collapse_observer" class="accordion-body collapse {% if request.GET|dictkey:'observer' %}in{% endif %}">
+    <div id="collapse-observer" class="accordion-body collapse {% if request.GET|dictkey:'observer' %}in{% endif %}">
       <div class="accordion-inner">
         {% for facet_block in facet_results_observer %}
           {% if facet_block.1 %}
@@ -23,9 +23,9 @@
       </div>
     </div>
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-model-accordion" href="#collapse_model">Model</a>
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-model-accordion" href="#collapse-model">Model</a>
     </div>
-    <div id="collapse_model" class="accordion-body collapse {% if request.GET|dictkey:'model-composer' or request.GET|dictkey:'model-genre' %}in{% endif %}">
+    <div id="collapse-model" class="accordion-body collapse {% if request.GET|dictkey:'model-composer' or request.GET|dictkey:'model-genre' %}in{% endif %}">
       <div class="accordion-inner">
         {% for facet_block in facet_results_model %}
           {% if facet_block.1 %}
@@ -44,9 +44,9 @@
       </div>
     </div>
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-derivative-accordion" href="#collapse_derivative">Derivative</a>
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-derivative-accordion" href="#collapse-derivative">Derivative</a>
     </div>
-    <div id="collapse_derivative" class="accordion-body collapse {% if request.GET|dictkey:'derivative-composer' or request.GET|dictkey:'derivative-genre' %}in{% endif %}">
+    <div id="collapse-derivative" class="accordion-body collapse {% if request.GET|dictkey:'derivative-composer' or request.GET|dictkey:'derivative-genre' %}in{% endif %}">
       <div class="accordion-inner">
         {% for facet_block in facet_results_derivative %}
           {% if facet_block.1 %}
@@ -67,7 +67,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-rt-accordion" href="#collapse-rt">Relationship type</a>
     </div>
-    <div id="collapse-rt" class="accordion-body collapse in {# if request.GET|dictkey:'rt-q' or request.GET|dictkey:'rt-tm' or request.GET|dictkey:'rt-tnm' or request.GET|dictkey:'rt-nm' or request.GET|dictkey:'rt-om' #}">
+    <div id="collapse-rt" class="accordion-body collapse {% if request.GET|dictkey:'rt-q' or request.GET|dictkey:'rt-tm' or request.GET|dictkey:'rt-tnm' or request.GET|dictkey:'rt-nm' or request.GET|dictkey:'rt-om' %}in{% endif %}">
       <div class="accordion-inner">
         {% if type_facets.rt_q_b.true and request.GET|dictkey:'rt-q' %}
           <h4>Quotation</h4>
@@ -241,180 +241,9 @@
         </ul>
       </div>
     </div>
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-model-mt-accordion" href="#collapse_model_mt">Model&rsquo;s musical type</a>
-    </div>
-    <div id="collapse_model_mt" class="accordion-body collapse">
-      <div class="accordion-inner">
-        {% if type_facets.model_mt_cf_b.true %}
-          <h4>Cantus firmus</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-cf-voices' and not request.GET|dictkey:'model-mt-cf-dur' and not request.GET|dictkey:'model-mt-cf-mel' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-cf" value="true" />Any ({{ type_facets.model_mt_cf_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_sog_b.true %}
-          <h4>Soggetto</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-sog-voices' and not request.GET|dictkey:'model-mt-sog-dur' and not request.GET|dictkey:'model-mt-sog-mel' and not request.GET|dictkey:'model-mt-sog-ostinato' and not request.GET|dictkey:'model-mt-sog-periodic' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-sog" value="true" />Any ({{ type_facets.model_mt_sog_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_csog_b.true %}
-          <h4>Counter-soggetto</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-csog-voices' and not request.GET|dictkey:'model-mt-csog-dur' and not request.GET|dictkey:'model-mt-csog-mel' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-csog" value="true" />Any ({{ type_facets.model_mt_csog_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_cd_b.true %}
-          <h4>Contrapuntal duo</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-cd-voices' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-cd" value="true" />Any ({{ type_facets.model_mt_cd_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_fg_b.true %}
-          <h4>Fuga</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-fg-voices' and not request.GET|dictkey:'model-mt-fg-periodic' and not request.GET|dictkey:'model-mt-fg-strict' and not request.GET|dictkey:'model-mt-fg-flexed' and not request.GET|dictkey:'model-mt-fg-sequential' and not request.GET|dictkey:'model-mt-fg-inverted' and not request.GET|dictkey:'model-mt-fg-retrograde' and not request.GET|dictkey:'model-mt-fg-int' and not request.GET|dictkey:'model-mt-fg-tint' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-fg" value="true" />Any ({{ type_facets.model_mt_fg_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_pe_b.true %}
-          <h4>Periodic entry</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-pe-voices' and not request.GET|dictkey:'model-mt-pe-strict' and not request.GET|dictkey:'model-mt-pe-flexed' and not request.GET|dictkey:'model-mt-pe-flt' and not request.GET|dictkey:'model-mt-pe-sequential' and not request.GET|dictkey:'model-mt-pe-added' and not request.GET|dictkey:'model-mt-pe-invertible' and not request.GET|dictkey:'model-mt-pe-int' and not request.GET|dictkey:'model-mt-pe-tint' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-pe" value="true" />Any ({{ type_facets.model_mt_pe_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_id_b.true %}
-          <h4>Imitative duo</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-id-voices' and not request.GET|dictkey:'model-mt-id-strict' and not request.GET|dictkey:'model-mt-id-flexed' and not request.GET|dictkey:'model-mt-id-flt' and not request.GET|dictkey:'model-mt-id-invertible' and not request.GET|dictkey:'model-mt-id-int' and not request.GET|dictkey:'model-mt-id-tint' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-id" value="true" />Any ({{ type_facets.model_mt_id_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_nid_b.true %}
-          <h4>Non-imitative duo</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-nid-voices' and not request.GET|dictkey:'model-mt-nid-strict' and not request.GET|dictkey:'model-mt-nid-flexed' and not request.GET|dictkey:'model-mt-nid-flt' and not request.GET|dictkey:'model-mt-nid-sequential' and not request.GET|dictkey:'model-mt-nid-invertible' and not request.GET|dictkey:'model-mt-nid-int' and not request.GET|dictkey:'model-mt-nid-tint' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-nid" value="true" />Any ({{ type_facets.model_mt_nid_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_hr_b.true %}
-          <h4>Homorhythm</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-hr-voices' and not request.GET|dictkey:'model-mt-hr-simple' and not request.GET|dictkey:'model-mt-hr-staggered' and not request.GET|dictkey:'model-mt-hr-sequential' and not request.GET|dictkey:'model-mt-hr-fauxbourdon' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-hr" value="true" />Any ({{ type_facets.model_mt_hr_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_cad_b.true %}
-          <h4>Cadence</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-cad-cantizans' and not request.GET|dictkey:'model-mt-cad-tenorizans' and not request.GET|dictkey:'model-mt-cad-type' and not request.GET|dictkey:'model-mt-cad-tone' and not request.GET|dictkey:'model-mt-cad-dtv' and not request.GET|dictkey:'model-mt-cad-dti' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-cad" value="true" />Any ({{ type_facets.model_mt_cad_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_int_b.true %}
-          <h4>Interval pattern</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-int-voices' and not request.GET|dictkey:'model-mt-int-p6' and not request.GET|dictkey:'model-mt-int-p3' and not request.GET|dictkey:'model-mt-int-c35' and not request.GET|dictkey:'model-mt-int-c83' and not request.GET|dictkey:'model-mt-int-c65' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-int" value="true" />Any ({{ type_facets.model_mt_int_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-        {% if type_facets.model_mt_fp_b.true %}
-          <h4>Form and process</h4>
-          <ul class="unstyled">
-            {% if not request.GET|dictkey:'model-mt-fp-comment' and not request.GET|dictkey:'model-mt-fp-ir' and not request.GET|dictkey:'model-mt-fp-range' %}
-              <li>
-                <label class="checkbox">
-                  <input class="facet-refine" type="checkbox" name="model-mt-fp" value="true" />Any ({{ type_facets.model_mt_fp_b.true }})
-                </label>
-              </li>
-            {% endif %}
-            {# #}
-          </ul>
-        {% endif %}
-      </div>
-    </div>
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-derivative-mt-accordion" href="#collapse_derivative_mt">Derivative&rsquo;s musical type</a>
-    </div>
-    <div id="collapse_derivative_mt" class="accordion-body collapse">
-      <div class="accordion-inner">
 
+    {% include "search/facets_auto.html" %}
 
-
-
-      </div>
-    </div>
   </div>
 </div>
 <script type="text/javascript">
