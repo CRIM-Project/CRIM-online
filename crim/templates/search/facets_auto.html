@@ -1,0 +1,70 @@
+<div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-model-mt-accordion" href="#collapse-model-mt">Model musical type</a>
+</div>
+<div id="collapse-model-mt" class="accordion-body collapse in {# if request.GET|dictkey:'mt-cf' or request.GET|dictkey:'mt-sog' or request.GET|dictkey:'mt-csog' or request.GET|dictkey:'mt-cd' or request.GET|dictkey:'mt-fg' or request.GET|dictkey:'mt-pe' or request.GET|dictkey:'mt-id' or request.GET|dictkey:'mt-nid' or request.GET|dictkey:'mt-hr' or request.GET|dictkey:'mt-cad' or request.GET|dictkey:'mt-int' or request.GET|dictkey:'mt-fp' #}">
+  <div class="accordion-inner">
+    {% if type_facets.mt_cf_b.true and request.GET|dictkey:'mt-cf' %}
+      <h4>Cantus firmus</h4>
+    {% elif type_facets.mt_sog_b.true and request.GET|dictkey:'mt-sog' %}
+      <h4>Soggetto</h4>
+    {% elif type_facets.mt_csog_b.true and request.GET|dictkey:'mt-csog' %}
+      <h4>Counter-soggetto</h4>
+    {% elif type_facets.mt_cd_b.true and request.GET|dictkey:'mt-cd' %}
+      <h4>Contrapuntal duo</h4>
+    {% elif type_facets.mt_fg_b.true and request.GET|dictkey:'mt-fg' %}
+      <h4>Fuga</h4>
+    {% elif type_facets.mt_pe_b.true and request.GET|dictkey:'mt-pe' %}
+      <h4>Periodic entry</h4>
+    {% elif type_facets.mt_id_b.true and request.GET|dictkey:'mt-id' %}
+      <h4>Imitative duo</h4>
+    {% elif type_facets.mt_nid_b.true and request.GET|dictkey:'mt-nid' %}
+      <h4>Non-imitative duo</h4>
+    {% elif type_facets.mt_hr_b.true and request.GET|dictkey:'mt-hr' %}
+      <h4>Homorhythm</h4>
+    {% elif type_facets.mt_cad_b.true and request.GET|dictkey:'mt-cad' %}
+      <h4>Cadence</h4>
+    {% elif type_facets.mt_int_b.true and request.GET|dictkey:'mt-int' %}
+      <h4>Interval pattern</h4>
+    {% elif type_facets.mt_fp_b.true and request.GET|dictkey:'mt-fp' %}
+      <h4>Form and process</h4>
+    {% else %}
+      <h4></h4>
+    {% endif %}
+
+  </div>
+</div>
+<div class="accordion-heading">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-derivative-mt-accordion" href="#collapse-derivative-mt">Derivative musical type</a>
+</div>
+<div id="collapse-derivative-mt" class="accordion-body collapse in {# if request.GET|dictkey:'mt-cf' or request.GET|dictkey:'mt-sog' or request.GET|dictkey:'mt-csog' or request.GET|dictkey:'mt-cd' or request.GET|dictkey:'mt-fg' or request.GET|dictkey:'mt-pe' or request.GET|dictkey:'mt-id' or request.GET|dictkey:'mt-nid' or request.GET|dictkey:'mt-hr' or request.GET|dictkey:'mt-cad' or request.GET|dictkey:'mt-int' or request.GET|dictkey:'mt-fp' #}">
+  <div class="accordion-inner">
+    {% if type_facets.mt_cf_b.true and request.GET|dictkey:'mt-cf' %}
+      <h4>Cantus firmus</h4>
+    {% elif type_facets.mt_sog_b.true and request.GET|dictkey:'mt-sog' %}
+      <h4>Soggetto</h4>
+    {% elif type_facets.mt_csog_b.true and request.GET|dictkey:'mt-csog' %}
+      <h4>Counter-soggetto</h4>
+    {% elif type_facets.mt_cd_b.true and request.GET|dictkey:'mt-cd' %}
+      <h4>Contrapuntal duo</h4>
+    {% elif type_facets.mt_fg_b.true and request.GET|dictkey:'mt-fg' %}
+      <h4>Fuga</h4>
+    {% elif type_facets.mt_pe_b.true and request.GET|dictkey:'mt-pe' %}
+      <h4>Periodic entry</h4>
+    {% elif type_facets.mt_id_b.true and request.GET|dictkey:'mt-id' %}
+      <h4>Imitative duo</h4>
+    {% elif type_facets.mt_nid_b.true and request.GET|dictkey:'mt-nid' %}
+      <h4>Non-imitative duo</h4>
+    {% elif type_facets.mt_hr_b.true and request.GET|dictkey:'mt-hr' %}
+      <h4>Homorhythm</h4>
+    {% elif type_facets.mt_cad_b.true and request.GET|dictkey:'mt-cad' %}
+      <h4>Cadence</h4>
+    {% elif type_facets.mt_int_b.true and request.GET|dictkey:'mt-int' %}
+      <h4>Interval pattern</h4>
+    {% elif type_facets.mt_fp_b.true and request.GET|dictkey:'mt-fp' %}
+      <h4>Form and process</h4>
+    {% else %}
+      <h4></h4>
+    {% endif %}
+
+  </div>
+</div>
