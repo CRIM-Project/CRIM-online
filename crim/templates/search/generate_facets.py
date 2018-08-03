@@ -147,7 +147,7 @@ def top_level_tuples(mt_list):
 
 def second_level_keys(a, mt):
     mst_names = ["not request.GET|dictkey:'{0}'".format(a[0] + '-' + mst[2]) for mst in mt[1]]
-    return ' and '.join(mst_names) if mst_names else 'true'
+    return ' and '.join(mst_names) if mst_names else '1'  # i.e. True
 
 
 def accordion_header(a):
