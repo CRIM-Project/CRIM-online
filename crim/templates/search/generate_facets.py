@@ -3,8 +3,8 @@
 FILE_OUT = 'facets_auto.html'
 
 ACCORDIONS = [
-    ('model-mt', 'model_mt', 'Model musical type'),
-    ('derivative-mt', 'derivative_mt', 'Derivative musical type'),
+    ('model', 'Model musical type'),
+    ('derivative', 'Derivative musical type'),
 ]
 
 MUSICAL_TYPES = [
@@ -136,25 +136,81 @@ MUSICAL_TYPES = [
 ]
 
 
-def top_level_keys(mt_list=MUSICAL_TYPES):
-    mt_names = ["request.GET|dictkey:'{0}'".format(mt[0][2]) for mt in mt_list]
+def top_level_keys(a, mt_list):
+    mt_names = ["request.GET|dictkey:'{0}'".format(a[0] + '-' + mt[0][2]) for mt in mt_list]
     return ' or '.join(mt_names)
 
 
-def top_level_tuples(mt_list=MUSICAL_TYPES):
+def top_level_tuples(mt_list):
     return [mt[0] for mt in mt_list]
+
+
+def second_level_keys(a, mt):
+    mst_names = ["not request.GET|dictkey:'{0}'".format(a[0] + '-' + mst[2]) for mst in mt[1]]
+    return ' and '.join(mst_names) if mst_names else 'true'
 
 
 def accordion_header(a):
     return """\
 <div class="accordion-heading">
-  <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-{0}-accordion" href="#collapse-{0}">{1}</a>
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-{0}-mt-accordion" href="#collapse-{0}-mt">{1}</a>
 </div>
-""".format(a[0], a[2])
+""".format(a[0], a[1])
+
+
+def accordion_subtype_blocks(a, mt):
+    mst_blocks = []
+    for mst in mt[1]:
+        mst_blocks.append("""\
+          {{% if type_facets.{1}.true %}}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="{2}" value="true" />{0} ({{% if type_facets.{1}.true %}}{{{{ type_facets.{1}.true }}}}{{% else %}}0{{% endif %}})
+              </label>
+            </li>
+          {{% endif %}}
+""".format(
+            mst[0],
+            a[0] + '_' + mst[1],
+            a[0] + '-' + mst[2],
+        ))
+    return ''.join(mst_blocks)
+
+
+def accordion_musical_types(a):
+    mt_blocks = []
+    for mt in MUSICAL_TYPES:
+        mt_blocks.append(
+            """\
+      {{% if type_facets.{1}.true %}}
+        {{% if {3} %}}
+          <li>
+            <label class="checkbox">
+              <input class="facet-refine" type="checkbox" name="{2}" value="true" />{{% if request.GET|dictkey:'{2}' %}}Any{{% else %}}{0}{{% endif %}} ({{{{ type_facets.{1}.true }}}})
+            </label>
+          </li>
+        {{% endif %}}
+        {{% if request.GET|dictkey:'{2}' %}}
+""".format(
+                mt[0][0],
+                a[0] + '_' + mt[0][1],
+                a[0] + '-' + mt[0][2],
+                second_level_keys(a, mt)
+            ) +
+            accordion_subtype_blocks(a, mt) +
+            """\
+        {% endif %}
+      {% endif %}
+""")
+    return ''.join(mt_blocks)
 
 
 def accordion_ul(a):
-    return '\n'  # TODO
+    return (
+        '    <ul class="unstyled">\n' +
+        accordion_musical_types(a) +
+        '    </ul>\n'
+    )
 
 
 def accordion_inner(a):
@@ -168,10 +224,15 @@ def accordion_inner(a):
 
 def accordion_inner_header(a):
     cases = []
-    for mt_tl in top_level_tuples():
+    for mt_tl in top_level_tuples(MUSICAL_TYPES):
         cases.append("""\
     {{% {3} type_facets.{1}.true and request.GET|dictkey:'{2}' %}}
-      <h4>{0}</h4>""".format(mt_tl[0], mt_tl[1], mt_tl[2], 'if' if not cases else 'elif'))
+      <h4>{0}</h4>""".format(
+            mt_tl[0],
+            a[0] + '_' + mt_tl[1],
+            a[0] + '-' + mt_tl[2],
+            'if' if not cases else 'elif')
+        )
 
     cases.append("""\
     {% else %}
@@ -187,8 +248,8 @@ def accordion_body(a):
 
 def accordion_outer_head(a):
     return """\
-<div id="collapse-{0}" class="accordion-body collapse in {{# if {1} #}}">
-""".format(a[0], top_level_keys())
+<div id="collapse-{0}-mt" class="accordion-body collapse {{% if {1} %}}in{{% endif %}}">
+""".format(a[0], top_level_keys(a, MUSICAL_TYPES))
 
 
 def accordion_facets(a):
