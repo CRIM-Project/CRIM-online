@@ -1,10 +1,12 @@
 {% if relationship.rt_q %}
   <h3>Quotation</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
   <p><strong>Exact:</strong> {{ relationship.rt_q_x }}</p>
   <p><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage }}</p>
 {% endif %}
 {% if relationship.rt_tm %}
   <h3>Mechanical transformation</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
   <p><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd }}</p>
   <p><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv }}</p>
   <p><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde }}</p>
@@ -14,6 +16,7 @@
 {% endif %}
 {% if relationship.rt_tnm %}
   <h3>Non-mechanical transformation</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
   <p><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished }}</p>
   <p><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced }}</p>
   <p><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified }}</p>
@@ -25,7 +28,9 @@
 {% endif %}
 {% if relationship.rt_nm %}
   <h3>New material</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
 {% endif %}
 {% if relationship.rt_om %}
   <h3>Omission</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
 {% endif %}
