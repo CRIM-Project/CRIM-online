@@ -1,0 +1,36 @@
+{% if relationship.rt_q_b %}
+  <h3>Quotation</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
+  <p><strong>Exact:</strong> {{ relationship.rt_q_x_b }}</p>
+  <p><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage_b }}</p>
+{% endif %}
+{% if relationship.rt_tm_b %}
+  <h3>Mechanical transformation</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
+  <p><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd_b }}</p>
+  <p><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv_b }}</p>
+  <p><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde_b }}</p>
+  <p><strong>Metrically shifted:</strong> {{ relationship.rt_tm_ms_b }}</p>
+  <p><strong>Transposed:</strong> {{ relationship.rt_tm_transposed_b }}</p>
+  <p><strong>Double or invertible counterpoint:</strong> {{ relationship.rt_tm_invertible_b }}</p>
+{% endif %}
+{% if relationship.rt_tnm_b %}
+  <h3>Non-mechanical transformation</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
+  <p><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished_b }}</p>
+  <p><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced_b }}</p>
+  <p><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified_b }}</p>
+  <p><strong>Truncated:</strong> {{ relationship.rt_tnm_truncated_b }}</p>
+  <p><strong>New counter-subject:</strong> {{ relationship.rt_tnm_ncs_b }}</p>
+  <p><strong>Old counter-subject shifted:</strong> {{ relationship.rt_tnm_ocs_b }}</p>
+  <p><strong>Old counter-subject transposed:</strong> {{ relationship.rt_tnm_ocst_b }}</p>
+  <p><strong>New combination:</strong> {{ relationship.rt_tnm_nc_b }}</p>
+{% endif %}
+{% if relationship.rt_nm_b %}
+  <h3>New material</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
+{% endif %}
+{% if relationship.rt_om_b %}
+  <h3>Omission</h3>
+  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
+{% endif %}

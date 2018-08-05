@@ -1,45 +1,78 @@
 {% load bootstrap_pagination %}
 
-<ul>
-  {% for relationship in relationship_results.object_list %}
-    <li>
-      <a href="/relationship/{{ relationship.id }}">&lt;R{{ relationship.id }}&gt; {% if relationship.model_mass_s %}{{ relationship.model_mass_s }}: {% endif %}{{ relationship.model_title_s }} &rarr; {% if relationship.derivative_mass_s %}{{ relationship.derivative_mass_s }}: {% endif %}{{ relationship.derivative_title_s }} ({{ relationship.observer_s }})</a>
-      {% if relationship.rt_q_b %}
-        <h3>Quotation</h3>
-        <p><strong>Exact:</strong> {{ relationship.rt_q_x_b }}</p>
-        <p><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage_b }}</p>
-      {% endif %}
-      {% if relationship.rt_tm_b %}
-        <h3>Mechanical transformation</h3>
-        <p><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd_b }}</p>
-        <p><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv_b }}</p>
-        <p><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde_b }}</p>
-        <p><strong>Metrically shifted:</strong> {{ relationship.rt_tm_ms_b }}</p>
-        <p><strong>Transposed:</strong> {{ relationship.rt_tm_transposed_b }}</p>
-        <p><strong>Double or invertible counterpoint:</strong> {{ relationship.rt_tm_invertible_b }}</p>
-      {% endif %}
-      {% if relationship.rt_tnm_b %}
-        <h3>Non-mechanical transformation</h3>
-        <p><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished_b }}</p>
-        <p><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced_b }}</p>
-        <p><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified_b }}</p>
-        <p><strong>Truncated:</strong> {{ relationship.rt_tnm_truncated_b }}</p>
-        <p><strong>New counter-subject:</strong> {{ relationship.rt_tnm_ncs_b }}</p>
-        <p><strong>Old counter-subject shifted:</strong> {{ relationship.rt_tnm_ocs_b }}</p>
-        <p><strong>Old counter-subject transposed:</strong> {{ relationship.rt_tnm_ocst_b }}</p>
-        <p><strong>New combination:</strong> {{ relationship.rt_tnm_nc_b }}</p>
-      {% endif %}
-      {% if relationship.rt_nm_b %}
-        <h3>New material</h3>
-      {% endif %}
-      {% if relationship.rt_om_b %}
-        <h3>Omission</h3>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Observer</th>
+      <th>Model</a></th>
+      <th>Derivative</th>
+      <th>Relationship type</th>
+      <th>Show details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for relationship in relationship_results.object_list %}
+      <tr>
+        <td><a href="/relationship/{{ relationship.id }}/">&lt;R{{ relationship.id }}&gt;</a></td>
+        <td><a href="/person/{{ relationship.observer_id_s }}/">{{ relationship.observer_s }}</a></td>
+        <td>
+          <a href="/observation/{{ relationship.model_observation_id_i }}/">
+            &lt;{{ relationship.model_observation_id_i }}&gt;
+          </a>
+          <a href="/piece/{{ relationship.model_piece_id_s }}/">
+            {% if relationship.model_mass_s %}
+              {{ relationship.model_mass_s }}:
+            {% endif %}
+            {{ relationship.model_title_s }}
+          </a>
+        </td>
+        <td>
+          <a href="/observation/{{ relationship.derivative_observation_id_i }}/">
+            &lt;{{ relationship.derivative_observation_id_i }}&gt;
+          </a>
+          <a href="/piece/{{ relationship.derivative_piece_id_s }}/">
+            {% if relationship.derivative_mass_s %}
+              {{ relationship.derivative_mass_s }}:
+            {% endif %}
+            {{ relationship.derivative_title_s }}
+          </a>
+        </td>
+        <td>{% if relationship.rt_q_b %}Quotation{% endif %}
+            {% if relationship.rt_tm_b %}Mechanical transformation{% endif %}
+            {% if relationship.rt_tnm_b %}Non-mechanical transformation{% endif %}
+            {% if relationship.rt_nm_b %}New material{% endif %}
+            {% if relationship.rt_om_b %}Omission{% endif %}
+        </td>
+        <td> 
+          <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
+        </td>
+      </tr>
+      <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
+        <td colspan="6" class="expansion">
+          {% include "search/relationship_result_details.html" %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% bootstrap_paginate relationship_results range=10 url_param_name="relationship_page" %}
+  
+<script type="text/javascript">
+  // This script expands and hides relationship details
+  $('.relationship-info').hide();
+  $('.relationship-info-expand').on({
+    'click': function(event) {
+      event.preventDefault();
+      tgt = "#" + $(this).attr('target');
+      $(tgt).toggle();
+      tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+      $(this).text(tag);
+      return false;
+    }
+  })
+</script>
 
 <script type="text/javascript">
   attachPagerActions();
