@@ -65,11 +65,7 @@
                   {% if relationship.rt_om %}Omission{% endif %}
               </td>
               <td> 
-                {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
-                  <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
-                {% else %}
-                  -
-                {% endif %}
+                <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
               </td>
             </tr>
             <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
