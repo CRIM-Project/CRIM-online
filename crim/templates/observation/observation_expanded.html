@@ -18,7 +18,7 @@
   <div class=hanging><strong>Durations only:</strong> {{ observation.mt_csog_dur }}</div>
   <div class=hanging><strong>Intervals only:</strong> {{ observation.mt_csog_mel }}</div>
 {% endif %}
-{% if observation.md_cd_voices %}
+{% if observation.mt_cd %}
   <h3 class="margin">Contrapuntal duo</h3>
   <div class=hanging><strong>Voice{{ observation.mt_cd_voices|newlineplural }}:</strong>{% if observation.mt_cd_voices %}<br/>{{ observation.mt_cd_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
 {% endif %}

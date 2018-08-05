@@ -183,6 +183,7 @@ class CRIMObservationPieceSerializer(serializers.HyperlinkedModelSerializer):
             'mt_csog_voices',
             'mt_csog_dur',
             'mt_csog_mel',
+            'mt_cd',
             'mt_cd_voices',
             'mt_fg',
             'mt_fg_voices',
