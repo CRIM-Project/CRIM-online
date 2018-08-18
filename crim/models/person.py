@@ -27,13 +27,8 @@ class CRIMPerson(models.Model):
     birth_date = models.CharField(max_length=32, blank=True, db_index=True)
     death_date = models.CharField(max_length=32, blank=True, db_index=True)
     active_date = models.CharField(max_length=32, blank=True, db_index=True)
+    date_sort = models.IntegerField(null=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
-
-    @property
-    def date_sort(self):
-        # Add sortable date field based on birth, death and active dates
-        dates = [self.birth_date, self.death_date, self.active_date]
-        return get_date_sort(latest_date(dates))
 
     def sorted_name(self):
         return self.name_sort
@@ -43,15 +38,6 @@ class CRIMPerson(models.Model):
     def __str__(self):
         return '{0}'.format(self.name_sort)
 
-    def _get_unique_slug(self):
-        slug_base = slugify(self.name_sort)
-        unique_slug = slug_base
-        num = 1
-        while CRIMPerson.objects.filter(person_id=unique_slug).exists():
-            unique_slug = '{}-{}'.format(slug_base, num)
-            num += 1
-        return unique_slug
-
     def save(self, *args, **kwargs):
         # Need to clean `name` field, because its html ends up being parsed!
         self.name = escape(self.name)
@@ -59,6 +45,10 @@ class CRIMPerson(models.Model):
         # Add sorted name if it was left blank
         if not self.name_sort:
             self.name_sort = self.name
+
+        # Update integer representation of date
+        dates = [self.birth_date, self.death_date, self.active_date]
+        self.date_sort = get_date_sort(latest_date(dates))
 
         # Remove extraneous newlines
         self.name_alternate_list = re.sub(r'[\n\r]+', r'\n', self.name_alternate_list)
