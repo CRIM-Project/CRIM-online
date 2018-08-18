@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
@@ -92,7 +93,7 @@ class PieceList(generics.ListAPIView):
             genre = CRIMGenre.objects.get(genre_id=self.request.GET.get('genre'))
             return CRIMPiece.objects.filter(genre=genre).distinct().order_by(order_by)
         else:
-            return CRIMPiece.objects.all().distinct().order_by(order_by)
+            return CRIMPiece.objects.all().annotate(number_of_voices=Count('voices')).distinct().order_by(order_by)
 
 
 class ModelList(generics.ListAPIView):
@@ -106,7 +107,7 @@ class ModelList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.filter(mass=None).order_by(order_by)
+        return CRIMPiece.objects.filter(mass=None).annotate(number_of_voices=Count('voices')).order_by(order_by)
 
 
 class PieceDetail(generics.RetrieveAPIView):

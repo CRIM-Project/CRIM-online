@@ -23,8 +23,8 @@
       <table class="table table-white table-bordered table-hover">
         <thead>
           <tr>
-            <th>Mass ID</th>
-            <th>Title</th>
+            <th><a href="?order_by=mass_id">Mass ID</a></th>
+            <th><a href="?order_by=title">Title</a></th>
             <th>Composer</th>
             <th>Voices</th>
             <th>Date</th>
@@ -34,7 +34,7 @@
           {% for mass in content %}
             <tr>
               <td><a href="{{ mass.url|htmlsite }}">{{ mass.mass_id }}</a></td>
-              <td>{{ mass.title }}</td>
+              <td><a href="{{ mass.url|htmlsite }}">{{ mass.title }}</a></td>
               <td>{{ mass.roles|people:"composer"|safe }}</td>
               <td>{{ mass.number_of_voices|figuredash }}</td>
               <td>{{ mass.roles|earliest_date:"composer" }}</td>

@@ -1,4 +1,5 @@
 #from django.core.exceptions import DoesNotExist
+from django.db.models import Min
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
@@ -68,7 +69,7 @@ class PersonList(generics.ListAPIView):
                 role_type = CRIMRoleType.objects.get(role_type_id=self.request.GET.get('role'))
                 return CRIMPerson.objects.filter(roles__role_type=role_type).distinct().order_by(order_by)
         else:
-            return CRIMPerson.objects.all().distinct().order_by(order_by)
+            return CRIMPerson.objects.all().distinct().annotate(role=Min('roles__role_type')).order_by(order_by)
 
 
 class PersonDetail(generics.RetrieveAPIView):
