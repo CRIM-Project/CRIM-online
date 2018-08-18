@@ -70,9 +70,9 @@ class CRIMRole(models.Model):
         db_index=True,
     )
 
-    @property
-    def date_sort(self):
-        get_date_sort(self.date)
+    date_sort = models.IntegerField(
+        null=True
+    )
 
     def person_with_role(self):
         if self.role_type:
@@ -159,5 +159,6 @@ class CRIMRole(models.Model):
             raise ValidationError('You may assign no more than one work to a single role.')
 
     def save(self, *args, **kwargs):
+        self.date_sort = get_date_sort(self.date)
         # Finalize changes
         super().save()
