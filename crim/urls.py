@@ -34,7 +34,6 @@ from crim.views.roletype import RoleTypeList
 from crim.views.search import search
 from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
-from crim.views.user import UserList, UserDetail
 
 # The following are for the JSON views
 from crim.views.genre import GenreListData, GenreDetailData
@@ -50,6 +49,7 @@ from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
 from crim.views.source import SourceListData, SourceDetailData
 from crim.views.treatise import TreatiseListData, TreatiseDetailData
 from crim.views.voice import VoiceListData, VoiceDetailData
+from crim.views.user import UserProfileData
 
 admin.autodiscover()
 
@@ -67,8 +67,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^auth/status/$', SessionStatus.as_view()),
         re_path(r'^auth/logout/$', SessionClose.as_view()),
         re_path(r'^profile/', profile),
-        re_path(r'^users/$', UserList.as_view(), name='user-list'),
-        re_path(r'^user/(?P<username>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
+        # re_path(r'^users/$', UserList.as_view(), name='user-list'),
+
+        re_path(r'^data/user/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
 
         re_path(r'^search/$', search, name='search'),
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
