@@ -24,8 +24,8 @@
       <table class="table table-white table-bordered table-hover">
         <thead>
           <tr>
-            <th>Document ID</th>
-            <th>Title</th>
+            <th><a href="?order_by=document_id">Document ID</a></th>
+            <th><a href="?order_by=title">Title</a></th>
             <th>Publisher</th>
             <th>Date</th>
           </tr>
@@ -53,7 +53,7 @@
           {% if content.previous %}
             <li class="pagination" id="first-child"><a href="{{ content.previous }}">&laquo;</a></li>
           {% else %}
-            <li class="disabled pagination" id="first-child"><a>&laquo;</a></li>
+            <li class="disabled" id="first-child">&laquo;</li>
           {% endif %}
           <!-- CAREFUL: the parameter of rangelist MUST match
           the page_size attribute in SourceSetPagination,
