@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load static %}
+
+{% block title %}
+  <title>CRIM | {{ content.author.name }} ({{ content.created }})</title>
+{% endblock %}
+
+{% block wrap %}
+  <h1>Comment</h1>
+  <h3>Author:
+    {% if content.author.person %}
+      <a href="{{ content.author.person.url|htmlsite }}">{{ content.author.name }}</a>
+    {% else %}
+      {{ content.author.name }}
+    {% endif %}
+  </h3>
+  <h3>Work: <a href="{{ content.piece.url|htmlsite }}">{% if content.piece.mass %}{{ content.piece.mass.title }}: {% endif %}{{ content.piece.title }}</a></h3>
+  <h3>Created: {{ content.created }}</h3>
+  <p>{{ content.text }}</p>
+
+  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
+  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+
+{% endblock %}

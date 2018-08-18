@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load markdown %}
+{% load shorten %}
+{% load static %}
+
+{% block title %}
+  <title>CRIM | Comments</title>
+{% endblock %}
+
+{% block wrap %}
+  <h1>Comments</h1>
+  <table class="table table-white table-bordered table-hover">
+    <thead>
+      <th><a href="?order_by=-created">Created</a></th>
+      <th><a href="?order_by=author__name_sort">Author</a></th>
+      <th><a href="?order_by=piece">Work</a></th>
+    </thead>
+    <tbody>
+      {% for comment in content %}
+        <tr>
+          <td>
+            <a href="{{ comment.url|htmlsite }}">{{ comment.created }}</a>
+          </td>
+          <td>
+            {% if comment.author.person %}
+              <a href="{{ comment.author.person.url|htmlsite }}">{{ comment.author.name }}</a>
+            {% else %}
+              {{ comment.author.name }}
+            {% endif %}
+          </td>
+          <td><a href="{{ comment.piece.url|htmlsite }}">[{{ comment.piece.piece_id }}] {% if comment.piece.mass %}{{ comment.piece.mass.title }}: {% endif %}{{ comment.piece.title }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
