@@ -1,4 +1,4 @@
-from crim.models.userprofile import CRIMUserProfile
+from crim.models.user import CRIMUserProfile
 
 
 def get_or_create_profile(request):

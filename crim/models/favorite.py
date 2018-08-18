@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-from crim.models.userprofile import CRIMUserProfile
+from crim.models.user import CRIMUserProfile
 
 
 class CRIMFavorite(models.Model):
