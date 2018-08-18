@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django import forms
 
-from crim.models.userprofile import CRIMUserProfile
+from crim.models.user import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMTreatise, CRIMSource
