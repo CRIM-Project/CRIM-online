@@ -10,6 +10,7 @@ django.setup()
 
 FILE_IN = 'source/citations.json'
 FILE_OUT = '../crim/fixtures/analysis.json'
+NUMBERED_OUT = 'source/citations_numbered.json'
 UNPROCESSED_OUT = 'source/not_imported.json'
 LOG = 'source/analysis_import_log.txt'
 OBSERVATION_COUNT = 0
@@ -31,10 +32,13 @@ def process_json():
         old_data = json.load(old_json_file)
     for item in old_data:
         handle_item(item, processed_data, unprocessed_data, log)
+    with open(NUMBERED_OUT, 'w', encoding='utf-8') as numbered_file:
+        # `old_data` has been updated with <R0> numbers
+        numbered_file.write(json.dumps(old_data, indent=2))
     with open(FILE_OUT, 'w', encoding='utf-8') as new_fixture:
         new_fixture.write(json.dumps(processed_data))
     with open(UNPROCESSED_OUT, 'w', encoding='utf-8') as unprocessed_json_file:
-        unprocessed_json_file.write(json.dumps(unprocessed_data))
+        unprocessed_json_file.write(json.dumps(unprocessed_data, indent=2))
     with open(LOG, 'w', encoding='utf-8') as log_file:
         log_file.write('\n'.join(log))
 
@@ -101,6 +105,7 @@ def create_item(item, processed_data, unprocessed_data, log):
                 'pk': derivative_observation_fields['id'],
             }
             RELATIONSHIP_COUNT += 1
+            relationship_to_process['relationship_id'] = '<R{}>'.format(RELATIONSHIP_COUNT)
             new_relationship_row = {
                 'model': 'crim.crimrelationship',
                 'fields': new_relationship_fields,
