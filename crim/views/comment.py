@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
@@ -51,11 +52,12 @@ class CommentDetail(APIView):
 
     def post(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        serializer = CRIMCommentSerializer(comment, data=request.data, context={'request': request})
-        if not serializer.is_valid():
-            return Response({'serializer': serializer, 'content': comment})
-        serializer.save()
-        return redirect('crimcomment-list')
+        if not request.user.is_anonymous and comment.author == request.user.profile:
+            serializer = CRIMCommentSerializer(comment, data=request.data, context={'request': request})
+            if not serializer.is_valid():
+                return Response({'serializer': serializer, 'content': comment})
+            serializer.save()
+        return HttpResponseRedirect(request.path_info)
 
 
 class CommentListData(CommentList):
