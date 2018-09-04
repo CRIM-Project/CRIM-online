@@ -60,7 +60,10 @@ class CRIMPieceCommentSerializer(serializers.HyperlinkedModelSerializer):
 class CRIMCommentSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimcomment-detail-data', lookup_field='comment_id')
     author = CRIMUserProfileCommentSerializer(read_only=True)
-    piece = CRIMPieceCommentSerializer(read_only=True)  # change with generic foreign key
+    piece = serializers.PrimaryKeyRelatedField(read_only=False, queryset=CRIMPiece.objects.all())
+    # TODO: Use generic foreign key so that comments can connect to pieces, masses, sources, and
+    #       other types of object.
+    # TODO: Use `piece_id` instead of `pk` if possible for security and clarity.
 
     class Meta:
         model = CRIMComment
@@ -72,3 +75,7 @@ class CRIMCommentSerializer(serializers.HyperlinkedModelSerializer):
             'created',
             'updated',
         )
+
+    def to_representation(self, instance):
+        self.fields['piece_read'] = CRIMPieceCommentSerializer(read_only=True)
+        return super().to_representation(instance)

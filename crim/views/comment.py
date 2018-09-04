@@ -1,11 +1,12 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.views import APIView
 
+from crim.models.piece import CRIMPiece
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.comment import CRIMCommentSerializer
 from crim.models.comment import CRIMComment
@@ -48,7 +49,8 @@ class CommentDetail(APIView):
     def get(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
         serializer = CRIMCommentSerializer(comment, context={'request': request})
-        return Response({'serializer': serializer, 'content': comment})
+        pieces = CRIMPiece.objects.all().order_by('piece_id')
+        return Response({'serializer': serializer, 'content': comment, 'pieces': pieces})
 
     def post(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)

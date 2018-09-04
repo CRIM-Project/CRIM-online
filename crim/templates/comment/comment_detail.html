@@ -21,6 +21,13 @@
   <form action="{% url 'crimcomment-detail' comment_id=content.comment_id %}" method="POST">
     {% csrf_token %}
     <div class="form-group">
+      <select name="piece" class="form-control">
+        {% for piece in pieces %}
+          <option value="{{ piece.pk }}" {% if content.piece.pk == piece.pk %}selected="true"{% endif %}>{{ piece }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
       <textarea name="text" class="form-control">{{ content.text }}</textarea>
     </div>
     {# render_form serializer #}
