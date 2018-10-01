@@ -115,7 +115,6 @@ def _fetch_facet_results(request):
     }
     facet_res = s.facets(fq=['type:crim_relationship'], **facet_params)
     facets = facet_res.facet_counts['facet_fields']
-    print(facets)
 
     filtered_facets_observer = []
     filtered_facets_model = []

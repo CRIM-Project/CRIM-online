@@ -25,6 +25,10 @@ class CRIMObservation(models.Model):
     )
     ema = models.TextField('EMA expression', blank=True)
 
+    # This field provides redundant, easily accessible, human-readable
+    # information about musical type. It is updated upon saving.
+    musical_type = models.CharField(max_length=64, blank=True)
+
     mt_cf = models.BooleanField('cantus firmus', default=False)
     mt_cf_voices = models.TextField('voices (one per line)', blank=True)
     mt_cf_dur = models.BooleanField('durations only', default=False)
@@ -128,7 +132,7 @@ class CRIMObservation(models.Model):
     def get_absolute_url(self):
         return '/observation/{0}/'.format(self.pk)
 
-    def __save__(self):
+    def save(self):
         # Set the parent relationship type field to true if any of the subtypes are
         if self.mt_cf_voices or self.mt_cf_dur or self.mt_cf_mel:
             self.mt_cf = True
@@ -152,6 +156,33 @@ class CRIMObservation(models.Model):
             self.mt_int = True
         if self.mt_fp_comment or self.mt_fp_ir or self.mt_fp_range:
             self.mt_fp = True
+
+        # Fill out the human-readable musical type field
+        if self.mt_cf:
+            self.musical_type = 'Cantus firmus'
+        elif self.mt_sog:
+            self.musical_type = 'Soggetto'
+        elif self.mt_csog:
+            self.musical_type = 'Counter-soggetto'
+        elif self.mt_cd:
+            self.musical_type = 'Contrapuntal duo'
+        elif self.mt_fg:
+            self.musical_type = 'Fuga'
+        elif self.mt_pe:
+            self.musical_type = 'Periodic entry'
+        elif self.mt_id:
+            self.musical_type = 'Imitative duo'
+        elif self.mt_nid:
+            self.musical_type = 'Non-imitative duo'
+        elif self.mt_hr:
+            self.musical_type = 'Homorhythm'
+        elif self.mt_cad:
+            self.musical_type = 'Cadence'
+        elif self.mt_int:
+            self.musical_type = 'Interval patterns'
+        elif self.mt_fp:
+            self.musical_type = 'Form and process'
+
         # Finalize changes
         super().save()
 

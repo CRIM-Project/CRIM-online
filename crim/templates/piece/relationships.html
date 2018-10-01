@@ -16,11 +16,12 @@
         <tr>
           <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
           <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
-          <td>{% if relationship.rt_q %}Quotation{% endif %}
-              {% if relationship.rt_tm %}Mechanical transformation{% endif %}
-              {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
-              {% if relationship.rt_nm %}New material{% endif %}
-              {% if relationship.rt_om %}Omission{% endif %}
+          <td>
+            {% if relationship.relationship_type %}
+              {{ relationship.relationship_type }}
+            {% else %}
+              None
+            {% endif %}
           </td>
           <td>
             <a href="{{ relationship.model_observation.url|htmlsite }}">
@@ -38,7 +39,7 @@
               {{ relationship.derivative_observation.piece.title }}
             </a>
           </td>
-          <td> 
+          <td>
             {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
               <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
             {% else %}
@@ -73,11 +74,12 @@
           <tr>
             <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
             <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
-            <td>{% if relationship.rt_q %}Quotation{% endif %}
-                {% if relationship.rt_tm %}Mechanical transformation{% endif %}
-                {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
-                {% if relationship.rt_nm %}New material{% endif %}
-                {% if relationship.rt_om %}Omission{% endif %}
+            <td>
+              {% if relationship.relationship_type %}
+                {{ relationship.relationship_type }}
+              {% else %}
+                None
+              {% endif %}
             </td>
             <td>
               <a href="{{ relationship.model_observation.url|htmlsite }}">
@@ -95,7 +97,7 @@
                 &lt;{{ relationship.derivative_observation.pk }}&gt;
               </a>
             </td>
-            <td> 
+            <td>
               {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
                 <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
               {% else %}

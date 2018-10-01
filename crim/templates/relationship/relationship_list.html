@@ -58,13 +58,14 @@
                   {{ relationship.derivative_observation.piece.title }}
                 </a>
               </td>
-              <td>{% if relationship.rt_q %}Quotation{% endif %}
-                  {% if relationship.rt_tm %}Mechanical transformation{% endif %}
-                  {% if relationship.rt_tnm %}Non-mechanical transformation{% endif %}
-                  {% if relationship.rt_nm %}New material{% endif %}
-                  {% if relationship.rt_om %}Omission{% endif %}
+              <td>
+                {% if relationship.relationship_type %}
+                  {{ relationship.relationship_type }}
+                {% else %}
+                  None
+                {% endif %}
               </td>
-              <td> 
+              <td>
                 <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
               </td>
             </tr>
@@ -76,7 +77,7 @@
           {% endfor %}
         </tbody>
       </table>
-      
+
       <div class="pagination">
         <ul class="pagination">
           {% if content.previous %}
@@ -105,7 +106,7 @@
       </div>
     </div>
   </div>
-  
+
   <script type="text/javascript">
     // This script expands and hides relationship details
     $('.relationship-info').hide();

@@ -1,36 +1,48 @@
+<div class="row-fluid">
+  <div class="span12">
+    <h3>{{ content.relationship_type }}</h3>
+  </div>
+{% if relationship.remarks %}
+  <div class="span4">
+{% else %}
+  <div class="span12">
+{% endif %}
 {% if relationship.rt_q %}
-  <h3>Quotation</h3>
-  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
-  <p><strong>Exact:</strong> {{ relationship.rt_q_x }}</p>
-  <p><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage }}</p>
+  <div class=hanging><strong>Musical type:</strong> {{ relationship.musical_type }}</div>
+  <div class=hanging><strong>Exact:</strong> {{ relationship.rt_q_x }}</div>
+  <div class=hanging><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage }}</div>
 {% endif %}
 {% if relationship.rt_tm %}
-  <h3>Mechanical transformation</h3>
-  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
-  <p><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd }}</p>
-  <p><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv }}</p>
-  <p><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde }}</p>
-  <p><strong>Metrically shifted:</strong> {{ relationship.rt_tm_ms }}</p>
-  <p><strong>Transposed:</strong> {{ relationship.rt_tm_transposed }}</p>
-  <p><strong>Double or invertible counterpoint:</strong> {{ relationship.rt_tm_invertible }}</p>
+  <div class=hanging><strong>Musical type:</strong> {{ relationship.musical_type }}</div>
+  <div class=hanging><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd }}</div>
+  <div class=hanging><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv }}</div>
+  <div class=hanging><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde }}</div>
+  <div class=hanging><strong>Metrically shifted:</strong> {{ relationship.rt_tm_ms }}</div>
+  <div class=hanging><strong>Transposed:</strong> {{ relationship.rt_tm_transposed }}</div>
+  <div class=hanging><strong>Double or invertible counterpoint:</strong> {{ relationship.rt_tm_invertible }}</div>
 {% endif %}
 {% if relationship.rt_tnm %}
-  <h3>Non-mechanical transformation</h3>
-  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
-  <p><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished }}</p>
-  <p><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced }}</p>
-  <p><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified }}</p>
-  <p><strong>Truncated:</strong> {{ relationship.rt_tnm_truncated }}</p>
-  <p><strong>New counter-subject:</strong> {{ relationship.rt_tnm_ncs }}</p>
-  <p><strong>Old counter-subject shifted:</strong> {{ relationship.rt_tnm_ocs }}</p>
-  <p><strong>Old counter-subject transposed:</strong> {{ relationship.rt_tnm_ocst }}</p>
-  <p><strong>New combination:</strong> {{ relationship.rt_tnm_nc }}</p>
+  <div class=hanging><strong>Musical type:</strong> {{ relationship.musical_type }}</div>
+  <div class=hanging><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished }}</div>
+  <div class=hanging><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced }}</div>
+  <div class=hanging><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified }}</div>
+  <div class=hanging><strong>Truncated:</strong> {{ relationship.rt_tnm_truncated }}</div>
+  <div class=hanging><strong>New counter-subject:</strong> {{ relationship.rt_tnm_ncs }}</div>
+  <div class=hanging><strong>Old counter-subject shifted:</strong> {{ relationship.rt_tnm_ocs }}</div>
+  <div class=hanging><strong>Old counter-subject transposed:</strong> {{ relationship.rt_tnm_ocst }}</div>
+  <div class=hanging><strong>New combination:</strong> {{ relationship.rt_tnm_nc }}</div>
 {% endif %}
 {% if relationship.rt_nm %}
-  <h3>New material</h3>
-  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
+  <div class=hanging><strong>Musical type:</strong> {{ relationship.musical_type }}</div>
 {% endif %}
 {% if relationship.rt_om %}
-  <h3>Omission</h3>
-  <p><strong>Musical type:</strong> {{ relationship.musical_type }}</p>
+  <div class=hanging><strong>Musical type:</strong> {{ relationship.musical_type }}</div>
 {% endif %}
+</div>
+
+{% if relationship.remarks %}
+<div class="span8">
+  <div class="hanging"><strong>Remarks:</strong> {{ relationship.remarks }}</div>
+</div>
+{% endif %}
+</div>
