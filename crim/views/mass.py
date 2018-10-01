@@ -25,7 +25,7 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
 
         template_names = ['mass/mass_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -37,7 +37,7 @@ class MassDetailHTMLRenderer(CustomHTMLRenderer):
 
         template_names = ['mass/mass_detail.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
