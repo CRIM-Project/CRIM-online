@@ -45,18 +45,8 @@
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
   </hgroup>
 
-  <div class="row-fluid">
-    <div class="span6">
-      {% include "relationship/relationship_expanded.html" with relationship=content %}
-    </div>
-    <div class="span6">
-      {% if content.remarks %}
-        <h3>&nbsp;</h3>
-        <p><strong>Remarks:</strong> {{ content.remarks }}</p>
-      {% endif %}
-    </div>
-  </div>
-  
+  {% include "relationship/relationship_expanded.html" with relationship=content %}
+
   <div class="row-fluid">
     <div class="span9">
       <div class="row-fluid">

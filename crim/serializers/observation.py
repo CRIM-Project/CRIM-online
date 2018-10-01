@@ -107,6 +107,7 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'observer',
             'piece',
             'ema',
+            'musical_type',
             'mt_cf',
             'mt_cf_voices',
             'mt_cf_dur',

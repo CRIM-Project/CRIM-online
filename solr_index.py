@@ -21,77 +21,6 @@ if __name__ == '__main__':
         if not relationship.status:
             continue
 
-        # Save the human-readable musical type in the index for
-        # easy retrieval and viewing when seeing results
-        if relationship.model_observation.mt_cf:
-            model_observation = 'Cantus firmus'
-        elif relationship.model_observation.mt_sog:
-            model_observation = 'Soggetto'
-        elif relationship.model_observation.mt_csog:
-            model_observation = 'Counter-soggetto'
-        elif relationship.model_observation.mt_cd:
-            model_observation = 'Contrapuntal duo'
-        elif relationship.model_observation.mt_fg:
-            model_observation = 'Fuga'
-        elif relationship.model_observation.mt_pe:
-            model_observation = 'Periodic entry'
-        elif relationship.model_observation.mt_id:
-            model_observation = 'Imitative duo'
-        elif relationship.model_observation.mt_nid:
-            model_observation = 'Non-imitative duo'
-        elif relationship.model_observation.mt_hr:
-            model_observation = 'Homorhythm'
-        elif relationship.model_observation.mt_cad:
-            model_observation = 'Cadence'
-        elif relationship.model_observation.mt_int:
-            model_observation = 'Interval patterns'
-        elif relationship.model_observation.mt_fp:
-            model_observation = 'Form and process'
-        else:
-            model_observation = ''
-        # Likewise for derivative musical type
-        if relationship.derivative_observation.mt_cf:
-            derivative_observation = 'Cantus firmus'
-        elif relationship.derivative_observation.mt_sog:
-            derivative_observation = 'Soggetto'
-        elif relationship.derivative_observation.mt_csog:
-            derivative_observation = 'Counter-soggetto'
-        elif relationship.derivative_observation.mt_cd:
-            derivative_observation = 'Contrapuntal duo'
-        elif relationship.derivative_observation.mt_fg:
-            derivative_observation = 'Fuga'
-        elif relationship.derivative_observation.mt_pe:
-            derivative_observation = 'Periodic entry'
-        elif relationship.derivative_observation.mt_id:
-            derivative_observation = 'Imitative duo'
-        elif relationship.derivative_observation.mt_nid:
-            derivative_observation = 'Non-imitative duo'
-        elif relationship.derivative_observation.mt_hr:
-            derivative_observation = 'Homorhythm'
-        elif relationship.derivative_observation.mt_cad:
-            derivative_observation = 'Cadence'
-        elif relationship.derivative_observation.mt_int:
-            derivative_observation = 'Interval patterns'
-        elif relationship.derivative_observation.mt_fp:
-            derivative_observation = 'Form and process'
-        else:
-            derivative_observation = ''
-        # If they're the same, use just the one;
-        # otherwise use whichever has one if one doesn't (e.g. omission),
-        # or include them both.
-        if not model_observation and not derivative_observation:
-            musical_type = '-'
-        elif model_observation:
-            musical_type = model_observation
-        elif derivative_observation:
-            musical_type = derivative_observation
-        else:
-            musical_type = (
-                model_observation +
-                ', ' +
-                derivative_observation
-            )
-
         # The suffixes are for automatic creation of the schema using
         # the correct types -- see http://yonik.com/solr-tutorial/
         d = {
@@ -99,9 +28,11 @@ if __name__ == '__main__':
             'id': relationship.id,
             'observer_s': relationship.observer.name,
             'observer_id_s': relationship.observer.id,
-            'musical_type_s': musical_type,
+            'musical_type_s': relationship.musical_type,
 
             # Information about the relationship type
+
+            'relationship_type_s': relationship.relationship_type,
 
             'rt_q_b': relationship.rt_q,
             'rt_q_x_b': relationship.rt_q_x,
@@ -134,6 +65,8 @@ if __name__ == '__main__':
             'status_b': relationship.status,
 
             # Information about the model CRIMObservation
+
+            'model_musical_type_s': relationship.model_observation.musical_type,
 
             'model_observation_id_i': relationship.model_observation.id,
             'model_observer_s': relationship.model_observation.observer.name,
@@ -246,6 +179,8 @@ if __name__ == '__main__':
             'model_remarks_t': relationship.model_observation.piece.remarks,
 
             # Information about the derivative CRIMObservation
+
+            'derivative_musical_type_s': relationship.derivative_observation.musical_type,
 
             'derivative_observation_id_i': relationship.derivative_observation.id,
             'derivative_observer_s': relationship.derivative_observation.observer.name,
