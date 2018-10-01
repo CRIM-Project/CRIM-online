@@ -34,10 +34,10 @@
   <div id="utility-nav" class="navbar">
     <div class="navbar-inner">
       <div class="container-fluid">
-        {% if user.is_authenticated %}
-          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="/profile">My Account</a> | <a href="/logout">Logout</a></p>
+        {% if request.user.is_authenticated %}
+          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="/profile/">My Account</a> | <a href="/logout/">Logout</a></p>
         {% else %}
-          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="mailto:{{ADMIN_EMAIL}}?subject=Account request">Request account</a> | <a href="/profile">Login</a></p>
+          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="mailto:{{ADMIN_EMAIL}}?subject=Account request">Request account</a> | <a href="/login/">Login</a></p>
         {% endif %}
       </div>
     </div>
@@ -88,7 +88,7 @@
           </ul>
           <form class="navbar-search pull-right" action="/search" method="get">
             <input type="text" class="nav-search-query span2" placeholder="Search" name="q">
-            <a href="/search" class="advanced-link">Advanced search &raquo;</a>
+            <a href="/search/" class="advanced-link">Advanced search &raquo;</a>
           </form>
         </div><!--/.nav-collapse -->
       </div>
@@ -113,7 +113,7 @@
     </p>
     </footer>
   </div><!--/.fluid-container-->
-  
+
   <script type="text/javascript">
     // CSRF Token Protection lifted from Django documentation.
     var csrftoken = $.cookie('csrftoken');
@@ -145,6 +145,6 @@
       }
   });
   </script>
-  
+
 </body>
 </html>
