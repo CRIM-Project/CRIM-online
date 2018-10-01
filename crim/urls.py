@@ -78,7 +78,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
 
         re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
-        re_path(r'^comment/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetail.as_view(), name='crimcomment-detail'),  # Use a non-sequential ID field
+        re_path(r'^comment/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetail.as_view(), name='crimcomment-detail'),
         re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
         re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/pieces/?genre=%(genre_id)s', permanent=False), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
