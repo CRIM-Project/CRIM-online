@@ -14,7 +14,13 @@
 {% block wrap %}
   <hgroup>
     <h1>Comment</h1>
-    <h3>{% if content.author %}{{ content.author.name }}{% endif %} – {{ content.created }}</h3>
+    <h3>
+      {% if content.author %}{{ content.author.name }}{% endif %} –
+      {{ content.created }}
+      {% if content.edited %}
+        [edited]
+      {% endif %}
+    </h3>
   </hgroup>
 
   {# If the current user is the author of the comment, show it as an editable form #}
@@ -22,25 +28,27 @@
     <form action="{% url 'crimcomment-detail' comment_id=content.comment_id %}" method="POST">
       {% csrf_token %}
       <div class="form-group">
-        <select name="piece" class="form-control">
+        <select name="piece" class="form-control" style="min-width: 420px; max-width: 540px;">
           {% for piece in pieces %}
             <option value="{{ piece.pk }}" {% if content.piece.pk == piece.pk %}selected="true"{% endif %}>{{ piece }}</option>
           {% endfor %}
         </select>
       </div>
       <div class="form-group">
-        <textarea name="text" class="form-control">{{ content.text }}</textarea>
+        <textarea name="text" class="form-control" rows="6" style="min-width: 420px; max-width: 540px;">{{ content.text }}</textarea>
       </div>
-      {# render_form serializer #}
-      <!-- Add checkbox confirming deletion. With JavaScript, make textbox appear
-           prompting the user to type their username as a further confirmation. -->
-      <input type="submit" value="Save">
+      <div class="form-group">
+        <input type="checkbox" name="confirm-delete" value="confirmed" class="form-control">&nbsp;Confirm deletion</input>
+        <input type="hidden" name="alive" value="true" />
+        <input type="hidden" name="edited" value="true" />
+      </div>
+      <input type="submit" name="save" value="Save" class="btn-primary" />&nbsp;<input type="submit" name="delete" value="Delete" class="btn-danger" />
     </form>
 
   {# Otherwise, just show the text of the comment #}
   {% else %}
     <p><strong>Piece:</strong> <a href="{{ content.piece.url }}">{{ content.piece }}</a></p>
-    <p><strong>Text:</strong> {{ content.text }}</p>
+    <p><strong>Text:</strong> {{ content.text|markdown|safe }}</p>
   {% endif %}
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>

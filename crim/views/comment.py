@@ -31,7 +31,7 @@ class CommentList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', '-created')
-        return CRIMComment.objects.order_by(order_by)
+        return CRIMComment.objects.filter(alive=True).order_by(order_by)
 
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -50,19 +50,31 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     def post(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
         if not request.user.is_anonymous and comment.author == request.user.profile:
-            serializer = CRIMCommentDetailSerializer(comment, data=request.data, context={'request': request})
-            if not serializer.is_valid():
-                return Response({'serializer': serializer, 'content': comment})
-            serializer.save()
-        return HttpResponseRedirect(request.path_info)
+            # If the "Confirm deletion" checkbox is selected and the Delete
+            # button is pressed, then wipe out the text of the comment with [delete]
+            # and set `alive` to False.
+            if 'confirm-delete' in request.data and 'delete' in request.data:
+                deleted_comment = request.data.copy()
+                deleted_comment['text'] = '_[deleted]_'
+                deleted_comment['alive'] = False
+                serializer = CRIMCommentDetailSerializer(comment, data=deleted_comment, context={'request': request})
+                if not serializer.is_valid():
+                    return Response({'serializer': serializer, 'content': comment})
+                serializer.save()
+                return redirect('crimcomment-list')
+            elif 'save' in request.data and comment.alive:
+                serializer = CRIMCommentDetailSerializer(comment, data=request.data, context={'request': request})
+                if not serializer.is_valid():
+                    return Response({'serializer': serializer, 'content': comment})
+                serializer.save()
+                return HttpResponseRedirect(request.path_info)
+            else:
+                return HttpResponseRedirect(request.path_info)
 
     def delete(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
         if not request.user.is_anonymous and comment.author == request.user.profile:
-            serializer = CRIMCommentDetailSerializer(comment, data=request.data, context={'request': request})
-            if not serializer.is_valid():
-                if request.delete == 'Delete':
-                    serializer.destroy()
+            comment.delete()
         return redirect('crimcomment-list')
 
 

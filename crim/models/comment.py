@@ -32,6 +32,12 @@ class CRIMComment(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    edited = models.BooleanField(default=False)
+    # When a comment has been deleted, the object is kept, but the text is wiped
+    # out and `alive` is set to False. This field is used to prevent the object
+    # from being included in lists, and to prevent the user from changing the
+    # text again.
+    alive = models.BooleanField(default=True)
 
     text = models.TextField()
 
