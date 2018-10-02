@@ -1,5 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class CRIMUserProfile(models.Model):
@@ -43,16 +45,19 @@ class CRIMUserProfile(models.Model):
         else:
             return self.user.username
 
-    def save(self):
-        if self.person:
-            self.name = self.person.name
-            self.name_sort = self.person.name_sort
+@receiver(pre_save, sender=CRIMUserProfile)
+def add_name(sender, instance, *args, **kwargs):
+    if not instance.name:
+        if instance.person:
+            instance.name = instance.person.name
         else:
-            if not self.name:
-                self.name = (self.user.first_name + ' ' + self.user.last_name).strip()
-            if not self.name_sort:
-                self.name_sort = (self.user.last_name + ' ' + self.user.first_name).strip()
-        super().save()
+            instance.name = (instance.user.first_name + ' ' + instance.user.last_name).strip()
+
+    if not instance.name_sort:
+        if instance.person:
+            instance.name_sort = instance.person.name_sort
+        else:
+            instance.name_sort = (instance.user.last_name + ', ' + instance.user.first_name).strip()
 
 
-User.profile = property(lambda u: CRIMUserProfile.objects.get_or_create(user=u)[0])
+User.profile = property(lambda u: CRIMUserProfile.objects.get(user=u))
