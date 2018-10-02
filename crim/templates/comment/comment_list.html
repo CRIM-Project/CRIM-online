@@ -24,7 +24,12 @@
       {% for comment in content %}
         <tr>
           <td>
-            <a href="{{ comment.url|htmlsite }}">{{ comment.created }}</a>
+            <a href="{{ comment.url|htmlsite }}">
+              {{ comment.created }}
+              {% if comment.edited %}
+                [edited]
+              {% endif %}
+            </a>
           </td>
           <td>
             {% if comment.author.person %}

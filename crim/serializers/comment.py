@@ -73,6 +73,8 @@ class CRIMCommentListSerializer(serializers.HyperlinkedModelSerializer):
             'text',
             'created',
             'updated',
+            'edited',
+            'alive',
         )
 
 
@@ -93,6 +95,8 @@ class CRIMCommentDetailSerializer(serializers.HyperlinkedModelSerializer):
             'text',
             'created',
             'updated',
+            'edited',
+            'alive',
         )
 
     def to_representation(self, instance):

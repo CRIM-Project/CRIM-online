@@ -649,6 +649,21 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
         'observer__name',
     )
 
+class CRIMCommentAdmin(admin.ModelAdmin):
+    fields = (
+        'author',
+        'piece',
+        'text',
+        'edited',
+        'alive',
+    )
+    list_display = (
+        'author',
+        'piece',
+        'created',
+        'updated',
+        'alive',
+    )
 
 class UserProfileInline(admin.StackedInline):
     model = CRIMUserProfile
@@ -688,4 +703,4 @@ admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
 
 admin.site.register(CRIMNote)
-admin.site.register(CRIMComment)
+admin.site.register(CRIMComment, CRIMCommentAdmin)
