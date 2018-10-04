@@ -120,9 +120,6 @@ class PieceDetail(generics.RetrieveAPIView):
     )
     queryset = CRIMPiece.objects.all()
 
-    def get_queryset(self):
-        return CRIMPiece.objects.filter(mass=None)
-
     def get_object(self):
         url_arg = self.kwargs['piece_id']
         piece = CRIMPiece.objects.filter(piece_id=url_arg)
