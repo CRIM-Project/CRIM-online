@@ -38,7 +38,7 @@ from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
 
 # The following are for the JSON views
-from crim.views.comment import CommentListData, CommentDetailData
+from crim.views.comment import CommentListData, CommentDetailData, CommentCreateData
 from crim.views.genre import GenreListData, GenreDetailData
 from crim.views.mass import MassListData, MassDetailData
 from crim.views.part import PartListData, PartDetailData
@@ -78,6 +78,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
 
         re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
+        # re_path(r'^comment/new/$', CommentCreate.as_view(), name='crimcomment-new'),
         re_path(r'^comment/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetail.as_view(), name='crimcomment-detail'),
         re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
         re_path(r'^genre/(?P<genre_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/pieces/?genre=%(genre_id)s', permanent=False), name='crimgenre-detail'),
@@ -103,7 +104,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^treatise/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
         # The following are for the JSON views
         re_path(r'^data/comments/$', CommentListData.as_view(), name='crimcomment-list-data'),
-        re_path(r'^data/comment/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetailData.as_view(), name='crimcomment-detail-data'),  # Use a non-sequential ID field
+        re_path(r'^data/comment/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetailData.as_view(), name='crimcomment-detail-data'),
+        re_path(r'^data/comment/new/$', CommentCreateData.as_view(), name='crimcomment-new-data'),
         re_path(r'^data/genres/$', GenreListData.as_view(), name='crimgenre-list-data'),
         re_path(r'^data/genre/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetailData.as_view(), name='crimgenre-detail-data'),
         re_path(r'^data/masses/$', MassListData.as_view(), name='crimmass-list-data'),

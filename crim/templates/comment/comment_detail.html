@@ -8,34 +8,34 @@
 {% load static %}
 
 {% block title %}
-  <title>CRIM | {% if content %}{{ content.author.name }} ({{ content.created }}){% else %}New comment{% endif %}</title>
+  <title>CRIM | {% if comment %}{{ comment.author.name }} ({{ comment.created }}){% else %}New comment{% endif %}</title>
 {% endblock %}
 
 {% block wrap %}
   <hgroup>
     <h1>Comment</h1>
     <h3>
-      {% if content.author %}{{ content.author.name }}{% endif %} –
-      {{ content.created }}
-      {% if content.edited %}
+      {% if comment.author %}{{ comment.author.name }}{% endif %} –
+      {{ comment.created }}
+      {% if comment.edited %}
         [edited]
       {% endif %}
     </h3>
   </hgroup>
 
   {# If the current user is the author of the comment, show it as an editable form #}
-  {% if content.author.user == request.user %}
-    <form action="{% url 'crimcomment-detail' comment_id=content.comment_id %}" method="POST">
+  {% if comment.author.user == request.user %}
+    <form action="{% url 'crimcomment-detail' comment_id=comment.comment_id %}" method="POST">
       {% csrf_token %}
       <div class="form-group">
         <select name="piece" class="form-control" style="min-width: 420px; max-width: 540px;">
           {% for piece in pieces %}
-            <option value="{{ piece.pk }}" {% if content.piece.pk == piece.pk %}selected="true"{% endif %}>{{ piece }}</option>
+            <option value="{{ piece.pk }}" {% if comment.piece.pk == piece.pk %}selected="true"{% endif %}>{{ piece }}</option>
           {% endfor %}
         </select>
       </div>
       <div class="form-group">
-        <textarea name="text" class="form-control" rows="6" style="min-width: 420px; max-width: 540px;">{{ content.text }}</textarea>
+        <textarea name="text" class="form-control" rows="6" style="min-width: 420px; max-width: 540px;">{{ comment.text }}</textarea>
       </div>
       <div class="form-group">
         <input type="checkbox" name="confirm-delete" value="confirmed" class="form-control">&nbsp;Confirm deletion</input>
@@ -47,8 +47,8 @@
 
   {# Otherwise, just show the text of the comment #}
   {% else %}
-    <p><strong>Piece:</strong> <a href="{{ content.piece.url }}">{{ content.piece }}</a></p>
-    <p><strong>Text:</strong> {{ content.text|markdown|safe }}</p>
+    <p><strong>Piece:</strong> <a href="{{ comment.piece.url }}">{{ comment.piece }}</a></p>
+    <p><strong>Text:</strong> {{ comment.text|markdown|safe }}</p>
   {% endif %}
 
   <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
