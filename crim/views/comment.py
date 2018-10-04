@@ -1,15 +1,16 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template import RequestContext
-from rest_framework import generics
+from rest_framework import generics, permissions, status
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
-from rest_framework import permissions
 
 from crim.models.piece import CRIMPiece
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.comment import CRIMCommentListSerializer, CRIMCommentDetailSerializer
+from crim.serializers.comment import CRIMCommentListSerializer, CRIMCommentDetailSerializer, CRIMCommentDetailDataSerializer
 from crim.models.comment import CRIMComment
+
+import datetime
 
 
 class CommentListHTMLRenderer(CustomHTMLRenderer):
@@ -35,17 +36,15 @@ class CommentList(generics.ListAPIView):
 
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
-    renderer_classes = (
-        TemplateHTMLRenderer,
-        JSONRenderer,
-    )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    renderer_classes = (TemplateHTMLRenderer,)
     template_name = 'comment/comment_detail.html'
 
     def get(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        serializer = CRIMCommentDetailSerializer(comment, context={'request': request})
+        serialized = CRIMCommentDetailSerializer(comment, context={'request': request})
         pieces = CRIMPiece.objects.all().order_by('piece_id')
-        return Response({'serializer': serializer, 'content': comment, 'pieces': pieces})
+        return Response({'serialized': serialized, 'comment': comment, 'pieces': pieces})
 
     def post(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
@@ -57,19 +56,20 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
                 deleted_comment = request.data.copy()
                 deleted_comment['text'] = '_[deleted]_'
                 deleted_comment['alive'] = False
-                serializer = CRIMCommentDetailSerializer(comment, data=deleted_comment, context={'request': request})
-                if not serializer.is_valid():
+                serialized = CRIMCommentDetailSerializer(comment, data=deleted_comment, context={'request': request})
+                if not serialized.is_valid():
                     return Response({'serializer': serializer, 'content': comment})
-                serializer.save()
+                serialized.save()
                 return redirect('crimcomment-list')
-            elif 'save' in request.data and comment.alive:
-                serializer = CRIMCommentDetailSerializer(comment, data=request.data, context={'request': request})
-                if not serializer.is_valid():
-                    return Response({'serializer': serializer, 'content': comment})
-                serializer.save()
-                return HttpResponseRedirect(request.path_info)
             else:
+                if 'save' in request.data and comment.alive:
+                    serialized = CRIMCommentDetailSerializer(comment, data=request.data, context={'request': request})
+                    if not serialized.is_valid():
+                        return Response({'serialized': serialized, 'content': comment})
+                    serialized.save()
                 return HttpResponseRedirect(request.path_info)
+        else:
+            return HttpResponseRedirect(request.path_info)
 
     def delete(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
@@ -84,3 +84,35 @@ class CommentListData(CommentList):
 
 class CommentDetailData(CommentDetail):
     renderer_classes = (JSONRenderer,)
+
+    def get(self, request, comment_id):
+        comment = get_object_or_404(CRIMComment, comment_id=comment_id)
+        serialized = CRIMCommentDetailDataSerializer(comment, context={'request': request})
+        return Response(serialized.data)
+
+    def post(self, request):
+        comment = get_object_or_404(CRIMComment, comment_id=comment_id)
+        if not request.user.is_anonymous and comment.author == request.user.profile and comment.alive:
+            serialized = CRIMCommentDetailDataSerializer(comment, data=request.data, context={'request': request})
+            if not serialized.is_valid():
+                return Response({'serialized': serialized, 'content': comment})
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+class CommentCreateData(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    renderer_classes = (JSONRenderer,)
+
+    def post(self, request):
+        if request.user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            comment = CRIMComment(author = request.user.profile)
+            serialized = CRIMCommentDetailDataSerializer(comment, data=request.data, context={'request': request})
+            if not serialized.is_valid():
+                return Response({'serialized': serialized, 'content': comment})
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)

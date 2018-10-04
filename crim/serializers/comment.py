@@ -3,6 +3,8 @@ from crim.models.mass import CRIMMass
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.user import CRIMUserProfile
+
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 
@@ -13,7 +15,6 @@ class CRIMPersonCommentSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMPerson
         fields = (
             'url',
-            'name',
         )
 
 
@@ -102,3 +103,16 @@ class CRIMCommentDetailSerializer(serializers.HyperlinkedModelSerializer):
     def to_representation(self, instance):
         self.fields['piece_read'] = CRIMPieceCommentSerializer(read_only=True)
         return super().to_representation(instance)
+
+class CRIMCommentDetailDataSerializer(CRIMCommentDetailSerializer):
+    class Meta:
+        model = CRIMComment
+        fields = (
+            'url',
+            'author',
+            'piece',
+            'text',
+            'created',
+            'updated',
+            'edited',
+        )

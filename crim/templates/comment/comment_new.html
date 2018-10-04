@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load rest_framework %}
+
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load static %}
+
+{% block title %}
+  <title>CRIM | New comment</title>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup>
+    <h1>New comment</h1>
+  </hgroup>
+
+  <form action="{% url 'crimcomment-new' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <select name="piece" class="form-control" style="min-width: 420px; max-width: 540px;">
+        {% for piece in pieces %}
+          <option value="{{ piece.pk }}" {% if comment.piece.pk == piece.pk %}selected="true"{% endif %}>{{ piece }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <textarea name="text" class="form-control" rows="6" style="min-width: 420px; max-width: 540px;">{{ comment.text }}</textarea>
+    </div>
+    <input type="hidden" name="alive" value="true" />
+    <input type="hidden" name="edited" value="false" />
+    <input type="submit" name="save" value="Save" class="btn-primary" />
+  </form>
+
+  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
+  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+
+{% endblock %}
