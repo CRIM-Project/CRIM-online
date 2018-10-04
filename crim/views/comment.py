@@ -35,7 +35,7 @@ class CommentList(generics.ListAPIView):
         return CRIMComment.objects.filter(alive=True).order_by(order_by)
 
 
-class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+class CommentDetail(generics.RetrieveUpdateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     renderer_classes = (TemplateHTMLRenderer,)
     template_name = 'comment/comment_detail.html'
@@ -48,7 +48,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def post(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        if not request.user.is_anonymous and comment.author == request.user.profile:
+        if not request.user.is_anonymous and (comment.author == request.user.profile or request.user.is_staff):
             # If the "Confirm deletion" checkbox is selected and the Delete
             # button is pressed, then wipe out the text of the comment with [delete]
             # and set `alive` to False.
@@ -71,12 +71,6 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
         else:
             return HttpResponseRedirect(request.path_info)
 
-    def delete(self, request, comment_id):
-        comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        if not request.user.is_anonymous and comment.author == request.user.profile:
-            comment.delete()
-        return redirect('crimcomment-list')
-
 
 class CommentListData(CommentList):
     renderer_classes = (JSONRenderer,)
@@ -92,7 +86,7 @@ class CommentDetailData(CommentDetail):
 
     def post(self, request):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        if not request.user.is_anonymous and comment.author == request.user.profile and comment.alive:
+        if not request.user.is_anonymous and (comment.author == request.user.profile or request.user.is_staff) and comment.alive:
             serialized = CRIMCommentDetailDataSerializer(comment, data=request.data, context={'request': request})
             if not serialized.is_valid():
                 return Response({'serialized': serialized, 'content': comment})
