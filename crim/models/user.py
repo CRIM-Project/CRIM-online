@@ -21,7 +21,6 @@ class CRIMUserProfile(models.Model):
     person = models.ForeignKey(
         'CRIMPerson',
         on_delete=models.SET_NULL,
-        blank=True,
         null=True,
         db_index=True,
         help_text='Link this account with a CRIM Person',
