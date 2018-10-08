@@ -45,7 +45,7 @@ from crim.views.part import PartListData, PartDetailData
 from crim.views.person import PersonListData, PersonDetailData
 from crim.views.phrase import PhraseListData, PhraseDetailData
 from crim.views.piece import PieceListData, ModelListData, PieceDetailData, PieceWithObservationsData, PieceWithRelationshipsData
-from crim.views.observation import ObservationListData, ObservationDetailData
+from crim.views.observation import ObservationListData, ObservationDetailData, ObservationCreateData
 from crim.views.relationship import RelationshipListData, RelationshipDetailData
 from crim.views.role import RoleListData, RoleDetailData
 from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
@@ -114,6 +114,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/models/$', ModelListData.as_view(), name='crimmodel-list-data'),
         re_path(r'^data/observations/$', ObservationListData.as_view(), name='crimobservation-list-data'),
         re_path(r'^data/observation/(?P<pk>[0-9]+)/$', ObservationDetailData.as_view(), name='crimobservation-detail-data'),
+        re_path(r'^data/observation/new/$', ObservationCreateData.as_view(), name='crimobservation-new-data'),
         re_path(r'^data/parts/$', PartListData.as_view(), name='crimpart-list-data'),
         re_path(r'^data/part/(?P<part_id>[-_A-Za-z0-9\.]+)/$', PartDetailData.as_view(), name='crimpart-detail-data'),
         re_path(r'^data/people/$', PersonListData.as_view(), name='crimperson-list-data'),
