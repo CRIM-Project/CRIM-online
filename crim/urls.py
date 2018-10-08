@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, logout
 from django.urls import path
+from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -76,6 +77,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
 
         re_path(r'^search/$', search, name='search'),
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
+
+        re_path(r'^citations/$', TemplateView.as_view(template_name='main/citations.html'), name='citations'),
 
         re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
         # re_path(r'^comment/new/$', CommentCreate.as_view(), name='crimcomment-new'),
