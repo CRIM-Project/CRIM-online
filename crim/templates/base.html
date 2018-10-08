@@ -16,6 +16,7 @@
   <!-- <script src="{% static 'js/vendor/jquery.min.js' %}"></script> -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <!-- scripts concatenated and minified via build script -->
   <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/plugins.js' %}"></script>
@@ -103,9 +104,9 @@
 
     <footer id="footer">
     <p class="copyright">
-    	  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+    	<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
         <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
-    </a>
+      </a>
     </p>
     <p class="copyright">
       Copyright &copy; 2018 Richard Freedman/Haverford College<br />
@@ -116,7 +117,7 @@
 
   <script type="text/javascript">
     // CSRF Token Protection lifted from Django documentation.
-    var csrftoken = $.cookie('csrftoken');
+    var csrftoken = Cookies.set('csrftoken');
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
