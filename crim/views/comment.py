@@ -86,14 +86,16 @@ class CommentDetailData(CommentDetail):
 
     def post(self, request):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        if not request.user.is_anonymous and (comment.author == request.user.profile or request.user.is_staff) and comment.alive:
+        if request.user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        elif (comment.author != request.user.profile and not request.user.is_staff) or not comment.alive:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        else:
             serialized = CRIMCommentDetailDataSerializer(comment, data=request.data, context={'request': request})
             if not serialized.is_valid():
                 return Response({'serialized': serialized, 'content': comment})
             serialized.save()
             return Response(serialized.data, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class CommentCreateData(generics.CreateAPIView):

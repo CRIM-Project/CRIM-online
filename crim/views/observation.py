@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.models.observation import CRIMObservation
+from crim.models.piece import CRIMPiece
 
 
 class ObservationSetPagination(PageNumberPagination):
@@ -72,3 +74,36 @@ class ObservationListData(ObservationList):
 
 class ObservationDetailData(ObservationDetail):
     renderer_classes = (JSONRenderer,)
+
+    def post(self, request):
+        observation = get_object_or_404(CRIMObservation, pk=pk)
+        # Not allowed to POST if there is no CRIMPerson associated with this user
+        if request.user.is_anonymous or not request.user.profile.person:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        elif comment.author != request.user.profile and not request.user.is_staff:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        else:
+            serialized = CRIMObservationSerializer(observation, data=request.data, context={'request': request})
+            if not serialized.is_valid():
+                return Response({'serialized': serialized, 'content': observation})
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_200_OK)
+
+
+class ObservationCreateData(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        # Not allowed to POST if there is no CRIMPerson associated with this user
+        if request.user.is_anonymous or not request.user.profile.person:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            observation = CRIMObservation(
+                observer=request.user.profile.person,
+                piece=CRIMPiece.objects.get(piece_id=request.data['piece']),
+            )
+            serialized = CRIMObservationSerializer(observation, data=request.data, context={'request': request})
+            if not serialized.is_valid():
+                return Response({'serialized': serialized, 'content': observation})
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
