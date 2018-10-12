@@ -7,26 +7,28 @@
 {% endblock %}
 
 {% block wrap %}
+  <link rel="stylesheet" type="text/css" href="{% static "node_modules/crim-citations/crim-citations.css" %}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <h1>Citation tool</h1>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row crim_header">
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation">
-            <button id="add_btn" type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--mini-fab mdl-button--colored">
-              <i class="material-icons">add</i>
+            <button id="add_btn" class="btn" type="button">
+              Add scores
             </button>
-            <button id="export_btn" type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--mini-fab mdl-button--colored">
-              <i class="material-icons">file_download</i>
+            <button id="export_btn" class="btn btn-primary" type="button">
+              Download
             </button>
           </nav>
         </div>
       </header>
       <main class="mdl-layout__content" id="main-citations" data-pieces="http://127.0.0.1:8000/data/pieces/" data-relationships="http://127.0.0.1:8000/data/relationships/">
         <!-- or data-scoreA, data-scoreB -->
-        <!-- <section class="mdl-layout__tab-panel is-active" id="create_edit"> -->
+        <section class="mdl-layout__tab-panel is-active" id="create_edit">
         <div class="page-content" id="create_edit">
-          <div id="loader"><img src="{% static "/img/loading.gif" %}"/> Loading... </div>
+          <div id="loader"><img src="{% static "/img/loading.gif" %}" width=128 /> Loading&hellip;</div>
           <div class="mdl-grid">
           </div>
         </div>
@@ -35,8 +37,6 @@
     <div id="dialogs"></div>
     <script src="http://www.verovio.org/javascript/latest/verovio-toolkit.js"></script>
     <script src="{% static "node_modules/crim-citations/crim-citations.js" %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static "node_modules/crim-citations/crim-citations.css" %}" />
     <script src="{% static "node_modules/dialog-polyfill/dialog-polyfill.js" %}"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 {% endblock %}
