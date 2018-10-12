@@ -38,12 +38,12 @@
       {% endif %}
     </h2>
   </hgroup>
-  
+
   {% if content.remarks %}
     <h2>Remarks</h2>
     <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
   {% endif %}
-  
+
   {% if content.has_works %}
     <h2>Works</h2>
     <table class="table table-white table-bordered table-hover">
@@ -106,7 +106,6 @@
     </table>
   {% endif %}
 
-  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+
 
 {% endblock %}

@@ -76,13 +76,12 @@
       </div>
     </div>
   {% endif %}
-  
+
   {% if content.remarks %}
     <h2>Remarks</h2>
     <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
   {% endif %}
-  
-  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+
+
 
 {% endblock %}
