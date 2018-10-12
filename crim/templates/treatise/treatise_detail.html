@@ -22,7 +22,7 @@
       <a href="{{ role.person.url|htmlsite }}">{{ role.person.name }}</a>{% if role.date %}, {{ role.date }}{% endif %}</h3>
     {% endfor %}
   </hgroup>
-  
+
   {% if content.sources %}
     <h2>Sources</h2>
     <table class="table table-white table-bordered table-hover">
@@ -53,13 +53,11 @@
       </tbody>
     </table>
   {% endif %}
-  
+
   {% if content.remarks %}
     <h2>Remarks</h2>
     <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}  
-  
-  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+  {% endif %}
+
 
 {% endblock %}

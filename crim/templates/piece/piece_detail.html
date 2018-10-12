@@ -28,7 +28,7 @@
               {% endif %}
             {% endfor %}
             {% for mei_link in content.mei_links %}
-              {% if mei_link %} 
+              {% if mei_link %}
                 <a href="{{ mei_link }}">
                   <img src="{% static 'img/meidownload.png' %}" height=24 />
                 </a>
@@ -47,12 +47,12 @@
           {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
         {% endfor %}
       </hgroup>
-      
+
       {% if not content.show_observations and not content.show_relationships %}
         {% include "piece/text.html" with phrases=content.phrases %}
         {% include "source/source_block.html" with sources=content.sources %}
       {% endif %}
-      
+
       {% if content.remarks %}
         <h2>Remarks</h2>
         <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
@@ -61,11 +61,11 @@
       {% if not content.show_observations and not content.show_relationships %}
         {% include "piece/score.html" %}
       {% endif %}
-      
+
       {% if content.show_observations %}
         {% include "piece/observations.html" %}
       {% endif %}
-      
+
       {% if content.show_relationships %}
         {% include "piece/relationships.html" %}
       {% endif %}
@@ -108,13 +108,13 @@
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
         {% endif %}
-        
+
         {% if content.show_observations %}
           <h3>Piece observations</h3>
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
         {% endif %}
-        
+
         {% if content.show_relationships %}
           <h3>Piece relationships</h3>
         {% else %}
@@ -125,7 +125,6 @@
   </div>
 
 
-  <script src="{% static 'js/vendor/jquery.cookie.js' %}"></script>
-  <script type="text/JavaScript" src="/static/js/bootstrap/bootstrap.bundle.js"></script>
+
 
 {% endblock %}
