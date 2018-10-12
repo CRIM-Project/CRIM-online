@@ -120,8 +120,8 @@ def create_item(item, processed_data, unprocessed_data, log):
 
 def create_observations(item, relationship, processed_data, unprocessed_data, log):
     global OBSERVATION_COUNT
-    '''Create an observation for each assertion in the old data.
-    If there are more than two assertions, don't process.
+    '''Create an observation for each observation in the old data.
+    If there are more than two observations, don't process.
     '''
     model_observation = {}
     derivative_observation = {}
@@ -151,24 +151,24 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
     model_observation['updated'] = item['created_at']
     derivative_observation['updated'] = item['created_at']
 
-    # If looking up the observation in the item's assertions
-    # returns a result, use that data to add a type to the assertion;
+    # If looking up the observation in the item's observations
+    # returns a result, use that data to add a type to the observation;
     # also copy the remarks. Otherwise, these fields simply aren't added.
-    if 'assertions' in item and item['assertions']:
-        for assertion in item['assertions']:
-            if ('ema' in assertion and assertion['ema'] == model_observation['ema'] and
-                    PIECES[assertion['title']] == model_observation['piece']):
-                add_musical_types(assertion, model_observation)
-            elif ('ema' in assertion and assertion['ema'] == derivative_observation['ema'] and
-                  PIECES[assertion['title']] == derivative_observation['piece']):
-                add_musical_types(assertion, derivative_observation)
+    if 'observations' in item and item['observations']:
+        for observation in item['observations']:
+            if ('ema' in observation and observation['ema'] == model_observation['ema'] and
+                    PIECES[observation['title']] == model_observation['piece']):
+                add_musical_types(observation, model_observation)
+            elif ('ema' in observation and observation['ema'] == derivative_observation['ema'] and
+                  PIECES[observation['title']] == derivative_observation['piece']):
+                add_musical_types(observation, derivative_observation)
             else:
-                if 'title' not in assertion:
-                    log.append('Assertion with timestamp {} unprocessed: without title and not associated with relationship.'.format(item['created_at']))
+                if 'title' not in observation:
+                    log.append('Observation with timestamp {} unprocessed: without title and not associated with relationship.'.format(item['created_at']))
     # If the observation doesn't match the relationship (ie is an orphan),
     # mark as "needs review" and mention the situation in the remark.
                 else:
-                    add_orphan_assertion(item, assertion, processed_data)
+                    add_orphan_observation(item, observation, processed_data)
                     log.append('Item with timestamp {} needs review: not associated with relationship'.format(item['created_at']))
 
     # Finally, return the new observations with unique ids.
@@ -179,12 +179,12 @@ def create_observations(item, relationship, processed_data, unprocessed_data, lo
     return (model_observation, derivative_observation)
 
 
-def add_orphan_assertion(item, assertion, processed_data):
+def add_orphan_observation(item, observation, processed_data):
     global OBSERVATION_COUNT
 
     new_observation_fields = {}
-    new_observation_fields['piece'] = PIECES[assertion['title']]
-    new_observation_fields['ema'] = assertion['ema']
+    new_observation_fields['piece'] = PIECES[observation['title']]
+    new_observation_fields['ema'] = observation['ema']
 
     new_observation_fields['observer'] = PEOPLE[item['user']]
     new_observation_fields['created'] = item['created_at']
@@ -209,107 +209,107 @@ def _add_list_as_string(item, base_name='voice'):
     return '\n'.join(combined_list)
 
 
-def add_musical_types(assertion, new_observation):
-    '''Add the musical types and remarks of an assertion to the
+def add_musical_types(observation, new_observation):
+    '''Add the musical types and remarks of an observation to the
     new observation object.'''
-    new_observation['remarks'] = assertion['comment']
-    if assertion['type'] == 'mt-cf':
+    new_observation['remarks'] = observation['comment']
+    if observation['type'] == 'mt-cf':
         new_observation['mt_cf'] = True
-        new_observation['mt_cf_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_cf_dur'] = assertion['dur']
-        new_observation['mt_cf_mel'] = assertion['mel']
-    if assertion['type'] == 'mt-sog':
+        new_observation['mt_cf_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_cf_dur'] = observation['dur']
+        new_observation['mt_cf_mel'] = observation['mel']
+    if observation['type'] == 'mt-sog':
         new_observation['mt_sog'] = True
-        new_observation['mt_sog_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_sog_dur'] = assertion['dur']
-        new_observation['mt_sog_mel'] = assertion['mel']
-        new_observation['mt_sog_ostinato'] = assertion['ost']
-        new_observation['mt_sog_periodic'] = assertion['per']
-    if assertion['type'] == 'mt-csog':
+        new_observation['mt_sog_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_sog_dur'] = observation['dur']
+        new_observation['mt_sog_mel'] = observation['mel']
+        new_observation['mt_sog_ostinato'] = observation['ost']
+        new_observation['mt_sog_periodic'] = observation['per']
+    if observation['type'] == 'mt-csog':
         new_observation['mt_csog'] = True
-        new_observation['mt_csog_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_csog_dur'] = assertion['dur']
-        new_observation['mt_csog_mel'] = assertion['mel']
-    if assertion['type'] == 'mt-cd':
+        new_observation['mt_csog_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_csog_dur'] = observation['dur']
+        new_observation['mt_csog_mel'] = observation['mel']
+    if observation['type'] == 'mt-cd':
         new_observation['mt_cd'] = True
-        new_observation['mt_cd_voices'] = _add_list_as_string(assertion['options'])
-    if assertion['type'] == 'mt-fg':
+        new_observation['mt_cd_voices'] = _add_list_as_string(observation['options'])
+    if observation['type'] == 'mt-fg':
         new_observation['mt_fg'] = True
-        new_observation['mt_fg_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_fg_periodic'] = assertion['pe']
-        new_observation['mt_fg_strict'] = assertion['ste']
-        new_observation['mt_fg_flexed'] = assertion['fe']
-        new_observation['mt_fg_sequential'] = assertion['se']
-        new_observation['mt_fg_inverted'] = assertion['ie']
-        new_observation['mt_fg_retrograde'] = assertion['re']
-        new_observation['mt_fg_int'] = assertion['int']
-        new_observation['mt_fg_tint'] = assertion['tint']
-    if assertion['type'] == 'mt-pe':
+        new_observation['mt_fg_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_fg_periodic'] = observation['pe']
+        new_observation['mt_fg_strict'] = observation['ste']
+        new_observation['mt_fg_flexed'] = observation['fe']
+        new_observation['mt_fg_sequential'] = observation['se']
+        new_observation['mt_fg_inverted'] = observation['ie']
+        new_observation['mt_fg_retrograde'] = observation['re']
+        new_observation['mt_fg_int'] = observation['int']
+        new_observation['mt_fg_tint'] = observation['tint']
+    if observation['type'] == 'mt-pe':
         new_observation['mt_pe'] = True
-        new_observation['mt_pe_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_pe_strict'] = assertion['ste']
-        new_observation['mt_pe_flexed'] = assertion['fe']
-        new_observation['mt_pe_flt'] = assertion['fte']
-        new_observation['mt_pe_sequential'] = assertion['se']
-        new_observation['mt_pe_added'] = assertion['ae']
-        new_observation['mt_pe_invertible'] = assertion['ic']
-        new_observation['mt_pe_int'] = assertion['int']
-        new_observation['mt_pe_tint'] = assertion['tint']
-    if assertion['type'] == 'mt-id':
+        new_observation['mt_pe_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_pe_strict'] = observation['ste']
+        new_observation['mt_pe_flexed'] = observation['fe']
+        new_observation['mt_pe_flt'] = observation['fte']
+        new_observation['mt_pe_sequential'] = observation['se']
+        new_observation['mt_pe_added'] = observation['ae']
+        new_observation['mt_pe_invertible'] = observation['ic']
+        new_observation['mt_pe_int'] = observation['int']
+        new_observation['mt_pe_tint'] = observation['tint']
+    if observation['type'] == 'mt-id':
         new_observation['mt_id'] = True
-        new_observation['mt_id_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_id_strict'] = assertion['ste']
-        new_observation['mt_id_flexed'] = assertion['fe']
-        new_observation['mt_id_flt'] = assertion['fte']
-        new_observation['mt_id_invertible'] = assertion['ic']
-        new_observation['mt_id_int'] = assertion['int']
-        new_observation['mt_id_tint'] = assertion['tint']
-    if assertion['type'] == 'mt-nid':
+        new_observation['mt_id_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_id_strict'] = observation['ste']
+        new_observation['mt_id_flexed'] = observation['fe']
+        new_observation['mt_id_flt'] = observation['fte']
+        new_observation['mt_id_invertible'] = observation['ic']
+        new_observation['mt_id_int'] = observation['int']
+        new_observation['mt_id_tint'] = observation['tint']
+    if observation['type'] == 'mt-nid':
         new_observation['mt_nid'] = True
-        new_observation['mt_nid_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_nid_strict'] = assertion['ste']
-        new_observation['mt_nid_flexed'] = assertion['fe']
-        new_observation['mt_nid_flt'] = assertion['fte']
-        new_observation['mt_nid_sequential'] = assertion['se']
-        new_observation['mt_nid_invertible'] = assertion['ic']
-        new_observation['mt_nid_int'] = assertion['int']
-        new_observation['mt_nid_tint'] = assertion['tint']
-    if assertion['type'] == 'mt-hr':
+        new_observation['mt_nid_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_nid_strict'] = observation['ste']
+        new_observation['mt_nid_flexed'] = observation['fe']
+        new_observation['mt_nid_flt'] = observation['fte']
+        new_observation['mt_nid_sequential'] = observation['se']
+        new_observation['mt_nid_invertible'] = observation['ic']
+        new_observation['mt_nid_int'] = observation['int']
+        new_observation['mt_nid_tint'] = observation['tint']
+    if observation['type'] == 'mt-hr':
         new_observation['mt_hr'] = True
-        new_observation['mt_hr_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_hr_simple'] = assertion['s']
-        new_observation['mt_hr_staggered'] = assertion['st']
-        new_observation['mt_hr_sequential'] = assertion['se']
-        new_observation['mt_hr_fauxbourdon'] = assertion['fa']
-    if assertion['type'] == 'mt-cad':
+        new_observation['mt_hr_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_hr_simple'] = observation['s']
+        new_observation['mt_hr_staggered'] = observation['st']
+        new_observation['mt_hr_sequential'] = observation['se']
+        new_observation['mt_hr_fauxbourdon'] = observation['fa']
+    if observation['type'] == 'mt-cad':
         new_observation['mt_cad'] = True
-        new_observation['mt_cad_cantizans'] = assertion['options']['voice1']
-        new_observation['mt_cad_tenorizans'] = assertion['options']['voice2']
-        if assertion['a']:
-            assert not assertion['ph'] and not assertion['p']
+        new_observation['mt_cad_cantizans'] = observation['options']['voice1']
+        new_observation['mt_cad_tenorizans'] = observation['options']['voice2']
+        if observation['a']:
+            assert not observation['ph'] and not observation['p']
             new_observation['mt_cad_type'] = 'authentic'
-        elif assertion['ph']:
-            assert not assertion['a'] and not assertion['p']
+        elif observation['ph']:
+            assert not observation['a'] and not observation['p']
             new_observation['mt_cad_type'] = 'phrygian'
-        elif assertion['p']:
-            assert not assertion['a'] and not assertion['ph']
+        elif observation['p']:
+            assert not observation['a'] and not observation['ph']
             new_observation['mt_cad_type'] = 'plagal'
-        new_observation['mt_cad_tone'] = assertion['tone']
-        new_observation['mt_cad_dtv'] = assertion['options']['dove_voice1']
-        new_observation['mt_cad_dti'] = assertion['dove']
-    if assertion['type'] == 'mt-int':
+        new_observation['mt_cad_tone'] = observation['tone']
+        new_observation['mt_cad_dtv'] = observation['options']['dove_voice1']
+        new_observation['mt_cad_dti'] = observation['dove']
+    if observation['type'] == 'mt-int':
         new_observation['mt_int'] = True
-        new_observation['mt_int_voices'] = _add_list_as_string(assertion['options'])
-        new_observation['mt_int_p6'] = assertion['p6']
-        new_observation['mt_int_p3'] = assertion['p3']
-        new_observation['mt_int_c35'] = assertion['c35']
-        new_observation['mt_int_c83'] = assertion['c83']
-        new_observation['mt_int_c65'] = assertion['c65']
-    if assertion['type'] == 'mt-fp':
+        new_observation['mt_int_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_int_p6'] = observation['p6']
+        new_observation['mt_int_p3'] = observation['p3']
+        new_observation['mt_int_c35'] = observation['c35']
+        new_observation['mt_int_c83'] = observation['c83']
+        new_observation['mt_int_c65'] = observation['c65']
+    if observation['type'] == 'mt-fp':
         new_observation['mt_fp'] = True
-        new_observation['mt_fp_comment'] = assertion['comment']
-        new_observation['mt_fp_ir'] = assertion['ir']
-        new_observation['mt_fp_range'] = assertion['r']
+        new_observation['mt_fp_comment'] = observation['comment']
+        new_observation['mt_fp_ir'] = observation['ir']
+        new_observation['mt_fp_range'] = observation['r']
 
 
 def add_relationship_types(old_relationship, new_relationship):
