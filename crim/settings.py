@@ -122,7 +122,7 @@ SHORT_DATETIME_FORMAT = 'Y-m-d, H:m'
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_REDIRECT_URL = '/accounts/profile/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Make it acceptable for users to leave off a slash in URLs

@@ -16,13 +16,11 @@ Including another URLconf
 from django.conf.urls import include, re_path
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, logout
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 
-from crim.views.auth import SessionAuth, SessionStatus, SessionClose
 from crim.views.callbacks import result_callback
 
 from crim.views.comment import CommentList, CommentDetail
@@ -37,6 +35,7 @@ from crim.views.roletype import RoleTypeList
 from crim.views.search import search
 from crim.views.source import SourceList, SourceDetail
 from crim.views.treatise import TreatiseList, TreatiseDetail
+from crim.views.user import UserProfile
 
 # The following are for the JSON views
 from crim.views.comment import CommentListData, CommentDetailData, CommentCreateData
@@ -66,18 +65,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
 
     urlpatterns += [
         re_path(r'^$', home, name='home'),
-        re_path(r'^auth/token/$', obtain_auth_token),
-        re_path(r'^auth/session/$', SessionAuth.as_view()),
-        re_path(r'^auth/status/$', SessionStatus.as_view()),
-        re_path(r'^auth/logout/$', SessionClose.as_view()),
-        re_path(r'^profile/', profile),
-        # re_path(r'^users/$', UserList.as_view(), name='user-list'),
-
-        re_path(r'^data/user/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
 
         re_path(r'^search/$', search, name='search'),
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
-
         re_path(r'^citations/$', TemplateView.as_view(template_name='main/citations.html'), name='citations'),
 
         re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
@@ -105,6 +95,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^source/(?P<document_id>[-_A-Za-z0-9]+)/$', SourceDetail.as_view(), name='crimsource-detail'),
         re_path(r'^treatises/$', TreatiseList.as_view(), name='crimtreatise-list'),
         re_path(r'^treatise/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
+        re_path(r'^user/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfile.as_view(), name='crimuserprofile-detail'),
         # The following are for the JSON views
         re_path(r'^data/comments/$', CommentListData.as_view(), name='crimcomment-list-data'),
         re_path(r'^data/comment/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetailData.as_view(), name='crimcomment-detail-data'),
@@ -138,13 +129,14 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/source/(?P<document_id>[-_A-Za-z0-9]+)/$', SourceDetailData.as_view(), name='crimsource-detail-data'),
         re_path(r'^data/treatises/$', TreatiseListData.as_view(), name='crimtreatise-list-data'),
         re_path(r'^data/treatise/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetailData.as_view(), name='crimtreatise-detail-data'),
+        re_path(r'^data/user/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voice/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
     ]
 
     urlpatterns += [
-        re_path(r'^login/$', LoginView.as_view()),
-        re_path(r'^logout/$', logout, {'next_page': '/'}),
+        path('accounts/', include('django.contrib.auth.urls')),
+        re_path(r'^accounts/profile/$', profile),
     ]
 
     urlpatterns += [

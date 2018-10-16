@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import password_change
 
 
 def home(request):
@@ -18,16 +17,7 @@ def home(request):
     return render(request, 'main/home.html', data)
 
 
-@login_required(login_url="/login/")
-def my_password_change(request):
-    return password_change(
-        request,
-        template_name='registration/password_change_form.html',
-        post_change_redirect="/profile/",
-    )
-
-
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def profile(request):
     profile = request.user.profile
 

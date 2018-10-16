@@ -41,8 +41,8 @@
         <div class="span12">
           <dl class="well-list account-info-list">
             <p>Joined {{ user.date_joined.date }}</p>
-            <p><a href="/password_change/">Change Password</a></p>
-            <p><a href="#" id="logout">Log&nbsp;Out</a></p>
+            <p><a href="/accounts/password_change/">Change password</a></p>
+            <p><a href="/accounts/logout/" id="logout">Log out</a></p>
             {% if user.profile.person %}
                 <form data-personid="{{ user.profile.person.person_id }}" id="remarks-form">
                   {% csrf_token %}
