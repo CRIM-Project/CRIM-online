@@ -8,29 +8,8 @@ from rest_framework import permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.renderers import JSONRenderer
 
-from crim.serializers.user import UserSerializer, UserListSerializer, CRIMUserProfileDetailSerializer
+from crim.serializers.user import CRIMUserProfileDetailSerializer
 from crim.models.user import CRIMUserProfile
-
-
-class UserList(generics.ListCreateAPIView):
-    model = User
-    permission_classes = (permissions.IsAdminUser, )
-    serializer_class = UserListSerializer
-    paginate_by = None
-
-    def get_queryset(self):
-        queryset = User.objects.exclude(pk=-1)
-        return queryset
-
-
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = User
-    permission_classes = (permissions.IsAdminUser, )
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        queryset = User.objects.all()
-        return queryset
 
 
 class UserProfile(generics.RetrieveAPIView):

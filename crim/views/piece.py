@@ -49,7 +49,7 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -61,7 +61,7 @@ class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -73,7 +73,7 @@ class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 

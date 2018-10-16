@@ -12,7 +12,7 @@ class TreatiseListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         template_names = ['treatise/treatise_list.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
@@ -24,7 +24,7 @@ class TreatiseDetailHTMLRenderer(CustomHTMLRenderer):
 
         template_names = ['treatise/treatise_detail.html']
         template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data}, renderer_context)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
         return template.render(context)
 
 
