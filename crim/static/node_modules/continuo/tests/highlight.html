@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Continuo Test</title>
+    <script src="http://www.verovio.org/javascript/latest/verovio-toolkit.js"></script>
+    <script src="../dist/js/continuo.js"></script>
+    <link rel="stylesheet" type="text/css" href="../dist/css/continuo.css" />
+    <style>
+        svg{
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="continuo" style="width: 100%; height: 500px ">
+       &nbsp;
+    </div>
+    <script>
+    var MEIurl = 'http://www.verovio.org/examples/downloads/Schubert_Lindenbaum.mei'
+    var ver = new verovio.toolkit();
+    var opts = {
+        pageWidth: document.getElementById("continuo").offsetWidth * 100 / 35,
+        ignoreLayout: 1,
+        adjustPageHeight: 1,
+        border: 10,
+        scale: 35
+    };
+
+    if (window.location.hash && window.location.hash != "") {
+        var mei = window.location.hash.substr(1);
+        MEIurl = mei
+    }
+
+    var cnt = new Continuo({el: "#continuo", mei: MEIurl, verovioToolkit: ver, paginate: true, verovioOptions: opts});
+    cnt.render();
+
+    window.cnt = cnt;
+    </script>
+</body>
+
+</html>
