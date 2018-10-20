@@ -39,7 +39,7 @@ class CRIMPiece(models.Model):
         app_label = 'crim'
         verbose_name = 'Piece'
         verbose_name_plural = 'Pieces'
-        ordering = ['piece_id']
+        ordering = ['mass', 'piece_id']
         unique_together = ('mass', 'title')
 
     piece_id = models.CharField(
