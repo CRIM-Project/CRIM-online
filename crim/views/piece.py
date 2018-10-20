@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, F
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
@@ -93,7 +93,13 @@ class PieceList(generics.ListAPIView):
             genre = CRIMGenre.objects.get(genre_id=self.request.GET.get('genre'))
             return CRIMPiece.objects.filter(genre=genre).distinct().order_by(order_by)
         else:
-            return CRIMPiece.objects.all().annotate(number_of_voices=Count('voices')).distinct().order_by(order_by)
+            # We want to put models before masses when sorting by piece_id
+            if order_by == 'piece_id':
+                return CRIMPiece.objects.annotate(
+                        number_of_voices=Count('voices')).distinct().order_by(
+                        F('mass').asc(nulls_first=True), 'piece_id')
+            else:
+                return CRIMPiece.objects.all().annotate(number_of_voices=Count('voices')).distinct().order_by(order_by)
 
 
 class ModelList(generics.ListAPIView):
