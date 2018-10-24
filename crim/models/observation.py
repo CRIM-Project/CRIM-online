@@ -31,64 +31,64 @@ class CRIMObservation(models.Model):
 
     mt_cf = models.BooleanField('cantus firmus', default=False)
     mt_cf_voices = models.TextField('voices (one per line)', blank=True)
-    mt_cf_dur = models.BooleanField('durations only', default=False)
-    mt_cf_mel = models.BooleanField('intervals only', default=False)
+    mt_cf_dur = models.BooleanField('rhythmic durations', default=False)
+    mt_cf_mel = models.BooleanField('melodic intervals', default=False)
 
     mt_sog = models.BooleanField('soggetto', default=False)
     mt_sog_voices = models.TextField('voices (one per line)', blank=True)
-    mt_sog_dur = models.BooleanField('durations only', default=False)
-    mt_sog_mel = models.BooleanField('intervals only', default=False)
+    mt_sog_dur = models.BooleanField('rhythmic durations', default=False)
+    mt_sog_mel = models.BooleanField('melodic intervals', default=False)
     mt_sog_ostinato = models.BooleanField('ostinato', default=False)
     mt_sog_periodic = models.BooleanField('periodic', default=False)
 
     mt_csog = models.BooleanField('counter-soggetto', default=False)
     mt_csog_voices = models.TextField('voices (one per line)', blank=True)
-    mt_csog_dur = models.BooleanField('durations only', default=False)
-    mt_csog_mel = models.BooleanField('intervals only', default=False)
+    mt_csog_dur = models.BooleanField('rhythmic durations', default=False)
+    mt_csog_mel = models.BooleanField('melodic intervals', default=False)
 
     mt_cd = models.BooleanField('contrapuntal duo', default=False)
     mt_cd_voices = models.TextField('voices (one per line)', blank=True)
 
     mt_fg = models.BooleanField('fuga', default=False)
     mt_fg_voices = models.TextField('voices (one per line)', blank=True)
+    mt_fg_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
+    mt_fg_tint = models.CharField('time interval of entry', max_length=32, blank=True)
     mt_fg_periodic = models.BooleanField('periodic', default=False)
     mt_fg_strict = models.BooleanField('strict', default=False)
     mt_fg_flexed = models.BooleanField('flexed', default=False)
     mt_fg_sequential = models.BooleanField('sequential', default=False)
     mt_fg_inverted = models.BooleanField('inverted', default=False)
     mt_fg_retrograde = models.BooleanField('retrograde', default=False)
-    mt_fg_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_fg_tint = models.CharField('time interval of entry', max_length=32, blank=True)
 
     mt_pe = models.BooleanField('periodic entry', default=False)
     mt_pe_voices = models.TextField('voices (one per line)', blank=True)
+    mt_pe_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
+    mt_pe_tint = models.CharField('time interval of entry', max_length=32, blank=True)
     mt_pe_strict = models.BooleanField('strict', default=False)
     mt_pe_flexed = models.BooleanField('flexed', default=False)
     mt_pe_flt = models.BooleanField('flexed, tonal', default=False)
     mt_pe_sequential = models.BooleanField('sequential', default=False)
     mt_pe_added = models.BooleanField('added', default=False)
     mt_pe_invertible = models.BooleanField('invertible', default=False)
-    mt_pe_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_pe_tint = models.CharField('time interval of entry', max_length=32, blank=True)
 
     mt_id = models.BooleanField('imitative duo', default=False)
     mt_id_voices = models.TextField('voices (one per line)', blank=True)
+    mt_id_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
+    mt_id_tint = models.CharField('time interval of entry', max_length=32, blank=True)
     mt_id_strict = models.BooleanField('strict', default=False)
     mt_id_flexed = models.BooleanField('flexed', default=False)
     mt_id_flt = models.BooleanField('flexed, tonal', default=False)
     mt_id_invertible = models.BooleanField('invertible', default=False)
-    mt_id_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_id_tint = models.CharField('time interval of entry', max_length=32, blank=True)
 
     mt_nid = models.BooleanField('non-imitative duo', default=False)
     mt_nid_voices = models.TextField('voices (one per line)', blank=True)
+    mt_nid_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
+    mt_nid_tint = models.CharField('time interval of entry', max_length=32, blank=True)
     mt_nid_strict = models.BooleanField('strict', default=False)
     mt_nid_flexed = models.BooleanField('flexed', default=False)
     mt_nid_flt = models.BooleanField('flexed, tonal', default=False)
     mt_nid_sequential = models.BooleanField('sequential', default=False)
     mt_nid_invertible = models.BooleanField('invertible', default=False)
-    mt_nid_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_nid_tint = models.CharField('time interval of entry', max_length=32, blank=True)
 
     mt_hr = models.BooleanField('homorhythm', default=False)
     mt_hr_voices = models.TextField('voices (one per line)', blank=True)
@@ -100,8 +100,8 @@ class CRIMObservation(models.Model):
     mt_cad = models.BooleanField('cadence', default=False)
     mt_cad_cantizans = models.TextField('cantizans', blank=True)
     mt_cad_tenorizans = models.TextField('tenorizans', blank=True)
-    mt_cad_type = models.CharField('type', max_length=32, blank=True)
-    mt_cad_tone = models.CharField('tone', max_length=16, blank=True)
+    mt_cad_type = models.CharField('type (authentic, phrygian, plagal)', max_length=32, blank=True)
+    mt_cad_tone = models.CharField('tone (e.g. D, A, b; indicate flat tone with lowercase letter)', max_length=16, blank=True)
     mt_cad_dtv = models.CharField('dovetail voice', max_length=32, blank=True)
     mt_cad_dti = models.CharField('dovetail interval', max_length=32, blank=True)
 
@@ -114,9 +114,9 @@ class CRIMObservation(models.Model):
     mt_int_c65 = models.BooleanField('chained 6 and 5', default=False)
 
     mt_fp = models.BooleanField('form and process', default=False)
-    mt_fp_comment = models.TextField('comment', blank=True)
     mt_fp_ir = models.BooleanField('internal repetition', default=False)
     mt_fp_range = models.CharField('range', max_length=16, blank=True)
+    mt_fp_comment = models.TextField('comment', blank=True)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
@@ -154,7 +154,7 @@ class CRIMObservation(models.Model):
             self.mt_cad = True
         if self.mt_int_voices or self.mt_int_p6 or self.mt_int_p3 or self.mt_int_c35 or self.mt_int_c83 or self.mt_int_c65:
             self.mt_int = True
-        if self.mt_fp_comment or self.mt_fp_ir or self.mt_fp_range:
+        if self.mt_fp_ir or self.mt_fp_range or self.mt_fp_comment:
             self.mt_fp = True
 
         # Fill out the human-readable musical type field

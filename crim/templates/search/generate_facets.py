@@ -12,16 +12,16 @@ MUSICAL_TYPES = [
         ('Cantus firmus', 'mt_cf_b', 'mt-cf'),
         [
             # ('Voices (one per line)', 'mt_cf_voices_ss', 'mt-cf-voices'),
-            ('Durations only', 'mt_cf_dur_b', 'mt-cf-dur'),
-            ('Intervals only', 'mt_cf_mel_b', 'mt-cf-mel'),
+            ('Rhythmic durations', 'mt_cf_dur_b', 'mt-cf-dur'),
+            ('Melodic intervals', 'mt_cf_mel_b', 'mt-cf-mel'),
         ]
     ),
     (
         ('Soggetto', 'mt_sog_b', 'mt-sog'),
         [
             # ('Voices (one per line)', 'mt_sog_voices_ss', 'mt-sog-voices'),
-            ('Durations only', 'mt_sog_dur_b', 'mt-sog-dur'),
-            ('Intervals only', 'mt_sog_mel_b', 'mt-sog-mel'),
+            ('Rhythmic durations', 'mt_sog_dur_b', 'mt-sog-dur'),
+            ('Melodic intervals', 'mt_sog_mel_b', 'mt-sog-mel'),
             ('Ostinato', 'mt_sog_ostinato_b', 'mt-sog-ostinato'),
             ('Periodic', 'mt_sog_periodic_b', 'mt-sog-periodic'),
         ]
@@ -30,8 +30,8 @@ MUSICAL_TYPES = [
         ('Counter-soggetto', 'mt_csog_b', 'mt-csog'),
         [
             # ('Voices (one per line)', 'mt_csog_voices_ss', 'mt-csog-voices'),
-            ('Durations only', 'mt_csog_dur_b', 'mt-csog-dur'),
-            ('Intervals only', 'mt_csog_mel_b', 'mt-csog-mel'),
+            ('Rhythmic durations', 'mt_csog_dur_b', 'mt-csog-dur'),
+            ('Melodic intervals', 'mt_csog_mel_b', 'mt-csog-mel'),
         ]
     ),
     (
@@ -44,53 +44,53 @@ MUSICAL_TYPES = [
         ('Fuga', 'mt_fg_b', 'mt-fg'),
         [
             # ('Voices (one per line)', 'mt_fg_voices_ss', 'mt-fg-voices'),
+            ('Melodic interval of entry', 'mt_fg_int_b', 'mt-fg-int'),
+            ('Time interval of entry', 'mt_fg_tint_b', 'mt-fg-tint'),
             ('Periodic', 'mt_fg_periodic_b', 'mt-fg-periodic'),
             ('Strict', 'mt_fg_strict_b', 'mt-fg-strict'),
             ('Flexed', 'mt_fg_flexed_b', 'mt-fg-flexed'),
             ('Sequential', 'mt_fg_sequential_b', 'mt-fg-sequential'),
             ('Inverted', 'mt_fg_inverted_b', 'mt-fg-inverted'),
             ('Retrograde', 'mt_fg_retrograde_b', 'mt-fg-retrograde'),
-            ('Melodic interval of entry', 'mt_fg_int_b', 'mt-fg-int'),
-            ('Time interval of entry', 'mt_fg_tint_b', 'mt-fg-tint'),
         ]
     ),
     (
         ('Periodic entry', 'mt_pe_b', 'mt-pe'),
         [
             # ('Voices (one per line)', 'mt_pe_voices_ss', 'mt-pe-voices'),
+            ('Melodic interval of entry', 'mt_pe_int_b', 'mt-pe-int'),
+            ('Time interval of entry', 'mt_pe_tint_b', 'mt-pe-tint'),
             ('Strict', 'mt_pe_strict_b', 'mt-pe-strict'),
             ('Flexed', 'mt_pe_flexed_b', 'mt-pe-flexed'),
             ('Flexed, tonal', 'mt_pe_flt_b', 'mt-pe-flt'),
             ('Sequential', 'mt_pe_sequential_b', 'mt-pe-sequential'),
             ('Added', 'mt_pe_added_b', 'mt-pe-added'),
             ('Invertible', 'mt_pe_invertible_b', 'mt-pe-invertible'),
-            ('Melodic interval of entry', 'mt_pe_int_b', 'mt-pe-int'),
-            ('Time interval of entry', 'mt_pe_tint_b', 'mt-pe-tint'),
         ]
     ),
     (
         ('Imitative duo', 'mt_id_b', 'mt-id'),
         [
             # ('Voices (one per line)', 'mt_id_voices_ss', 'mt-id-voices'),
+            ('Melodic interval of entry', 'mt_id_int_b', 'mt-id-int'),
+            ('Time interval of entry', 'mt_id_tint_b', 'mt-id-tint'),
             ('Strict', 'mt_id_strict_b', 'mt-id-strict'),
             ('Flexed', 'mt_id_flexed_b', 'mt-id-flexed'),
             ('Flexed, tonal', 'mt_id_flt_b', 'mt-id-flt'),
             ('Invertible', 'mt_id_invertible_b', 'mt-id-invertible'),
-            ('Melodic interval of entry', 'mt_id_int_b', 'mt-id-int'),
-            ('Time interval of entry', 'mt_id_tint_b', 'mt-id-tint'),
         ]
     ),
     (
         ('Non-imitative duo', 'mt_nid_b', 'mt-nid'),
         [
             # ('Voices (one per line)', 'mt_nid_voices_ss', 'mt-nid-voices'),
+            ('Melodic interval of entry', 'mt_nid_int_b', 'mt-nid-int'),
+            ('Time interval of entry', 'mt_nid_tint_b', 'mt-nid-tint'),
             ('Strict', 'mt_nid_strict_b', 'mt-nid-strict'),
             ('Flexed', 'mt_nid_flexed_b', 'mt-nid-flexed'),
             ('Flexed, tonal', 'mt_nid_flt_b', 'mt-nid-flt'),
             ('Sequential', 'mt_nid_sequential_b', 'mt-nid-sequential'),
             ('Invertible', 'mt_nid_invertible_b', 'mt-nid-invertible'),
-            ('Melodic interval of entry', 'mt_nid_int_b', 'mt-nid-int'),
-            ('Time interval of entry', 'mt_nid_tint_b', 'mt-nid-tint'),
         ]
     ),
     (
@@ -128,9 +128,9 @@ MUSICAL_TYPES = [
     (
         ('Form and process', 'mt_fp_b', 'mt-fp'),
         [
-            # ('Comment', 'mt_fp_comment_t', 'mt-fp-comment'),
             ('Internal repetition', 'mt_fp_ir_b', 'mt-fp-ir'),
             ('Range', 'mt_fp_range_s', 'mt-fp-range'),
+            # ('Comment', 'mt_fp_comment_t', 'mt-fp-comment'),
         ]
     ),
 ]

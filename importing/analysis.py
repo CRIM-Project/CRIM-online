@@ -236,44 +236,44 @@ def add_musical_types(observation, new_observation):
     if observation['type'] == 'mt-fg':
         new_observation['mt_fg'] = True
         new_observation['mt_fg_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_fg_int'] = observation['int']
+        new_observation['mt_fg_tint'] = observation['tint']
         new_observation['mt_fg_periodic'] = observation['pe']
         new_observation['mt_fg_strict'] = observation['ste']
         new_observation['mt_fg_flexed'] = observation['fe']
         new_observation['mt_fg_sequential'] = observation['se']
         new_observation['mt_fg_inverted'] = observation['ie']
         new_observation['mt_fg_retrograde'] = observation['re']
-        new_observation['mt_fg_int'] = observation['int']
-        new_observation['mt_fg_tint'] = observation['tint']
     if observation['type'] == 'mt-pe':
         new_observation['mt_pe'] = True
         new_observation['mt_pe_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_pe_int'] = observation['int']
+        new_observation['mt_pe_tint'] = observation['tint']
         new_observation['mt_pe_strict'] = observation['ste']
         new_observation['mt_pe_flexed'] = observation['fe']
         new_observation['mt_pe_flt'] = observation['fte']
         new_observation['mt_pe_sequential'] = observation['se']
         new_observation['mt_pe_added'] = observation['ae']
         new_observation['mt_pe_invertible'] = observation['ic']
-        new_observation['mt_pe_int'] = observation['int']
-        new_observation['mt_pe_tint'] = observation['tint']
     if observation['type'] == 'mt-id':
         new_observation['mt_id'] = True
         new_observation['mt_id_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_id_int'] = observation['int']
+        new_observation['mt_id_tint'] = observation['tint']
         new_observation['mt_id_strict'] = observation['ste']
         new_observation['mt_id_flexed'] = observation['fe']
         new_observation['mt_id_flt'] = observation['fte']
         new_observation['mt_id_invertible'] = observation['ic']
-        new_observation['mt_id_int'] = observation['int']
-        new_observation['mt_id_tint'] = observation['tint']
     if observation['type'] == 'mt-nid':
         new_observation['mt_nid'] = True
         new_observation['mt_nid_voices'] = _add_list_as_string(observation['options'])
+        new_observation['mt_nid_int'] = observation['int']
+        new_observation['mt_nid_tint'] = observation['tint']
         new_observation['mt_nid_strict'] = observation['ste']
         new_observation['mt_nid_flexed'] = observation['fe']
         new_observation['mt_nid_flt'] = observation['fte']
         new_observation['mt_nid_sequential'] = observation['se']
         new_observation['mt_nid_invertible'] = observation['ic']
-        new_observation['mt_nid_int'] = observation['int']
-        new_observation['mt_nid_tint'] = observation['tint']
     if observation['type'] == 'mt-hr':
         new_observation['mt_hr'] = True
         new_observation['mt_hr_voices'] = _add_list_as_string(observation['options'])
@@ -307,9 +307,9 @@ def add_musical_types(observation, new_observation):
         new_observation['mt_int_c65'] = observation['c65']
     if observation['type'] == 'mt-fp':
         new_observation['mt_fp'] = True
-        new_observation['mt_fp_comment'] = observation['comment']
         new_observation['mt_fp_ir'] = observation['ir']
         new_observation['mt_fp_range'] = observation['r']
+        new_observation['mt_fp_comment'] = observation['comment']
 
 
 def add_relationship_types(old_relationship, new_relationship):
