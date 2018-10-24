@@ -43,14 +43,14 @@
           {% if type_facets.model_mt_cf_dur_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-cf-dur" value="true" />Durations only ({% if type_facets.model_mt_cf_dur_b.true %}{{ type_facets.model_mt_cf_dur_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="model-mt-cf-dur" value="true" />Rhythmic durations ({% if type_facets.model_mt_cf_dur_b.true %}{{ type_facets.model_mt_cf_dur_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
           {% if type_facets.model_mt_cf_mel_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-cf-mel" value="true" />Intervals only ({% if type_facets.model_mt_cf_mel_b.true %}{{ type_facets.model_mt_cf_mel_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="model-mt-cf-mel" value="true" />Melodic intervals ({% if type_facets.model_mt_cf_mel_b.true %}{{ type_facets.model_mt_cf_mel_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -68,14 +68,14 @@
           {% if type_facets.model_mt_sog_dur_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-sog-dur" value="true" />Durations only ({% if type_facets.model_mt_sog_dur_b.true %}{{ type_facets.model_mt_sog_dur_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="model-mt-sog-dur" value="true" />Rhythmic durations ({% if type_facets.model_mt_sog_dur_b.true %}{{ type_facets.model_mt_sog_dur_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
           {% if type_facets.model_mt_sog_mel_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-sog-mel" value="true" />Intervals only ({% if type_facets.model_mt_sog_mel_b.true %}{{ type_facets.model_mt_sog_mel_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="model-mt-sog-mel" value="true" />Melodic intervals ({% if type_facets.model_mt_sog_mel_b.true %}{{ type_facets.model_mt_sog_mel_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -107,14 +107,14 @@
           {% if type_facets.model_mt_csog_dur_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-csog-dur" value="true" />Durations only ({% if type_facets.model_mt_csog_dur_b.true %}{{ type_facets.model_mt_csog_dur_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="model-mt-csog-dur" value="true" />Rhythmic durations ({% if type_facets.model_mt_csog_dur_b.true %}{{ type_facets.model_mt_csog_dur_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
           {% if type_facets.model_mt_csog_mel_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-csog-mel" value="true" />Intervals only ({% if type_facets.model_mt_csog_mel_b.true %}{{ type_facets.model_mt_csog_mel_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="model-mt-csog-mel" value="true" />Melodic intervals ({% if type_facets.model_mt_csog_mel_b.true %}{{ type_facets.model_mt_csog_mel_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -140,6 +140,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'model-mt-fg' %}
+          {% if type_facets.model_mt_fg_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_fg_int_b.true %}{{ type_facets.model_mt_fg_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_fg_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-fg-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_fg_tint_b.true %}{{ type_facets.model_mt_fg_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.model_mt_fg_periodic_b.true %}
             <li>
               <label class="checkbox">
@@ -182,20 +196,6 @@
               </label>
             </li>
           {% endif %}
-          {% if type_facets.model_mt_fg_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-fg-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_fg_int_b.true %}{{ type_facets.model_mt_fg_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.model_mt_fg_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-fg-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_fg_tint_b.true %}{{ type_facets.model_mt_fg_tint_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
         {% endif %}
       {% endif %}
       {% if type_facets.model_mt_pe_b.true %}
@@ -207,6 +207,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'model-mt-pe' %}
+          {% if type_facets.model_mt_pe_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_pe_int_b.true %}{{ type_facets.model_mt_pe_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_pe_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-pe-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_pe_tint_b.true %}{{ type_facets.model_mt_pe_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.model_mt_pe_strict_b.true %}
             <li>
               <label class="checkbox">
@@ -249,20 +263,6 @@
               </label>
             </li>
           {% endif %}
-          {% if type_facets.model_mt_pe_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-pe-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_pe_int_b.true %}{{ type_facets.model_mt_pe_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.model_mt_pe_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-pe-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_pe_tint_b.true %}{{ type_facets.model_mt_pe_tint_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
         {% endif %}
       {% endif %}
       {% if type_facets.model_mt_id_b.true %}
@@ -274,6 +274,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'model-mt-id' %}
+          {% if type_facets.model_mt_id_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_id_int_b.true %}{{ type_facets.model_mt_id_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_id_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-id-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_id_tint_b.true %}{{ type_facets.model_mt_id_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.model_mt_id_strict_b.true %}
             <li>
               <label class="checkbox">
@@ -302,20 +316,6 @@
               </label>
             </li>
           {% endif %}
-          {% if type_facets.model_mt_id_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-id-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_id_int_b.true %}{{ type_facets.model_mt_id_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.model_mt_id_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-id-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_id_tint_b.true %}{{ type_facets.model_mt_id_tint_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
         {% endif %}
       {% endif %}
       {% if type_facets.model_mt_nid_b.true %}
@@ -327,6 +327,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'model-mt-nid' %}
+          {% if type_facets.model_mt_nid_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_nid_int_b.true %}{{ type_facets.model_mt_nid_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.model_mt_nid_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="model-mt-nid-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_nid_tint_b.true %}{{ type_facets.model_mt_nid_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.model_mt_nid_strict_b.true %}
             <li>
               <label class="checkbox">
@@ -359,20 +373,6 @@
             <li>
               <label class="checkbox">
                 <input class="facet-refine" type="checkbox" name="model-mt-nid-invertible" value="true" />Invertible ({% if type_facets.model_mt_nid_invertible_b.true %}{{ type_facets.model_mt_nid_invertible_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.model_mt_nid_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-nid-int" value="true" />Melodic interval of entry ({% if type_facets.model_mt_nid_int_b.true %}{{ type_facets.model_mt_nid_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.model_mt_nid_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="model-mt-nid-tint" value="true" />Time interval of entry ({% if type_facets.model_mt_nid_tint_b.true %}{{ type_facets.model_mt_nid_tint_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -547,14 +547,14 @@
           {% if type_facets.derivative_mt_cf_dur_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-cf-dur" value="true" />Durations only ({% if type_facets.derivative_mt_cf_dur_b.true %}{{ type_facets.derivative_mt_cf_dur_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="derivative-mt-cf-dur" value="true" />Rhythmic durations ({% if type_facets.derivative_mt_cf_dur_b.true %}{{ type_facets.derivative_mt_cf_dur_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
           {% if type_facets.derivative_mt_cf_mel_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-cf-mel" value="true" />Intervals only ({% if type_facets.derivative_mt_cf_mel_b.true %}{{ type_facets.derivative_mt_cf_mel_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="derivative-mt-cf-mel" value="true" />Melodic intervals ({% if type_facets.derivative_mt_cf_mel_b.true %}{{ type_facets.derivative_mt_cf_mel_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -572,14 +572,14 @@
           {% if type_facets.derivative_mt_sog_dur_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-dur" value="true" />Durations only ({% if type_facets.derivative_mt_sog_dur_b.true %}{{ type_facets.derivative_mt_sog_dur_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-dur" value="true" />Rhythmic durations ({% if type_facets.derivative_mt_sog_dur_b.true %}{{ type_facets.derivative_mt_sog_dur_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
           {% if type_facets.derivative_mt_sog_mel_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-mel" value="true" />Intervals only ({% if type_facets.derivative_mt_sog_mel_b.true %}{{ type_facets.derivative_mt_sog_mel_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="derivative-mt-sog-mel" value="true" />Melodic intervals ({% if type_facets.derivative_mt_sog_mel_b.true %}{{ type_facets.derivative_mt_sog_mel_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -611,14 +611,14 @@
           {% if type_facets.derivative_mt_csog_dur_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-csog-dur" value="true" />Durations only ({% if type_facets.derivative_mt_csog_dur_b.true %}{{ type_facets.derivative_mt_csog_dur_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="derivative-mt-csog-dur" value="true" />Rhythmic durations ({% if type_facets.derivative_mt_csog_dur_b.true %}{{ type_facets.derivative_mt_csog_dur_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
           {% if type_facets.derivative_mt_csog_mel_b.true %}
             <li>
               <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-csog-mel" value="true" />Intervals only ({% if type_facets.derivative_mt_csog_mel_b.true %}{{ type_facets.derivative_mt_csog_mel_b.true }}{% else %}0{% endif %})
+                <input class="facet-refine" type="checkbox" name="derivative-mt-csog-mel" value="true" />Melodic intervals ({% if type_facets.derivative_mt_csog_mel_b.true %}{{ type_facets.derivative_mt_csog_mel_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
@@ -644,6 +644,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'derivative-mt-fg' %}
+          {% if type_facets.derivative_mt_fg_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_fg_int_b.true %}{{ type_facets.derivative_mt_fg_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_fg_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_fg_tint_b.true %}{{ type_facets.derivative_mt_fg_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.derivative_mt_fg_periodic_b.true %}
             <li>
               <label class="checkbox">
@@ -686,20 +700,6 @@
               </label>
             </li>
           {% endif %}
-          {% if type_facets.derivative_mt_fg_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_fg_int_b.true %}{{ type_facets.derivative_mt_fg_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.derivative_mt_fg_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-fg-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_fg_tint_b.true %}{{ type_facets.derivative_mt_fg_tint_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
         {% endif %}
       {% endif %}
       {% if type_facets.derivative_mt_pe_b.true %}
@@ -711,6 +711,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'derivative-mt-pe' %}
+          {% if type_facets.derivative_mt_pe_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_pe_int_b.true %}{{ type_facets.derivative_mt_pe_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_pe_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_pe_tint_b.true %}{{ type_facets.derivative_mt_pe_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.derivative_mt_pe_strict_b.true %}
             <li>
               <label class="checkbox">
@@ -753,20 +767,6 @@
               </label>
             </li>
           {% endif %}
-          {% if type_facets.derivative_mt_pe_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_pe_int_b.true %}{{ type_facets.derivative_mt_pe_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.derivative_mt_pe_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-pe-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_pe_tint_b.true %}{{ type_facets.derivative_mt_pe_tint_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
         {% endif %}
       {% endif %}
       {% if type_facets.derivative_mt_id_b.true %}
@@ -778,6 +778,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'derivative-mt-id' %}
+          {% if type_facets.derivative_mt_id_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_id_int_b.true %}{{ type_facets.derivative_mt_id_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_id_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-id-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_id_tint_b.true %}{{ type_facets.derivative_mt_id_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.derivative_mt_id_strict_b.true %}
             <li>
               <label class="checkbox">
@@ -806,20 +820,6 @@
               </label>
             </li>
           {% endif %}
-          {% if type_facets.derivative_mt_id_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-id-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_id_int_b.true %}{{ type_facets.derivative_mt_id_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.derivative_mt_id_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-id-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_id_tint_b.true %}{{ type_facets.derivative_mt_id_tint_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
         {% endif %}
       {% endif %}
       {% if type_facets.derivative_mt_nid_b.true %}
@@ -831,6 +831,20 @@
           </li>
         {% endif %}
         {% if request.GET|dictkey:'derivative-mt-nid' %}
+          {% if type_facets.derivative_mt_nid_int_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_nid_int_b.true %}{{ type_facets.derivative_mt_nid_int_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
+          {% if type_facets.derivative_mt_nid_tint_b.true %}
+            <li>
+              <label class="checkbox">
+                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_nid_tint_b.true %}{{ type_facets.derivative_mt_nid_tint_b.true }}{% else %}0{% endif %})
+              </label>
+            </li>
+          {% endif %}
           {% if type_facets.derivative_mt_nid_strict_b.true %}
             <li>
               <label class="checkbox">
@@ -863,20 +877,6 @@
             <li>
               <label class="checkbox">
                 <input class="facet-refine" type="checkbox" name="derivative-mt-nid-invertible" value="true" />Invertible ({% if type_facets.derivative_mt_nid_invertible_b.true %}{{ type_facets.derivative_mt_nid_invertible_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.derivative_mt_nid_int_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-int" value="true" />Melodic interval of entry ({% if type_facets.derivative_mt_nid_int_b.true %}{{ type_facets.derivative_mt_nid_int_b.true }}{% else %}0{% endif %})
-              </label>
-            </li>
-          {% endif %}
-          {% if type_facets.derivative_mt_nid_tint_b.true %}
-            <li>
-              <label class="checkbox">
-                <input class="facet-refine" type="checkbox" name="derivative-mt-nid-tint" value="true" />Time interval of entry ({% if type_facets.derivative_mt_nid_tint_b.true %}{{ type_facets.derivative_mt_nid_tint_b.true }}{% else %}0{% endif %})
               </label>
             </li>
           {% endif %}
