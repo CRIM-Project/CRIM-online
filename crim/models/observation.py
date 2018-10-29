@@ -122,7 +122,7 @@ class CRIMObservation(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.BooleanField('status', default=True)
+    status = models.BooleanField('status', default=False)
 
     def id_in_brackets(self):
         return '<' + str(self.id) + '>'

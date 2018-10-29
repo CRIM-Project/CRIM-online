@@ -46,7 +46,7 @@ from crim.views.person import PersonListData, PersonDetailData
 from crim.views.phrase import PhraseListData, PhraseDetailData
 from crim.views.piece import PieceListData, ModelListData, PieceDetailData, PieceWithObservationsData, PieceWithRelationshipsData
 from crim.views.observation import ObservationListData, ObservationDetailData, ObservationCreateData
-from crim.views.relationship import RelationshipListData, RelationshipDetailData
+from crim.views.relationship import RelationshipListData, RelationshipDetailData, RelationshipCreateData
 from crim.views.role import RoleListData, RoleDetailData
 from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
 from crim.views.source import SourceListData, SourceDetailData
@@ -121,6 +121,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/piece/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationshipsData.as_view(), name='crimpiece-relationships-detail-data'),
         re_path(r'^data/relationships/$', RelationshipListData.as_view(), name='crimrelationship-list-data'),
         re_path(r'^data/relationship/(?P<pk>[0-9]+)/$', RelationshipDetailData.as_view(), name='crimrelationship-detail-data'),
+        re_path(r'^data/relationship/new/$', RelationshipCreateData.as_view(), name='crimrelationship-new-data'),
         re_path(r'^data/roles/$', RoleListData.as_view(), name='crimrole-list-data'),
         re_path(r'^data/role/(?P<pk>[0-9]+)/$', RoleDetailData.as_view(), name='crimrole-detail-data'),
         re_path(r'^data/roletypes/$', RoleTypeListData.as_view(), name='crimroletype-list-data'),
