@@ -172,10 +172,12 @@ class RelationshipCreateData(generics.CreateAPIView):
         if request.user.is_anonymous or not request.user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+        # If one of the observations returns an HTTP response, return that.
         relationship_or_response = create_relationship_from_request(request)
         if isinstance(relationship_or_response, Response):
             return Response
 
+        # Otherwise, create the object.
         relationship = relationship_or_response
         serialized = CRIMRelationshipSerializer(relationship, data=request.data, context={'request': request})
         if not serialized.is_valid():
