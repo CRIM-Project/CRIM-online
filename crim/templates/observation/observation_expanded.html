@@ -1,4 +1,4 @@
-<h3 class="margin">{{ observation.musical_type }}</h3>
+<h3 class="margin">{% if observation.musical_type %}{{ observation.musical_type }}{% else %}Observation{% endif %}</h3>
 {% if observation.mt_cf %}
   <div class=hanging><strong>Voice{{ observation.mt_cf_voices|newlineplural }}:</strong>{% if observation.mt_cf_voices %}<br/>{{ observation.mt_cf_voices|newlinereplace|safe }}{% else %}-{% endif %}</div>
   <div class=hanging><strong>Rhythmic durations:</strong> {{ observation.mt_cf_dur }}</div>
@@ -70,7 +70,7 @@
 {% if observation.mt_cad %}
   <div class=hanging><strong>Cantizans:</strong> {% if observation.mt_cad_cantizans %}{{ observation.mt_cad_cantizans }}{% else %}-{% endif %}</div>
   <div class=hanging><strong>Tenorizans:</strong> {% if observation.mt_cad_tenorizans %}{{ observation.mt_cad_tenorizans }}{% else %}-{% endif %}</div>
-  <div class=hanging><strong>Type:</strong> {{ observation.mt_cad_type }}</div>
+  <div class=hanging><strong>Type:</strong> {% if observation.mt_cad_type %}{{ observation.mt_cad_type }}{% else %}-{% endif %}</div>
   <div class=hanging><strong>Tone:</strong> {% if observation.mt_cad_tone %}{{ observation.mt_cad_tone }}{% else %}-{% endif %}</div>
   {% if observation.mt_cad_dtv %}<div class=hanging><strong>Dovetail voice:</strong> {{ observation.mt_cad_dtv }}</div>{% endif %}
   {% if observation.mt_cad_dti %}<div class=hanging><strong>Dovetail interval:</strong> {{ observation.mt_cad_dti }}</div>{% endif %}
