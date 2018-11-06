@@ -171,7 +171,10 @@ class ObservationList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMObservation.objects.all().order_by(order_by)
+        if self.request.user.is_anonymous:
+            return CRIMObservation.objects.filter(status=True).order_by(order_by)
+        else:
+            return CRIMObservation.objects.all().order_by(order_by)
 
 
 class ObservationDetail(generics.RetrieveAPIView):

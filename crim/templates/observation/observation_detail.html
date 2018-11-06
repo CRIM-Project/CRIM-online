@@ -10,7 +10,7 @@
 
 {% block title %}
   <title>
-    CRIM | Observation &lt;{{ content.pk }}&gt;
+    CRIM | {% if content.status %}Observation{% else %}Uncurated observation{% endif %} &lt;{{ content.pk }}&gt;
     {% if content.piece.mass %}
       {{ content.piece.mass.title }}:
     {% endif %}
@@ -24,7 +24,7 @@
 
 {% block wrap %}
   <hgroup class="page-title">
-    <h1>Observation <small>&lt;{{ content.pk }}&gt;</small></h1>
+    <h1>{% if content.status %}Observation{% else %}Uncurated observation{% endif %} <small>&lt;{{ content.pk }}&gt;</small></h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
   </hgroup>
 

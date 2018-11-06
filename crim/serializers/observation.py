@@ -188,4 +188,5 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'remarks',
             'created',
             'updated',
+            'status',
         )

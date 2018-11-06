@@ -10,7 +10,7 @@
 
 {% block title %}
   <title>
-    CRIM | Relationship &lt;R{{ content.pk }}&gt;
+    CRIM | {% if content.status %}Relationship{% else %}Uncurated relationship{% endif %} &lt;R{{ content.pk }}&gt;
     {% if content.model_observation.piece.mass %}
       {{ content.model_observation.piece.mass.title }}:
     {% endif %}
@@ -31,17 +31,9 @@
 {% block wrap %}
   <hgroup class="page-title">
     <h1>
-      {% if content.model_observation.piece.mass %}
-        {{ content.model_observation.piece.mass.title }}:
-      {% endif %}
-      {{ content.model_observation.piece.title }}
-      &rarr;
-      {% if content.derivative_observation.piece.mass %}
-        {{ content.derivative_observation.piece.mass.title }}:
-      {% endif %}
-      {{ content.derivative_observation.piece.title }}
-        <small>&lt;R{{ content.pk }}&gt;</small>
-      </h1>
+      {% if content.status %}Relationship{% else %}Uncurated relationship{% endif %}
+      <small>&lt;R{{ content.pk }}&gt;</small>
+    </h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
   </hgroup>
 
