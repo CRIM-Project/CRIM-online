@@ -20,7 +20,7 @@ class Command(BaseCommand):
         for relationship in CRIMRelationship.objects.all():
             relationship.save()
 
-        for user in User.all():
+        for user in User.objects.all():
             user.save()
         for profile in CRIMUserProfile.objects.all():
             profile.save()
