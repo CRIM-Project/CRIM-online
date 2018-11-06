@@ -246,4 +246,5 @@ class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
             'remarks',
             'created',
             'updated',
+            'status',
         )

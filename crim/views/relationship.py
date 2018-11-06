@@ -135,7 +135,10 @@ class RelationshipList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'model_observation__piece_id')
-        return CRIMRelationship.objects.all().order_by(order_by)
+        if self.request.user.is_anonymous:
+            return CRIMRelationship.objects.filter(status=True).order_by(order_by)
+        else:
+            return CRIMRelationship.objects.all().order_by(order_by)
 
 
 class RelationshipDetail(generics.RetrieveAPIView):

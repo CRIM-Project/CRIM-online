@@ -33,10 +33,10 @@
         <tbody>
           {% for observation in content.results %}
             <tr>
-              <td><a href="{{ observation.url|htmlsite }}">&lt;{{ observation.pk }}&gt;</a></td>
-              <td><a href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
+              <td><a {% if not observation.status %}class="uncurated"{% endif %} href="{{ observation.url|htmlsite }}">&lt;{{ observation.pk }}&gt;</a></td>
+              <td><a {% if not observation.status %}class="uncurated"{% endif %} href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
               <td>
-                <a href="{{ observation.piece.url|htmlsite }}">
+                <a {% if not observation.status %}class="uncurated"{% endif %} href="{{ observation.piece.url|htmlsite }}">
                   [{{ observation.piece.piece_id }}]
                   {% if observation.piece.mass %}
                     {{observation.piece.mass.title}}:
@@ -53,7 +53,7 @@
               </td>
               <td>
                 {% if observation.mt_cf or observation.mt_sog or observation.mt_csog or observation.mt_fg or observation.mt_pe or observation.mt_id or observation.mt_nid or observation.mt_hr or observation.mt_cad or observation.mt_int or observation.mt_fp %}
-                  <a href="#" class="observation-info-expand" target="observation-info-{{ forloop.counter }}">Expand</a>
+                  <a href="#" class="observation-info-expand {% if not observation.status %}uncurated{% endif %}" target="observation-info-{{ forloop.counter }}">Expand</a>
                 {% else %}
                   -
                 {% endif %}

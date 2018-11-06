@@ -34,13 +34,13 @@
         <tbody>
           {% for relationship in content.results %}
             <tr>
-              <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
-              <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
+              <td><a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
+              <td><a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
               <td>
-                <a href="{{ relationship.model_observation.url|htmlsite }}">
+                <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.model_observation.url|htmlsite }}">
                   &lt;{{ relationship.model_observation.pk }}&gt;
                 </a>
-                <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
+                <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.model_observation.piece.url|htmlsite }}">
                   {% if relationship.model_observation.piece.mass %}
                     {{relationship.model_observation.piece.mass.title}}:
                   {% endif %}
@@ -48,10 +48,10 @@
                 </a>
               </td>
               <td>
-                <a href="{{ relationship.derivative_observation.url|htmlsite }}">
+                <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.url|htmlsite }}">
                   &lt;{{ relationship.derivative_observation.pk }}&gt;
                 </a>
-                <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
+                <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
                   {% if relationship.derivative_observation.piece.mass %}
                     {{relationship.derivative_observation.piece.mass.title}}:
                   {% endif %}
@@ -66,7 +66,7 @@
                 {% endif %}
               </td>
               <td>
-                <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
+                <a href="#" class="relationship-info-expand {% if not relationship.status %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
               </td>
             </tr>
             <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
