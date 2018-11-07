@@ -46,7 +46,6 @@
             {% if user.profile.person %}
                 <form data-personid="{{ user.profile.person.person_id }}" id="remarks-form">
                   {% csrf_token %}
-                  <a href="#" id="button-remarks" class="btn btn-success open-EditRemarks pull-left" data-toggle="modal" data-personid="{{ user.profile.person.person_id }}" title="Edit Public Profile">{% if user.profile.person.remarks %}Edit Public Profile{% else %}Add Public Profile{% endif %}</a>
                 </form>
             {% endif %}
           </dl>
