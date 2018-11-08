@@ -2,6 +2,7 @@ from crim.models.mass import CRIMMass
 from crim.models.observation import CRIMObservation
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
+from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRole, CRIMRoleType
 from rest_framework import serializers
 
@@ -94,10 +95,51 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
         return obj.mei_links.split('\n')
 
 
+class CRIMObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
+    piece = CRIMPieceObservationSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMObservation
+        fields = (
+            'url',
+            'id',
+            'piece',
+        )
+
+
+class CRIMRelationshipObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='id')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    model_observation = CRIMObservationSummarySerializer(read_only=True)
+    derivative_observation = CRIMObservationSummarySerializer(read_only=True)
+
+    class Meta:
+        model = CRIMRelationship
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'model_observation',
+            'derivative_observation',
+            'relationship_type',
+        )
+
+
 class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
     piece = CRIMPieceObservationSerializer(read_only=True)
+    relationships_as_model = CRIMRelationshipObservationSerializer(
+        many=True,
+        read_only=True,
+        source='observations_as_model',
+    )
+    relationships_as_derivative = CRIMRelationshipObservationSerializer(
+        many=True,
+        read_only=True,
+        source='observations_as_derivative',
+    )
 
     class Meta:
         model = CRIMObservation
@@ -108,6 +150,8 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'piece',
             'ema',
             'musical_type',
+            'relationships_as_model',
+            'relationships_as_derivative',
             'mt_cf',
             'mt_cf_voices',
             'mt_cf_dur',
