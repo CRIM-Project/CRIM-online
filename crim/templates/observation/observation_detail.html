@@ -26,6 +26,52 @@
   <hgroup class="page-title">
     <h1>{% if content.status %}Observation{% else %}Uncurated observation{% endif %} <small>&lt;{{ content.id }}&gt;</small></h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
+    {% for relationship in content.relationships_as_model %}
+      <h3>
+        <small>
+          <a href="{{ relationship.url|htmlsite }}">
+            &lt;R{{ relationship.id }}&gt;
+          </a>
+        </small>
+        {{ relationship.relationship_type }}
+        &mdash;
+        Model for
+        <small>
+          <a href="{{ relationship.derivative_observation.url|htmlsite }}">
+            &lt;{{ relationship.derivative_observation.id }}&gt;
+          </a>
+        </small>
+        <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
+          {% if relationship.derivative_observation.piece.mass %}
+            {{ relationship.derivative_observation.piece.mass.title }}:
+          {% endif %}
+          {{ relationship.derivative_observation.piece.title }}
+        </a>
+      </h3>
+    {% endfor %}
+    {% for relationship in content.relationships_as_derivative %}
+      <h3>
+        <small>
+          <a href="{{ relationship.url|htmlsite }}">
+            &lt;R{{ relationship.id }}&gt;
+          </a>
+        </small>
+        {{ relationship.relationship_type }}
+        &mdash;
+        Derivative of
+        <small>
+          <a href="{{ relationship.model_observation.url|htmlsite }}">
+            &lt;{{ relationship.model_observation.id }}&gt;
+          </a>
+        </small>
+        <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
+          {% if relationship.model_observation.piece.mass %}
+            {{ relationship.model_observation.piece.mass.title }}:
+          {% endif %}
+          {{ relationship.model_observation.piece.title }}
+        </a>
+      </h3>
+    {% endfor %}
   </hgroup>
 
   <div class="row-fluid">
