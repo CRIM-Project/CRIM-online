@@ -14,7 +14,7 @@
     <tbody>
       {% for relationship in content.relationships_as_model %}
         <tr>
-          <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
+          <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
           <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
           <td>
             {% if relationship.relationship_type %}
@@ -25,12 +25,12 @@
           </td>
           <td>
             <a href="{{ relationship.model_observation.url|htmlsite }}">
-              &lt;{{ relationship.model_observation.pk }}&gt;
+              &lt;{{ relationship.model_observation.id }}&gt;
             </a>
           </td>
           <td>
             <a href="{{ relationship.derivative_observation.url|htmlsite }}">
-              &lt;{{ relationship.derivative_observation.pk }}&gt;
+              &lt;{{ relationship.derivative_observation.id }}&gt;
             </a>
             <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
               {% if relationship.derivative_observation.piece.mass %}
@@ -72,7 +72,7 @@
       <tbody>
         {% for relationship in content.relationships_as_derivative %}
           <tr>
-            <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
+            <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
             <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
             <td>
               {% if relationship.relationship_type %}
@@ -83,7 +83,7 @@
             </td>
             <td>
               <a href="{{ relationship.model_observation.url|htmlsite }}">
-                &lt;{{ relationship.model_observation.pk }}&gt;
+                &lt;{{ relationship.model_observation.id }}&gt;
               </a>
               <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
                 {% if relationship.model_observation.piece.mass %}
@@ -94,7 +94,7 @@
             </td>
             <td>
               <a href="{{ relationship.derivative_observation.url|htmlsite }}">
-                &lt;{{ relationship.derivative_observation.pk }}&gt;
+                &lt;{{ relationship.derivative_observation.id }}&gt;
               </a>
             </td>
             <td>

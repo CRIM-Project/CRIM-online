@@ -12,7 +12,7 @@
     <tbody>
       {% for observation in content.observations %}
          <tr>
-           <td><a href="{{ observation.url|htmlsite }}">&lt;{{ observation.pk }}&gt;</a></td>
+           <td><a href="{{ observation.url|htmlsite }}">&lt;{{ observation.id }}&gt;</a></td>
            <td><a href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
            <td>{% if observation.mt_cf %}Cantus firmus{% endif %}
                {% if observation.mt_sog %}Soggetto{% endif %}

@@ -47,7 +47,7 @@ class CRIMPersonPieceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRolePieceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='id')
     person = CRIMPersonPieceSerializer(read_only=True)
     role_type = CRIMRoleTypePieceSerializer(read_only=True)
 
@@ -156,7 +156,7 @@ class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
 class CRIMObservationPieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='crimobservation-detail-data',
-        lookup_field='pk',
+        lookup_field='id',
     )
     observer = CRIMPersonPieceSerializer(read_only=True)
     piece = CRIMPieceSummarySerializer(read_only=True)
@@ -165,7 +165,7 @@ class CRIMObservationPieceSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMObservation
         fields = (
             'url',
-            'pk',
+            'id',
             'observer',
             'piece',
             'ema',
@@ -254,7 +254,7 @@ class CRIMObservationPieceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRelationshipPieceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='id')
     observer = CRIMPersonPieceSerializer(read_only=True)
     model_observation = CRIMObservationPieceSerializer(read_only=True)
     derivative_observation = CRIMObservationPieceSerializer(read_only=True)
@@ -263,7 +263,7 @@ class CRIMRelationshipPieceSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMRelationship
         fields = (
             'url',
-            'pk',
+            'id',
             'observer',
             'model_observation',
             'derivative_observation',

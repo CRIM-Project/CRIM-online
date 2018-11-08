@@ -85,7 +85,7 @@ class CRIMCommentDetailSerializer(serializers.HyperlinkedModelSerializer):
     piece = serializers.PrimaryKeyRelatedField(read_only=False, queryset=CRIMPiece.objects.all())
     # TODO: Use generic foreign key so that comments can connect to pieces, masses, sources, and
     #       other types of object.
-    # TODO: Use `piece_id` instead of `pk` if possible for security and clarity.
+    # TODO: Use `piece_id` instead of primary key, if possible, for security and clarity.
 
     class Meta:
         model = CRIMComment
@@ -103,6 +103,7 @@ class CRIMCommentDetailSerializer(serializers.HyperlinkedModelSerializer):
     def to_representation(self, instance):
         self.fields['piece_read'] = CRIMPieceCommentSerializer(read_only=True)
         return super().to_representation(instance)
+
 
 class CRIMCommentDetailDataSerializer(CRIMCommentDetailSerializer):
     class Meta:

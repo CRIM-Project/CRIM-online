@@ -152,8 +152,8 @@ class RelationshipDetail(generics.RetrieveAPIView):
     queryset = CRIMRelationship.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
-        relationship = CRIMRelationship.objects.filter(pk=url_arg)
+        url_arg = self.kwargs['id']
+        relationship = CRIMRelationship.objects.filter(id=url_arg)
         obj = get_object_or_404(relationship)
         self.check_object_permissions(self.request, obj)
         return obj

@@ -10,7 +10,7 @@
 
 {% block title %}
   <title>
-    CRIM | {% if content.status %}Relationship{% else %}Uncurated relationship{% endif %} &lt;R{{ content.pk }}&gt;
+    CRIM | {% if content.status %}Relationship{% else %}Uncurated relationship{% endif %} &lt;R{{ content.id }}&gt;
     {% if content.model_observation.piece.mass %}
       {{ content.model_observation.piece.mass.title }}:
     {% endif %}
@@ -32,7 +32,7 @@
   <hgroup class="page-title">
     <h1>
       {% if content.status %}Relationship{% else %}Uncurated relationship{% endif %}
-      <small>&lt;R{{ content.pk }}&gt;</small>
+      <small>&lt;R{{ content.id }}&gt;</small>
     </h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
   </hgroup>
@@ -63,7 +63,7 @@
       <div id="modelScore" class="cw-score-model"></div>
     </div>
     <div class="span3">
-      <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.pk }}&gt;</a></small></h2>
+      <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.id }}&gt;</a></small></h2>
       {% include "observation/observation_expanded.html" with observation=content.model_observation %}
     </div>
   </div>
@@ -94,7 +94,7 @@
       <div id="derivativeScore" class="cw-score-derivative"></div>
     </div>
     <div class="span3">
-      <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.pk }}&gt;</a></small></h2>
+      <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.id }}&gt;</a></small></h2>
       {% include "observation/observation_expanded.html" with observation=content.derivative_observation %}
     </div>
   </div>
