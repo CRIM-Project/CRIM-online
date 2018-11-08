@@ -31,7 +31,7 @@ class CRIMRoleTypeRelationshipSerializer(serializers.HyperlinkedModelSerializer)
 
 
 class CRIMRoleRelationshipSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='id')
     person = CRIMPersonRelationshipSerializer(read_only=True)
     role_type = CRIMRoleTypeRelationshipSerializer(read_only=True)
 
@@ -96,21 +96,21 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMObservationRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data')
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     piece = CRIMPieceRelationshipSerializer(read_only=True)
 
     class Meta:
         model = CRIMObservation
         fields = (
             'url',
-            'pk',
+            'id',
             'piece',
             'ema',
         )
 
 
 class CRIMObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data')
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = CRIMPersonRelationshipSerializer(read_only=True)
     piece = CRIMPieceRelationshipSerializer(read_only=True)
 
@@ -118,7 +118,7 @@ class CRIMObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSe
         model = CRIMObservation
         fields = (
             'url',
-            'pk',
+            'id',
             'observer',
             'piece',
             'ema',
@@ -207,7 +207,7 @@ class CRIMObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSe
 
 
 class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='id')
     observer = CRIMPersonRelationshipSerializer(read_only=True)
     model_observation = CRIMObservationRelationshipDetailSerializer(read_only=True)
     derivative_observation = CRIMObservationRelationshipDetailSerializer(read_only=True)
@@ -216,7 +216,7 @@ class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMRelationship
         fields = (
             'url',
-            'pk',
+            'id',
             'observer',
             'model_observation',
             'derivative_observation',

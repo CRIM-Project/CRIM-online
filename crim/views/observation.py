@@ -188,8 +188,8 @@ class ObservationDetail(generics.RetrieveAPIView):
     queryset = CRIMObservation.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
-        observation = CRIMObservation.objects.filter(pk=url_arg)
+        url_arg = self.kwargs['id']
+        observation = CRIMObservation.objects.filter(id=url_arg)
         obj = get_object_or_404(observation)
         self.check_object_permissions(self.request, obj)
         return obj
@@ -204,7 +204,7 @@ class ObservationDetailData(ObservationDetail):
     renderer_classes = (JSONRenderer,)
 
     def post(self, request):
-        observation = get_object_or_404(CRIMObservation, pk=pk)
+        observation = get_object_or_404(CRIMObservation, id=id)
         # Not allowed to POST if there is no CRIMPerson associated with this user
         if request.user.is_anonymous or not request.user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)

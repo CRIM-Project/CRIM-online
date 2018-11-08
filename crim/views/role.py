@@ -25,7 +25,7 @@ class RoleDetailData(generics.RetrieveAPIView):
     queryset = CRIMRole.objects.all()
 
     def get_object(self):
-        url_arg = self.kwargs['pk']
+        url_arg = self.kwargs['id']
         role = CRIMRole.objects.filter(id=url_arg)
 
         obj = get_object_or_404(role)

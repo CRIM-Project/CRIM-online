@@ -81,7 +81,7 @@ class CRIMSourcePersonSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRolePersonSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='id')
     mass = CRIMMassPersonSerializer(read_only=True)
     piece = CRIMPiecePersonSerializer(read_only=True)
     treatise = CRIMTreatisePersonSerializer(read_only=True)

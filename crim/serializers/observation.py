@@ -30,7 +30,7 @@ class CRIMRoleTypeObservationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMRoleObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='id')
     person = CRIMPersonObservationSerializer(read_only=True)
     role_type = CRIMRoleTypeObservationSerializer(read_only=True)
 
@@ -95,7 +95,7 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data')
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
     piece = CRIMPieceObservationSerializer(read_only=True)
 
@@ -103,7 +103,7 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMObservation
         fields = (
             'url',
-            'pk',
+            'id',
             'observer',
             'piece',
             'ema',

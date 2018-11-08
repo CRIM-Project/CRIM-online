@@ -34,11 +34,11 @@
         <tbody>
           {% for relationship in content.results %}
             <tr>
-              <td><a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.pk }}&gt;</a></td>
+              <td><a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
               <td><a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
               <td>
                 <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.model_observation.url|htmlsite }}">
-                  &lt;{{ relationship.model_observation.pk }}&gt;
+                  &lt;{{ relationship.model_observation.id }}&gt;
                 </a>
                 <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.model_observation.piece.url|htmlsite }}">
                   {% if relationship.model_observation.piece.mass %}
@@ -49,7 +49,7 @@
               </td>
               <td>
                 <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.url|htmlsite }}">
-                  &lt;{{ relationship.derivative_observation.pk }}&gt;
+                  &lt;{{ relationship.derivative_observation.id }}&gt;
                 </a>
                 <a {% if not relationship.status %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
                   {% if relationship.derivative_observation.piece.mass %}

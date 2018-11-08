@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class CRIMRoleSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='pk')
+    url = serializers.HyperlinkedIdentityField(view_name='crimrole-detail-data', lookup_field='id')
 
     class Meta:
         model = CRIMRole
