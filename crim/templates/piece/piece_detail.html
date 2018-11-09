@@ -71,6 +71,25 @@
       {% endif %}
     </div>
     <div class="span3">
+      <div class="well span12">
+        {% if not content.show_observations and not content.show_relationships %}
+          <h3>Piece details</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
+        {% endif %}
+
+        {% if content.show_observations %}
+          <h3>Piece observations</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
+        {% endif %}
+
+        {% if content.show_relationships %}
+          <h3>Piece relationships</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
+        {% endif %}
+      </div>
       <!-- Sidebar giving all mass movements -->
       {% if content.mass %}
         <div class="well span12">
@@ -102,29 +121,47 @@
           {% endfor %}
         </div>
       {% endif %}
-      <div class="well span12">
-        {% if not content.show_observations and not content.show_relationships %}
-          <h3>Piece details</h3>
-        {% else %}
-          <h3><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
-        {% endif %}
-
-        {% if content.show_observations %}
-          <h3>Piece observations</h3>
-        {% else %}
-          <h3><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
-        {% endif %}
-
-        {% if content.show_relationships %}
-          <h3>Piece relationships</h3>
-        {% else %}
-          <h3><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
-        {% endif %}
-      </div>
+      <!-- Show related pieces -->
+      {% if content.models %}
+        <div class="well span12">
+          <h3>Models</h3>
+          <ul>
+            {% for work in content.models|include_mass_once %}
+              <li>
+                <a href="{{ work.url|htmlsite }}">
+                  {% if work.piece_id %}
+                    [{{ work.piece_id }}]
+                  {% elif work.mass_id %}
+                    [{{ work.mass_id }}]
+                  {% endif %}
+                  <br>
+                  {{ work.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% if content.derivatives %}
+        <div class="well span12">
+          <h3>Derivatives</h3>
+          <ul>
+            {% for work in content.derivatives|include_mass_once %}
+              <li>
+                <a href="{{ work.url|htmlsite }}">
+                  {% if work.piece_id %}
+                    [{{ work.piece_id }}]
+                  {% elif work.mass_id %}
+                    [{{ work.mass_id }}]
+                  {% endif %}
+                  <br>
+                  {{ work.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
     </div>
   </div>
-
-
-
-
 {% endblock %}

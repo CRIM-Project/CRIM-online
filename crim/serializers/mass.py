@@ -5,6 +5,7 @@ from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRoleType, CRIMRole
 from crim.models.voice import CRIMVoice
+from crim.serializers.piece import CRIMPieceSummarySerializer
 from rest_framework import serializers
 
 
@@ -162,6 +163,14 @@ class CRIMMassDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
+    models = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True,
+    )
+    derivatives = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = CRIMMass
@@ -173,5 +182,7 @@ class CRIMMassDetailSerializer(serializers.HyperlinkedModelSerializer):
             'roles',
             'movements',
             'sources',
+            'models',
+            'derivatives',
             'remarks',
         )
