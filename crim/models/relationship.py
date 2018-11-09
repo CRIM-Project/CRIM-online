@@ -84,7 +84,7 @@ class CRIMRelationship(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.BooleanField('status', default=False)
+    curated = models.BooleanField('curated', default=False)
 
     def id_in_brackets(self):
         return '<R' + str(self.id) + '>'
@@ -163,7 +163,7 @@ class CRIMRelationship(models.Model):
 #         solrconn.delete(record.results[0]['id'])
 #
 #     # Don't index if this relationship needs review!
-#     if not instance.status:
+#     if not instance.curated:
 #         return
 #     # The suffixes are for automatic creation of the schema using
 #     # the correct types -- see http://yonik.com/solr-tutorial/

@@ -171,10 +171,10 @@ class ObservationList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        if self.request.user.is_anonymous:
-            return CRIMObservation.objects.filter(status=True).order_by(order_by)
-        else:
+        if self.request.user.is_authenticated:
             return CRIMObservation.objects.all().order_by(order_by)
+        else:
+            return CRIMObservation.objects.filter(curated=True).order_by(order_by)
 
 
 class ObservationDetail(generics.RetrieveAPIView):
@@ -206,7 +206,7 @@ class ObservationDetailData(ObservationDetail):
     def post(self, request):
         observation = get_object_or_404(CRIMObservation, id=id)
         # Not allowed to POST if there is no CRIMPerson associated with this user
-        if request.user.is_anonymous or not request.user.profile.person:
+        if not request.user.is_authenticated or not request.user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         elif comment.author != request.user.profile and not request.user.is_staff:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -223,7 +223,7 @@ class ObservationCreateData(generics.CreateAPIView):
 
     def post(self, request):
         # Not allowed to POST if there is no CRIMPerson associated with this user
-        if request.user.is_anonymous or not request.user.profile.person:
+        if not request.user.is_authenticated or not request.user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         observation_or_response = create_observation_from_request(request, '')

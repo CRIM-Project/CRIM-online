@@ -89,9 +89,9 @@ def create_item(item, processed_data, unprocessed_data, log):
             new_relationship_fields['derivative_piece'] = derivative_observation_fields['piece']
             new_relationship_fields['created'] = item['created_at']
             new_relationship_fields['updated'] = item['created_at']
-            new_relationship_fields['status'] = False if 'needs_review' in item and item['needs_review'] else True
-            model_observation_fields['status'] = new_relationship_fields['status']
-            derivative_observation_fields['status'] = new_relationship_fields['status']
+            new_relationship_fields['curated'] = False if 'needs_review' in item and item['needs_review'] else True
+            model_observation_fields['curated'] = new_relationship_fields['curated']
+            derivative_observation_fields['curated'] = new_relationship_fields['curated']
             add_relationship_types(relationship_to_process, new_relationship_fields)
 
             model_observation_row = {
@@ -189,7 +189,7 @@ def add_orphan_observation(item, observation, processed_data):
     new_observation_fields['observer'] = PEOPLE[item['user']]
     new_observation_fields['created'] = item['created_at']
     new_observation_fields['updated'] = item['created_at']
-    new_observation_fields['status'] = False
+    new_observation_fields['curated'] = False
 
     OBSERVATION_COUNT += 1
     new_observation_row = {
