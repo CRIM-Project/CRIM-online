@@ -51,11 +51,17 @@ class CRIMMass(models.Model):
 
     @property
     def models(self):
-        return CRIMPiece.objects.filter(relationships_as_model__derivative_piece__mass=self).order_by('mass', 'piece_id').distinct()
+        return CRIMPiece.objects.filter(
+                relationships_as_model__derivative_piece__mass=self,
+                relationships_as_model__status=True,
+            ).order_by('mass', 'piece_id').distinct()
 
     @property
     def derivatives(self):
-        return CRIMPiece.objects.filter(relationships_as_derivative__model_piece__mass=self).order_by('mass', 'piece_id').distinct()
+        return CRIMPiece.objects.filter(
+                relationships_as_derivative__model_piece__mass=self,
+                relationships_as_derivative__status=True,
+            ).order_by('mass', 'piece_id').distinct()
 
     def save(self, *args, **kwargs):
         super().save()

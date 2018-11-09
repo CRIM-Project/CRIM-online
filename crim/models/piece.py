@@ -100,11 +100,17 @@ class CRIMPiece(models.Model):
 
     @property
     def models(self):
-        return CRIMPiece.objects.filter(relationships_as_model__derivative_piece=self).order_by('mass', 'piece_id').distinct()
+        return CRIMPiece.objects.filter(
+                relationships_as_model__derivative_piece=self,
+                relationships_as_model__status=True,
+            ).order_by('mass', 'piece_id').distinct()
 
     @property
     def derivatives(self):
-        return CRIMPiece.objects.filter(relationships_as_derivative__model_piece=self).order_by('mass', 'piece_id').distinct()
+        return CRIMPiece.objects.filter(
+                relationships_as_derivative__model_piece=self,
+                relationships_as_derivative__status=True,
+            ).order_by('mass', 'piece_id').distinct()
 
     def get_absolute_url(self):
         return '/piece/{0}/'.format(self.piece_id)
