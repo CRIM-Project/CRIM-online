@@ -18,7 +18,7 @@ if __name__ == '__main__':
     relationships = CRIMRelationship.objects.all()
     for i, relationship in enumerate(relationships):
         # Don't index "needs review" relationships
-        if not relationship.status:
+        if not relationship.curated:
             continue
 
         # The suffixes are for automatic creation of the schema using
@@ -62,7 +62,7 @@ if __name__ == '__main__':
             'remarks_t': relationship.remarks,
             'created_dt': relationship.created,
             'updated_dt': relationship.updated,
-            'status_b': relationship.status,
+            'curated_b': relationship.curated,
 
             # Information about the model CRIMObservation
 
@@ -164,7 +164,7 @@ if __name__ == '__main__':
             'model_remarks_t': relationship.model_observation.remarks,
             'model_created_dt': relationship.model_observation.created,
             'model_updated_dt': relationship.model_observation.updated,
-            'model_status_b': relationship.model_observation.status,
+            'model_curated_b': relationship.model_observation.curated,
 
             # Information about the model observation's CRIMPiece
 
@@ -278,7 +278,7 @@ if __name__ == '__main__':
             'derivative_remarks_t': relationship.derivative_observation.remarks,
             'derivative_created_dt': relationship.derivative_observation.created,
             'derivative_updated_dt': relationship.derivative_observation.updated,
-            'derivative_status_b': relationship.derivative_observation.status,
+            'derivative_curated_b': relationship.derivative_observation.curated,
 
             # Information about the derivative observation's CRIMPiece
 

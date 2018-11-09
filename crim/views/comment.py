@@ -48,7 +48,7 @@ class CommentDetail(generics.RetrieveUpdateAPIView):
 
     def post(self, request, comment_id):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        if not request.user.is_anonymous and (comment.author == request.user.profile or request.user.is_staff):
+        if request.user.is_authenticated and (comment.author == request.user.profile or request.user.is_staff):
             # If the "Confirm deletion" checkbox is selected and the Delete
             # button is pressed, then wipe out the text of the comment with [delete]
             # and set `alive` to False.
@@ -86,7 +86,7 @@ class CommentDetailData(CommentDetail):
 
     def post(self, request):
         comment = get_object_or_404(CRIMComment, comment_id=comment_id)
-        if request.user.is_anonymous:
+        if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         elif (comment.author != request.user.profile and not request.user.is_staff) or not comment.alive:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -103,7 +103,7 @@ class CommentCreateData(generics.CreateAPIView):
     renderer_classes = (JSONRenderer,)
 
     def post(self, request):
-        if request.user.is_anonymous:
+        if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         else:
             comment = CRIMComment(author = request.user.profile)

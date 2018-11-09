@@ -135,10 +135,10 @@ class RelationshipList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'model_observation__piece_id')
-        if self.request.user.is_anonymous:
-            return CRIMRelationship.objects.filter(status=True).order_by(order_by)
-        else:
+        if self.request.user.is_authenticated:
             return CRIMRelationship.objects.all().order_by(order_by)
+        else:
+            return CRIMRelationship.objects.filter(curated=True).order_by(order_by)
 
 
 class RelationshipDetail(generics.RetrieveAPIView):
@@ -172,7 +172,7 @@ class RelationshipCreateData(generics.CreateAPIView):
 
     def post(self, request):
         # Not allowed to POST if there is no CRIMPerson associated with this user
-        if request.user.is_anonymous or not request.user.profile.person:
+        if not request.user.is_authenticated or not request.user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         # If one of the observations returns an HTTP response, return that.
