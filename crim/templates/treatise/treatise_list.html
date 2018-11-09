@@ -39,7 +39,7 @@
                   <img src="{% static 'img/externallink.png' %}" height=16 />
                 </a>
               {% endfor %}
-              <a href="{{ document.url|htmlsite }}">{{ document.document_id }}</a></td>
+              <a href="{{ document.url|htmlsite }}">[{{ document.document_id }}]</a></td>
             <td>{{ document.title }}</td>
             <td>{{ document.roles|people:"author"|safe }}</td>
             <td>{{ document.roles|earliest_date:"author" }}</td>
