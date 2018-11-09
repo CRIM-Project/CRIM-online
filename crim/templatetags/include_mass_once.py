@@ -6,11 +6,12 @@ def include_mass_once(piece_list):
     '''Takes a list of pieces, removes the mass movements, and
     adds the parent masses as appropriate (without duplication).
     '''
-    new_list = []
+    pieces = []
+    masses = []
     for piece in piece_list:
         if not piece['mass']:
-            new_list.append(piece)
+            pieces.append(piece)
         else:
-            if piece['mass'] not in new_list:
-                new_list.append(piece['mass'])
-    return new_list
+            if piece['mass'] not in masses:
+                masses.append(piece['mass'])
+    return pieces + masses
