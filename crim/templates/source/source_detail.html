@@ -42,7 +42,7 @@
           <tbody>
             {% for mass in content.mass_contents %}
               <tr>
-                <td><a href="{{ mass.url|htmlsite }}">{{ mass.mass_id }}</a></td>
+                <td><a href="{{ mass.url|htmlsite }}">[{{ mass.mass_id }}]</a></td>
                 <td>Mass</td>
                 <td>{{ mass.title }}</td>
                 <td>{{ mass.roles|people:"composer"|safe }}</td>
@@ -54,7 +54,7 @@
               <tr>
                 <td>{{ piece.piece_id }}</td>
                 <td>Piece</td>
-                <td><a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a></td>
+                <td><a href="{{ piece.url|htmlsite }}">[{{ piece.title }}]</a></td>
                 <td>{{ piece.roles|people:"composer"|safe }}</td>
                 <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% elif piece.mass.roles|earliest_date:"composer" %}{{ piece.mass.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
                 <td>{{ piece.remarks|markdown|shorten|safe }}</td>
@@ -65,7 +65,7 @@
               <tr>
                 <td>{{ treatise.document_id }}</td>
                 <td>Treatise</td>
-                <td><a href="{{ treatise.url|htmlsite }}">{{ treatise.title }}</a></td>
+                <td><a href="{{ treatise.url|htmlsite }}">[{{ treatise.title }}]</a></td>
                 <td>{{ treatise.roles|people:"author"|htmlsite|safe }}</td>
                 <td>{{ treatise.roles|earliest_date:"author" }}</td>
                 <td>{{ treatise.remarks|markdown|shorten|safe }}</td>

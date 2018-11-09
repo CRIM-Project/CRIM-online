@@ -56,7 +56,7 @@
                     <img src="{% static 'img/meidownload.png' %}" height=16 />
                   </a>
                 {% endfor %}
-                <a href="{{ piece.url|htmlsite }}">{{ piece.piece_id }}</a>
+                <a href="{{ piece.url|htmlsite }}">[{{ piece.piece_id }}]</a>
               </td>
               <td>{{ piece.title }}</td>
               <td><a href="{{piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
@@ -67,7 +67,7 @@
           {% endfor %}
         </tbody>
       </table>
-    
+
       <div class="pagination">
         <ul class="pagination">
           {% if content.previous %}
