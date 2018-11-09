@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from crim.common import get_date_sort
 from crim.models.genre import CRIMGenre
+from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRole
 
 import re
@@ -47,6 +48,14 @@ class CRIMMass(models.Model):
     def date_sort(self):
         composer_roles = CRIMRole.objects.filter(mass=self, role_type__name=COMPOSER)
         return get_date_sort(composer_roles[0].date) if composer_roles else None
+
+    @property
+    def models(self):
+        return CRIMPiece.objects.filter(relationships_as_model__derivative_piece__mass=self).order_by('mass', 'piece_id').distinct()
+
+    @property
+    def derivatives(self):
+        return CRIMPiece.objects.filter(relationships_as_derivative__model_piece__mass=self).order_by('mass', 'piece_id').distinct()
 
     def save(self, *args, **kwargs):
         super().save()

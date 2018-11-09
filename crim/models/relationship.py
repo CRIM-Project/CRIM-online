@@ -39,14 +39,14 @@ class CRIMRelationship(models.Model):
         on_delete=models.CASCADE,
         to_field='piece_id',
         db_index=True,
-        related_name='models',
+        related_name='relationships_as_model',
     )
     derivative_piece = models.ForeignKey(
         'CRIMPiece',
         on_delete=models.CASCADE,
         to_field='piece_id',
         db_index=True,
-        related_name='derivatives',
+        related_name='relationships_as_derivative',
     )
 
     # These fields provide redundant, easily accessible, human-readable

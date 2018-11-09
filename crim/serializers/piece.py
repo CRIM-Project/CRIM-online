@@ -397,6 +397,14 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
+    models = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True
+    )
+    derivatives = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True
+    )
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
 
@@ -412,6 +420,8 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'voices',
             'roles',
             'sources',
+            'models',
+            'derivatives',
             'pdf_links',
             'mei_links',
             'remarks',
@@ -492,12 +502,10 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
     relationships_as_model = CRIMRelationshipPieceSerializer(
         many=True,
         read_only=True,
-        source='models',
     )
     relationships_as_derivative = CRIMRelationshipPieceSerializer(
         many=True,
         read_only=True,
-        source='derivatives',
     )
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
