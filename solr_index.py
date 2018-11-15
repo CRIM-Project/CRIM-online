@@ -292,7 +292,7 @@ if __name__ == '__main__':
             'derivative_mei_links_ss': relationship.derivative_observation.piece.mei_links.split('\n'),
             'derivative_remarks_t': relationship.derivative_observation.piece.remarks,
         }
-        solrconn.add(**d, commit=True)
+        solrconn.add(d, commit=True)
     print('Done adding analyses')
 
     sys.exit()
