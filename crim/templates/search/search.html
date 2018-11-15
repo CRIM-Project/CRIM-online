@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}
 <title>CRIM | {% if query %}Search results{% else %}Search{% endif %}</title>
 {% endblock %}
 
 {% block header %}
+  <script src="{% static 'js/search.js' %}"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
       // fetchPieceResults();
@@ -145,7 +148,6 @@
                     <div class="span3">{% include "search/blocks/derivative_mt_int.html" %}</div>
                     <div class="span3">{% include "search/blocks/derivative_mt_fp.html" %}</div>
                   </div>
-                </div>
               </div>
             </div>
 
