@@ -63,7 +63,7 @@
       <div id="modelScore" class="cw-score-model"></div>
     </div>
     <div class="span3">
-      <h2 class="margin"><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.id }}&gt;</a></small></h2>
+      <h2><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.id }}&gt;</a></small></h2>
       {% include "observation/observation_expanded.html" with observation=content.model_observation %}
     </div>
   </div>
@@ -94,7 +94,7 @@
       <div id="derivativeScore" class="cw-score-derivative"></div>
     </div>
     <div class="span3">
-      <h2 class="margin"><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.id }}&gt;</a></small></h2>
+      <h2><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.id }}&gt;</a></small></h2>
       {% include "observation/observation_expanded.html" with observation=content.derivative_observation %}
     </div>
   </div>
