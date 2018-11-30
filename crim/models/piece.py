@@ -113,7 +113,7 @@ class CRIMPiece(models.Model):
             ).order_by('mass', 'piece_id').distinct()
 
     def get_absolute_url(self):
-        return '/piece/{0}/'.format(self.piece_id)
+        return '/pieces/{0}/'.format(self.piece_id)
 
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')

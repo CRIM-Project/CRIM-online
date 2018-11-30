@@ -130,7 +130,7 @@ class CRIMObservation(models.Model):
     id_in_brackets.admin_order_field = 'id'
 
     def get_absolute_url(self):
-        return '/observation/{0}/'.format(self.pk)
+        return '/observations/{0}/'.format(self.pk)
 
     def save(self):
         # Set the parent relationship type field to true if any of the subtypes are

@@ -5,7 +5,7 @@ function editRemarksAction() {
 
             $.ajax({
                 type: "GET",
-                url: "/person/" + personid,
+                url: "/people/" + personid,
                 dataType: 'json',
                 success: function (json) {
                     showRemarksModalAction(personid, json.remarks);
@@ -175,7 +175,7 @@ function submitRemarksAction() {
         var serialized_data = form.serialize();
         $.ajax({
             type: "POST",
-            url: "/person/" + personid,
+            url: "/people/" + personid,
             data: serialized_data,
         });
 

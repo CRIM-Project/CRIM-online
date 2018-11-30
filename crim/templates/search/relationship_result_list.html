@@ -14,13 +14,13 @@
   <tbody>
     {% for relationship in relationship_results.object_list %}
       <tr>
-        <td><a href="/relationship/{{ relationship.id }}/">&lt;R{{ relationship.id }}&gt;</a></td>
-        <td><a href="/person/{{ relationship.observer_id_s }}/">{{ relationship.observer_s }}</a></td>
+        <td><a href="/relationships/{{ relationship.id }}/">&lt;R{{ relationship.id }}&gt;</a></td>
+        <td><a href="/people/{{ relationship.observer_id_s }}/">{{ relationship.observer_s }}</a></td>
         <td>
-          <a href="/observation/{{ relationship.model_observation_id_i }}/">
+          <a href="/observations/{{ relationship.model_observation_id_i }}/">
             &lt;{{ relationship.model_observation_id_i }}&gt;
           </a>
-          <a href="/piece/{{ relationship.model_piece_id_s }}/">
+          <a href="/pieces/{{ relationship.model_piece_id_s }}/">
             {% if relationship.model_mass_s %}
               {{ relationship.model_mass_s }}:
             {% endif %}
@@ -28,10 +28,10 @@
           </a>
         </td>
         <td>
-          <a href="/observation/{{ relationship.derivative_observation_id_i }}/">
+          <a href="/observations/{{ relationship.derivative_observation_id_i }}/">
             &lt;{{ relationship.derivative_observation_id_i }}&gt;
           </a>
-          <a href="/piece/{{ relationship.derivative_piece_id_s }}/">
+          <a href="/pieces/{{ relationship.derivative_piece_id_s }}/">
             {% if relationship.derivative_mass_s %}
               {{ relationship.derivative_mass_s }}:
             {% endif %}
