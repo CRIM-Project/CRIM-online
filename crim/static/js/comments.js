@@ -17,7 +17,7 @@ function startCommentFeed(piece, days_to_show){
     var empty = true;
     var empty_message = "<p id='empty-block'>No recent comments.</p>";
     var empty_for_table = '<tr id="empty-block-table"><td colspan="2">No comments.</td></tr>';
-    
+
     // Check to see if the helper function was called with a piece_id or not
     if (piece != null){
         updatePieceComments(piece, days_to_show);
@@ -45,7 +45,7 @@ function startCommentFeed(piece, days_to_show){
                     // Todo: serialize userprofile so we can link to person page
                     var person_string;
                     if (item.author.profile.person) {
-                        person_string = "<a href='/person/" +
+                        person_string = "<a href='/people/" +
                             item.author.profile.person.person_id + "'>" +
                             item.author.first_name + ' ' + item.author.last_name +
                             "</a>"
@@ -55,7 +55,7 @@ function startCommentFeed(piece, days_to_show){
                             item.author.last_name
                     }
                     var comment = '<div class="comment"><div class="author">' +
-                        "<h5><a href='/piece/" + item.piece.piece_id + "'>" +
+                        "<h5><a href='/pieces/" + item.piece.piece_id + "'>" +
                         item.piece.piece_id + "</a> &bull; " +
                         person_string +
                         ' &bull; ' + item.created.replace(/T.+$/gi,"") +
@@ -103,7 +103,7 @@ function startCommentFeed(piece, days_to_show){
             timeout
         );
     }
-    
+
     // Logic to get and display comments for a single piece.
     function updatePieceComments(piece, days_to_show) {
         $.ajax({
@@ -113,13 +113,13 @@ function startCommentFeed(piece, days_to_show){
             data: {
                 'piece': piece,
                 'last_update': last_update,
-            },                    
+            },
             dataType: 'json',
             success: function (json) {
                 $.each(json.results, function(i,item) {
                     var person_string;
                     if (item.author.profile.person) {
-                        person_string = "<a href='/person/" +
+                        person_string = "<a href='/people/" +
                             item.author.profile.person.person_id + "'>" +
                             item.author.first_name + ' ' + item.author.last_name +
                             "</a>"
@@ -192,30 +192,30 @@ function startCommentFeed(piece, days_to_show){
             timeout
         );
     }
-    
+
     function parseCommentTags(text) {
         return_text = "";
         text_array = text.split(" ");
         var text_array_len = text_array.length;
         var word = null;
-        
+
         // Run through each word of the text looking for tags and replace them
         for (var i = 0; i < text_array_len; i++) {
             word = text_array[i];
-            
+
             // TODO:
             // @username replaced with link to profile page
-            // word = word.replace(/^@([a-z0-9_]+)/gi,"<a href='/person/$1/'>@$1</a>");
+            // word = word.replace(/^@([a-z0-9_]+)/gi,"<a href='/people/$1/'>@$1</a>");
 
             // DCxxxx replaced with link to piece page
-            word = word.replace(/^#?DC([0-9]{4}[a-z]?)/gi,"<a href='/piece/DC$1/'>DC$1</a>");
-            
+            word = word.replace(/^#?DC([0-9]{4}[a-z]?)/gi,"<a href='/pieces/DC$1/'>DC$1</a>");
+
             if (i != 0 ){ return_text = return_text + " "; }
             return_text = return_text + word;
         }
         return return_text;
     }
-    
+
 }
 
 // Function to override normal form submission with an AJAX form submission

@@ -92,7 +92,7 @@ class CRIMRelationship(models.Model):
     id_in_brackets.admin_order_field = 'id'
 
     def get_absolute_url(self):
-        return '/relationship/{0}/'.format(self.pk)
+        return '/relationships/{0}/'.format(self.pk)
 
     def __str__(self):
         return '<R{0}> {1}, {2}'.format(
