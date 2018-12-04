@@ -12,7 +12,7 @@ from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.views.observation import create_observation_from_request
 
 
-def create_relationship_from_request(request):
+def generate_relationship_data(request):
     def post_data(v):
         return request.POST.get(v)
 
@@ -28,13 +28,13 @@ def create_relationship_from_request(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     relationship_data = {}
-    relationship_data['observer'] = request.user.profile.person
 
     # If observation IDs are provided, use those; otherwise, we will
-    # need fields preceded with `model_mt_` fields.
+    # need fields preceded with `model_mt_` fields. If neither of these is
+    # provided, we may be dealing with an update and not a new relationship.
     if post_data('model_observation'):
         model_observation = CRIMObservation.objects.get(id=post_data('model_observation'))
-    else:
+    elif post_data('model_piece'):
         model_observation_or_response = create_observation_from_request(request, 'model')
         if isinstance(model_observation_or_response, Response):
             return response
@@ -46,7 +46,7 @@ def create_relationship_from_request(request):
 
     if post_data('derivative_observation'):
         derivative_observation = CRIMObservation.objects.get(id=post_data('derivative_observation'))
-    else:
+    elif post_data('derivative_piece'):
         derivative_observation_or_response = create_observation_from_request(request, 'derivative')
         if isinstance(derivative_observation_or_response, Response):
             return response
@@ -57,13 +57,16 @@ def create_relationship_from_request(request):
                 return Response({'serialized': serialized_derivative, 'content': derivative_observation})
 
     # Only save observations now, which is when we know that the entire POST will succeed
-    if not post_data('model_observation'):
+    if not post_data('model_observation') and post_data('model_piece'):
         serialized_model.save()
-    if not post_data('derivative_observation'):
+    if not post_data('derivative_observation') and post_data('derivative_piece'):
         serialized_derivative.save()
 
-    relationship_data['model_observation'] = model_observation
-    relationship_data['derivative_observation'] = derivative_observation
+    if post_data('model_observation') or post_data('model_piece'):
+        relationship_data['model_observation'] = model_observation
+
+    if post_data('derivative_observation') or post_data('derivative_piece'):
+        relationship_data['derivative_observation'] = derivative_observation
 
     if post_data('rt_q'):
         relationship_data['rt_q'] = True
@@ -95,8 +98,14 @@ def create_relationship_from_request(request):
     if post_data('remarks'):
         relationship_data['remarks'] = post_data('remarks')
 
-    relationship = CRIMRelationship(**relationship_data)
-    return relationship
+    return relationship_data
+
+
+def create_relationship_from_request(request):
+    relationship_data = generate_relationship_data(request)
+    relationship_data['observer'] = request.user.profile.person
+    new_relationship = CRIMRelationship(**relationship_data)
+    return new_relationship
 
 
 class RelationshipSetPagination(PageNumberPagination):
@@ -164,8 +173,38 @@ class RelationshipListData(RelationshipList):
     renderer_classes = (JSONRenderer,)
 
 
-class RelationshipDetailData(RelationshipDetail):
+class RelationshipDetailData(generics.RetrieveUpdateAPIView):
+    model = CRIMRelationship
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMRelationshipSerializer
     renderer_classes = (JSONRenderer,)
+    queryset = CRIMRelationship.objects.all()
+
+    def get_object(self):
+        url_arg = self.kwargs['id']
+        relationship = CRIMRelationship.objects.filter(id=url_arg)
+        obj = get_object_or_404(relationship)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            instance = self.get_object()
+            relationship_data = generate_relationship_data(request)
+            for k, v in relationship_data.items():
+                setattr(instance, k, v)
+
+            instance.save()
+
+            serialized = CRIMRelationshipSerializer(instance, data=request.data, context={'request': request})
+            # serialized = self.get_serializer(instance)
+            serialized.is_valid(raise_exception=True)
+            self.perform_update(serialized)
+
+            return Response(serialized.data)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 class RelationshipCreateData(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
