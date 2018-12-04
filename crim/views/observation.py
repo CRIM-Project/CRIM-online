@@ -10,7 +10,7 @@ from crim.models.observation import CRIMObservation
 from crim.models.piece import CRIMPiece
 
 
-def create_observation_from_request(request, prefix=''):
+def generate_observation_data(request, prefix=''):
     def post_data(v):
         return request.POST.get(prefix + '_' + v)
 
@@ -33,8 +33,8 @@ def create_observation_from_request(request, prefix=''):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     observation_data = {}
-    observation_data['observer'] = request.user.profile.person
-    observation_data['piece'] = CRIMPiece.objects.get(piece_id=post_data('piece'))
+    if post_data('piece'):
+        observation_data['piece'] = CRIMPiece.objects.get(piece_id=post_data('piece'))
     if post_data('ema'):
         observation_data['ema'] = post_data('ema')
 
@@ -131,8 +131,14 @@ def create_observation_from_request(request, prefix=''):
     if post_data('remarks'):
         observation_data['remarks'] = post_data('remarks')
 
-    observation = CRIMObservation(**observation_data)
-    return observation
+    return observation_data
+
+
+def create_observation_from_request(request, prefix=''):
+    observation_data = generate_observation_data(request, prefix)
+    observation_data['observer'] = request.user.profile.person
+    new_observation = CRIMObservation(**observation_data)
+    return new_observation
 
 
 class ObservationSetPagination(PageNumberPagination):
@@ -200,22 +206,37 @@ class ObservationListData(ObservationList):
     renderer_classes = (JSONRenderer,)
 
 
-class ObservationDetailData(ObservationDetail):
+class ObservationDetailData(generics.RetrieveUpdateAPIView):
+    model = CRIMObservation
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMObservationSerializer
     renderer_classes = (JSONRenderer,)
+    queryset = CRIMObservation.objects.all()
 
-    def post(self, request):
-        observation = get_object_or_404(CRIMObservation, id=id)
-        # Not allowed to POST if there is no CRIMPerson associated with this user
-        if not request.user.is_authenticated or not request.user.profile.person:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-        elif comment.author != request.user.profile and not request.user.is_staff:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+    def get_object(self):
+        url_arg = self.kwargs['id']
+        observation = CRIMObservation.objects.filter(id=url_arg)
+        obj = get_object_or_404(observation)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            instance = self.get_object()
+            observation_data = generate_observation_data(request)
+            for k, v in observation_data.items():
+                setattr(instance, k, v)
+
+            instance.save()
+
+            serialized = CRIMObservationSerializer(instance, data=request.data, context={'request': request})
+            # serialized = self.get_serializer(instance)
+            serialized.is_valid(raise_exception=True)
+            self.perform_update(serialized)
+
+            return Response(serialized.data)
         else:
-            serialized = CRIMObservationSerializer(observation, data=request.data, context={'request': request})
-            if not serialized.is_valid():
-                return Response({'serialized': serialized, 'content': observation})
-            serialized.save()
-            return Response(serialized.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ObservationCreateData(generics.CreateAPIView):
