@@ -31,6 +31,9 @@ ALLOWED_HOSTS = (
     '127.0.0.1',
     '159.65.177.99',
     '92.154.49.37',
+    'crimproject.org',
+    'dev.crimproject.org',
+    'ema.crimproject.org',
 )
 
 # Application definition
