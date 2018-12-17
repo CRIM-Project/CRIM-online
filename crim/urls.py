@@ -69,6 +69,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^search/$', search, name='search'),
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
         re_path(r'^citations/$', TemplateView.as_view(template_name='main/citations.html'), name='citations'),
+        re_path(r'^citations/(?P<relationship_id>[0-9]+)/$', TemplateView.as_view(template_name='main/citations.html'), name='citations-relationship'),
 
         re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
         # re_path(r'^comments/new/$', CommentCreate.as_view(), name='crimcomment-new'),
