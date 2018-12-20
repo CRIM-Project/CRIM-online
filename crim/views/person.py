@@ -69,7 +69,7 @@ class PersonList(generics.ListAPIView):
                 role_type = CRIMRoleType.objects.get(role_type_id=self.request.GET.get('role'))
                 return CRIMPerson.objects.filter(roles__role_type=role_type).distinct().order_by(order_by)
         else:
-            return CRIMPerson.objects.all().distinct().annotate(role=Min('roles__role_type')).order_by(order_by)
+            return CRIMPerson.objects.exclude(person_id='CRIM_Person_0000').distinct().annotate(role=Min('roles__role_type')).order_by(order_by)
 
 
 class PersonDetail(generics.RetrieveAPIView):
