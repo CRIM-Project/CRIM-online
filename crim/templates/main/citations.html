@@ -7,10 +7,20 @@
 {% endblock %}
 
 {% block wrap %}
-  <link rel="stylesheet" type="text/css" href="{% static "node_modules/crim-citations/crim-citations.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'node_modules/crim-citations/crim-citations.css' %}" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <h1>Citation tool</h1>
+  <h1>
+    Citation tool
+    {% if relationship_id %}
+      <small><a href="/relationships/{{ relationship_id }}/">&lt;R{{ relationship_id }}&gt;</a></small>
+    {% endif %}
+  </h1>
   {% if request.user.is_authenticated and request.user.profile.person %}
+    {% if relationship_id and not request.user.is_staff %}
+      <p>
+        You will not be able to submit changes to this relationship to the CRIM database, but you will be able to save your work locally.
+      </p>
+    {% endif %}
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row crim_header" style="margin-top: 15px; margin-bottom: 15px;">
@@ -31,7 +41,7 @@
           </nav>
         </div>
       </header>
-      <main class="mdl-layout__content" id="main-citations" data-pieces="/data/pieces/" data-relationships="/data/relationships/">
+      <main class="mdl-layout__content" id="main-citations" data-pieces="/data/pieces/" data-relationship="{{ relationship_id }}">
         <!-- or data-scoreA, data-scoreB -->
         <section class="mdl-layout__tab-panel is-active" id="create_edit">
           <div class="page-content" id="create_edit">
@@ -47,8 +57,8 @@
     <p>Please log in to use the CRIM citation tool.</p>
   {% endif %}
 
-  <script src="http://www.verovio.org/javascript/latest/verovio-toolkit.js"></script>
-  <script src="{% static "node_modules/crim-citations/crim-citations.js" %}"></script>
-  <script src="{% static "node_modules/dialog-polyfill/dialog-polyfill.js" %}"></script>
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}"></script>
+  <script src="{% static 'node_modules/crim-citations/crim-citations.js' %}"></script>
+  <script src="{% static 'node_modules/dialog-polyfill/dialog-polyfill.js' %}"></script>
 
 {% endblock %}
