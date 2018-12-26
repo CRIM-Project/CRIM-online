@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block wrap %}
-  <link rel="stylesheet" type="text/css" href="{% static "node_modules/crim-citations/crim-citations.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'node_modules/crim-citations/crim-citations.css' %}" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <h1>
     Citation tool
@@ -57,8 +57,8 @@
     <p>Please log in to use the CRIM citation tool.</p>
   {% endif %}
 
-  <script src="http://www.verovio.org/javascript/latest/verovio-toolkit.js"></script>
-  <script src="{% static "node_modules/crim-citations/crim-citations.js" %}"></script>
-  <script src="{% static "node_modules/dialog-polyfill/dialog-polyfill.js" %}"></script>
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}"></script>
+  <script src="{% static 'node_modules/crim-citations/crim-citations.js' %}"></script>
+  <script src="{% static 'node_modules/dialog-polyfill/dialog-polyfill.js' %}"></script>
 
 {% endblock %}
