@@ -177,17 +177,11 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = CRIMRelationshipSerializer
+    lookup_field = 'id'
     renderer_classes = (JSONRenderer,)
     queryset = CRIMRelationship.objects.all()
 
-    def get_object(self):
-        url_arg = self.kwargs['id']
-        relationship = CRIMRelationship.objects.filter(id=url_arg)
-        obj = get_object_or_404(relationship)
-        self.check_object_permissions(self.request, obj)
-        return obj
-
-    def put(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         if request.user.is_staff:
             instance = self.get_object()
             relationship_data = generate_relationship_data(request)
@@ -201,9 +195,18 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
             serialized.is_valid(raise_exception=True)
             self.perform_update(serialized)
 
-            return Response(serialized.data)
+            response_headers = {
+                'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers': 'origin, content-type, accept',
+            #     'Access-Control-Allow-Origin': 'http://127.0.0.1:8000',
+            }
+            return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 
 class RelationshipCreateData(generics.CreateAPIView):
