@@ -33,6 +33,7 @@
     <h1>
       {% if content.curated %}Relationship{% else %}Uncurated relationship{% endif %}
       <small>&lt;R{{ content.id }}&gt;</small>
+      <small><a href="/citations/{{ content.id }}/">[Edit this relationship]</a></small>
     </h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
   </hgroup>
