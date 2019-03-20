@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block wrap %}
+<h1>Create a new forum post</h1>
 <form action="{% url 'create_forum_post' %}" method="POST">
   {% csrf_token %}
-  {{ form }}
+  <table>
+    {{ form.as_table }}
+  </table>
   <input type="submit" value="Submit">
 </form>
 {% endblock %}

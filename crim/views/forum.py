@@ -1,14 +1,22 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from ..forms import ForumPostForm
 from ..models.forum import ForumPost
+from ..models.user import CRIMUserProfile
 
 
+@login_required
 def create_post(request):
     if request.method == "POST":
         form = ForumPostForm(request.POST)
         if form.is_valid():
-            post = ForumPost.objects.create(text=form.cleaned_data["body"])
+            crim_user = CRIMUserProfile.objects.get(user=request.user)
+            post = ForumPost.objects.create(
+                title=form.cleaned_data["title"],
+                text=form.cleaned_data["body"],
+                user=crim_user,
+            )
             return redirect("view_forum_post", post.pk)
     else:
         form = ForumPostForm()

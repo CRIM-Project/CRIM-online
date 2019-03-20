@@ -5,11 +5,22 @@ from .user import CRIMUserProfile
 
 
 class ForumPost(models.Model):
+    title = models.CharField(max_length=100)
     text = models.TextField()
     # Reference to the user who created the post.
-    user = models.ForeignKey(CRIMUserProfile, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(
+        CRIMUserProfile, null=True, blank=True, on_delete=models.SET_NULL
+    )
     # Reference to the group to which the post belongs.
-    group = models.ForeignKey(CRIMGroup, null=True, on_delete=models.SET_NULL)
+    group = models.ForeignKey(
+        CRIMGroup, null=True, blank=True, on_delete=models.SET_NULL
+    )
+
+    def __str__(self):
+        if self.user:
+            return "{0.title} (by {0.user})".format(self)
+        else:
+            return self.title
 
 
 class ForumComment(models.Model):
