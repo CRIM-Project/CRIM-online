@@ -428,6 +428,7 @@ class CRIMVoiceAdmin(admin.ModelAdmin):
         'voice_id',
         'piece_title',
         'order',
+        'original_name',
         'regularized_name',
     )
     ordering = (
