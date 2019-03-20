@@ -22,6 +22,7 @@ class CRIMUserProfile(models.Model):
         'CRIMPerson',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         db_index=True,
         help_text='Link this account with a CRIM Person',
         related_name='profile',

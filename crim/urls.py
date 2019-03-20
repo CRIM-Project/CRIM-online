@@ -135,7 +135,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
-        path("forum", forum_views.create_post, name="create_forum_post"),
+        path("forum/create", forum_views.create_post, name="create_forum_post"),
         path("forum/post/<int:pk>", forum_views.view_post, name="view_forum_post"),
     ]
 
