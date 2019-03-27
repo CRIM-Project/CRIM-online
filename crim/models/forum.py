@@ -31,3 +31,9 @@ class ForumComment(models.Model):
     parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     # The post to which the comment belongs.
     post = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
+
+    def __str__(self):
+        if self.user:
+            return 'Comment on "{0.post.title}" by {0.user}'.format(self)
+        else:
+            return 'Comment on "{0.post.title}"'.format(self)
