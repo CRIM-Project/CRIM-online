@@ -3,4 +3,18 @@
 {% block wrap %}
 <h1>{{ post.title }}</h1>
 <p>{{ post.text }}</p>
+
+<form action="{% url 'create_forum_comment' %}" method="POST">
+  {% csrf_token %}
+  <textarea name="body"></textarea>
+  <input type="hidden" name="post" value="{{ post.id }}">
+  <input type="submit" value="Submit">
+</form>
+
+{% for comment in comments %}
+{% if comment.user %}
+<h3>{{ comment.user.user.username }}</h3>
+{% endif %}
+<p>{{ comment.text }}</p>
+{% endfor %}
 {% endblock %}
