@@ -17,7 +17,7 @@ def create_post(request):
             crim_user = CRIMUserProfile.objects.get(user=request.user)
             post = ForumPost.objects.create(
                 title=form.cleaned_data["title"],
-                text=form.cleaned_data["body"],
+                text=form.cleaned_data["body"].strip(),
                 user=crim_user,
             )
             return redirect("view_forum_post", post.pk)
@@ -54,7 +54,7 @@ def create_or_reply_comment(post_pk, comment_pk, request):
     post = ForumPost.objects.get(pk=post_pk)
     crim_user = CRIMUserProfile.objects.get(user=request.user)
     ForumComment.objects.create(
-        text=request.POST["body"], parent=parent, post=post, user=crim_user,
+        text=request.POST["body"].strip(), parent=parent, post=post, user=crim_user,
     )
 
 
@@ -80,9 +80,9 @@ def render_comment(comment):
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
     user = html.escape(str(comment.user)) if comment.user else "[deleted]"
     text = html.escape(comment.text)
-    base = "<li><h2>{} at {}</h2><p>{}</p></li><p><a href=\"{}\">reply</a></p>".format(
+    base = "<li><h2>{} at {}</h2><p>{}</p><p><a href=\"{}\">reply</a></p></li>".format(
         user,
-        comment.created_at,
+        comment.created_at.strftime("%I:%M %p on %B %d, %Y"),
         text,
         reverse("reply_forum_comment", args=[comment.pk]),
     )
