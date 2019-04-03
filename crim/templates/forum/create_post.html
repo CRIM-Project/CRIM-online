@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock %}
+
 {% block wrap %}
-<h1>Create a new forum post</h1>
-<form action="{% url 'create_forum_post' %}" method="POST">
+<form id="forum-post-form" action="{% url 'create_forum_post' %}" method="POST">
+  <h1>Create a new forum post</h1>
   {% csrf_token %}
   <table>
     {{ form.as_table }}
