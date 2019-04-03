@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from .group import CRIMGroup
 from .user import CRIMUserProfile
@@ -17,6 +18,9 @@ class ForumPost(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_absolute_url(self):
+        return reverse("view_forum_post", args=[self.pk])
+
     def __str__(self):
         if self.user:
             return "{0.title} (by {0.user})".format(self)
@@ -33,6 +37,9 @@ class ForumComment(models.Model):
     # The post to which the comment belongs.
     post = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return self.post.get_absolute_url()
 
     def __str__(self):
         if self.user:

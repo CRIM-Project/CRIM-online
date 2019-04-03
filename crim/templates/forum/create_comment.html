@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block wrap %}
+<h2>Reply to <a href={{ parent.get_absolute_url }}>{{ parent.user }}'s comment</a></h2>
+<p>{{ parent.text }}</p>
+<p>Created at {{ parent.created_at }}</p>
+<form action="{% url 'reply_forum_comment' parent.pk %}" method="POST">
+  {% csrf_token %}
+  <textarea name="body"></textarea>
+  <input type="submit" value="Submit">
+</form>
+{% endblock %}
