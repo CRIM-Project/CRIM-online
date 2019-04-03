@@ -15,6 +15,7 @@ class ForumPost(models.Model):
     group = models.ForeignKey(
         CRIMGroup, null=True, blank=True, on_delete=models.SET_NULL
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         if self.user:
@@ -31,6 +32,7 @@ class ForumComment(models.Model):
     parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     # The post to which the comment belongs.
     post = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         if self.user:

@@ -3,6 +3,7 @@
 {% block wrap %}
 <h1>{{ post.title }}</h1>
 <p>{{ post.text }}</p>
+<p>Created at {{ post.created_at }}</p>
 
 <form action="{% url 'create_forum_comment' %}" method="POST">
   {% csrf_token %}
@@ -13,7 +14,7 @@
 
 {% for comment in comments %}
 {% if comment.user %}
-<h3>{{ comment.user.user.username }}</h3>
+<h3>{{ comment.user.user.username }} at {{ comment.created_at }}</h3>
 {% endif %}
 <p>{{ comment.text }}</p>
 {% endfor %}
