@@ -2,6 +2,7 @@ import html
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from ..forms import ForumPostForm
 from ..models.forum import ForumComment, ForumPost
@@ -39,10 +40,10 @@ def create_comment(request, post_pk):
 def reply_comment(request, pk):
     parent = ForumComment.objects.get(pk=pk)
     if request.method == "POST":
-        create_or_reply_comment(parent.pk, pk, request)
+        create_or_reply_comment(parent.post.pk, pk, request)
         return redirect(parent.get_absolute_url())
     else:
-        return render(request, "forum/create_comment.html", {"parent": parent})
+        return render(request, "forum/reply_comment.html", {"parent": parent})
 
 
 def create_or_reply_comment(post_pk, comment_pk, request):
@@ -79,7 +80,10 @@ def render_comment(comment):
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
     user = html.escape(str(comment.user)) if comment.user else "[deleted]"
     text = html.escape(comment.text)
-    base = "<li><h2>{} at {}</h2><p>{}</p></li>".format(
-        user, comment.created_at, text
+    base = "<li><h2>{} at {}</h2><p>{}</p></li><p><a href=\"{}\">reply</a></p>".format(
+        user,
+        comment.created_at,
+        text,
+        reverse("reply_forum_comment", args=[comment.pk]),
     )
     return base + render_comment_tree(comment.forumcomment_set.all())
