@@ -1,11 +1,9 @@
 <h3>{{ relationship.relationship_type_s }}</h3>
 {% if relationship.rt_q_b %}
-  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
   <p><strong>Exact:</strong> {{ relationship.rt_q_x_b }}</p>
   <p><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage_b }}</p>
 {% endif %}
 {% if relationship.rt_tm_b %}
-  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
   <p><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd_b }}</p>
   <p><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv_b }}</p>
   <p><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde_b }}</p>
@@ -14,7 +12,6 @@
   <p><strong>Double or invertible counterpoint:</strong> {{ relationship.rt_tm_invertible_b }}</p>
 {% endif %}
 {% if relationship.rt_tnm_b %}
-  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
   <p><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished_b }}</p>
   <p><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced_b }}</p>
   <p><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified_b }}</p>
@@ -23,10 +20,4 @@
   <p><strong>Old counter-subject shifted:</strong> {{ relationship.rt_tnm_ocs_b }}</p>
   <p><strong>Old counter-subject transposed:</strong> {{ relationship.rt_tnm_ocst_b }}</p>
   <p><strong>New combination:</strong> {{ relationship.rt_tnm_nc_b }}</p>
-{% endif %}
-{% if relationship.rt_nm_b %}
-  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
-{% endif %}
-{% if relationship.rt_om_b %}
-  <p><strong>Musical type:</strong> {{ relationship.musical_type_s }}</p>
 {% endif %}
