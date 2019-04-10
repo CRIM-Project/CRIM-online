@@ -5,7 +5,7 @@ from .group import CRIMGroup
 from .user import CRIMUserProfile
 
 
-class ForumPost(models.Model):
+class CRIMForumPost(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField()
     # Reference to the user who created the post.
@@ -28,14 +28,14 @@ class ForumPost(models.Model):
             return self.title
 
 
-class ForumComment(models.Model):
+class CRIMForumComment(models.Model):
     text = models.TextField()
     # Reference to the user who created the comment.
     user = models.ForeignKey(CRIMUserProfile, null=True, on_delete=models.SET_NULL)
     # The parent of the comment, which may be null if the comment is at the top-level.
     parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     # The post to which the comment belongs.
-    post = models.ForeignKey(ForumPost, on_delete=models.CASCADE)
+    post = models.ForeignKey(CRIMForumPost, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):

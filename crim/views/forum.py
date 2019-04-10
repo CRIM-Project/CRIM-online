@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from ..forms import ForumPostForm
-from ..models.forum import ForumComment, ForumPost
+from ..models.forum import CRIMForumComment, CRIMForumPost
 from ..models.user import CRIMUserProfile
 
 
@@ -15,7 +15,7 @@ def create_post(request):
         form = ForumPostForm(request.POST)
         if form.is_valid():
             crim_user = CRIMUserProfile.objects.get(user=request.user)
-            post = ForumPost.objects.create(
+            post = CRIMForumPost.objects.create(
                 title=form.cleaned_data["title"],
                 text=form.cleaned_data["body"].strip(),
                 user=crim_user,
@@ -38,7 +38,7 @@ def create_comment(request, post_pk):
 
 @login_required
 def reply_comment(request, pk):
-    parent = ForumComment.objects.get(pk=pk)
+    parent = CRIMForumComment.objects.get(pk=pk)
     if request.method == "POST":
         create_or_reply_comment(parent.post.pk, pk, request)
         return redirect(parent.get_absolute_url())
@@ -48,19 +48,19 @@ def reply_comment(request, pk):
 
 def create_or_reply_comment(post_pk, comment_pk, request):
     if comment_pk is not None:
-        parent = ForumComment.objects.get(pk=comment_pk)
+        parent = CRIMForumComment.objects.get(pk=comment_pk)
     else:
         parent = None
-    post = ForumPost.objects.get(pk=post_pk)
+    post = CRIMForumPost.objects.get(pk=post_pk)
     crim_user = CRIMUserProfile.objects.get(user=request.user)
-    ForumComment.objects.create(
+    CRIMForumComment.objects.create(
         text=request.POST["body"].strip(), parent=parent, post=post, user=crim_user,
     )
 
 
 def view_post(request, pk):
-    post = get_object_or_404(ForumPost, pk=pk)
-    comment_tree = render_comment_tree(post.forumcomment_set.filter(parent=None))
+    post = get_object_or_404(CRIMForumPost, pk=pk)
+    comment_tree = render_comment_tree(post.crimforumcomment_set.filter(parent=None))
     context = {"comment_tree": comment_tree, "post": post}
     return render(request, "forum/view_post.html", context)
 
@@ -86,4 +86,4 @@ def render_comment(comment):
         text,
         reverse("reply_forum_comment", args=[comment.pk]),
     )
-    return base + render_comment_tree(comment.forumcomment_set.all())
+    return base + render_comment_tree(comment.crimforumcomment_set.all())
