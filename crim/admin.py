@@ -7,7 +7,7 @@ from crim.models.user import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMTreatise, CRIMSource
-from crim.models.forum import ForumComment, ForumPost
+from crim.models.forum import CRIMForumComment, CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.group import CRIMGroup
 from crim.models.part import CRIMPart
@@ -682,7 +682,6 @@ class UserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(CRIMUserProfile)
 
 admin.site.register(CRIMPerson, CRIMPersonAdmin)
 
@@ -707,5 +706,5 @@ admin.site.register(CRIMNote)
 admin.site.register(CRIMComment, CRIMCommentAdmin)
 
 admin.site.register(CRIMGroup)
-admin.site.register(ForumPost)
-admin.site.register(ForumComment)
+admin.site.register(CRIMForumPost)
+admin.site.register(CRIMForumComment)
