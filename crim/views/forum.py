@@ -78,7 +78,12 @@ def render_comment_tree(comment_set):
 
 def render_comment(comment):
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
-    user = html.escape(str(comment.user)) if comment.user else "[deleted]"
+    if comment.user:
+        user = comment.user.name + " (" + comment.user.user.username + ")"
+    else:
+        user = "[deleted]"
+    user = html.escape(user)
+
     text = html.escape(comment.text)
     base = "<li><h2>{} at {}</h2><p>{}</p><p><a href=\"{}\">reply</a></p></li>".format(
         user,
