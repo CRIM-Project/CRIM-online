@@ -14,7 +14,21 @@
 <form action="{% url 'reply_forum_comment' parent.pk %}" method="POST">
   {% csrf_token %}
   <textarea name="body"></textarea>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" disabled>
 </form>
 </div>
+
+<script>
+// Disable the submit button whenever the body is empty.
+let submit = document.querySelector("input[type='submit']");
+let textarea = document.querySelector("textarea");
+
+textarea.addEventListener("input", event => {
+  if (textarea.value.trim() === "") {
+    submit.disabled = true;
+  } else {
+    submit.disabled = false;
+  }
+});
+</script>
 {% endblock %}
