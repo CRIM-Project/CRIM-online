@@ -18,7 +18,7 @@
 <form action="{% url 'create_forum_comment' post.pk %}" method="POST">
   {% csrf_token %}
   <textarea name="body"></textarea>
-  <input type="submit" value="Reply">
+  <input type="submit" value="Reply" disabled>
 </form>
 </div>
 
@@ -28,12 +28,17 @@
 {% endautoescape %}
 </div>
 
-<!--
-{% for comment in comments %}
-{% if comment.user %}
-<h3>{{ comment.user.user.username }} at {{ comment.created_at }}</h3>
-{% endif %}
-<p>{{ comment.text }}</p>
-{% endfor %}
--->
+<script>
+// Disable the reply button whenever the body is empty.
+let submit = document.querySelector("#comment-form input[type='submit']");
+let textarea = document.querySelector("#comment-form textarea");
+
+textarea.addEventListener("input", event => {
+  if (textarea.value.trim() === "") {
+    submit.disabled = true;
+  } else {
+    submit.disabled = false;
+  }
+});
+</script>
 {% endblock %}
