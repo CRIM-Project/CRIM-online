@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from ..models.forum import CRIMForumComment, CRIMForumPost
+from ..models.piece import CRIMPiece
 from ..models.user import CRIMUserProfile
 
 
@@ -12,6 +13,16 @@ def index(request):
     posts = CRIMForumPost.objects.all().order_by("-created_at")
     context = {"posts": posts}
     return render(request, "forum/index.html", context)
+
+
+def related(request, piece):
+    piece = get_object_or_404(CRIMPiece, piece_id=piece)
+    related = []
+    for post in CRIMForumPost.objects.all():
+        if piece.piece_id in post.text or piece.piece_id in post.title:
+            related.append(post)
+    context = {"piece": piece, "posts": related}
+    return render(request, "forum/related.html", context)
 
 
 @login_required
