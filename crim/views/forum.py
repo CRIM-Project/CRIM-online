@@ -8,6 +8,12 @@ from ..models.forum import CRIMForumComment, CRIMForumPost
 from ..models.user import CRIMUserProfile
 
 
+def index(request):
+    posts = CRIMForumPost.objects.all().order_by("-created_at")
+    context = {"posts": posts}
+    return render(request, "forum/index.html", context)
+
+
 @login_required
 def create_post(request):
     if request.method == "POST":
