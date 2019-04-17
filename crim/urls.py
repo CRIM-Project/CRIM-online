@@ -138,6 +138,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         path("forum/", forum_views.index, name="forum_index"),
         path("forum/create", forum_views.create_post, name="create_forum_post"),
         path("forum/post/<int:pk>", forum_views.view_post, name="view_forum_post"),
+        path("forum/related/<piece>", forum_views.related, name="forum_related"),
         path(
             "forum/post/<int:post_pk>/comment",
             forum_views.create_comment,

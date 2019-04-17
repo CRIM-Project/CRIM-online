@@ -89,6 +89,8 @@
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
         {% endif %}
+
+        <h3><a href="{% url 'forum_related' content.piece_id %}">Forum posts</a></h3>
       </div>
       <!-- Sidebar giving all mass movements -->
       {% if content.mass %}
