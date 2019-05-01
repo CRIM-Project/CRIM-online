@@ -8,8 +8,10 @@
 
 {% block wrap %}
 <div id="forum-post">
-<h1>{{ post.title }}</h1>
-<p>{{ post.text }}</p>
+{% autoescape off %}
+<h1>{{ post_title }}</h1>
+<p>{{ post_text }}</p>
+{% endautoescape %}
 <p>
   Created at {{ post.created_at|time:"h:i A" }} on {{ post.created_at|date:"F d, Y" }} by {{ post.user|default_if_none:"[deleted]" }}</p>
 </div>
