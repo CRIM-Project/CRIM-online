@@ -2,6 +2,7 @@ import html
 import re
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -18,10 +19,18 @@ def index(request):
 
 def related(request, piece):
     piece = get_object_or_404(CRIMPiece, piece_id=piece)
-    related = []
-    for post in CRIMForumPost.objects.all():
-        if piece.piece_id in post.text or piece.piece_id in post.title:
-            related.append(post)
+    pid = piece.piece_id.lower()
+
+    # Fetch all posts which mention the piece in the title or body.
+    related = CRIMForumPost.objects.filter(
+        Q(text__icontains=pid) | Q(title__icontains=pid)
+    )
+    # Fetch all comments which mention the piece. The select_related clause is not
+    # necessary for correctness, but will speed up the next line where the `post` field
+    # of the comment objects is accessed.
+    related_comments = CRIMForumComment.objects.filter(text__icontains=pid).select_related("post")
+    # Combine the two sets.
+    related = set(related) | set(c.post for c in related_comments)
     context = {"piece": piece, "posts": related}
     return render(request, "forum/related.html", context)
 
