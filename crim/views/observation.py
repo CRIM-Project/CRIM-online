@@ -12,7 +12,14 @@ from crim.models.piece import CRIMPiece
 
 def generate_observation_data(request, prefix=''):
     def post_data(v):
-        return request.POST.get(prefix + '_' + v)
+        field = request.POST.get(prefix + '_' + v)
+        if field == 'true':
+            return True
+        elif field == 'false' or field == None:
+            return False
+        else:
+            return field
+    print(repr(post_data("mt_pe_strict")))
 
     # Don't allow if more than one musical type has been selected.
     list_of_musical_types = [
