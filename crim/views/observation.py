@@ -19,7 +19,6 @@ def generate_observation_data(request, prefix=''):
             return False
         else:
             return field
-    print(repr(post_data("mt_pe_strict")))
 
     # Don't allow if more than one musical type has been selected.
     list_of_musical_types = [
@@ -238,7 +237,11 @@ class ObservationDetailData(generics.RetrieveUpdateAPIView):
 
             serialized = CRIMObservationSerializer(instance, data=request.data, context={'request': request})
             # serialized = self.get_serializer(instance)
-            serialized.is_valid(raise_exception=True)
+            if serialized.is_valid():
+                if request.user.is_staff:
+                    serialized.validated_data['curated'] = True
+            else:
+                raise ValidationError(serialized.errors)
             self.perform_update(serialized)
 
             return Response(serialized.data)
@@ -260,7 +263,11 @@ class ObservationCreateData(generics.CreateAPIView):
 
         observation = observation_or_response
         serialized = CRIMObservationSerializer(observation, data=request.data, context={'request': request})
-        if not serialized.is_valid():
+        # If the user is an admin, the observation should be marked as curated.
+        if serialized.is_valid():
+            if request.user.is_staff:
+                serialized.validated_data['curated'] = True
+        else:
             return Response({'serialized': serialized, 'content': observation})
 
         serialized.save()
