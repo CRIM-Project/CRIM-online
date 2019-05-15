@@ -192,8 +192,13 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
 
             serialized = CRIMRelationshipSerializer(instance, data=request.data, context={'request': request})
             # serialized = self.get_serializer(instance)
-            serialized.is_valid(raise_exception=True)
+            if serialized.is_valid():
+                if request.user.is_staff:
+                    serialized.validated_data['curated'] = True
+            else:
+                raise ValidationError(serialized.errors)
             self.perform_update(serialized)
+            print(serialized)
 
             response_headers = {
                 'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
@@ -225,7 +230,11 @@ class RelationshipCreateData(generics.CreateAPIView):
         # Otherwise, create the object.
         relationship = relationship_or_response
         serialized = CRIMRelationshipSerializer(relationship, data=request.data, context={'request': request})
-        if not serialized.is_valid():
+        # If the user is an admin, the relationship should be marked as curated.
+        if serialized.is_valid():
+            if request.user.is_staff:
+                serialized.validated_data['curated'] = True
+        else:
             return Response({'serialized': serialized, 'content': relationship})
 
         serialized.save()
