@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock %}
+
+{% block wrap %}
+<div id="forum-list">
+<h1>Forum posts</h1>
+<a href="{% url 'create_forum_post' %}">Create a new post</a>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Created at</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in posts %}
+    <tr>
+      <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+      {% if post.user is None %}
+      <td>[deleted]</td>
+      {% else %}
+      <td>{{ post.user.user.username }}</td>
+      {% endif %}
+      <td>{{ post.created_at|time:"h:i A" }} on {{ post.created_at|date:"F d, Y" }}</td>
+      <td>{{ post.crimforumcomment_set.count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
