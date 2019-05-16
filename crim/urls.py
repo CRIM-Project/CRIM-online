@@ -145,7 +145,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
             name='create_forum_comment',
         ),
         re_path(
-            r'^forum/reply/(?P<pk>[0-9])/$",
+            r'^forum/reply/(?P<pk>[0-9])/$',
             forum_views.reply_comment,
             name='reply_forum_comment',
         ),
