@@ -11,16 +11,9 @@ from django.conf import settings
 from crim.models.relationship import CRIMRelationship
 
 
-if __name__ == '__main__':
-    print('Using: {0}'.format(settings.SOLR_SERVER))
-    solrconn = solr.SolrConnection(settings.SOLR_SERVER)
-
-    relationships = CRIMRelationship.objects.all()
-    for i, relationship in enumerate(relationships):
-        # Don't index "needs review" relationships
-        if not relationship.curated:
-            continue
-
+def solr_index_single(relationship, solrconn):
+    # Don't index if not curated
+    if relationship.curated:
         # The suffixes are for automatic creation of the schema using
         # the correct types -- see http://yonik.com/solr-tutorial/
         d = {
@@ -294,6 +287,16 @@ if __name__ == '__main__':
         }
         solrconn.add(**d)
         solrconn.commit()
+
+
+if __name__ == '__main__':
+    print('Using: {0}'.format(settings.SOLR_SERVER))
+    solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+
+    relationships = CRIMRelationship.objects.all()
+    for i, relationship in enumerate(relationships):
+        solr_index_single(relationship, solrconn)
+
     print('Done adding analyses')
 
     sys.exit()
