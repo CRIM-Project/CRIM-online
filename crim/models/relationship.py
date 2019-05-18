@@ -148,35 +148,22 @@ class CRIMRelationship(models.Model):
         # Finalize changes
         super().save()
 
-#
-# @receiver(post_save, sender=CRIMRelationship)
-# def solr_index(sender, instance, created, **kwargs):
-#     print('Indexing in Solr')
-#     from django.conf import settings
-#     import solr
-#
-#     solrconn = solr.SolrConnection(settings.SOLR_SERVER)
-#     record = solrconn.query("id:{0}".format(instance.id))
-#     if record:
-#         # the record already exists, so we'll remove it first.
-#         print("Deleting {}".format(record.results[0]['id']))
-#         solrconn.delete(record.results[0]['id'])
-#
-#     # Don't index if this relationship needs review!
-#     if not instance.curated:
-#         return
-#     # The suffixes are for automatic creation of the schema using
-#     # the correct types -- see http://yonik.com/solr-tutorial/
-#     d = {
-#         'type': 'crim_relationship',
-#         'id': instance.id,
-#         'observer_s': instance.observer.name,
-#
-#         # Information about the relationship type
-#         ...
-#     }
-#     solrconn.add(**d)
-#     solrconn.commit()
+
+@receiver(post_save, sender=CRIMRelationship)
+def solr_index(sender, instance, created, **kwargs):
+    print('Indexing in Solr')
+    from django.conf import settings
+    import solr
+    from solr_index import solr_index_single
+
+    solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+    record = solrconn.query("id:{0}".format(instance.id))
+    if record:
+        # the record already exists, so we'll remove it first.
+        print("Deleting {}".format(record.results[0]['id']))
+        solrconn.delete(record.results[0]['id'])
+
+    solr_index_single(instance, solrconn)
 
 
 @receiver(post_delete, sender=CRIMRelationship)
@@ -188,5 +175,6 @@ def solr_delete(sender, instance, **kwargs):
     record = solrconn.query("id:{0}".format(instance.id))
     if record:
         # the record already exists, so we'll remove it first.
-        print("Deleting ".format(record.results[0]['id']))
-        solrconn.delete(record.results[0]['id'])
+        print("Deleting {0}".format(record.results[0]['id']))
+        solrconn.delete_query('id:{0}'.format(instance.id))
+        solrconn.commit()
