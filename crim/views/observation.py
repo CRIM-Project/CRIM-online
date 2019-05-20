@@ -182,7 +182,7 @@ class ObservationList(generics.ListAPIView):
     )
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'piece_id')
+        order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
             return CRIMObservation.objects.all().order_by(order_by)
         else:

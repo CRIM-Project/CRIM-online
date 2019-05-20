@@ -143,7 +143,7 @@ class RelationshipList(generics.ListAPIView):
     )
 
     def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'model_observation__piece_id')
+        order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
             return CRIMRelationship.objects.all().order_by(order_by)
         else:
@@ -198,7 +198,6 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
             else:
                 raise ValidationError(serialized.errors)
             self.perform_update(serialized)
-            print(serialized)
 
             response_headers = {
                 'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
