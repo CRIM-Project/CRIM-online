@@ -88,3 +88,6 @@
   {% if observation.mt_fp_range %}<p class="hanging"><strong>Range:</strong> {{ observation.mt_fp_range }}</p>{% endif %}
   {% if observation.mt_fp_comment %}<p class="hanging"><strong>Comment:</strong> {{ observation.mt_fp_comment }}</p>{% endif %}
 {% endif %}
+{% if observation.remarks %}
+  <p class="hanging"><strong>Remarks:</strong> {{ observation.remarks }}</p>
+{% endif %}
