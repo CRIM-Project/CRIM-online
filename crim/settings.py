@@ -567,11 +567,13 @@ DISPLAY_FACETS_OBSERVER = OrderedDict([
 
 DISPLAY_FACETS_MODEL = OrderedDict([
     ('model_composer_s', ('model-composer', 'Composer')),
+    ('model_title_s', ('model-title', 'Title')),
     ('model_genre_s', ('model-genre', 'Genre')),
 ])
 
 DISPLAY_FACETS_DERIVATIVE = OrderedDict([
     ('derivative_composer_s', ('derivative-composer', 'Composer')),
+    ('derivative_title_s', ('derivative-title', 'Title')),
     ('derivative_genre_s', ('derivative-genre', 'Genre')),
 ])
 

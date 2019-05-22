@@ -1,0 +1,15 @@
+<hgroup>
+  <h4>Title of model</h4>
+  (Matches <em>any</em>)
+</hgroup>
+<p>
+  <ul class="column-checklist">
+    {% for t in model_title %}
+      <li>
+        <label class="checkbox" for="model-title{{ forloop.counter }}">
+          <input type="checkbox" id="model-title{{ forloop.counter }}" name="model-title" value="{{ t }}" />{{ t }} ({{ model_title|dictkey:t }})
+        </label>
+      </li>
+    {% endfor %}
+  </ul>
+</p>
