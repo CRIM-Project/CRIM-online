@@ -162,7 +162,7 @@ def solr_index_single(relationship, solrconn):
             # Information about the model observation's CRIMPiece
 
             'model_piece_id_s': relationship.model_observation.piece.piece_id,
-            'model_title_s': relationship.model_observation.piece.title,
+            'model_title_s': relationship.model_observation.piece.mass.title + ': ' + relationship.model_observation.piece.title if relationship.model_observation.piece.mass else relationship.model_observation.piece.title,
             'model_mass_s': relationship.model_observation.piece.mass.title if relationship.model_observation.piece.mass else None,
             'model_composer_s': relationship.model_observation.piece.composer.name,
             'model_genre_s': relationship.model_observation.piece.genre,
@@ -276,7 +276,7 @@ def solr_index_single(relationship, solrconn):
             # Information about the derivative observation's CRIMPiece
 
             'derivative_piece_id_s': relationship.derivative_observation.piece.piece_id,
-            'derivative_title_s': relationship.derivative_observation.piece.title,
+            'derivative_title_s': relationship.derivative_observation.piece.mass.title + ': ' + relationship.derivative_observation.piece.title if relationship.derivative_observation.piece.mass else relationship.derivative_observation.piece.title,
             'derivative_mass_s': relationship.derivative_observation.piece.mass.title if relationship.derivative_observation.piece.mass else None,
             'derivative_composer_s': relationship.derivative_observation.piece.composer.name,
             'derivative_genre_s': relationship.derivative_observation.piece.genre,
