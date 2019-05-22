@@ -25,7 +25,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-model-accordion" href="#collapse-model">Model</a>
     </div>
-    <div id="collapse-model" class="accordion-body collapse {% if request.GET|dictkey:'model-composer' or request.GET|dictkey:'model-genre' %}in{% endif %}">
+    <div id="collapse-model" class="accordion-body collapse {% if request.GET|dictkey:'model-composer' or request.GET|dictkey:'model-title' or request.GET|dictkey:'model-genre' %}in{% endif %}">
       <div class="accordion-inner">
         {% for facet_block in facet_results_model %}
           {% if facet_block.1 %}
@@ -46,7 +46,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#facet-derivative-accordion" href="#collapse-derivative">Derivative</a>
     </div>
-    <div id="collapse-derivative" class="accordion-body collapse {% if request.GET|dictkey:'derivative-composer' or request.GET|dictkey:'derivative-genre' %}in{% endif %}">
+    <div id="collapse-derivative" class="accordion-body collapse {% if request.GET|dictkey:'derivative-composer' or request.GET|dictkey:'derivative-title' or request.GET|dictkey:'derivative-genre' %}in{% endif %}">
       <div class="accordion-inner">
         {% for facet_block in facet_results_derivative %}
           {% if facet_block.1 %}
