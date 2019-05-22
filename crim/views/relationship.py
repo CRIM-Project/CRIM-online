@@ -12,7 +12,7 @@ from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.views.observation import create_observation_from_request
 
 
-def generate_relationship_data(request):
+def generate_relationship_data(request, model_observation_id=None, derivative_observation_id=None):
     def post_data(v):
         return request.POST.get(v)
 
@@ -32,8 +32,8 @@ def generate_relationship_data(request):
     # If observation IDs are provided, use those; otherwise, we will
     # need fields preceded with `model_mt_` fields. If neither of these is
     # provided, we may be dealing with an update and not a new relationship.
-    if post_data('model_observation'):
-        model_observation = CRIMObservation.objects.get(id=post_data('model_observation'))
+    if post_data('model_observation_id'):
+        model_observation = CRIMObservation.objects.get(id=post_data('model_observation_id'))
     elif post_data('model_piece'):
         model_observation_or_response = create_observation_from_request(request, 'model')
         if isinstance(model_observation_or_response, Response):
@@ -44,8 +44,8 @@ def generate_relationship_data(request):
             if not serialized_model.is_valid():
                 return Response({'serialized': serialized_model, 'content': model_observation})
 
-    if post_data('derivative_observation'):
-        derivative_observation = CRIMObservation.objects.get(id=post_data('derivative_observation'))
+    if post_data('derivative_observation_id'):
+        derivative_observation = CRIMObservation.objects.get(id=post_data('derivative_observation_id'))
     elif post_data('derivative_piece'):
         derivative_observation_or_response = create_observation_from_request(request, 'derivative')
         if isinstance(derivative_observation_or_response, Response):
@@ -57,15 +57,15 @@ def generate_relationship_data(request):
                 return Response({'serialized': serialized_derivative, 'content': derivative_observation})
 
     # Only save observations now, which is when we know that the entire POST will succeed
-    if not post_data('model_observation') and post_data('model_piece'):
+    if not post_data('model_observation_id') and post_data('model_piece'):
         serialized_model.save()
-    if not post_data('derivative_observation') and post_data('derivative_piece'):
+    if not post_data('derivative_observation_id') and post_data('derivative_piece'):
         serialized_derivative.save()
 
-    if post_data('model_observation') or post_data('model_piece'):
+    if post_data('model_observation_id') or post_data('model_piece'):
         relationship_data['model_observation'] = model_observation
 
-    if post_data('derivative_observation') or post_data('derivative_piece'):
+    if post_data('derivative_observation_id') or post_data('derivative_piece'):
         relationship_data['derivative_observation'] = derivative_observation
 
     if post_data('rt_q'):
