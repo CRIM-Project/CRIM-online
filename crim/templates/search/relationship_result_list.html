@@ -21,9 +21,6 @@
             &lt;{{ relationship.model_observation_id_i }}&gt;
           </a>
           <a href="/pieces/{{ relationship.model_piece_id_s }}/">
-            {% if relationship.model_mass_s %}
-              {{ relationship.model_mass_s }}:
-            {% endif %}
             {{ relationship.model_title_s }}
           </a>
         </td>
@@ -32,9 +29,6 @@
             &lt;{{ relationship.derivative_observation_id_i }}&gt;
           </a>
           <a href="/pieces/{{ relationship.derivative_piece_id_s }}/">
-            {% if relationship.derivative_mass_s %}
-              {{ relationship.derivative_mass_s }}:
-            {% endif %}
             {{ relationship.derivative_title_s }}
           </a>
         </td>
