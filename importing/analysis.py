@@ -8,13 +8,13 @@ from importing.analysis_constants import *
 
 django.setup()
 
-FILE_IN = 'source/citations.json'
-FILE_OUT = '../crim/fixtures/analysis.json'
-NUMBERED_OUT = 'source/citations_numbered.json'
-UNPROCESSED_OUT = 'source/not_imported.json'
-LOG = 'source/analysis_import_log.txt'
-OBSERVATION_COUNT = 0
-RELATIONSHIP_COUNT = 0
+FILE_IN = 'source/batch2/newbatch-peeled.json'
+FILE_OUT = '../crim/fixtures/batch2-firstrun.json'
+NUMBERED_OUT = 'source/batch2/firstrun-numbered.json'
+UNPROCESSED_OUT = 'source/batch2/firstrun-unprocessed.json'
+LOG = 'source/batch2/firstrun-import-log.txt'
+OBSERVATION_COUNT = 1284
+RELATIONSHIP_COUNT = 609
 
 # TODO: add "needs review" if has a same created_date as another one.
 # TODO: add orphaned observations, but tag them as "needs review".
@@ -46,8 +46,8 @@ def process_json():
 def handle_item(item, processed_data, unprocessed_data, log):
     if eval(item['user']) not in USERS_TO_KEEP:
         pass  # leave_unprocessed(item, unprocessed_data, log, 'User {0} not in list of approved analysts.'.format(item['user']))
-    elif len(item['scores']) > 2:
-        leave_unprocessed(item, unprocessed_data, log, 'Too many scores (%d)' % len(item['scores']))
+    elif item['created_at'] in TIMESTAMPS:
+        leave_unprocessed(item, unprocessed_data, log, 'already in Django')
     elif 'relationships' not in item or not item['relationships']:
         leave_unprocessed(item, unprocessed_data, log, 'No relationships in item.')
     else:
@@ -64,7 +64,7 @@ def create_item(item, processed_data, unprocessed_data, log):
     global RELATIONSHIP_COUNT
     possible_relationships = []
     for relationship in item['relationships']:
-        if not relationship['type']:
+        if not relationship['types']:
             log.append('Relationship with timestamp {} unprocessed: null type'.format(item['created_at']))
         elif 'scoreA_ema' not in relationship or 'scoreB_ema' not in relationship:
             log.append('Relationship with timestamp {} unprocessed: EMA missing'.format(item['created_at']))
@@ -316,11 +316,11 @@ def add_relationship_types(old_relationship, new_relationship):
     '''Add the relationship types and remarks of an relationship to the
     new relationship object.'''
     new_relationship['remarks'] = old_relationship['comment']
-    if old_relationship['type'] == 'rt-q':
+    if old_relationship['types'] == 'rt-q':
         new_relationship['rt_q'] = True
         new_relationship['rt_q_x'] = old_relationship['ex']
         new_relationship['rt_q_monnayage'] = old_relationship['mo']
-    if old_relationship['type'] == 'rt-tm':
+    if old_relationship['types'] == 'rt-tm':
         new_relationship['rt_tm'] = True
         new_relationship['rt_tm_snd'] = old_relationship['snd']
         new_relationship['rt_tm_minv'] = old_relationship['minv']
@@ -328,7 +328,7 @@ def add_relationship_types(old_relationship, new_relationship):
         new_relationship['rt_tm_ms'] = old_relationship['ms']
         new_relationship['rt_tm_transposed'] = old_relationship['t']
         new_relationship['rt_tm_invertible'] = old_relationship['td']
-    if old_relationship['type'] == 'rt-tnm':
+    if old_relationship['types'] == 'rt-tnm':
         new_relationship['rt_tnm'] = True
         new_relationship['rt_tnm_embellished'] = old_relationship['em']
         new_relationship['rt_tnm_reduced'] = old_relationship['re']
@@ -338,9 +338,9 @@ def add_relationship_types(old_relationship, new_relationship):
         new_relationship['rt_tnm_ocs'] = old_relationship['ocs']
         new_relationship['rt_tnm_ocst'] = old_relationship['ocst'] if 'ocst' in old_relationship else False
         new_relationship['rt_tnm_nc'] = old_relationship['nc']
-    if old_relationship['type'] == 'rt-nm':
+    if old_relationship['types'] == 'rt-nm':
         new_relationship['rt_nm'] = True
-    if old_relationship['type'] == 'rt-om':
+    if old_relationship['types'] == 'rt-om':
         new_relationship['rt_om'] = True
 
 
