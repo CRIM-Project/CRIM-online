@@ -8,13 +8,13 @@ from importing.analysis_constants import *
 
 django.setup()
 
-FILE_IN = 'source/newbatch-peeled.json'
-FILE_OUT = '../crim/fixtures/batch2.json'
-NUMBERED_OUT = 'source/batch2/numbered.json'
-UNPROCESSED_OUT = 'source/batch2/unprocessed.json'
-LOG = 'source/batch2/import-log.txt'
-OBSERVATION_COUNT = 1254
-RELATIONSHIP_COUNT = 595
+FILE_IN = 'source/batch2/newbatch-peeled.json'
+FILE_OUT = '../crim/fixtures/batch2-firstrun.json'
+NUMBERED_OUT = 'source/batch2/firstrun-numbered.json'
+UNPROCESSED_OUT = 'source/batch2/firstrun-unprocessed.json'
+LOG = 'source/batch2/firstrun-import-log.txt'
+OBSERVATION_COUNT = 1284
+RELATIONSHIP_COUNT = 609
 
 # TODO: add "needs review" if has a same created_date as another one.
 # TODO: add orphaned observations, but tag them as "needs review".
@@ -48,8 +48,6 @@ def handle_item(item, processed_data, unprocessed_data, log):
         pass  # leave_unprocessed(item, unprocessed_data, log, 'User {0} not in list of approved analysts.'.format(item['user']))
     elif item['created_at'] in TIMESTAMPS:
         leave_unprocessed(item, unprocessed_data, log, 'already in Django')
-    elif len(item['scores']) > 2 and len(item['assertions']) > 2:
-        leave_unprocessed(item, unprocessed_data, log, 'Too many scores (%d)' % len(item['scores']))
     elif 'relationships' not in item or not item['relationships']:
         leave_unprocessed(item, unprocessed_data, log, 'No relationships in item.')
     else:
