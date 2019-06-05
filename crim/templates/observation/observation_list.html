@@ -78,7 +78,7 @@
           <!-- CAREFUL: the parameter of rangelist MUST match
           the page_size attribute in ObservationSetPagination,
           found in views/observation.py -->
-          {% for i in content.count|rangelist:30 %}
+          {% for i in content.count|rangelist:300 %}
             {% if request.GET.page == i|string %}
               <li class="active">{{ i }}</li>
             {% elif not request.GET.page and i == 1 %}
