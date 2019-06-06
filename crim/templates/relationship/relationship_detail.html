@@ -51,7 +51,10 @@
               Model:
                 {% if content.model_observation.piece.roles|people:"composer" %}{{ content.model_observation.piece.roles|people:"composer"|safe }},
                 {% elif content.model_observation.piece.mass.roles|people:"composer" %}{{ content.model_observation.piece.mass.roles|people:"composer"|safe }},
-                {% endif %}<a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
+                {% endif %}{% if content.model_observation.piece.mass %}
+                <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
+              {% endif %}
+              <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
             </h2>
           </div>
           <div id="cw-model-controls" class="span3">
