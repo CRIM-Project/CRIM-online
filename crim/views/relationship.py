@@ -111,9 +111,9 @@ def create_relationship_from_request(request):
 class RelationshipSetPagination(PageNumberPagination):
     # CAREFUL: the attribute `page_size` MUST match the
     # `rangelist` parameter in the relationship_list.html template!
-    page_size = 200
+    page_size = 100
     page_size_query_param = 'page_size'
-    max_page_size = 300
+    max_page_size = 150
 
 
 class RelationshipListHTMLRenderer(CustomHTMLRenderer):
@@ -203,7 +203,7 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
                 'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
                 'Access-Control-Allow-Credentials': 'true',
                 'Access-Control-Allow-Headers': 'origin, content-type, accept',
-            #     'Access-Control-Allow-Origin': 'http://127.0.0.1:8000',
+                #     'Access-Control-Allow-Origin': 'http://127.0.0.1:8000',
             }
             return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
         else:
