@@ -51,8 +51,8 @@ class CRIMObservation(models.Model):
 
     mt_fg = models.BooleanField('fuga', default=False)
     mt_fg_voices = models.TextField('voices (one per line)', blank=True)
-    mt_fg_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_fg_tint = models.CharField('time interval of entry', max_length=32, blank=True)
+    mt_fg_int = models.CharField('melodic interval of entry', max_length=64, blank=True)
+    mt_fg_tint = models.CharField('time interval of entry', max_length=64, blank=True)
     mt_fg_periodic = models.BooleanField('periodic', default=False)
     mt_fg_strict = models.BooleanField('strict', default=False)
     mt_fg_flexed = models.BooleanField('flexed', default=False)
@@ -62,8 +62,8 @@ class CRIMObservation(models.Model):
 
     mt_pe = models.BooleanField('periodic entry', default=False)
     mt_pe_voices = models.TextField('voices (one per line)', blank=True)
-    mt_pe_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_pe_tint = models.CharField('time interval of entry', max_length=32, blank=True)
+    mt_pe_int = models.CharField('melodic interval of entry', max_length=64, blank=True)
+    mt_pe_tint = models.CharField('time interval of entry', max_length=64, blank=True)
     mt_pe_strict = models.BooleanField('strict', default=False)
     mt_pe_flexed = models.BooleanField('flexed', default=False)
     mt_pe_flt = models.BooleanField('flexed, tonal', default=False)
@@ -73,8 +73,8 @@ class CRIMObservation(models.Model):
 
     mt_id = models.BooleanField('imitative duo', default=False)
     mt_id_voices = models.TextField('voices (one per line)', blank=True)
-    mt_id_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_id_tint = models.CharField('time interval of entry', max_length=32, blank=True)
+    mt_id_int = models.CharField('melodic interval of entry', max_length=64, blank=True)
+    mt_id_tint = models.CharField('time interval of entry', max_length=64, blank=True)
     mt_id_strict = models.BooleanField('strict', default=False)
     mt_id_flexed = models.BooleanField('flexed', default=False)
     mt_id_flt = models.BooleanField('flexed, tonal', default=False)
@@ -82,8 +82,8 @@ class CRIMObservation(models.Model):
 
     mt_nid = models.BooleanField('non-imitative duo', default=False)
     mt_nid_voices = models.TextField('voices (one per line)', blank=True)
-    mt_nid_int = models.CharField('melodic interval of entry', max_length=32, blank=True)
-    mt_nid_tint = models.CharField('time interval of entry', max_length=32, blank=True)
+    mt_nid_int = models.CharField('melodic interval of entry', max_length=64, blank=True)
+    mt_nid_tint = models.CharField('time interval of entry', max_length=64, blank=True)
     mt_nid_strict = models.BooleanField('strict', default=False)
     mt_nid_flexed = models.BooleanField('flexed', default=False)
     mt_nid_flt = models.BooleanField('flexed, tonal', default=False)
@@ -102,8 +102,8 @@ class CRIMObservation(models.Model):
     mt_cad_tenorizans = models.TextField('tenorizans', blank=True)
     mt_cad_type = models.CharField('type (authentic, phrygian, plagal)', max_length=32, blank=True)
     mt_cad_tone = models.CharField('tone (e.g. D, A, b; indicate flat tone with lowercase letter)', max_length=16, blank=True)
-    mt_cad_dtv = models.CharField('dovetail voice', max_length=32, blank=True)
-    mt_cad_dti = models.CharField('dovetail interval', max_length=32, blank=True)
+    mt_cad_dtv = models.CharField('dovetail voice', max_length=64, blank=True)
+    mt_cad_dti = models.CharField('dovetail interval', max_length=64, blank=True)
 
     mt_int = models.BooleanField('interval pattern', default=False)
     mt_int_voices = models.TextField('voices (one per line)', blank=True)
@@ -115,7 +115,7 @@ class CRIMObservation(models.Model):
 
     mt_fp = models.BooleanField('form and process', default=False)
     mt_fp_ir = models.BooleanField('internal repetition', default=False)
-    mt_fp_range = models.CharField('range', max_length=16, blank=True)
+    mt_fp_range = models.CharField('range', max_length=32, blank=True)
     mt_fp_comment = models.TextField('comment', blank=True)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
