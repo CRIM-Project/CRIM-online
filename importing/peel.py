@@ -8,8 +8,8 @@ import os
 
 # django.setup()
 
-FILE_IN = 'source/complete_raw.json'
-FILE_OUT = 'source/complete_cleaned.json'
+FILE_IN = 'source/batch3/complete-citations.json'
+FILE_OUT = 'source/batch3/complete-peeled.json'
 
 
 def simplify():
