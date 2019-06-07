@@ -88,7 +88,7 @@
           <!-- CAREFUL: the parameter of rangelist MUST match
           the page_size attribute in RelationshipSetPagination,
           found in views/relationship.py -->
-          {% for i in content.count|rangelist:200 %}
+          {% for i in content.count|rangelist:100 %}
             {% if request.GET.page == i|string %}
               <li class="active">{{ i }}</li>
             {% elif not request.GET.page and i == 1 %}
