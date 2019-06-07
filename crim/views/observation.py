@@ -150,9 +150,9 @@ def create_observation_from_request(request, prefix=''):
 class ObservationSetPagination(PageNumberPagination):
     # CAREFUL: the attribute `page_size` MUST match the
     # `rangelist` parameter in the observation_list.html template!
-    page_size = 300
+    page_size = 100
     page_size_query_param = 'page_size'
-    max_page_size = 450
+    max_page_size = 150
 
 
 class ObservationListHTMLRenderer(CustomHTMLRenderer):
