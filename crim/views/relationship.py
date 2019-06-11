@@ -41,7 +41,10 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
         else:
             model_observation = model_observation_or_response
             serialized_model = CRIMObservationSerializer(model_observation, data={}, context={'request': request})
-            if not serialized_model.is_valid():
+            if serialized_model.is_valid():
+                if request.user.is_staff:
+                    serialized_model.validated_data['curated'] = True
+            else:
                 return Response({'serialized': serialized_model, 'content': model_observation})
 
     if post_data('derivative_observation_id'):
@@ -53,7 +56,10 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
         else:
             derivative_observation = derivative_observation_or_response
             serialized_derivative = CRIMObservationSerializer(derivative_observation, data={}, context={'request': request})
-            if not serialized_derivative.is_valid():
+            if serialized_derivative.is_valid():
+                if request.user.is_staff:
+                    serialized_derivative.validated_data['curated'] = True
+            else:
                 return Response({'serialized': serialized_derivative, 'content': derivative_observation})
 
     # Only save observations now, which is when we know that the entire POST will succeed
