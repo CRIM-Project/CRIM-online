@@ -204,12 +204,13 @@ def add_orphan_observation(item, observation, processed_data):
     processed_data.append(new_observation_row)
 
 
-def _add_list_as_string(item, base_name='voice'):
+def _add_list_as_string(old_list, base_name='voice'):
     combined_list = []
     count = 1
-    while base_name + str(count) in item:
-        combined_list.append(item[base_name + str(count)])
-        count += 1
+    for item in old_list:
+        while base_name + str(count) in item:
+            combined_list.append(item[base_name + str(count)])
+            count += 1
     return '\n'.join(combined_list)
 
 
