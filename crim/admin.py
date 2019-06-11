@@ -582,8 +582,7 @@ class CRIMObservationAdmin(admin.ModelAdmin):
         'updated',
     )
     ordering = (
-        'piece__piece_id',
-        'created',
+        'id',
     )
     search_fields = (
         'piece__piece_id',
@@ -634,9 +633,7 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
         'updated',
     )
     ordering = (
-        'model_observation__piece__piece_id',
-        'derivative_observation__piece__piece_id',
-        'created',
+        'id',
     )
     search_fields = (
         'model_observation__piece__piece_id',
