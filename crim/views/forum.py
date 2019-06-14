@@ -36,9 +36,9 @@ def create_post(request):
         post = CRIMForumPost.objects.create(
             title=request.POST["title"].strip(),
             text=request.POST["body"].strip(),
-            user=crim_user,
+            author=crim_user,
         )
-        return redirect("view_forum_post", post.post_id)
+        return redirect("forum-view-post", post.post_id)
     else:
         return render(request, "forum/create_post.html")
 

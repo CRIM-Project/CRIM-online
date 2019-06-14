@@ -9,19 +9,18 @@
 {% block wrap %}
 <div id="forum-list">
 <h1>Forum</h1>
-<button type="button" class="btn btn-info">New discussion</button>
-<a href="{% url 'create_forum_post' %}"></a>
+<a href="{% url 'forum-create-post' %}"><button type="button" class="btn btn-info">New discussion</button></a>
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
       <th>Title</th>
       <th>Author</th>
-      <th>Date created</th>
-      <th>Comments</th>
+      <th>Date started</th>
+      <th>Replies</th>
     </tr>
   </thead>
   <tbody>
-    {% for post in posts %}
+    {% for post in posts|get_heads %}
     <tr>
       <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
       {% if post.author is None %}
@@ -29,8 +28,8 @@
       {% else %}
         <td><a href="{{ post.author.person.get_absolute_url }}">{{ post.author.name }}</a></td>
       {% endif %}
-        <td>{{ post.created_at|time:"h:i A" }} on {{ post.created_at|date:"F d, Y" }}</td>
-        <td>{{ post.children.count }}</td>
+        <td>{{ post.created_at|date:"Y-m-d" }}</td>
+        <td>{{ post.all_replies.count }}</td>
     </tr>
     {% endfor %}
   </tbody>

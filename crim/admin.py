@@ -20,7 +20,6 @@ from crim.models.relationship import CRIMRelationship
 from crim.models.voice import CRIMVoice
 
 from crim.models.note import CRIMNote
-from crim.models.comment import CRIMComment
 
 
 class CRIMPieceMassForm(forms.ModelForm):
@@ -646,22 +645,6 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
         'observer__name',
     )
 
-class CRIMCommentAdmin(admin.ModelAdmin):
-    fields = (
-        'author',
-        'piece',
-        'text',
-        'edited',
-        'alive',
-    )
-    list_display = (
-        'author',
-        'piece',
-        'created',
-        'updated',
-        'alive',
-    )
-
 
 class CRIMForumPostAdmin(admin.ModelAdmin):
     fields = (
@@ -721,7 +704,6 @@ admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
 
 admin.site.register(CRIMNote)
-admin.site.register(CRIMComment, CRIMCommentAdmin)
 
 admin.site.register(CRIMGroup)
 admin.site.register(CRIMForumPost, CRIMForumPostAdmin)
