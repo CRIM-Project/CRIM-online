@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block wrap %}
-<form id="forum-post-form" action="{% url 'create_forum_post' %}" method="POST">
+<form id="forum-post-form" action="{% url 'forum-create-post' %}" method="POST">
   <h1>Create a new forum post</h1>
   {% csrf_token %}
   <label for="id_title">Title</label>

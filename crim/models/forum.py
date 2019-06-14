@@ -68,7 +68,11 @@ class CRIMForumPost(models.Model):
         if not self.head:
             return "{0.author.name}: “{0.title}”".format(self)
         else:
-            return "Reply by {0.author.name} to “{0.head.title}” at {0.created_at}".format(self)
+            return "Reply by {} on “{}” - {}".format(
+                self.author.name,
+                self.head.title,
+                self.created_at.strftime('%Y-%m-%d at %H:%M'),
+            )
 
     def _get_unique_slug(self):
         slug_base = self.author.user.username + '/' + self.created_at.strftime('%Y-%m-%dT%H:%M:%S')
@@ -90,7 +94,7 @@ class CRIMForumPost(models.Model):
         # parent, then there is no head either.
         if self.parent:
             number = self.parent.children.count() + 1
-            self.head = self.parent.head
+            self.head = self.parent.head if self.parent.head else self.parent
         else:
             self.head = None
 
