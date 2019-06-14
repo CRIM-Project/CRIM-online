@@ -125,7 +125,7 @@ def render_comment(comment):
     return base + render_comment_tree(comment.crimforumcomment_set.all())
 
 
-_link_regex = re.compile(r"CRIM_Model_[0-9]{4}", re.IGNORECASE)
+_link_regex = re.compile(r"(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])", re.IGNORECASE)
 def insert_links(text):
     """Detect occurrences of piece IDs in the text, and insert HTML links."""
     return _link_regex.sub(lambda m: create_link(m.group(0)), text)
