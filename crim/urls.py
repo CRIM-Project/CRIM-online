@@ -75,6 +75,15 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
         # re_path(r'^comments/new/$', CommentCreate.as_view(), name='crimcomment-new'),
         re_path(r'^comments/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetail.as_view(), name='crimcomment-detail'),
+        re_path(r'^forum/$', forum_views.index, name='forum-list'),
+        re_path(r'^forum/new/$', forum_views.create_post, name='forum-create-post'),
+        re_path(r'^forum/(?P<post_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', forum_views.view_post, name='forum-view-post'),
+        re_path(r'^forum/(?P<piece>[-_A-Za-z0-9]+)/related/$', forum_views.related, name='forum-related'),
+        re_path(
+            r'^forum/(?P<parent_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/comment/$',
+            forum_views.create_reply,
+            name='forum-reply',
+        ),
         re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
         re_path(r'^genres/(?P<genre_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/pieces/?genre=%(genre_id)s', permanent=False), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
@@ -135,20 +144,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
-        re_path(r'^forum/$', forum_views.index, name='forum_index'),
-        re_path(r'^forum/new/$', forum_views.create_post, name='create_forum_post'),
-        re_path(r'^forum/(?P<pk>[0-9]+)/$', forum_views.view_post, name='view_forum_post'),
-        re_path(r'^forum/(?P<piece>[-_A-Za-z0-9]+)/related/$', forum_views.related, name='forum_related'),
-        re_path(
-            r'^forum/(?P<post_pk>[0-9])/comment/$',
-            forum_views.create_comment,
-            name='create_forum_comment',
-        ),
-        re_path(
-            r'^forum/(?P<pk>[0-9])/reply/$',
-            forum_views.reply_comment,
-            name='reply_forum_comment',
-        ),
     ]
 
     urlpatterns += [

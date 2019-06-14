@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+  <title>CRIM | Forum</title>
+{% endblock %}
+
+{% block wrap %}
+<div id="forum-list">
+<h1>Forum</h1>
+<button type="button" class="btn btn-info">New discussion</button>
+<a href="{% url 'create_forum_post' %}"></a>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Date created</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in posts %}
+    <tr>
+      <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+      {% if post.author is None %}
+        <td>[deleted]</td>
+      {% else %}
+        <td><a href="{{ post.author.person.get_absolute_url }}">{{ post.author.name }}</a></td>
+      {% endif %}
+        <td>{{ post.created_at|time:"h:i A" }} on {{ post.created_at|date:"F d, Y" }}</td>
+        <td>{{ post.children.count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

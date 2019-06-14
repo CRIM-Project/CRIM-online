@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import escape
 from crim.common import get_date_sort, latest_date
@@ -34,6 +35,9 @@ class CRIMPerson(models.Model):
         return self.name_sort
     sorted_name.short_description = 'name'
     sorted_name.admin_order_field = 'name_sort'
+
+    def get_absolute_url(self):
+        return reverse("crimperson-detail", args=[self.person_id])
 
     def __str__(self):
         return '{0}'.format(self.name_sort)
