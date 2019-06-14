@@ -61,7 +61,7 @@ def create_reply(request, parent_id):
 def view_post(request, post_id):
     post = get_object_or_404(CRIMForumPost, post_id=post_id)
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
-    post_title = insert_links(html.escape(post.title))
+    post_title = html.escape(post.title)
     post_text = insert_links(html.escape(post.text))
     comment_tree = render_comment_tree(post.children.all())
     context = {
@@ -96,7 +96,7 @@ def render_comment(comment):
     text = insert_links(text)
     base = "<li><h2>{} at {}</h2><p>{}</p><p><a href=\"{}\">reply</a></p></li>".format(
         author,
-        comment.created_at.strftime("%I:%M %p on %B %d, %Y"),
+        comment.created_at.strftime("%Y-%m-%d at %H:%M"),
         text,
         reverse('forum-reply', args=[comment.post_id]),
     )
@@ -111,9 +111,10 @@ def insert_links(text):
 
 def create_link(piece_id):
     """Given a piece ID, return an HTML link."""
-    normalized_piece_id = "CRIM_Model_" + piece_id[-4:]
-    piece = CRIMPiece.objects.get(piece_id=normalized_piece_id)
-    if piece is not None:
+    matches = CRIMPiece.objects.filter(piece_id=piece_id)
+    if matches:
+        # There will be either zero or one pieces with this `piece_id`.
+        piece = matches[0]
         return '<a href="{}">{}</a>'.format(piece.get_absolute_url(), piece_id)
     else:
         return piece_id
