@@ -7,7 +7,7 @@ from crim.models.user import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMTreatise, CRIMSource
-from crim.models.forum import CRIMForumComment, CRIMForumPost
+from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.group import CRIMGroup
 from crim.models.part import CRIMPart
@@ -662,6 +662,25 @@ class CRIMCommentAdmin(admin.ModelAdmin):
         'alive',
     )
 
+
+class CRIMForumPostAdmin(admin.ModelAdmin):
+    fields = (
+        'author',
+        'title',
+        'text',
+        'parent',
+        'edited',
+        'alive',
+    )
+    list_display = (
+        'author',
+        'title',
+        'created_at',
+        'updated_at',
+        'alive',
+    )
+
+
 class UserProfileInline(admin.StackedInline):
     model = CRIMUserProfile
     can_delete = False
@@ -675,6 +694,8 @@ class UserAdmin(UserAdmin):
     ordering = (
         'username',
     )
+
+
 
 
 admin.site.unregister(User)
@@ -703,5 +724,4 @@ admin.site.register(CRIMNote)
 admin.site.register(CRIMComment, CRIMCommentAdmin)
 
 admin.site.register(CRIMGroup)
-admin.site.register(CRIMForumPost)
-admin.site.register(CRIMForumComment)
+admin.site.register(CRIMForumPost, CRIMForumPostAdmin)

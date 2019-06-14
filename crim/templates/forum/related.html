@@ -2,8 +2,8 @@
 
 {% load static %}
 
-{% block header %}
-<link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% block title %}
+  <title>CRIM | Forum posts for {% if piece.mass %}{{ piece.mass.title }}:{% endif %} {{ piece.title }}</title>
 {% endblock %}
 
 {% block wrap %}
