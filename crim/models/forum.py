@@ -27,6 +27,7 @@ class CRIMForumPost(models.Model):
     parent = models.ForeignKey(
         'self',
         null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name='children',
     )

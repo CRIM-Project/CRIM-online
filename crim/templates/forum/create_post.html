@@ -2,36 +2,45 @@
 
 {% load static %}
 
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/forum.css' %}">
+{% endblock %}
+
 {% block title %}
-  <title>CRIM | New forum post</title>
+<title>CRIM | New forum discussion</title>
 {% endblock %}
 
 {% block wrap %}
+
+<h1><a href="{% url 'forum-list' %}">Forum</a></h1>
+
+<h2>New discussion</h2>
 <form id="forum-post-form" action="{% url 'forum-create-post' %}" method="POST">
-  <h1>Create a new forum post</h1>
   {% csrf_token %}
-  <label for="id_title">Title</label>
-  <input type="text" name="title" id="id_title" required maxlength="100">
-  <label for="id_body">Body</label>
-  <textarea name="body" cols="40" rows="10" required id="id_body"></textarea>
-  <input type="submit" value="Submit" disabled>
+  <h3>
+    <input type="text" name="title" id="id_title" height="22" required maxlength="128">
+  </h3>
+  <p>
+    <textarea name="body" cols="40" rows="10" required id="id_body"></textarea>
+  </p>
+  <button type="submit" class="btn btn-info" value="Submit" disabled>Post</button>
 </form>
 
 <script>
 // Disable the submit button whenever either title or body are empty.
-let submit = document.querySelector("#forum-post-form input[type='submit']");
+let submitButton = document.querySelector("#forum-post-form button[type='submit']");
 let titleInput = document.getElementById("id_title");
-let textarea = document.getElementById("id_body");
+let textArea = document.getElementById("id_body");
 
 function onFormChange() {
-  if (textarea.value.trim() === "" || titleInput.value.trim() === "") {
-    submit.disabled = true;
+  if (textArea.value.trim() === "" || titleInput.value.trim() === "") {
+    submitButton.disabled = true;
   } else {
-    submit.disabled = false;
+    submitButton.disabled = false;
   }
 }
 
-textarea.addEventListener("input", onFormChange);
+textArea.addEventListener("input", onFormChange);
 titleInput.addEventListener("input", onFormChange);
 </script>
 {% endblock %}
