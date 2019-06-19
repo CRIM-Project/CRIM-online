@@ -29,7 +29,7 @@ from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
-from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships
+from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships, PieceWithDiscussions
 from crim.views.roletype import RoleTypeList
 from crim.views.search import search
 from crim.views.source import SourceList, SourceDetail
@@ -73,7 +73,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^forum/$', forum_views.index, name='forum-list'),
         re_path(r'^forum/new/$', forum_views.create_post, name='forum-create-post'),
         re_path(r'^forum/(?P<post_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', forum_views.view_post, name='forum-view-post'),
-        re_path(r'^forum/(?P<piece>[-_A-Za-z0-9]+)/related/$', forum_views.related, name='forum-related'),
         re_path(
             r'^forum/(?P<parent_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/reply/$',
             forum_views.create_reply,
@@ -93,6 +92,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/observations/$', PieceWithObservations.as_view(), name='crimpiece-observations-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationships.as_view(), name='crimpiece-relationships-detail'),
+        re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/discussions/$', PieceWithDiscussions.as_view(), name='crimpiece-discussions-detail'),
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationships/(?P<id>[0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
