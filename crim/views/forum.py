@@ -2,7 +2,6 @@ import html
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -15,18 +14,6 @@ def index(request):
     posts = CRIMForumPost.objects.all().order_by("-created_at")
     context = {"posts": posts}
     return render(request, "forum/post_list.html", context)
-
-
-def related(request, piece):
-    piece = get_object_or_404(CRIMPiece, piece_id=piece)
-    pid = piece.piece_id.lower()
-
-    # Fetch all posts which mention the piece in the title or body.
-    related = CRIMForumPost.objects.filter(
-        Q(text__icontains=pid) | Q(title__icontains=pid)
-    )
-    context = {"piece": piece, "posts": related}
-    return render(request, "forum/related.html", context)
 
 
 @login_required
@@ -59,16 +46,38 @@ def create_reply(request, parent_id):
 
 
 def view_post(request, post_id):
+    # Throughout: escape any non-literal text that may contain HTML!
     post = get_object_or_404(CRIMForumPost, post_id=post_id)
-    # VERY IMPORTANT: escape any non-literal text that may contain HTML!
-    post_title = html.escape(post.title)
+    if post.head:
+        head = post.head
+    else:
+        head = post
+
+    if post.head:
+        post_title = 'Reply to ‘{}’'.format(html.escape(head.title))
+        html_title = 'Reply to <a href="{}">{}</a>'.format(
+            reverse('forum-view-post', args=[post.head.post_id]),
+            html.escape(post.head.title),
+        )
+    else:
+        post_title = html.escape(head.title)
+        html_title = post_title
+
+    post_author = head.author.name
+    html_author = '<a href="{}">{}</a>'.format(
+        reverse('crimperson-detail', args=[head.author.person.person_id]),
+        head.author.name,
+    )
     post_text = insert_links(html.escape(post.text))
     comment_tree = render_comment_tree(post.children.all())
     context = {
-        "comment_tree": comment_tree,
-        "post": post,
-        "post_title": post_title,
-        "post_text": post_text,
+        'comment_tree': comment_tree,
+        'post': post,
+        'post_title': post_title,
+        'html_title': html_title,
+        'post_text': post_text,
+        'post_author': post_author,
+        'html_author': html_author,
     }
     return render(request, "forum/view_post.html", context)
 
@@ -79,7 +88,7 @@ def render_comment_tree(comment_set):
         comment_html += render_comment(comment)
 
     if comment_html:
-        return "<ul>" + comment_html + "</ul>"
+        return '<ul class="forum-comment">' + comment_html + '</ul>'
     else:
         return ""
 
@@ -89,15 +98,18 @@ def render_comment(comment):
         author = comment.author.name
     else:
         author = "[deleted]"
+
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
     author = html.escape(author)
 
     text = html.escape(comment.text)
     text = insert_links(text)
-    base = "<li><h2>{} at {}</h2><p>{}</p><p><a href=\"{}\">reply</a></p></li>".format(
+    base = '''<li class="forum-post"><h3 class="forum-subhead">{0}</h3><p
+class="forum-text">{2}</p><p><a href="{3}">{1}</a> &bull; <a href="{4}">Reply</a></p></li>'''.format(
         author,
         comment.created_at.strftime("%Y-%m-%d at %H:%M"),
         text,
+        reverse('forum-view-post', args=[comment.post_id]),
         reverse('forum-reply', args=[comment.post_id]),
     )
     return base + render_comment_tree(comment.children.all())

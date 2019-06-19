@@ -1,135 +1,29 @@
-{% if content.relationships_as_model %}
-  <h2>Relationships as model</h2>
+<h2>Forum discussions</h2>
+{% if content.discussions %}
   <table class="table table-white table-bordered table-hover">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Observer</th>
-        <th>Relationship type</th>
-        <th>Model</th>
-        <th>Derivative</th>
-        <th>Show details</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date started</th>
+        <th>Replies</th>
       </tr>
     </thead>
     <tbody>
-      {% for relationship in content.relationships_as_model %}
+      {% for post in content.discussions|get_heads %}
         <tr>
-          <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
-          <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
-          <td>
-            {% if relationship.relationship_type %}
-              {{ relationship.relationship_type }}
-            {% else %}
-              None
-            {% endif %}
-          </td>
-          <td>
-            <a href="{{ relationship.model_observation.url|htmlsite }}">
-              &lt;{{ relationship.model_observation.id }}&gt;
-            </a>
-          </td>
-          <td>
-            <a href="{{ relationship.derivative_observation.url|htmlsite }}">
-              &lt;{{ relationship.derivative_observation.id }}&gt;
-            </a>
-            <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
-              {% if relationship.derivative_observation.piece.mass %}
-                {{relationship.derivative_observation.piece.mass.title}}:
-              {% endif %}
-              {{ relationship.derivative_observation.piece.title }}
-            </a>
-          </td>
-          <td>
-            {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
-              <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
-            {% else %}
-              -
-            {% endif %}
-          </td>
-        </tr>
-        <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-          <td colspan="6" class="expansion">
-            {% include "relationship/relationship_expanded.html" %}
-          </td>
+          <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+          {% if post.author is None %}
+            <td>[deleted]</td>
+          {% else %}
+            <td><a href="{{ post.author.person.get_absolute_url }}">{{ post.author.name }}</a></td>
+          {% endif %}
+            <td>{{ post.created_at|date:"Y-m-d" }}</td>
+            <td>{{ post.all_replies.count }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+{% else %}
+  <p>No forum discussions about this piece.</p>
 {% endif %}
-{% if content.relationships_as_derivative %}
-  <h2>Relationships as derivative</h2>
-    <table class="table table-white table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Observer</th>
-          <th>Relationship type</th>
-          <th>Model</th>
-          <th>Derivative</th>
-          <th>Show details</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for relationship in content.relationships_as_derivative %}
-          <tr>
-            <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
-            <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
-            <td>
-              {% if relationship.relationship_type %}
-                {{ relationship.relationship_type }}
-              {% else %}
-                None
-              {% endif %}
-            </td>
-            <td>
-              <a href="{{ relationship.model_observation.url|htmlsite }}">
-                &lt;{{ relationship.model_observation.id }}&gt;
-              </a>
-              <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
-                {% if relationship.model_observation.piece.mass %}
-                  {{relationship.model_observation.piece.mass.title}}:
-                {% endif %}
-                {{ relationship.model_observation.piece.title }}
-              </a>
-            </td>
-            <td>
-              <a href="{{ relationship.derivative_observation.url|htmlsite }}">
-                &lt;{{ relationship.derivative_observation.id }}&gt;
-              </a>
-            </td>
-            <td>
-              {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
-                <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
-              {% else %}
-                -
-              {% endif %}
-            </td>
-          </tr>
-          <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-            <td colspan="6" class="expansion">
-              {% include "relationship/relationship_expanded.html" %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-{% endif %}
-{% if not content.relationships_as_model and not content.relationships_as_derivative %}
-  <h2>Relationships</h2>
-  <p>No relationships associated with this piece.</p>
-{% endif %}
-
-<script type="text/javascript">
-  // This script expands and hides relationship details
-  $('.relationship-info').hide();
-  $('.relationship-info-expand').on({
-    'click': function(event) {
-      event.preventDefault();
-      tgt = "#" + $(this).attr('target');
-      $(tgt).toggle();
-      tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
-      $(this).text(tag);
-      return false;
-    }
-  })
-</script>
