@@ -10,6 +10,13 @@ from ..models.piece import CRIMPiece
 from ..models.user import CRIMUserProfile
 
 
+def anchor(comment):
+    '''Returns a sort of permalink for the comment's position on a page,
+    in the form `username-00000000`, where 00000000 is the epoch timestamp
+    of the comment.'''
+    return comment.author.username + '-' + str(comment.created_at.strftime("%s"))
+
+
 def index(request):
     posts = CRIMForumPost.objects.order_by("-created_at")
     context = {"posts": posts}
@@ -56,7 +63,7 @@ def view_post(request, post_id):
     if post.head:
         post_title = 'Reply to ‘{}’'.format(html.escape(head.title))
         html_title = '<a href="{}">Reply to ‘{}’</a>'.format(
-            reverse('forum-view-post', args=[post.head.post_id]),
+            reverse('forum-view-post', args=[post.head.post_id]) + '#' + anchor(post),
             html.escape(post.head.title),
         )
     else:
@@ -69,9 +76,9 @@ def view_post(request, post_id):
         head.author.name,
     )
     post_text = insert_links(html.escape(post.text))
-    comment_tree = render_comment_tree(post.children.order_by('created_at'))
+    comments = render_head(post)
     context = {
-        'comment_tree': comment_tree,
+        'comments': comments,
         'post': post,
         'post_title': post_title,
         'html_title': html_title,
@@ -82,37 +89,46 @@ def view_post(request, post_id):
     return render(request, "forum/view_post.html", context)
 
 
-def render_comment_tree(comment_set):
-    comment_html = ""
+def render_head(comment):
+    return '<ul class="forum-comment head">' + render_comment(comment, color=False) + '</ul>'
+
+
+def render_comment_children(comment_set, color=False):
+    comment_html = ''
     for comment in comment_set:
-        comment_html += render_comment(comment)
+        comment_html += render_comment(comment, color)
 
     if comment_html:
         return '<ul class="forum-comment">' + comment_html + '</ul>'
     else:
-        return ""
+        return ''
 
 
-def render_comment(comment):
+def render_comment(comment, color=False):
     if comment.author:
         author = comment.author.name
     else:
-        author = "[deleted]"
+        author = '[deleted]'
 
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
     author = html.escape(author)
 
     text = html.escape(comment.text)
     text = insert_links(text)
-    base = '''<li class="forum-post"><h4 class="forum-subhead">{0}</h4><p
-class="forum-text">{2}</p><p><a href="{3}">{1}</a> &bull; <a href="{4}">Reply</a></p></li>'''.format(
+    base = '''<li class="forum-post {5}" id="{6}">
+<h4 class="forum-subhead">{0}</h4>
+<p class="forum-text">{2}</p>
+<p><a href="{3}">{1}</a> &bull; <a href="{4}">Reply</a></p>
+</li>'''.format(
         author,
         comment.created_at.strftime("%Y-%m-%d at %H:%M"),
         text,
         reverse('forum-view-post', args=[comment.post_id]),
         reverse('forum-reply', args=[comment.post_id]),
+        'dark' if color else 'light',
+        anchor(comment),
     )
-    return base + render_comment_tree(comment.children.order_by('created_at'))
+    return base + render_comment_children(comment.children.order_by('created_at'), color=(not color))
 
 
 _link_regex = re.compile(r"(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])", re.IGNORECASE)

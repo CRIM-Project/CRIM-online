@@ -35,18 +35,19 @@ textarea[name="body"] {
   margin: 0 auto;
 }
 
+#comment-tree ul.head, #comment-tree ul.head li {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 #comment-tree li {
   list-style: none;
-  margin-bottom: 15px;
-  white-space: pre-line;
+  padding-top: 15px;
+  border-bottom: 1px solid #aaaaaa;
 }
 
-#comment-tree li:nth-child(even) {
+#comment-tree li.dark {
   background-color: #eee /* For distinguishing every other post */
-}
-
-#comment-tree li p {
-  margin-top: 5px;
 }
 
 #comment-tree h2 {
