@@ -11,7 +11,7 @@ from ..models.user import CRIMUserProfile
 
 
 def index(request):
-    posts = CRIMForumPost.objects.all().order_by("-created_at")
+    posts = CRIMForumPost.objects.order_by("-created_at")
     context = {"posts": posts}
     return render(request, "forum/post_list.html", context)
 
@@ -55,7 +55,7 @@ def view_post(request, post_id):
 
     if post.head:
         post_title = 'Reply to ‘{}’'.format(html.escape(head.title))
-        html_title = 'Reply to <a href="{}">{}</a>'.format(
+        html_title = '<a href="{}">Reply to ‘{}’</a>'.format(
             reverse('forum-view-post', args=[post.head.post_id]),
             html.escape(post.head.title),
         )
@@ -69,7 +69,7 @@ def view_post(request, post_id):
         head.author.name,
     )
     post_text = insert_links(html.escape(post.text))
-    comment_tree = render_comment_tree(post.children.all())
+    comment_tree = render_comment_tree(post.children.order_by('created_at'))
     context = {
         'comment_tree': comment_tree,
         'post': post,
@@ -104,7 +104,7 @@ def render_comment(comment):
 
     text = html.escape(comment.text)
     text = insert_links(text)
-    base = '''<li class="forum-post"><h3 class="forum-subhead">{0}</h3><p
+    base = '''<li class="forum-post"><h4 class="forum-subhead">{0}</h4><p
 class="forum-text">{2}</p><p><a href="{3}">{1}</a> &bull; <a href="{4}">Reply</a></p></li>'''.format(
         author,
         comment.created_at.strftime("%Y-%m-%d at %H:%M"),
@@ -112,7 +112,7 @@ class="forum-text">{2}</p><p><a href="{3}">{1}</a> &bull; <a href="{4}">Reply</a
         reverse('forum-view-post', args=[comment.post_id]),
         reverse('forum-reply', args=[comment.post_id]),
     )
-    return base + render_comment_tree(comment.children.all())
+    return base + render_comment_tree(comment.children.order_by('created_at'))
 
 
 _link_regex = re.compile(r"(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])", re.IGNORECASE)
