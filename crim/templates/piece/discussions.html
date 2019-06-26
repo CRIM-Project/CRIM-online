@@ -1,0 +1,29 @@
+<h2>Forum discussions</h2>
+{% if content.discussions %}
+  <table class="table table-white table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date started</th>
+        <th>Replies</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in content.discussions|get_heads %}
+        <tr>
+          <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+          {% if post.author is None %}
+            <td>[deleted]</td>
+          {% else %}
+            <td><a href="{{ post.author.person.get_absolute_url }}">{{ post.author.name }}</a></td>
+          {% endif %}
+            <td>{{ post.created_at|date:"Y-m-d" }}</td>
+            <td>{{ post.all_replies.count }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No forum discussions about this piece.</p>
+{% endif %}

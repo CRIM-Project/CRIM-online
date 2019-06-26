@@ -48,7 +48,7 @@
         {% endfor %}
       </hgroup>
 
-      {% if not content.show_observations and not content.show_relationships %}
+      {% if not content.show_observations and not content.show_relationships and not content.show_discussions %}
         {% include "piece/text.html" with phrases=content.phrases %}
         {% include "source/source_block.html" with sources=content.sources %}
       {% endif %}
@@ -58,7 +58,7 @@
         <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
       {% endif %}
 
-      {% if not content.show_observations and not content.show_relationships %}
+      {% if not content.show_observations and not content.show_relationships and not content.show_discussions %}
         {% include "piece/score.html" %}
       {% endif %}
 
@@ -72,17 +72,19 @@
     </div>
     <div class="span3">
       <div class="well span12">
-        {% if not content.show_observations and not content.show_relationships %}
+        {% if not content.show_observations and not content.show_relationships and not content.show_discussions %}
           <h3>Piece details</h3>
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
         {% endif %}
 
+        <!--
         {% if content.show_observations %}
           <h3>Piece observations</h3>
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
         {% endif %}
+        -->
 
         {% if content.show_relationships %}
           <h3>Piece relationships</h3>
@@ -90,7 +92,11 @@
           <h3><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
         {% endif %}
 
-        <h3><a href="{% url 'forum_related' content.piece_id %}">Forum posts</a></h3>
+        {% if content.show_discussions %}
+          <h3>Forum discussions</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}discussions/">Forum discussions</a></h3>
+        {% endif %}
       </div>
       <!-- Sidebar giving all mass movements -->
       {% if content.mass %}
@@ -124,7 +130,7 @@
         </div>
       {% endif %}
       <!-- Show related pieces -->
-      {% if content.models %}
+      {% if content.models and not content.show_discussions %}
         <div class="well span12">
           <h3>Models</h3>
           <ul>
@@ -144,7 +150,7 @@
           </ul>
         </div>
       {% endif %}
-      {% if content.derivatives %}
+      {% if content.derivatives and not content.show_discussions %}
         <div class="well span12">
           <h3>Derivatives</h3>
           <ul>
@@ -163,6 +169,13 @@
             {% endfor %}
           </ul>
         </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      {% if content.show_discussions %}
+        {% include "piece/discussions.html" %}
       {% endif %}
     </div>
   </div>
