@@ -18,11 +18,9 @@
 <h3>{{ html_title }}</h3>
 {% endautoescape %}
 
-{{ post_text }}
-
 <div id="comment-tree">
 {% autoescape off %}
-{{ comment_tree }}
+{{ comments }}
 {% endautoescape %}
 </div>
 
