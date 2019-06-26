@@ -62,8 +62,9 @@ def view_post(request, post_id):
 
     if post.head:
         post_title = 'Reply to ‘{}’'.format(html.escape(head.title))
-        html_title = '<a href="{}">Reply to ‘{}’</a>'.format(
+        html_title = '<a href="{}">Reply</a> to <a href={}>‘{}’</a>'.format(
             reverse('forum-view-post', args=[post.head.post_id]) + '#' + anchor(post),
+            reverse('forum-view-post', args=[post.head.post_id]),
             html.escape(post.head.title),
         )
     else:
