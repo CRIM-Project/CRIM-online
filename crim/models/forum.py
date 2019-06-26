@@ -11,8 +11,7 @@ class CRIMForumPost(models.Model):
         verbose_name = 'Forum post'
         verbose_name_plural = 'Forum posts'
         ordering = ['-created_at']
-        unique_together = ('author', 'created_at')
-        unique_together = ('parent', 'number')
+        unique_together = [('created_at', 'author')]
 
     post_id = models.CharField(
         'Post ID',
@@ -31,7 +30,6 @@ class CRIMForumPost(models.Model):
         on_delete=models.CASCADE,
         related_name='children',
     )
-    number = models.IntegerField(null=True)
     head = models.ForeignKey(
         'self',
         null=True,
@@ -94,7 +92,6 @@ class CRIMForumPost(models.Model):
         # Set the head to be the same as the parent's head; if there is no
         # parent, then there is no head either.
         if self.parent:
-            number = self.parent.children.count() + 1
             self.head = self.parent.head if self.parent.head else self.parent
         else:
             self.head = None
