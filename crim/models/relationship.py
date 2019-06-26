@@ -52,8 +52,8 @@ class CRIMRelationship(models.Model):
     # These fields provide redundant, easily accessible, human-readable
     # information about relationship type and musical type.
     # They are updated upon saving.
-    relationship_type = models.CharField(max_length=64, blank=True)
-    musical_type = models.CharField(max_length=64, blank=True)
+    relationship_type = models.CharField(max_length=128, blank=True)
+    musical_type = models.CharField(max_length=128, blank=True)
 
     rt_q = models.BooleanField('quotation', default=False)
     rt_q_x = models.BooleanField('exact', default=False)
@@ -107,27 +107,25 @@ class CRIMRelationship(models.Model):
         self.derivative_piece = self.derivative_observation.piece
 
         # Set the parent relationship type field to true if any of the subtypes are
-        if self.rt_q_x or self.rt_q_monnayage:
-            self.rt_q = True
-        if (self.rt_tm_snd or self.rt_tm_minv or self.rt_tm_retrograde or
-                self.rt_tm_ms or self.rt_tm_transposed or self.rt_tm_invertible):
-            self.rt_tm = True
-        if (self.rt_tnm_embellished or self.rt_tnm_reduced or self.rt_tnm_amplified or
-            self.rt_tnm_truncated or self.rt_tnm_ncs or self.rt_tnm_ocs or
-                self.rt_tnm_ocst or self.rt_tnm_nc):
-            self.rt_tnm = True
+        self.rt_q = bool(self.rt_q_x or self.rt_q_monnayage)
+        self.rt_tm = bool(self.rt_tm_snd or self.rt_tm_minv or self.rt_tm_retrograde or self.rt_tm_ms or self.rt_tm_transposed or self.rt_tm_invertible)
+        self.rt_tnm = bool(self.rt_tnm_embellished or self.rt_tnm_reduced or self.rt_tnm_amplified or self.rt_tnm_truncated or self.rt_tnm_ncs or self.rt_tnm_ocs or self.rt_tnm_ocst or self.rt_tnm_nc)
 
-        # Fill out the human-readable relationship type field
+        # Fill out the human-readable relationship type field.
+        # There's only SUPPOSED to be one, but some data are dirty, so we
+        # want to display these gracefully.
+        relationship_type_list = []
         if self.rt_q:
-            self.relationship_type = 'Quotation'
-        elif self.rt_tm:
-            self.relationship_type = 'Mechanical transformation'
-        elif self.rt_tnm:
-            self.relationship_type = 'Non-mechanical transformation'
-        elif self.rt_nm:
-            self.relationship_type = 'New material'
-        elif self.rt_om:
-            self.relationship_type = 'Omission'
+            relationship_type_list.append('Quotation')
+        if self.rt_tm:
+            relationship_type_list.append('Mechanical transformation')
+        if self.rt_tnm:
+            relationship_type_list.append('Non-mechanical transformation')
+        if self.rt_nm:
+            relationship_type_list.append('New material')
+        if self.rt_om:
+            relationship_type_list.append('Omission')
+        self.relationship_type = ', '.join(relationship_type_list)
 
         # For the musical type field, check if both observations use the same
         # musical type; otherwise, use whichever has a musical type if one of
@@ -139,10 +137,9 @@ class CRIMRelationship(models.Model):
         elif self.derivative_observation.musical_type:
             self.musical_type = self.derivative_observation.musical_type
         else:
-            self.musical_type = (
-                self.model_observation.musical_type +
-                ', ' +
-                self.derivative_observation.musical_type
+            self.musical_type = '{0}; {1}'.format(
+                self.model_observation.musical_type,
+                self.derivative_observation.musical_type,
             )
 
         # Finalize changes
