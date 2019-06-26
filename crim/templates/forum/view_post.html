@@ -6,41 +6,43 @@
 <link rel="stylesheet" href="{% static 'css/forum.css' %}">
 {% endblock %}
 
-{% block wrap %}
-<div id="forum-post">
-{% autoescape off %}
-<h1>{{ post_title }}</h1>
-<p>{{ post_text }}</p>
-{% endautoescape %}
-<p>
-  Created at {{ post.created_at|time:"h:i A" }} on {{ post.created_at|date:"F d, Y" }} by {{ post.user|default_if_none:"[deleted]" }}</p>
-</div>
+{% block title %}
+<title>CRIM | {{ post_title }}</title>
+{% endblock %}
 
-<div id="comment-form">
-<form action="{% url 'create_forum_comment' post.pk %}" method="POST">
-  {% csrf_token %}
-  <textarea name="body"></textarea>
-  <input type="submit" value="Reply" disabled>
-</form>
-</div>
+{% block wrap %}
+
+<h1><a href="{% url 'forum-list' %}">Forum</a></h1>
+
+{% autoescape off %}
+<h3>{{ html_title }}</h3>
+{% endautoescape %}
 
 <div id="comment-tree">
 {% autoescape off %}
-{{ comment_tree }}
+{{ comments }}
 {% endautoescape %}
 </div>
 
-<script>
-// Disable the reply button whenever the body is empty.
-let submit = document.querySelector("#comment-form input[type='submit']");
-let textarea = document.querySelector("#comment-form textarea");
+<div id="comment-form">
+<form action="{% url 'forum-reply' post.post_id %}" method="POST">
+  {% csrf_token %}
+  <textarea name="body"></textarea>
+  <button type="submit" class="btn btn-info" value="Reply" disabled>Reply</button>
+</form>
+</div>
 
-textarea.addEventListener("input", event => {
-  if (textarea.value.trim() === "") {
-    submit.disabled = true;
-  } else {
-    submit.disabled = false;
-  }
-});
+<script>
+  // Disable the reply button whenever the body is empty.
+  let submit = document.querySelector("#comment-form button[type='submit']");
+  let textArea = document.querySelector("#comment-form textarea");
+
+  textArea.addEventListener("input", event => {
+    if (textArea.value.trim() === "") {
+      submit.disabled = true;
+    } else {
+      submit.disabled = false;
+    }
+  });
 </script>
 {% endblock %}

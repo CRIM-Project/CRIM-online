@@ -8,6 +8,7 @@ from crim.models.phrase import CRIMPhrase
 from crim.models.piece import CRIMPiece
 from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRoleType, CRIMRole
+from crim.models.user import CRIMUserProfile
 from crim.models.voice import CRIMVoice
 from rest_framework import serializers
 
@@ -42,6 +43,20 @@ class CRIMPersonPieceSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMPerson
         fields = (
             'url',
+            'name',
+        )
+
+
+class CRIMUserPieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimuserprofile-detail-data', lookup_field='username')
+    person = CRIMPersonPieceSerializer()
+
+    class Meta:
+        model = CRIMUserProfile
+        fields = (
+            'url',
+            'username',
+            'person',
             'name',
         )
 
@@ -296,6 +311,23 @@ class CRIMRelationshipPieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMDiscussionPieceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='forum-view-post', lookup_field='post_id')
+    author = CRIMUserPieceSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMRelationship
+        fields = (
+            'url',
+            'id',
+            'author',
+            'model_observation',
+            'remarks',
+            'created',
+            'updated',
+        )
+
+
 class CRIMPartPieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpart-detail-data', lookup_field='part_id')
 
@@ -451,6 +483,14 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
         many=True,
         read_only=True,
     )
+    models = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True
+    )
+    derivatives = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True
+    )
     observations = CRIMObservationPieceSerializer(
         many=True,
         read_only=True,
@@ -469,6 +509,8 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
             'phrases',
             'roles',
             'sources',
+            'models',
+            'derivatives',
             'observations',
             'pdf_links',
             'mei_links',
@@ -499,6 +541,14 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
         many=True,
         read_only=True,
     )
+    models = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True
+    )
+    derivatives = CRIMPieceSummarySerializer(
+        many=True,
+        read_only=True
+    )
     relationships_as_model = CRIMRelationshipPieceSerializer(
         many=True,
         read_only=True,
@@ -521,8 +571,58 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
             'phrases',
             'roles',
             'sources',
+            'models',
+            'derivatives',
             'relationships_as_model',
             'relationships_as_derivative',
+            'pdf_links',
+            'mei_links',
+            'remarks',
+        )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
+
+
+class CRIMPieceWithDiscussionsSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    roles = CRIMRolePieceSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
+    mass = CRIMMassPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+    phrases = CRIMPhrasePieceSerializer(
+        read_only=True,
+        many=True,
+    )
+    sources = CRIMSourcePieceSerializer(
+        many=True,
+        read_only=True,
+    )
+    discussions = CRIMDiscussionPieceSerializer(
+        many=True,
+        read_only=True,
+    )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'genre',
+            'mass',
+            'phrases',
+            'roles',
+            'sources',
+            'discussions',
             'pdf_links',
             'mei_links',
             'remarks',

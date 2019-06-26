@@ -2,37 +2,25 @@ import html
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from ..models.forum import CRIMForumComment, CRIMForumPost
+from ..models.forum import CRIMForumPost
 from ..models.piece import CRIMPiece
 from ..models.user import CRIMUserProfile
 
 
+def anchor(comment):
+    '''Returns a sort of permalink for the comment's position on a page,
+    in the form `username-00000000`, where 00000000 is the epoch timestamp
+    of the comment.'''
+    return comment.author.username + '-' + str(comment.created_at.strftime("%s"))
+
+
 def index(request):
-    posts = CRIMForumPost.objects.all().order_by("-created_at")
+    posts = CRIMForumPost.objects.order_by("-created_at")
     context = {"posts": posts}
-    return render(request, "forum/index.html", context)
-
-
-def related(request, piece):
-    piece = get_object_or_404(CRIMPiece, piece_id=piece)
-    pid = piece.piece_id.lower()
-
-    # Fetch all posts which mention the piece in the title or body.
-    related = CRIMForumPost.objects.filter(
-        Q(text__icontains=pid) | Q(title__icontains=pid)
-    )
-    # Fetch all comments which mention the piece. The select_related clause is not
-    # necessary for correctness, but will speed up the next line where the `post` field
-    # of the comment objects is accessed.
-    related_comments = CRIMForumComment.objects.filter(text__icontains=pid).select_related("post")
-    # Combine the two sets.
-    related = set(related) | set(c.post for c in related_comments)
-    context = {"piece": piece, "posts": related}
-    return render(request, "forum/related.html", context)
+    return render(request, "forum/post_list.html", context)
 
 
 @login_required
@@ -42,90 +30,109 @@ def create_post(request):
         post = CRIMForumPost.objects.create(
             title=request.POST["title"].strip(),
             text=request.POST["body"].strip(),
-            user=crim_user,
+            author=crim_user,
         )
-        return redirect("view_forum_post", post.pk)
+        return redirect("forum-view-post", post.post_id)
     else:
         return render(request, "forum/create_post.html")
 
 
 @login_required
-def create_comment(request, post_pk):
+def create_reply(request, parent_id):
     if request.method == "POST":
-        create_or_reply_comment(post_pk, None, request)
-        return redirect("view_forum_post", post_pk)
+        parent = CRIMForumPost.objects.get(post_id=parent_id)
+        head = parent.head
+        crim_user = CRIMUserProfile.objects.get(user=request.user)
+        CRIMForumPost.objects.create(
+            text=request.POST["body"].strip(),
+            parent=parent,
+            head=head,
+            author=crim_user,
+        )
+    return redirect("forum-view-post", parent_id)
+
+
+def view_post(request, post_id):
+    # Throughout: escape any non-literal text that may contain HTML!
+    post = get_object_or_404(CRIMForumPost, post_id=post_id)
+    if post.head:
+        head = post.head
     else:
-        return redirect("view_forum_post", post_pk)
+        head = post
 
-
-@login_required
-def reply_comment(request, pk):
-    parent = CRIMForumComment.objects.get(pk=pk)
-    if request.method == "POST":
-        create_or_reply_comment(parent.post.pk, pk, request)
-        return redirect(parent.get_absolute_url())
+    if post.head:
+        post_title = 'Reply to ‘{}’'.format(html.escape(head.title))
+        html_title = '<a href="{}">Reply</a> to <a href={}>‘{}’</a>'.format(
+            reverse('forum-view-post', args=[post.head.post_id]) + '#' + anchor(post),
+            reverse('forum-view-post', args=[post.head.post_id]),
+            html.escape(post.head.title),
+        )
     else:
-        return render(request, "forum/reply_comment.html", {"parent": parent})
+        post_title = html.escape(head.title)
+        html_title = post_title
 
-
-def create_or_reply_comment(post_pk, comment_pk, request):
-    if comment_pk is not None:
-        parent = CRIMForumComment.objects.get(pk=comment_pk)
-    else:
-        parent = None
-    post = CRIMForumPost.objects.get(pk=post_pk)
-    crim_user = CRIMUserProfile.objects.get(user=request.user)
-    CRIMForumComment.objects.create(
-        text=request.POST["body"].strip(), parent=parent, post=post, user=crim_user,
+    post_author = head.author.name
+    html_author = '<a href="{}">{}</a>'.format(
+        reverse('crimperson-detail', args=[head.author.person.person_id]),
+        head.author.name,
     )
-
-
-def view_post(request, pk):
-    post = get_object_or_404(CRIMForumPost, pk=pk)
-    # VERY IMPORTANT: escape any non-literal text that may contain HTML!
-    post_title = insert_links(html.escape(post.title))
     post_text = insert_links(html.escape(post.text))
-    comment_tree = render_comment_tree(post.crimforumcomment_set.filter(parent=None))
+    comments = render_head(post)
     context = {
-        "comment_tree": comment_tree,
-        "post": post,
-        "post_title": post_title,
-        "post_text": post_text,
+        'comments': comments,
+        'post': post,
+        'post_title': post_title,
+        'html_title': html_title,
+        'post_text': post_text,
+        'post_author': post_author,
+        'html_author': html_author,
     }
     return render(request, "forum/view_post.html", context)
 
 
-def render_comment_tree(comment_set):
-    comment_html = ""
+def render_head(comment):
+    return '<ul class="forum-comment head">' + render_comment(comment, color=False) + '</ul>'
+
+
+def render_comment_children(comment_set, color=False):
+    comment_html = ''
     for comment in comment_set:
-        comment_html += render_comment(comment)
+        comment_html += render_comment(comment, color)
 
     if comment_html:
-        return "<ul>" + comment_html + "</ul>"
+        return '<ul class="forum-comment">' + comment_html + '</ul>'
     else:
-        return ""
+        return ''
 
 
-def render_comment(comment):
-    if comment.user:
-        user = comment.user.name + " (" + comment.user.user.username + ")"
+def render_comment(comment, color=False):
+    if comment.author:
+        author = comment.author.name
     else:
-        user = "[deleted]"
+        author = '[deleted]'
+
     # VERY IMPORTANT: escape any non-literal text that may contain HTML!
-    user = html.escape(user)
+    author = html.escape(author)
 
     text = html.escape(comment.text)
     text = insert_links(text)
-    base = "<li><h2>{} at {}</h2><p>{}</p><p><a href=\"{}\">reply</a></p></li>".format(
-        user,
-        comment.created_at.strftime("%I:%M %p on %B %d, %Y"),
+    base = '''<li class="forum-post {5}" id="{6}">
+<h4 class="forum-subhead">{0}</h4>
+<p class="forum-text">{2}</p>
+<p><a href="{3}">{1}</a> &bull; <a href="{4}">Reply</a></p>
+</li>'''.format(
+        author,
+        comment.created_at.strftime("%Y-%m-%d at %H:%M"),
         text,
-        reverse("reply_forum_comment", args=[comment.pk]),
+        reverse('forum-view-post', args=[comment.post_id]),
+        reverse('forum-reply', args=[comment.post_id]),
+        'dark' if color else 'light',
+        anchor(comment),
     )
-    return base + render_comment_tree(comment.crimforumcomment_set.all())
+    return base + render_comment_children(comment.children.order_by('created_at'), color=(not color))
 
 
-_link_regex = re.compile(r"CRIM_Model_[0-9]{4}", re.IGNORECASE)
+_link_regex = re.compile(r"(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])", re.IGNORECASE)
 def insert_links(text):
     """Detect occurrences of piece IDs in the text, and insert HTML links."""
     return _link_regex.sub(lambda m: create_link(m.group(0)), text)
@@ -133,9 +140,10 @@ def insert_links(text):
 
 def create_link(piece_id):
     """Given a piece ID, return an HTML link."""
-    normalized_piece_id = "CRIM_Model_" + piece_id[-4:]
-    piece = CRIMPiece.objects.get(piece_id=normalized_piece_id)
-    if piece is not None:
+    matches = CRIMPiece.objects.filter(piece_id=piece_id)
+    if matches:
+        # There will be either zero or one pieces with this `piece_id`.
+        piece = matches[0]
         return '<a href="{}">{}</a>'.format(piece.get_absolute_url(), piece_id)
     else:
         return piece_id

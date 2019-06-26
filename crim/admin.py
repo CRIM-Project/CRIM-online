@@ -7,7 +7,7 @@ from crim.models.user import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
 from crim.models.document import CRIMTreatise, CRIMSource
-from crim.models.forum import CRIMForumComment, CRIMForumPost
+from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.group import CRIMGroup
 from crim.models.part import CRIMPart
@@ -20,7 +20,6 @@ from crim.models.relationship import CRIMRelationship
 from crim.models.voice import CRIMVoice
 
 from crim.models.note import CRIMNote
-from crim.models.comment import CRIMComment
 
 
 class CRIMPieceMassForm(forms.ModelForm):
@@ -646,21 +645,24 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
         'observer__name',
     )
 
-class CRIMCommentAdmin(admin.ModelAdmin):
+
+class CRIMForumPostAdmin(admin.ModelAdmin):
     fields = (
         'author',
-        'piece',
+        'title',
         'text',
+        'parent',
         'edited',
         'alive',
     )
     list_display = (
         'author',
-        'piece',
-        'created',
-        'updated',
+        'title',
+        'created_at',
+        'updated_at',
         'alive',
     )
+
 
 class UserProfileInline(admin.StackedInline):
     model = CRIMUserProfile
@@ -675,6 +677,8 @@ class UserAdmin(UserAdmin):
     ordering = (
         'username',
     )
+
+
 
 
 admin.site.unregister(User)
@@ -700,8 +704,6 @@ admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
 
 admin.site.register(CRIMNote)
-admin.site.register(CRIMComment, CRIMCommentAdmin)
 
 admin.site.register(CRIMGroup)
-admin.site.register(CRIMForumPost)
-admin.site.register(CRIMForumComment)
+admin.site.register(CRIMForumPost, CRIMForumPostAdmin)
