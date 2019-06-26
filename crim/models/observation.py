@@ -27,7 +27,7 @@ class CRIMObservation(models.Model):
 
     # This field provides redundant, easily accessible, human-readable
     # information about musical type. It is updated upon saving.
-    musical_type = models.CharField(max_length=64, blank=True)
+    musical_type = models.CharField(max_length=128, blank=True)
 
     mt_cf = models.BooleanField('cantus firmus', default=False)
     mt_cf_voices = models.TextField('voices (one per line)', blank=True)
@@ -134,54 +134,47 @@ class CRIMObservation(models.Model):
 
     def save(self):
         # Set the parent relationship type field to true if any of the subtypes are
-        if self.mt_cf_voices or self.mt_cf_dur or self.mt_cf_mel:
-            self.mt_cf = True
-        if self.mt_sog_voices or self.mt_sog_dur or self.mt_sog_mel or self.mt_sog_ostinato or self.mt_sog_periodic:
-            self.mt_sog = True
-        if self.mt_csog_voices or self.mt_csog_dur or self.mt_csog_mel:
-            self.mt_csog = True
-        if self.mt_fg_voices or self.mt_fg_periodic or self.mt_fg_strict or self.mt_fg_flexed or self.mt_fg_sequential or self.mt_fg_inverted or self.mt_fg_retrograde or self.mt_fg_int or self.mt_fg_tint:
-            self.mt_fg = True
-        if self.mt_id_voices or self.mt_id_strict or self.mt_id_flexed or self.mt_id_flt or self.mt_id_invertible or self.mt_id_int or self.mt_id_tint:
-            self.mt_id = True
-        if self.mt_pe_voices or self.mt_pe_strict or self.mt_pe_flexed or self.mt_pe_flt or self.mt_pe_sequential or self.mt_pe_added or self.mt_pe_invertible or self.mt_pe_int or self.mt_pe_tint:
-            self.mt_pe = True
-        if self.mt_nid_voices or self.mt_nid_strict or self.mt_nid_flexed or self.mt_nid_flt or self.mt_nid_sequential or self.mt_nid_invertible or self.mt_nid_int or self.mt_nid_tint:
-            self.mt_nid = True
-        if self.mt_hr_voices or self.mt_hr_simple or self.mt_hr_staggered or self.mt_hr_sequential or self.mt_hr_fauxbourdon:
-            self.mt_hr = True
-        if self.mt_cad_cantizans or self.mt_cad_tenorizans or self.mt_cad_type or self.mt_cad_tone or self.mt_cad_dtv or self.mt_cad_dti:
-            self.mt_cad = True
-        if self.mt_int_voices or self.mt_int_p6 or self.mt_int_p3 or self.mt_int_c35 or self.mt_int_c83 or self.mt_int_c65:
-            self.mt_int = True
-        if self.mt_fp_ir or self.mt_fp_range or self.mt_fp_comment:
-            self.mt_fp = True
+        self.mt_cf = bool(self.mt_cf_voices or self.mt_cf_dur or self.mt_cf_mel)
+        self.mt_sog = bool(self.mt_sog_voices or self.mt_sog_dur or self.mt_sog_mel or self.mt_sog_ostinato or self.mt_sog_periodic)
+        self.mt_csog = bool(self.mt_csog_voices or self.mt_csog_dur or self.mt_csog_mel)
+        self.mt_fg = bool(self.mt_fg_voices or self.mt_fg_periodic or self.mt_fg_strict or self.mt_fg_flexed or self.mt_fg_sequential or self.mt_fg_inverted or self.mt_fg_retrograde or self.mt_fg_int or self.mt_fg_tint)
+        self.mt_id = bool(self.mt_id_voices or self.mt_id_strict or self.mt_id_flexed or self.mt_id_flt or self.mt_id_invertible or self.mt_id_int or self.mt_id_tint)
+        self.mt_pe = bool(self.mt_pe_voices or self.mt_pe_strict or self.mt_pe_flexed or self.mt_pe_flt or self.mt_pe_sequential or self.mt_pe_added or self.mt_pe_invertible or self.mt_pe_int or self.mt_pe_tint)
+        self.mt_nid = bool(self.mt_nid_voices or self.mt_nid_strict or self.mt_nid_flexed or self.mt_nid_flt or self.mt_nid_sequential or self.mt_nid_invertible or self.mt_nid_int or self.mt_nid_tint)
+        self.mt_hr = bool(self.mt_hr_voices or self.mt_hr_simple or self.mt_hr_staggered or self.mt_hr_sequential or self.mt_hr_fauxbourdon)
+        self.mt_cad = bool(self.mt_cad_cantizans or self.mt_cad_tenorizans or self.mt_cad_type or self.mt_cad_tone or self.mt_cad_dtv or self.mt_cad_dti)
+        self.mt_int = bool(self.mt_int_voices or self.mt_int_p6 or self.mt_int_p3 or self.mt_int_c35 or self.mt_int_c83 or self.mt_int_c65)
+        self.mt_fp = bool(self.mt_fp_ir or self.mt_fp_range or self.mt_fp_comment)
 
-        # Fill out the human-readable musical type field
+        # Fill out the human-readable musical type field.
+        # There's only SUPPOSED to be one, but some data are dirty, so we
+        # want to display these gracefully.
+        musical_type_list = []
         if self.mt_cf:
-            self.musical_type = 'Cantus firmus'
-        elif self.mt_sog:
-            self.musical_type = 'Soggetto'
-        elif self.mt_csog:
-            self.musical_type = 'Counter-soggetto'
-        elif self.mt_cd:
-            self.musical_type = 'Contrapuntal duo'
-        elif self.mt_fg:
-            self.musical_type = 'Fuga'
-        elif self.mt_pe:
-            self.musical_type = 'Periodic entry'
-        elif self.mt_id:
-            self.musical_type = 'Imitative duo'
-        elif self.mt_nid:
-            self.musical_type = 'Non-imitative duo'
-        elif self.mt_hr:
-            self.musical_type = 'Homorhythm'
-        elif self.mt_cad:
-            self.musical_type = 'Cadence'
-        elif self.mt_int:
-            self.musical_type = 'Interval patterns'
-        elif self.mt_fp:
-            self.musical_type = 'Form and process'
+            musical_type_list.append('Cantus firmus')
+        if self.mt_sog:
+            musical_type_list.append('Soggetto')
+        if self.mt_csog:
+            musical_type_list.append('Counter-soggetto')
+        if self.mt_cd:
+            musical_type_list.append('Contrapuntal duo')
+        if self.mt_fg:
+            musical_type_list.append('Fuga')
+        if self.mt_pe:
+            musical_type_list.append('Periodic entry')
+        if self.mt_id:
+            musical_type_list.append('Imitative duo')
+        if self.mt_nid:
+            musical_type_list.append('Non-imitative duo')
+        if self.mt_hr:
+            musical_type_list.append('Homorhythm')
+        if self.mt_cad:
+            musical_type_list.append('Cadence')
+        if self.mt_int:
+            musical_type_list.append('Interval patterns')
+        if self.mt_fp:
+            musical_type_list.append('Form and process')
+        self.musical_type = ', '.join(musical_type_list)
 
         # Finalize changes
         super().save()
