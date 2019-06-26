@@ -23,14 +23,13 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from crim.views.callbacks import result_callback
 
-from crim.views.comment import CommentList, CommentDetail
 from crim.views.main import home, profile
 from crim.views.genre import GenreList
 from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
-from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships
+from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithObservations, PieceWithRelationships, PieceWithDiscussions
 from crim.views.roletype import RoleTypeList
 from crim.views.search import search
 from crim.views.source import SourceList, SourceDetail
@@ -38,7 +37,6 @@ from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserProfile
 
 # The following are for the JSON views
-from crim.views.comment import CommentListData, CommentDetailData, CommentCreateData
 from crim.views.genre import GenreListData, GenreDetailData
 from crim.views.mass import MassListData, MassDetailData
 from crim.views.part import PartListData, PartDetailData
@@ -72,9 +70,14 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^citations/$', TemplateView.as_view(template_name='main/citations.html'), name='citations'),
         re_path(r'^citations/(?P<relationship_id>[0-9]+)/$', TemplateView.as_view(template_name='main/citations.html'), name='citations-relationship'),
 
-        re_path(r'^comments/$', CommentList.as_view(), name='crimcomment-list'),
-        # re_path(r'^comments/new/$', CommentCreate.as_view(), name='crimcomment-new'),
-        re_path(r'^comments/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetail.as_view(), name='crimcomment-detail'),
+        re_path(r'^forum/$', forum_views.index, name='forum-list'),
+        re_path(r'^forum/new/$', forum_views.create_post, name='forum-create-post'),
+        re_path(r'^forum/(?P<post_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', forum_views.view_post, name='forum-view-post'),
+        re_path(
+            r'^forum/(?P<parent_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/reply/$',
+            forum_views.create_reply,
+            name='forum-reply',
+        ),
         re_path(r'^genres/$', GenreList.as_view(), name='crimgenre-list'),
         re_path(r'^genres/(?P<genre_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/pieces/?genre=%(genre_id)s', permanent=False), name='crimgenre-detail'),
         re_path(r'^masses/$', MassList.as_view(), name='crimmass-list'),
@@ -89,6 +92,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/observations/$', PieceWithObservations.as_view(), name='crimpiece-observations-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationships.as_view(), name='crimpiece-relationships-detail'),
+        re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/discussions/$', PieceWithDiscussions.as_view(), name='crimpiece-discussions-detail'),
         re_path(r'^relationships/$', RelationshipList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationships/(?P<id>[0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
@@ -99,9 +103,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^treatises/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
         re_path(r'^users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfile.as_view(), name='crimuserprofile-detail'),
         # The following are for the JSON views
-        re_path(r'^data/comments/$', CommentListData.as_view(), name='crimcomment-list-data'),
-        re_path(r'^data/comments/(?P<comment_id>[0-9a-zA-Z_@+\.-]+/[0-9\-T:.]+)/$', CommentDetailData.as_view(), name='crimcomment-detail-data'),
-        re_path(r'^data/comments/new/$', CommentCreateData.as_view(), name='crimcomment-new-data'),
         re_path(r'^data/genres/$', GenreListData.as_view(), name='crimgenre-list-data'),
         re_path(r'^data/genres/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetailData.as_view(), name='crimgenre-detail-data'),
         re_path(r'^data/masses/$', MassListData.as_view(), name='crimmass-list-data'),
@@ -135,20 +136,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
-        re_path(r'^forum/$', forum_views.index, name='forum_index'),
-        re_path(r'^forum/new/$', forum_views.create_post, name='create_forum_post'),
-        re_path(r'^forum/(?P<pk>[0-9]+)/$', forum_views.view_post, name='view_forum_post'),
-        re_path(r'^forum/(?P<piece>[-_A-Za-z0-9]+)/related/$', forum_views.related, name='forum_related'),
-        re_path(
-            r'^forum/(?P<post_pk>[0-9])/comment/$',
-            forum_views.create_comment,
-            name='create_forum_comment',
-        ),
-        re_path(
-            r'^forum/(?P<pk>[0-9])/reply/$',
-            forum_views.reply_comment,
-            name='reply_forum_comment',
-        ),
     ]
 
     urlpatterns += [

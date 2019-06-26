@@ -1,11 +1,12 @@
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer
+from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer, CRIMPieceWithDiscussionsSerializer
+from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
 
@@ -68,6 +69,26 @@ class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
 class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         data['show_relationships'] = True
+        # Sort roles alphabetically by role type; if no role, put at end
+        data['roles'] = sorted(data['roles'],
+                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        template_names = ['piece/piece_detail.html']
+        template = self.resolve_template(template_names)
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
+        return template.render(context)
+
+
+class PieceWithDiscussionsHTMLRenderer(PieceDetailHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        data['show_discussions'] = True
+
+        # Fetch all posts which mention the piece in the title or body.
+        pid = data['piece_id'].lower()
+        related = CRIMForumPost.objects.filter(
+            Q(text__icontains=pid) | Q(title__icontains=pid)
+        )
+        data['discussions'] = related
+
         # Sort roles alphabetically by role type; if no role, put at end
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
@@ -147,9 +168,6 @@ class PieceWithObservations(generics.RetrieveAPIView):
     )
     queryset = CRIMPiece.objects.all()
 
-    def get_queryset(self):
-        return CRIMPiece.objects.filter(mass=None)
-
     def get_object(self):
         url_arg = self.kwargs['piece_id']
         piece = CRIMPiece.objects.filter(piece_id=url_arg)
@@ -171,8 +189,26 @@ class PieceWithRelationships(generics.RetrieveAPIView):
     )
     queryset = CRIMPiece.objects.all()
 
-    def get_queryset(self):
-        return CRIMPiece.objects.filter(mass=None)
+    def get_object(self):
+        url_arg = self.kwargs['piece_id']
+        piece = CRIMPiece.objects.filter(piece_id=url_arg)
+        if not piece.exists():
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
+
+        obj = get_object_or_404(piece)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class PieceWithDiscussions(generics.RetrieveAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceWithDiscussionsSerializer
+    renderer_classes = (
+        PieceWithDiscussionsHTMLRenderer,
+        JSONRenderer,
+    )
+    queryset = CRIMPiece.objects.all()
 
     def get_object(self):
         url_arg = self.kwargs['piece_id']
