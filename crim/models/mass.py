@@ -63,13 +63,16 @@ class CRIMMass(models.Model):
                 relationships_as_derivative__curated=True,
             ).order_by('mass', 'piece_id').distinct()
 
-    def save(self, *args, **kwargs):
-        super().save()
+    def get_absolute_url(self):
+        return '/masses/{0}/'.format(self.mass_id)
 
     def clean(self):
         valid_regex = re.compile(r'^[-_0-9a-zA-Z]+$')
         if not valid_regex.match(self.mass_id):
             raise ValidationError('The Mass ID must consist of letters, numbers, hyphens, and underscores.')
+
+    def save(self, *args, **kwargs):
+        super().save()
 
     def __str__(self):
         return '[{0}] {1}'.format(self.mass_id, self.title)

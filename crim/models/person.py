@@ -42,6 +42,9 @@ class CRIMPerson(models.Model):
     def __str__(self):
         return '{0}'.format(self.name_sort)
 
+    def get_absolute_url(self):
+        return '/people/{0}/'.format(self.person_id)
+
     def save(self, *args, **kwargs):
         # Need to clean `name` field, because its html ends up being parsed!
         self.name = escape(self.name)
