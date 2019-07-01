@@ -5,8 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from ..models.document import CRIMSource
 from ..models.forum import CRIMForumPost
+from ..models.mass import CRIMMass
+from ..models.observation import CRIMObservation
+from ..models.person import CRIMPerson
 from ..models.piece import CRIMPiece
+from ..models.relationship import CRIMRelationship
 from ..models.user import CRIMUserProfile
 
 
@@ -132,18 +137,36 @@ def render_comment(comment, color=False):
     return base + render_comment_children(comment.children.order_by('created_at'), color=(not color))
 
 
-_link_regex = re.compile(r"(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])", re.IGNORECASE)
+_piece_regex = re.compile(r'(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])', re.IGNORECASE)
+_mass_regex = re.compile(r'(CRIM_Mass_[0-9]{4})($|[^_])', re.IGNORECASE)
+_source_regex = re.compile(r'(CRIM_Source_[0-9]{4})', re.IGNORECASE)
+_person_regex = re.compile(r'(CRIM_Person_[0-9]{4})', re.IGNORECASE)
+_observation_regex = re.compile(r'&lt;([0-9]+)&gt;', re.IGNORECASE)
+_relationship_regex = re.compile(r'&lt;R([0-9]+)&gt;', re.IGNORECASE)
+_newline_regex = re.compile(r'[\r\n]+')
 def insert_links(text):
-    """Detect occurrences of piece IDs in the text, and insert HTML links."""
-    return _link_regex.sub(lambda m: create_link(m.group(0)), text)
+    '''Detect occurrences of piece IDs in the text, and insert HTML links.'''
+    text = _piece_regex.sub(lambda m: create_link(CRIMPiece, m.group(0), piece_id=m.group(0)), text)
+    # the group(1) is for matching just the 'CRIM_Mass_0001' part, not the [^_]
+    # which is important for being compatible with pieces of the form CRIM_Mass_0001_1.
+    text = _mass_regex.sub(lambda m: create_link(CRIMMass, m.group(0), mass_id=m.group(1)), text)
+    text = _source_regex.sub(lambda m: create_link(CRIMSource, m.group(0), document_id=m.group(0)), text)
+    text = _person_regex.sub(lambda m: create_link(CRIMPerson, m.group(0), person_id=m.group(0)), text)
+    text = _observation_regex.sub(lambda m: create_link(CRIMObservation, m.group(0), id=int(m.group(1))), text)
+    text = _relationship_regex.sub(lambda m: create_link(CRIMRelationship, m.group(0), id=int(m.group(1))), text)
+    text = '<p>' + _newline_regex.sub('</p><p>', text) + '</p>'
+    return text
 
 
-def create_link(piece_id):
-    """Given a piece ID, return an HTML link."""
-    matches = CRIMPiece.objects.filter(piece_id=piece_id)
-    if matches:
-        # There will be either zero or one pieces with this `piece_id`.
-        piece = matches[0]
-        return '<a href="{}">{}</a>'.format(piece.get_absolute_url(), piece_id)
-    else:
-        return piece_id
+def create_link(CRIMModel, link_text, **id_field):
+    '''Given an id_field (eg {'piece_id', 'CRIM_Model_0001'}), along with the
+    model object, return an HTML link.
+    '''
+    matches = CRIMModel.objects.filter(**id_field)
+    for v in id_field.values():
+        if matches:
+            # There will be either zero or one pieces with this id.
+            object = matches[0]
+            return '<a href="{}">{}</a>'.format(object.get_absolute_url(), link_text)
+        else:
+            return link_text
