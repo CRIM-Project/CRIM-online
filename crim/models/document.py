@@ -56,6 +56,9 @@ class CRIMTreatise(CRIMDocument):
         roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
         return roles[0].date_sort if roles else None
 
+    def get_absolute_url(self):
+        return '/treatises/{0}/'.format(self.document_id)
+
 
 class CRIMSource(CRIMDocument):
     PRINT = 'print'
@@ -101,3 +104,6 @@ class CRIMSource(CRIMDocument):
     def date_sort(self):
         roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
         return roles[0].date_sort if roles else None
+
+    def get_absolute_url(self):
+        return '/sources/{0}/'.format(self.document_id)
