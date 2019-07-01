@@ -138,7 +138,7 @@ def render_comment(comment, color=False):
 
 
 _piece_regex = re.compile(r'(CRIM_Model_[0-9]{4}|CRIM_Mass_[0-9]{4}_[0-9])', re.IGNORECASE)
-_mass_regex = re.compile(r'(CRIM_Mass_[0-9]{4})($|[^_])', re.IGNORECASE)
+_mass_regex = re.compile(r'CRIM_Mass_[0-9]{4}(?!_)', re.IGNORECASE)
 _source_regex = re.compile(r'(CRIM_Source_[0-9]{4})', re.IGNORECASE)
 _person_regex = re.compile(r'(CRIM_Person_[0-9]{4})', re.IGNORECASE)
 _observation_regex = re.compile(r'&lt;([0-9]+)&gt;', re.IGNORECASE)
@@ -147,11 +147,10 @@ _newline_regex = re.compile(r'[\r\n]+')
 def insert_links(text):
     '''Detect occurrences of piece IDs in the text, and insert HTML links.'''
     text = _piece_regex.sub(lambda m: create_link(CRIMPiece, m.group(0), piece_id=m.group(0)), text)
-    # the group(1) is for matching just the 'CRIM_Mass_0001' part, not the [^_]
-    # which is important for being compatible with pieces of the form CRIM_Mass_0001_1.
-    text = _mass_regex.sub(lambda m: create_link(CRIMMass, m.group(0), mass_id=m.group(1)), text)
+    text = _mass_regex.sub(lambda m: create_link(CRIMMass, m.group(0), mass_id=m.group(0)), text)
     text = _source_regex.sub(lambda m: create_link(CRIMSource, m.group(0), document_id=m.group(0)), text)
     text = _person_regex.sub(lambda m: create_link(CRIMPerson, m.group(0), person_id=m.group(0)), text)
+    # the group(1) is for matching just the integer id and not the angle brackets around it.
     text = _observation_regex.sub(lambda m: create_link(CRIMObservation, m.group(0), id=int(m.group(1))), text)
     text = _relationship_regex.sub(lambda m: create_link(CRIMRelationship, m.group(0), id=int(m.group(1))), text)
     text = '<p>' + _newline_regex.sub('</p><p>', text) + '</p>'
