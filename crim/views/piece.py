@@ -10,6 +10,11 @@ from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
 
+import re
+import requests
+import verovio
+
+
 COMPOSER = 'composer'
 PUBLISHER = 'printer'
 
@@ -48,6 +53,20 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        tk = verovio.toolkit()
+        raw_mei = requests.get(data['mei_links'][0]).text
+        mei_no_title = re.sub(r'<title[^<]*</title>', '', raw_mei)
+
+        tk.loadData(mei_no_title)
+        tk.setOption('noFooter', 'true')
+        # Calculate optimal size of score window based on number of voices
+        tk.setOption('pageHeight', str(150*len(data['voices']) + 110))
+        tk.setOption('spacingSystem', '12')
+        tk.setOption('pageWidth', '2000')
+        print(tk.getAvailableOptions())
+        # TODO: Allow user to make this larger or smaller with a button
+        tk.setScale(35)
+        data['svg'] = tk.renderToSVG(1)
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
