@@ -9,21 +9,7 @@
       </div>
     </div>
   </div>
-  <div id="pieceScore" class="cw-score"></div>
+  {% autoescape off %}
+    {{ content.svg }}
+  {% endautoescape %}
 </div>
-
-<script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
-<script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
-
-<script>
-  var vrv = new window.verovio.toolkit()
-  var cwPiece = new CrimViewer({
-    mei: '{{ content.mei_links|firstitem }}',
-    ema: '1/1/@1',
-    vrv: vrv,
-    div: 'pieceScore',
-    controls: 'cw-piece-controls'
-  })
-  cwPiece.render()
-</script>
-  
