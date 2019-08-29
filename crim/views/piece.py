@@ -55,15 +55,18 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         tk = verovio.toolkit()
         raw_mei = requests.get(data['mei_links'][0]).text
-        mei_no_title = re.sub(r'<title[^<]*</title>', '', raw_mei)
+        mei_no_title = raw_mei
 
-        tk.loadData(mei_no_title)
+        tk.setOption('noHeader', 'true')
         tk.setOption('noFooter', 'true')
         # Calculate optimal size of score window based on number of voices
-        tk.setOption('pageHeight', str(150*len(data['voices']) + 110))
+        tk.setOption('pageHeight', '1152')
+        tk.setOption('adjustPageHeight', 'true')
         tk.setOption('spacingSystem', '12')
-        tk.setOption('pageWidth', '2000')
-        print(tk.getAvailableOptions())
+        tk.setOption('spacingDurDetection', 'true')
+        tk.setOption('pageWidth', '2048')
+
+        tk.loadData(mei_no_title)
         # TODO: Allow user to make this larger or smaller with a button
         tk.setScale(35)
         data['svg'] = tk.renderToSVG(1)
