@@ -69,7 +69,9 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         tk.loadData(mei_no_title)
         # TODO: Allow user to make this larger or smaller with a button
         tk.setScale(35)
-        data['svg'] = tk.renderToSVG(1)
+        page_number_string = renderer_context['request'].GET.get('p')
+        page_number = eval(page_number_string) if page_number_string else 1
+        data['svg'] = tk.renderToSVG(page_number)
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
