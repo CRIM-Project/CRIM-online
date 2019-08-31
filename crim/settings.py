@@ -20,13 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!si#%r2x)6yu*dlxw#rx#)1w1gm+1jkz+zwr&_w2-ldr*9js%d'
-
 ALLOWED_HOSTS = (
     '127.0.0.1',
-    '159.65.177.99',
-    '92.154.49.37',
     'crimproject.org',
     'dev.crimproject.org',
     'ema.crimproject.org',
