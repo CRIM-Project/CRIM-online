@@ -55,7 +55,6 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         tk = verovio.toolkit()
         raw_mei = requests.get(data['mei_links'][0]).text
-        mei_no_title = raw_mei
 
         tk.setOption('noHeader', 'true')
         tk.setOption('noFooter', 'true')
@@ -66,7 +65,7 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         tk.setOption('spacingDurDetection', 'true')
         tk.setOption('pageWidth', '2048')
 
-        tk.loadData(mei_no_title)
+        tk.loadData(raw_mei)
         # TODO: Allow user to make this larger or smaller with a button
         tk.setScale(35)
         page_number_string = renderer_context['request'].GET.get('p')
