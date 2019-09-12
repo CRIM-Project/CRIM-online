@@ -55,18 +55,22 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         tk = verovio.toolkit()
         raw_mei = requests.get(data['mei_links'][0]).text
-        mei_no_title = re.sub(r'<title[^<]*</title>', '', raw_mei)
 
-        tk.loadData(mei_no_title)
+        tk.setOption('noHeader', 'true')
         tk.setOption('noFooter', 'true')
         # Calculate optimal size of score window based on number of voices
-        tk.setOption('pageHeight', str(150*len(data['voices']) + 110))
+        tk.setOption('pageHeight', '1152')
+        tk.setOption('adjustPageHeight', 'true')
         tk.setOption('spacingSystem', '12')
-        tk.setOption('pageWidth', '2000')
-        print(tk.getAvailableOptions())
+        tk.setOption('spacingDurDetection', 'true')
+        tk.setOption('pageWidth', '2048')
+
+        tk.loadData(raw_mei)
         # TODO: Allow user to make this larger or smaller with a button
         tk.setScale(35)
-        data['svg'] = tk.renderToSVG(1)
+        page_number_string = renderer_context['request'].GET.get('p')
+        page_number = eval(page_number_string) if page_number_string else 1
+        data['svg'] = tk.renderToSVG(page_number)
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
