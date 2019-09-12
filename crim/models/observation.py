@@ -137,6 +137,7 @@ class CRIMObservation(models.Model):
         self.mt_cf = bool(self.mt_cf_voices or self.mt_cf_dur or self.mt_cf_mel)
         self.mt_sog = bool(self.mt_sog_voices or self.mt_sog_dur or self.mt_sog_mel or self.mt_sog_ostinato or self.mt_sog_periodic)
         self.mt_csog = bool(self.mt_csog_voices or self.mt_csog_dur or self.mt_csog_mel)
+        self.mt_cd = bool(self.mt_cd_voices)
         self.mt_fg = bool(self.mt_fg_voices or self.mt_fg_periodic or self.mt_fg_strict or self.mt_fg_flexed or self.mt_fg_sequential or self.mt_fg_inverted or self.mt_fg_retrograde or self.mt_fg_int or self.mt_fg_tint)
         self.mt_id = bool(self.mt_id_voices or self.mt_id_strict or self.mt_id_flexed or self.mt_id_flt or self.mt_id_invertible or self.mt_id_int or self.mt_id_tint)
         self.mt_pe = bool(self.mt_pe_voices or self.mt_pe_strict or self.mt_pe_flexed or self.mt_pe_flt or self.mt_pe_sequential or self.mt_pe_added or self.mt_pe_invertible or self.mt_pe_int or self.mt_pe_tint)
