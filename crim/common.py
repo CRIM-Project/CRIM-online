@@ -2,7 +2,11 @@ import re
 
 
 def two_digit_string(n):
-    if eval(n) >= 0 and eval(n) < 10:
+    # We expect an integer, but will convert strings.
+    if isinstance(n, str):
+        n = eval(n)
+
+    if n >= 0 and n < 10:
         return '0' + str(n)
     else:
         return str(n)
