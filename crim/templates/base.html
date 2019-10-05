@@ -116,7 +116,7 @@
       </a>
     </p>
     <p class="copyright">
-      Copyright &copy; 2018 Richard Freedman/Haverford College<br />
+      Copyright &copy; 2018&ndash;2019 Richard Freedman/Haverford College<br />
       This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>
     </p>
     </footer>
@@ -124,7 +124,7 @@
 
   <script type="text/javascript">
     // CSRF Token Protection lifted from Django documentation.
-    var csrftoken = Cookies.set('csrftoken');
+    var csrftoken = {{ csrf_token }};
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
