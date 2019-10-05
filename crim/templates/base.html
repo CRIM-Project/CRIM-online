@@ -124,7 +124,7 @@
 
   <script type="text/javascript">
     // CSRF Token Protection lifted from Django documentation.
-    var csrftoken = {{ csrf_token }};
+    var csrftoken = '{{ csrf_token }}';
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
