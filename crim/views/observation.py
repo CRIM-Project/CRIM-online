@@ -198,8 +198,12 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
         # tk.loadData(highlighted_mei)
         # TODO: Allow user to make this larger or smaller with a button
         tk.setScale(35)
+        if highlight_list:
+            first_highlighted_page = tk.getPageWithElement(highlight_list[0])
+        else:
+            first_highlighted_page = 1
         page_number_string = renderer_context['request'].GET.get('p')
-        page_number = eval(page_number_string) if page_number_string else 1
+        page_number = eval(page_number_string) if page_number_string else first_highlighted_page
         ET.register_namespace('', 'http://www.w3.org/2000/svg')
         ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
         ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
