@@ -76,48 +76,27 @@
 
   <div class="row-fluid">
     <div class="span9">
-      <div class="row-fluid">
-        <div id="piece-header">
-          <div class="span9">
-            <h2>
-              {% if content.piece.roles|people:"composer" %}{{ content.piece.roles|people:"composer"|safe }},
-              {% elif content.piece.mass.roles|people:"composer" %}{{ content.piece.mass.roles|people:"composer"|safe }},
-              {% endif %}{% if content.piece.mass %}
-                <a href="{{ content.piece.mass.url|htmlsite }}">{{ content.piece.mass.title }}</a>:
-              {% endif %}
-              <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.title }}</a>
-            </h2>
-          </div>
-          <div id="cw-piece-controls" class="span3">
+      <div style="width:700px">
+        <div id="piece-header" class="row-fluid">
+          <div class="span6"><h2>Score</h2></div>
+          <div class="span6">
             <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-              <button type="button" class="btn btn-primary cw-show">highlight</button>
-              <button type="button" class="btn btn-primary cw-next">&gt;</button>
+              <button type="button" class="btn btn-primary cw-prev"><a href="{{ content.url|htmlsite }}{{ request|prevpage }}">&lt;</a></button>
+              <button type="button" class="btn btn-primary cw-show"><a href="{{ content.url|htmlsite }}{{ request|start }}">start</a></button>
+              <button type="button" class="btn btn-primary cw-next"><a href="{{ content.url|htmlsite }}{{ request|nextpage }}">&gt;</a></button>
             </div>
           </div>
         </div>
+        <div id="score">
+          {% autoescape off %}
+            {{ content.svg }}
+          {% endautoescape %}
+        </div>
       </div>
-      <div id="pieceScore" class="cw-score"></div>
     </div>
     <div class="span3">
       {% include "observation/observation_expanded.html" with observation=content %}
     </div>
   </div>
-
-
-  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
-  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
-
-  <script>
-    var vrv = new window.verovio.toolkit()
-    var cwPiece = new CrimViewer({
-      mei: '{{ content.piece.mei_links|firstitem }}',
-      ema: '{{ content.ema }}',
-      vrv: vrv,
-      div: 'pieceScore',
-      controls: 'cw-piece-controls'
-    })
-    cwPiece.render()
-  </script>
 
 {% endblock %}

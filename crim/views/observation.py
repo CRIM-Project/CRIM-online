@@ -4,10 +4,16 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+from crim.common import OMAS
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.models.observation import CRIMObservation
 from crim.models.piece import CRIMPiece
+
+import requests
+import urllib
+import verovio
+import xml.etree.ElementTree as ET
 
 
 def generate_observation_data(request, prefix=''):
@@ -165,6 +171,50 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
+
+        tk = verovio.toolkit()
+        encoded_mei_url = urllib.parse.quote(data['piece']['mei_links'][0])
+        cited_mei_url = OMAS + encoded_mei_url + '/' + data['ema'] + '/highlight'
+        cited_mei = requests.get(cited_mei_url).text + '\n'
+        cited_mei_xml = ET.fromstring(cited_mei)
+        ns = {
+            'xlink': 'http://www.w3.org/1999/xlink',
+            'xml': 'http://www.w3.org/XML/1998/namespace',
+        }
+        annot = cited_mei_xml.find(".//*[@type='ema_highlight']")
+        highlight_list = annot.attrib['plist'].replace('#','').split()
+
+        tk.setOption('noHeader', 'true')
+        tk.setOption('noFooter', 'true')
+        # Calculate optimal size of score window based on number of voices
+        tk.setOption('pageHeight', '1152')
+        tk.setOption('adjustPageHeight', 'true')
+        tk.setOption('spacingSystem', '12')
+        tk.setOption('spacingDurDetection', 'true')
+        tk.setOption('pageWidth', '2048')
+
+        tk.loadData(cited_mei)
+        # tk.loadData(highlighted_mei)
+        # TODO: Allow user to make this larger or smaller with a button
+        tk.setScale(35)
+        page_number_string = renderer_context['request'].GET.get('p')
+        page_number = eval(page_number_string) if page_number_string else 1
+        ET.register_namespace('', 'http://www.w3.org/2000/svg')
+        ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
+        ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
+        rendered_svg_xml = ET.fromstring(tk.renderToSVG(page_number))
+        for id in highlight_list:
+            element = rendered_svg_xml.find(".//*[@id='{0}']".format(id))
+            if element:
+                if 'class' in element.attrib:
+                    element.set('class', element.attrib['class'] + ' cw-highlighted')
+                else:
+                    element.set('class', ' cw-highlighted')
+            else:
+                print("no element {}".format(id))
+
+        data['svg'] = ET.tostring(rendered_svg_xml).decode()
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
