@@ -1,6 +1,9 @@
 import re
 
 
+OMAS = 'https://ema.crimproject.org/'
+
+
 def two_digit_string(n):
     # We expect an integer, but will convert strings.
     if isinstance(n, str):
