@@ -2,6 +2,7 @@
 {% load apostrophe %}
 {% load figuredash %}
 {% load markdown %}
+{% load scorenav %}
 {% load static %}
 {% load newlinereplace %}
 {% load newlineplural %}
@@ -42,10 +43,10 @@
 
   {% include "relationship/relationship_expanded.html" with relationship=content %}
 
-  <div class="row-fluid">
+  <div class="row-fluid" id="score">
     <div class="span9">
-      <div class="row-fluid">
-        <div id="model-header">
+      <div style="width:700px">
+        <div id="model-header" class="row-fluid">
           <div class="span9">
             <h2>
               Model:
@@ -57,16 +58,20 @@
               <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
             </h2>
           </div>
-          <div id="cw-model-controls" class="span3">
+          <div class="span3">
             <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-              <button type="button" class="btn btn-primary cw-show">highlight</button>
-              <button type="button" class="btn btn-primary cw-next">&gt;</button>
+              <button type="button" class="btn btn-primary cw-prev"><a href="{{ content.url|htmlsite }}{{ request|prevpage_model:content.model_page_number }}">&lt;</a></button>
+              <button type="button" class="btn btn-primary cw-show"><a href="{{ content.url|htmlsite }}{{ request|start_model }}">start</a></button>
+              <button type="button" class="btn btn-primary cw-next"><a href="{{ content.url|htmlsite }}{{ request|nextpage_model:content.model_page_number }}">&gt;</a></button>
             </div>
           </div>
         </div>
+        <div id="model_score">
+          {% autoescape off %}
+            {{ content.model_svg }}
+          {% endautoescape %}
+        </div>
       </div>
-      <div id="modelScore" class="cw-score-model"></div>
     </div>
     <div class="span3">
       <h2><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.id }}&gt;</a></small></h2>
@@ -76,35 +81,39 @@
 
   <div class="row-fluid">
     <div class="span9">
-      <div class="row-fluid">
-        <div id="derivative-header">
+      <div style="width:700px">
+        <div id="derivative-header" class="row-fluid">
           <div class="span9">
             <h2>
-              Derivative:
+              Model:
                 {% if content.derivative_observation.piece.roles|people:"composer" %}{{ content.derivative_observation.piece.roles|people:"composer"|safe }},
-                {% elif content.derivative_observation.piece.mass.roles|people:"composer" %}{{ content.derivative_observation.piece.mass.roles|people:"composer"|safe }},{% endif %}{% if content.derivative_observation.piece.mass %}
+                {% elif content.derivative_observation.piece.mass.roles|people:"composer" %}{{ content.derivative_observation.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}{% if content.derivative_observation.piece.mass %}
                 <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
               {% endif %}
               <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
             </h2>
           </div>
-          <div id="cw-derivative-controls" class="span3">
+          <div class="span3">
             <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <button type="button" class="btn btn-primary cw-prev">&lt;</button>
-              <button type="button" class="btn btn-primary cw-show">highlight</button>
-              <button type="button" class="btn btn-primary cw-next">&gt;</button>
+              <button type="button" class="btn btn-primary cw-prev"><a href="{{ content.url|htmlsite }}{{ request|prevpage_derivative:content.derivative_page_number }}">&lt;</a></button>
+              <button type="button" class="btn btn-primary cw-show"><a href="{{ content.url|htmlsite }}{{ request|start_derivative }}">start</a></button>
+              <button type="button" class="btn btn-primary cw-next"><a href="{{ content.url|htmlsite }}{{ request|nextpage_derivative:content.derivative_page_number }}">&gt;</a></button>
             </div>
           </div>
         </div>
+        <div id="derivative_score">
+          {% autoescape off %}
+            {{ content.derivative_svg }}
+          {% endautoescape %}
+        </div>
       </div>
-      <div id="derivativeScore" class="cw-score-derivative"></div>
     </div>
     <div class="span3">
       <h2><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.id }}&gt;</a></small></h2>
       {% include "observation/observation_expanded.html" with observation=content.derivative_observation %}
     </div>
   </div>
-
 
   <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
   <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
