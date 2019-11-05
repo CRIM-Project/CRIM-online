@@ -26,7 +26,7 @@ def start_model(request):
     `?pd` parameter intact.'''
     # Collect derivative page number, if present
     current_derivative_page_number = eval(request.GET.get('pd', '0'))
-    if current_derivative_page_number != '0':
+    if current_derivative_page_number:
         derivative_parameter = 'pd={}'.format(current_derivative_page_number)
     else:
         derivative_parameter = ''
@@ -44,7 +44,7 @@ def prevpage_model(request, current_model_page_number=1):
 
     # Collect derivative page number, if present
     current_derivative_page_number = eval(request.GET.get('pd', '0'))
-    if current_derivative_page_number != '0':
+    if current_derivative_page_number:
         derivative_parameter = '&pd={}'.format(current_derivative_page_number)
     else:
         derivative_parameter = ''
@@ -61,7 +61,7 @@ def nextpage_model(request, current_model_page_number=1):
 
     # Collect derivative page number, if present
     current_derivative_page_number = eval(request.GET.get('pd', '0'))
-    if current_derivative_page_number != '0':
+    if current_derivative_page_number:
         derivative_parameter = '&pd={}'.format(current_derivative_page_number)
     else:
         derivative_parameter = ''
@@ -75,7 +75,7 @@ def start_derivative(request):
     `?pm` parameter intact.'''
     # Collect model page number, if present
     current_model_page_number = eval(request.GET.get('pm', '0'))
-    if current_model_page_number != '0':
+    if current_model_page_number:
         model_parameter = 'pm={}'.format(current_model_page_number)
     else:
         model_parameter = ''
@@ -93,7 +93,7 @@ def prevpage_derivative(request, current_derivative_page_number=1):
 
     # Collect model page number, if present
     current_model_page_number = eval(request.GET.get('pm', '0'))
-    if current_model_page_number != '0':
+    if current_model_page_number:
         model_parameter = 'pm={}&'.format(current_model_page_number)
     else:
         model_parameter = ''
@@ -110,7 +110,7 @@ def nextpage_derivative(request, current_derivative_page_number=1):
 
     # Collect model page number, if present
     current_model_page_number = eval(request.GET.get('pm', '0'))
-    if current_model_page_number != '0':
+    if current_model_page_number:
         model_parameter = 'pm={}&'.format(current_model_page_number)
     else:
         model_parameter = ''
