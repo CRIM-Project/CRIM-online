@@ -4,12 +4,18 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+from crim.common import OMAS
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.views.observation import create_observation_from_request
+
+import requests
+import urllib
+import verovio
+import xml.etree.ElementTree as ET
 
 
 def generate_relationship_data(request, model_observation_id=None, derivative_observation_id=None):
@@ -132,6 +138,73 @@ class RelationshipListHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
+        ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
+
+        tkm = verovio.toolkit()  # model
+        tkd = verovio.toolkit()  # derivative
+        # Bundle 'model' and 'derivative' strings with the toolkits
+        # in order to differentiate them.
+        toolkits = [(tkm, 'model'), (tkd, 'derivative')]
+        highlight_lists = {}
+        first_highlighted_pages = {'model': 1, 'derivative': 1}
+
+        for (tk, m_d) in toolkits:
+            encoded_mei_url = urllib.parse.quote(data[m_d + '_observation']['piece']['mei_links'][0])
+            cited_mei_url = OMAS + encoded_mei_url + '/' + data[m_d + '_observation']['ema'] + '/highlight'
+            cited_mei = requests.get(cited_mei_url).text + '\n'
+            cited_mei_xml = ET.fromstring(cited_mei)
+            ns = {
+                'xlink': 'http://www.w3.org/1999/xlink',
+                'xml': 'http://www.w3.org/XML/1998/namespace',
+            }
+            annot = cited_mei_xml.find(".//*[@type='ema_highlight']")
+            highlight_lists[m_d] = annot.attrib['plist'].replace('#','').split()
+
+            tk.setOption('noHeader', 'true')
+            tk.setOption('noFooter', 'true')
+            # Calculate optimal size of score window based on number of voices
+            tk.setOption('pageHeight', '1152')
+            tk.setOption('adjustPageHeight', 'true')
+            tk.setOption('spacingSystem', '12')
+            tk.setOption('spacingDurDetection', 'true')
+            tk.setOption('pageWidth', '2048')
+
+            tk.loadData(cited_mei)
+            # tk.loadData(highlighted_mei)
+            # TODO: Allow user to make this larger or smaller with a button
+            tk.setScale(35)
+            if m_d in highlight_lists and highlight_lists[m_d]:
+                first_highlighted_pages[m_d] = tk.getPageWithElement(highlight_lists[m_d][0])
+
+        model_page_number_string = renderer_context['request'].GET.get('pm')
+        model_page_number = eval(model_page_number_string) if model_page_number_string else first_highlighted_pages['model']
+        derivative_page_number_string = renderer_context['request'].GET.get('pd')
+        derivative_page_number = eval(derivative_page_number_string) if derivative_page_number_string else first_highlighted_pages['derivative']
+
+        ET.register_namespace('', 'http://www.w3.org/2000/svg')
+        ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
+        ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
+        rendered_model_svg_xml = ET.fromstring(tkm.renderToSVG(model_page_number))
+        rendered_derivative_svg_xml = ET.fromstring(tkd.renderToSVG(derivative_page_number))
+        rendered_xmls = {'model': rendered_model_svg_xml, 'derivative': rendered_derivative_svg_xml}
+
+
+        for (tk, m_d) in toolkits:
+            for id in highlight_lists[m_d]:
+                element = rendered_xmls[m_d].find(".//*[@id='{0}']".format(id))
+                if element:
+                    if 'class' in element.attrib:
+                        element.set('class', element.attrib['class'] + ' cw-highlighted')
+                    else:
+                        element.set('class', ' cw-highlighted')
+                else:
+                    print("no element {}".format(id))
+
+        data['model_page_number'] = model_page_number
+        data['derivative_page_number'] = derivative_page_number
+        data['model_svg'] = ET.tostring(rendered_model_svg_xml).decode()
+        data['derivative_svg'] = ET.tostring(rendered_derivative_svg_xml).decode()
+
         template_names = ['relationship/relationship_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
