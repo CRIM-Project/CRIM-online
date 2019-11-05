@@ -2,6 +2,7 @@
 {% load apostrophe %}
 {% load figuredash %}
 {% load markdown %}
+{% load scorenav %}
 {% load static %}
 {% load newlinereplace %}
 {% load newlineplural %}
@@ -78,7 +79,17 @@
     <div class="span9">
       <div style="width:700px">
         <div id="piece-header" class="row-fluid">
-          <div class="span6"><h2>Score</h2></div>
+          <div class="span6">
+            <h2>
+              Score:
+                {% if content.piece.roles|people:"composer" %}{{ content.piece.roles|people:"composer"|safe }},
+                {% elif content.piece.mass.roles|people:"composer" %}{{ content.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}{% if content.piece.mass %}
+                <a href="{{ content.piece.mass.url|htmlsite }}">{{ content.piece.mass.title }}</a>:
+              {% endif %}
+              <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.title }}</a>
+            </h2>
+          </div>
           <div class="span6">
             <div class="btn-group pull-right" role="group" aria-label="Score control button group">
               <button type="button" class="btn btn-primary cw-prev"><a href="{{ content.url|htmlsite }}{{ request|prevpage }}">&lt;</a></button>
