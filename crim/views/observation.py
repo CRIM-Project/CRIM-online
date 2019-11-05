@@ -218,6 +218,7 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
             else:
                 print("no element {}".format(id))
 
+        data['page_number'] = page_number
         data['svg'] = ET.tostring(rendered_svg_xml).decode()
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
