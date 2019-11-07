@@ -10,7 +10,7 @@ from crim.serializers.observation import CRIMObservationSerializer
 from crim.models.observation import CRIMObservation
 from crim.models.piece import CRIMPiece
 
-import requests
+import re
 import urllib
 import verovio
 import xml.etree.ElementTree as ET
@@ -176,14 +176,9 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
         tk = verovio.toolkit()
         encoded_mei_url = urllib.parse.quote(data['piece']['mei_links'][0])
         cited_mei_url = OMAS + encoded_mei_url + '/' + data['ema'] + '/highlight'
-        cited_mei = requests.get(cited_mei_url).text + '\n'
-        cited_mei_xml = ET.fromstring(cited_mei)
-        ns = {
-            'xlink': 'http://www.w3.org/1999/xlink',
-            'xml': 'http://www.w3.org/XML/1998/namespace',
-        }
-        annot = cited_mei_xml.find(".//*[@type='ema_highlight']")
-        highlight_list = annot.attrib['plist'].replace('#','').split()
+        cited_mei = urllib.request.urlopen(cited_mei_url).read().decode()
+        plist = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei).group(1)
+        highlight_list = plist.replace('#','').split()
 
         tk.setOption('noHeader', 'true')
         tk.setOption('noFooter', 'true')
@@ -211,12 +206,12 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
         for id in highlight_list:
             element = rendered_svg_xml.find(".//*[@id='{0}']".format(id))
             if element:
-                if 'class' in element.attrib:
-                    element.set('class', element.attrib['class'] + ' cw-highlighted')
-                else:
+                # if 'class' in element.attrib:
+                #     element.set('class', element.attrib['class'] + ' cw-highlighted')
+                # else:
                     element.set('class', ' cw-highlighted')
-            else:
-                print("no element {}".format(id))
+            # else:
+            #     print("no element {}".format(id))
 
         data['page_number'] = page_number
         data['svg'] = ET.tostring(rendered_svg_xml).decode()
