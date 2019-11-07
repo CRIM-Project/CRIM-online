@@ -4,16 +4,16 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from crim.common import OMAS
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
+from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.views.observation import create_observation_from_request
 
+import os
 import re
-import urllib
 import verovio
 import xml.etree.ElementTree as ET
 
@@ -149,9 +149,8 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
         first_highlighted_pages = {'model': 1, 'derivative': 1}
 
         for (tk, m_d) in toolkits:
-            encoded_mei_url = urllib.parse.quote(data[m_d + '_observation']['piece']['mei_links'][0])
-            cited_mei_url = OMAS + encoded_mei_url + '/' + data[m_d + '_observation']['ema'] + '/highlight'
-            cited_mei = urllib.request.urlopen(cited_mei_url).read().decode()
+            raw_mei = open(os.path.join('crim/static/mei', data[m_d + '_observation']['piece']['piece_id'] + '.mei')).read()
+            cited_mei = slice_from_file(raw_mei, data[m_d + '_observation']['ema'])
             plist = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei).group(1)
             highlight_lists[m_d] = plist.replace('#','').split()
 
