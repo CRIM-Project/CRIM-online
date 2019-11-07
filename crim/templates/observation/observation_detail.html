@@ -79,7 +79,7 @@
     <div class="span9">
       <div style="width:700px">
         <div id="piece-header" class="row-fluid">
-          <div class="span6">
+          <div class="span9">
             <h2>
               Score:
                 {% if content.piece.roles|people:"composer" %}{{ content.piece.roles|people:"composer"|safe }},
@@ -90,7 +90,7 @@
               <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.title }}</a>
             </h2>
           </div>
-          <div class="span6">
+          <div class="span3">
             <div class="btn-group pull-right" role="group" aria-label="Score control button group">
               <button type="button" class="btn btn-primary cw-prev"><a href="{{ content.url|htmlsite }}{{ request|prevpage:content.page_number }}">&lt;</a></button>
               <button type="button" class="btn btn-primary cw-show"><a href="{{ content.url|htmlsite }}{{ request|start }}">start</a></button>

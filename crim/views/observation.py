@@ -4,7 +4,6 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from crim.common import OMAS
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
@@ -13,7 +12,6 @@ from crim.models.piece import CRIMPiece
 
 import os
 import re
-import urllib
 import verovio
 import xml.etree.ElementTree as ET
 
