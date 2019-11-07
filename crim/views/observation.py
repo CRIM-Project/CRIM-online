@@ -5,11 +5,13 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
 from crim.common import OMAS
+from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.models.observation import CRIMObservation
 from crim.models.piece import CRIMPiece
 
+import os
 import re
 import urllib
 import verovio
@@ -174,9 +176,8 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
         ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
 
         tk = verovio.toolkit()
-        encoded_mei_url = urllib.parse.quote(data['piece']['mei_links'][0])
-        cited_mei_url = OMAS + encoded_mei_url + '/' + data['ema'] + '/highlight'
-        cited_mei = urllib.request.urlopen(cited_mei_url).read().decode()
+        raw_mei = open(os.path.join('crim/static/mei', data['piece']['piece_id'] + '.mei')).read()
+        cited_mei = slice_from_file(raw_mei, data['ema'])
         plist = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei).group(1)
         highlight_list = plist.replace('#','').split()
 
