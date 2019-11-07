@@ -17,6 +17,7 @@ def prevpage(request, current_page_number=1):
 @register.filter(name='nextpage')
 def nextpage(request, current_page_number=1):
     '''Goes to the next page using the ?p= parameter.'''
+    print(current_page_number + 1)
     return '?p={}#score'.format(str(current_page_number + 1))
 
 

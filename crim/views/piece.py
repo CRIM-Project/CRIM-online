@@ -10,6 +10,7 @@ from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
 
+import os
 import re
 import requests
 import verovio
@@ -54,7 +55,7 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
         tk = verovio.toolkit()
-        raw_mei = requests.get(data['mei_links'][0]).text
+        raw_mei = open(os.path.join('crim/static/mei', data['piece_id'] + '.mei')).read()
 
         tk.setOption('noHeader', 'true')
         tk.setOption('noFooter', 'true')
@@ -71,6 +72,7 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         page_number_string = renderer_context['request'].GET.get('p')
         page_number = eval(page_number_string) if page_number_string else 1
         data['svg'] = tk.renderToSVG(page_number)
+        data['page_number'] = page_number
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
