@@ -12,7 +12,7 @@ from crim.serializers.observation import CRIMObservationSerializer
 from crim.serializers.relationship import CRIMRelationshipSerializer
 from crim.views.observation import create_observation_from_request
 
-import requests
+import re
 import urllib
 import verovio
 import xml.etree.ElementTree as ET
@@ -151,14 +151,9 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
         for (tk, m_d) in toolkits:
             encoded_mei_url = urllib.parse.quote(data[m_d + '_observation']['piece']['mei_links'][0])
             cited_mei_url = OMAS + encoded_mei_url + '/' + data[m_d + '_observation']['ema'] + '/highlight'
-            cited_mei = requests.get(cited_mei_url).text + '\n'
-            cited_mei_xml = ET.fromstring(cited_mei)
-            ns = {
-                'xlink': 'http://www.w3.org/1999/xlink',
-                'xml': 'http://www.w3.org/XML/1998/namespace',
-            }
-            annot = cited_mei_xml.find(".//*[@type='ema_highlight']")
-            highlight_lists[m_d] = annot.attrib['plist'].replace('#','').split()
+            cited_mei = urllib.request.urlopen(cited_mei_url).read().decode()
+            plist = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei).group(1)
+            highlight_lists[m_d] = plist.replace('#','').split()
 
             tk.setOption('noHeader', 'true')
             tk.setOption('noFooter', 'true')
@@ -193,12 +188,12 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
             for id in highlight_lists[m_d]:
                 element = rendered_xmls[m_d].find(".//*[@id='{0}']".format(id))
                 if element:
-                    if 'class' in element.attrib:
-                        element.set('class', element.attrib['class'] + ' cw-highlighted')
-                    else:
+                    # if 'class' in element.attrib:
+                    #     element.set('class', element.attrib['class'] + ' cw-highlighted')
+                    # else:
                         element.set('class', ' cw-highlighted')
-                else:
-                    print("no element {}".format(id))
+                # else:
+                #     print("no element {}".format(id))
 
         data['model_page_number'] = model_page_number
         data['derivative_page_number'] = derivative_page_number
