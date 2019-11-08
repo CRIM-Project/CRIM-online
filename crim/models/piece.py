@@ -150,7 +150,7 @@ class CRIMPiece(models.Model):
 def update_piece_cache(sender, piece, created, **kwargs):
     from crim.views.piece import render_piece
     print('Caching {}'.format(piece.piece_id))
-    for i in range(35):
+    for i in range(30):
         render_piece(piece.piece_id, i+1)
 
 
@@ -158,7 +158,7 @@ def update_piece_cache(sender, piece, created, **kwargs):
 def delete_piece_cache(sender, piece, **kwargs):
     from django.core.cache import caches
     print('Deleting cache for {}'.format(piece.piece_id))
-    for i in range(35):
+    for i in range(30):
         caches['pieces'].delete(cache_values_to_string(piece.piece_id, i+1))
 
 

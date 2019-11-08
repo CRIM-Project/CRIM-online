@@ -5,9 +5,15 @@ from crim.views.observation import render_observation
 
 
 class Command(BaseCommand):
+    help = 'Caches 35 pages of a single observation.'
+
+    def add_arguments(self, parser):
+        parser.add_argument('observation_ids', nargs='+', type=int)
+
     def handle(self, *args, **kwargs):
-        for observation in CRIMObservation.objects.all():
-            print('Caching first highlighted page of <{}>'.format(observation.id))
+        for observation_id in kwargs['observation_ids']:
+            observation = CRIMObservation.objects.get(id=observation_id)
+            print('Caching first highlighted page of <{}>'.format(observation_id))
             try:
                 render_observation(
                         observation.id,
@@ -17,8 +23,9 @@ class Command(BaseCommand):
                     )
             except:
                 print('ERROR caching first highlighted page of <{}>'.format(observation.id))
-        for observation in CRIMObservation.objects.all():
-            print('Caching all pages of <{}>'.format(observation.id))
+        for observation_id in kwargs['observation_ids']:
+            observation = CRIMObservation.objects.get(id=observation_id)
+            print('Caching all pages of <{}>'.format(observation_id))
             try:
                 for i in range(30):
                     render_observation(
