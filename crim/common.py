@@ -63,3 +63,12 @@ def latest_date(dates):
         return None
     else:
         return get_nonempty(dates[0], latest_date(dates[1:]), max, get_date_sort)
+
+
+def cache_values_to_string(id, page_number):
+    return str(id) + ',' + str(page_number)
+
+def cache_string_to_values(s):
+    value_list = s.split(',')
+    value_list[1] = eval(value_list[1])
+    return tuple(value_list)
