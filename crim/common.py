@@ -66,9 +66,7 @@ def latest_date(dates):
 
 
 def cache_values_to_string(id, page_number):
-    return str(id) + ',' + str(page_number)
-
-def cache_string_to_values(s):
-    value_list = s.split(',')
-    value_list[1] = eval(value_list[1])
-    return tuple(value_list)
+    if page_number is None:
+        return str(id) + ','
+    else:
+        return str(id) + ',' + str(page_number)
