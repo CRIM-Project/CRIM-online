@@ -1,4 +1,6 @@
+from django.core.cache import caches
 from django.shortcuts import get_object_or_404
+
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
@@ -14,6 +16,57 @@ import os
 import re
 import verovio
 import xml.etree.ElementTree as ET
+
+
+def render_observation(id, piece_id, ema, explicit_page_number=None):
+    observation_cache = caches['observations']
+
+    ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
+    tk = verovio.toolkit()
+    raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
+    cited_mei = slice_from_file(raw_mei, ema)
+    plist_match = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei)
+    plist = plist_match.group(1) if plist_match else None
+    highlight_list = plist.replace('#','').split() if plist else []
+
+    tk.setOption('noHeader', 'true')
+    tk.setOption('noFooter', 'true')
+    # Calculate optimal size of score window based on number of voices
+    tk.setOption('pageHeight', '1152')
+    tk.setOption('adjustPageHeight', 'true')
+    tk.setOption('spacingSystem', '12')
+    tk.setOption('spacingDurDetection', 'true')
+    tk.setOption('pageWidth', '2048')
+
+    tk.loadData(cited_mei)
+    tk.setScale(35)
+
+    # If a page number has not been explicitly given, make it the first
+    # page that has a highlighted element.
+    if explicit_page_number:
+        page_number = explicit_page_number
+    else:
+        if highlight_list:
+            page_number = tk.getPageWithElement(highlight_list[0])
+        else:
+            page_number = 1
+
+    ET.register_namespace('', 'http://www.w3.org/2000/svg')
+    ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
+    ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
+    rendered_svg_xml = ET.fromstring(tk.renderToSVG(page_number))
+
+    for id in highlight_list:
+        element = rendered_svg_xml.find(".//*[@id='{0}']".format(id))
+        if element:
+            if 'class' in element.attrib:
+                element.set('class', element.attrib['class'] + ' cw-highlighted')
+            else:
+                element.set('class', ' cw-highlighted')
+
+    svg = ET.tostring(rendered_svg_xml).decode()
+    observation_cache.set((id, explicit_page_number), (svg, page_number), None)
+    return (svg, page_number)
 
 
 def generate_observation_data(request, prefix=''):
@@ -171,49 +224,25 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
-
-        tk = verovio.toolkit()
-        raw_mei = open(os.path.join('crim/static/mei', data['piece']['piece_id'] + '.mei')).read()
-        cited_mei = slice_from_file(raw_mei, data['ema'])
-        plist = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei).group(1)
-        highlight_list = plist.replace('#','').split()
-
-        tk.setOption('noHeader', 'true')
-        tk.setOption('noFooter', 'true')
-        # Calculate optimal size of score window based on number of voices
-        tk.setOption('pageHeight', '1152')
-        tk.setOption('adjustPageHeight', 'true')
-        tk.setOption('spacingSystem', '12')
-        tk.setOption('spacingDurDetection', 'true')
-        tk.setOption('pageWidth', '2048')
-
-        tk.loadData(cited_mei)
-        # tk.loadData(highlighted_mei)
-        # TODO: Allow user to make this larger or smaller with a button
-        tk.setScale(35)
-        if highlight_list:
-            first_highlighted_page = tk.getPageWithElement(highlight_list[0])
-        else:
-            first_highlighted_page = 1
         page_number_string = renderer_context['request'].GET.get('p')
-        page_number = eval(page_number_string) if page_number_string else first_highlighted_page
-        ET.register_namespace('', 'http://www.w3.org/2000/svg')
-        ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
-        ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
-        rendered_svg_xml = ET.fromstring(tk.renderToSVG(page_number))
-        for id in highlight_list:
-            element = rendered_svg_xml.find(".//*[@id='{0}']".format(id))
-            if element:
-                # if 'class' in element.attrib:
-                #     element.set('class', element.attrib['class'] + ' cw-highlighted')
-                # else:
-                    element.set('class', ' cw-highlighted')
-            # else:
-            #     print("no element {}".format(id))
+        explicit_page_number = eval(page_number_string) if page_number_string else None
+        observation_cache = caches['observations']
 
-        data['page_number'] = page_number
-        data['svg'] = ET.tostring(rendered_svg_xml).decode()
+        # Load the svg and page number from cache based on observation id
+        # and explicit page number
+        cached_data = observation_cache.get((data['id'], explicit_page_number))
+        if cached_data:
+            (data['svg'], data['page_number']) = cached_data
+
+        # If it wasn't in cache, then render the MEI
+        else:
+            (data['svg'], data['page_number']) = render_observation(
+                    data['id'],
+                    data['piece']['piece_id'],
+                    data['ema'],
+                    explicit_page_number,
+                )
+
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
