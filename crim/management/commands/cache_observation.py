@@ -27,7 +27,7 @@ class Command(BaseCommand):
             observation = CRIMObservation.objects.get(id=observation_id)
             print('Caching all pages of <{}>'.format(observation_id))
             try:
-                for i in range(35):
+                for i in range(30):
                     render_observation(
                             observation.id,
                             observation.piece.piece_id,

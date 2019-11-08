@@ -8,5 +8,5 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         for piece in CRIMPiece.objects.all():
             print('Caching {}'.format(piece.piece_id))
-            for i in range(35):
+            for i in range(30):
                 render_piece(piece.piece_id, i+1)
