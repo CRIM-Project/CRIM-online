@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 
 class CRIMObservation(models.Model):
@@ -182,3 +184,25 @@ class CRIMObservation(models.Model):
 
     def __str__(self):
         return '<{0}> {1}'.format(self.id, self.piece_id)
+
+
+@receiver(post_save, sender=CRIMObservation)
+def update_observation_cache(sender, instance, created, **kwargs):
+    from crim.views.observation import render_observation
+    print('Caching <{}>'.format(instance.id))
+    render_observation(instance.id, instance.piece.piece_id, instance.ema, None)
+
+
+@receiver(post_delete, sender=CRIMObservation)
+def delete_observation_cache(sender, observation, **kwargs):
+    from django.core.cache import caches
+    print('Deleting cache for <{}>'.format(observation.id))
+    caches['observations'].delete(cache_values_to_string(
+            observation.id,
+            None,
+        ))
+    for i in range(35):
+        caches['observations'].delete(cache_values_to_string(
+                observation.id,
+                i+1,
+            ))
