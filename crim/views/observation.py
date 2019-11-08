@@ -20,8 +20,6 @@ import xml.etree.ElementTree as ET
 
 
 def render_observation(id, piece_id, ema, explicit_page_number=None):
-    observation_cache = caches['observations']
-
     ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
     tk = verovio.toolkit()
     raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
@@ -66,7 +64,7 @@ def render_observation(id, piece_id, ema, explicit_page_number=None):
                 element.set('class', ' cw-highlighted')
 
     svg = ET.tostring(rendered_svg_xml).decode()
-    observation_cache.set(cache_values_to_string(id, explicit_page_number), (svg, page_number), None)
+    caches['observations'].set(cache_values_to_string(id, explicit_page_number), (svg, page_number), None)
     return (svg, page_number)
 
 
@@ -226,12 +224,11 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         page_number_string = renderer_context['request'].GET.get('p')
-        explicit_page_number = eval(page_number_string) if page_number_string else ''
-        observation_cache = caches['observations']
+        explicit_page_number = eval(page_number_string) if page_number_string else None
 
         # Load the svg and page number from cache based on observation id
         # and explicit page number
-        cached_data = observation_cache.get(cache_values_to_string(data['id'], explicit_page_number))
+        cached_data = caches['observations'].get(cache_values_to_string(data['id'], explicit_page_number))
         if cached_data:
             (data['svg'], data['page_number']) = cached_data
 
