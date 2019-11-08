@@ -1,5 +1,7 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 from crim.common import get_date_sort
 from crim.models.genre import CRIMGenre
@@ -142,6 +144,22 @@ class CRIMPiece(models.Model):
             return '[{0}] {1}'.format(self.piece_id, self.title)
         else:
             return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
+
+
+@receiver(post_save, sender=CRIMPiece)
+def update_piece_cache(sender, piece, created, **kwargs):
+    from crim.views.piece import render_piece
+    print('Caching {}'.format(piece.piece_id))
+    for i in range(35):
+        render_piece(piece.piece_id, i+1)
+
+
+@receiver(post_delete, sender=CRIMPiece)
+def delete_piece_cache(sender, piece, **kwargs):
+    from django.core.cache import caches
+    print('Deleting cache for {}'.format(piece.piece_id))
+    for i in range(35):
+        caches['pieces'].delete(cache_values_to_string(piece.piece_id, i+1))
 
 
 class CRIMModel(CRIMPiece):

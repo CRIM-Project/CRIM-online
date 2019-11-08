@@ -142,6 +142,9 @@ class CRIMRelationship(models.Model):
                 self.derivative_observation.musical_type,
             )
 
+        # Save observations, thus caching them
+        self.model_observation.save()
+        self.derivative_observation.save()
         # Finalize changes
         super().save()
 
