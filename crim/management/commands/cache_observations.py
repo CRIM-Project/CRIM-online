@@ -8,18 +8,24 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         for observation in CRIMObservation.objects.all():
             print('Caching first highlighted page of <{}>'.format(observation.id))
-            render_observation(
-                    observation.id,
-                    observation.piece.piece_id,
-                    observation.ema,
-                    None,
-                )
-        for observation in CRIMObservation.objects.all():
-            print('Caching all pages of <{}>'.format(observation.id))
-            for i in range(35):
+            try:
                 render_observation(
                         observation.id,
                         observation.piece.piece_id,
                         observation.ema,
-                        i+1,
+                        None,
                     )
+            except:
+                print('ERROR caching first highlighted page of <{}>'.format(observation.id))
+        for observation in CRIMObservation.objects.all():
+            print('Caching all pages of <{}>'.format(observation.id))
+            try:
+                for i in range(35):
+                    render_observation(
+                            observation.id,
+                            observation.piece.piece_id,
+                            observation.ema,
+                            i+1,
+                        )
+            except:
+                print('ERROR caching all pages of <{}>'.format(observation.id))
