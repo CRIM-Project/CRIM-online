@@ -6,6 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+from crim.common import cache_values_to_string
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.omas.localapi import slice_from_file
@@ -150,7 +151,8 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
 
         # Load the svg and page number from cache based on relationship id
         # and explicit page number, or else render it. First for the model:
-        cached_model_data = observation_cache.get((data['model_observation']['id'], explicit_model_page_number))
+        cached_model_data = observation_cache.get(cache_values_to_string(
+                data['model_observation']['id'], explicit_model_page_number))
         if cached_model_data:
             (data['model_svg'], data['model_page_number']) = cached_model_data
 
@@ -162,7 +164,8 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
                     explicit_model_page_number,
                 )
         # Then for the derivative:
-        cached_derivative_data = observation_cache.get((data['derivative_observation']['id'], explicit_derivative_page_number))
+        cached_derivative_data = observation_cache.get(cache_values_to_string(
+                data['derivative_observation']['id'], explicit_derivative_page_number))
         if cached_derivative_data:
             (data['derivative_svg'], data['derivative_page_number']) = cached_derivative_data
 
