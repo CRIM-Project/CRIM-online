@@ -1,5 +1,7 @@
+from django.core.cache import caches
 from django.db.models import Count, F, Q
 from django.shortcuts import get_object_or_404
+
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
@@ -54,25 +56,33 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         # Sort roles alphabetically by role type
         data['roles'] = sorted(data['roles'],
                                key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
-        tk = verovio.toolkit()
-        raw_mei = open(os.path.join('crim/static/mei', data['piece_id'] + '.mei')).read()
 
-        tk.setOption('noHeader', 'true')
-        tk.setOption('noFooter', 'true')
-        # Calculate optimal size of score window based on number of voices
-        tk.setOption('pageHeight', '1152')
-        tk.setOption('adjustPageHeight', 'true')
-        tk.setOption('spacingSystem', '12')
-        tk.setOption('spacingDurDetection', 'true')
-        tk.setOption('pageWidth', '2048')
-
-        tk.loadData(raw_mei)
-        # TODO: Allow user to make this larger or smaller with a button
-        tk.setScale(35)
         page_number_string = renderer_context['request'].GET.get('p')
         page_number = eval(page_number_string) if page_number_string else 1
-        data['svg'] = tk.renderToSVG(page_number)
         data['page_number'] = page_number
+        piece_cache = caches['pieces']
+
+        # Load the svg from cache based on piece and page number
+        data['svg'] = piece_cache.get((data['piece_id'], page_number))
+        # If it wasn't in cache, then render the MEI
+        if not data['svg']:
+            tk = verovio.toolkit()
+            raw_mei = open(os.path.join('crim/static/mei', data['piece_id'] + '.mei')).read()
+
+            tk.setOption('noHeader', 'true')
+            tk.setOption('noFooter', 'true')
+            # Calculate optimal size of score window based on number of voices
+            tk.setOption('pageHeight', '1152')
+            tk.setOption('adjustPageHeight', 'true')
+            tk.setOption('spacingSystem', '12')
+            tk.setOption('spacingDurDetection', 'true')
+            tk.setOption('pageWidth', '2048')
+
+            tk.loadData(raw_mei)
+            tk.setScale(35)
+            data['svg'] = tk.renderToSVG(page_number)
+            piece_cache.set((data['piece_id'], page_number), data['svg'], None)
+
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
