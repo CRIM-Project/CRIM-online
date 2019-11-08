@@ -1,4 +1,6 @@
+from django.core.cache import caches
 from django.shortcuts import get_object_or_404
+
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
@@ -10,7 +12,7 @@ from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
 from crim.serializers.relationship import CRIMRelationshipSerializer
-from crim.views.observation import create_observation_from_request
+from crim.views.observation import render_observation, create_observation_from_request
 
 import os
 import re
@@ -138,66 +140,39 @@ class RelationshipListHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
-
-        tkm = verovio.toolkit()  # model
-        tkd = verovio.toolkit()  # derivative
-        # Bundle 'model' and 'derivative' strings with the toolkits
-        # in order to differentiate them.
-        toolkits = [(tkm, 'model'), (tkd, 'derivative')]
-        highlight_lists = {}
-        first_highlighted_pages = {'model': 1, 'derivative': 1}
-
-        for (tk, m_d) in toolkits:
-            raw_mei = open(os.path.join('crim/static/mei', data[m_d + '_observation']['piece']['piece_id'] + '.mei')).read()
-            cited_mei = slice_from_file(raw_mei, data[m_d + '_observation']['ema'])
-            plist = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei).group(1)
-            highlight_lists[m_d] = plist.replace('#','').split()
-
-            tk.setOption('noHeader', 'true')
-            tk.setOption('noFooter', 'true')
-            # Calculate optimal size of score window based on number of voices
-            tk.setOption('pageHeight', '1152')
-            tk.setOption('adjustPageHeight', 'true')
-            tk.setOption('spacingSystem', '12')
-            tk.setOption('spacingDurDetection', 'true')
-            tk.setOption('pageWidth', '2048')
-
-            tk.loadData(cited_mei)
-            # tk.loadData(highlighted_mei)
-            # TODO: Allow user to make this larger or smaller with a button
-            tk.setScale(35)
-            if m_d in highlight_lists and highlight_lists[m_d]:
-                first_highlighted_pages[m_d] = tk.getPageWithElement(highlight_lists[m_d][0])
-
         model_page_number_string = renderer_context['request'].GET.get('pm')
-        model_page_number = eval(model_page_number_string) if model_page_number_string else first_highlighted_pages['model']
         derivative_page_number_string = renderer_context['request'].GET.get('pd')
-        derivative_page_number = eval(derivative_page_number_string) if derivative_page_number_string else first_highlighted_pages['derivative']
 
-        ET.register_namespace('', 'http://www.w3.org/2000/svg')
-        ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
-        ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
-        rendered_model_svg_xml = ET.fromstring(tkm.renderToSVG(model_page_number))
-        rendered_derivative_svg_xml = ET.fromstring(tkd.renderToSVG(derivative_page_number))
-        rendered_xmls = {'model': rendered_model_svg_xml, 'derivative': rendered_derivative_svg_xml}
+        explicit_model_page_number = eval(model_page_number_string) if model_page_number_string else None
+        explicit_derivative_page_number = eval(derivative_page_number_string) if derivative_page_number_string else None
 
+        observation_cache = caches['observations']
 
-        for (tk, m_d) in toolkits:
-            for id in highlight_lists[m_d]:
-                element = rendered_xmls[m_d].find(".//*[@id='{0}']".format(id))
-                if element:
-                    # if 'class' in element.attrib:
-                    #     element.set('class', element.attrib['class'] + ' cw-highlighted')
-                    # else:
-                        element.set('class', ' cw-highlighted')
-                # else:
-                #     print("no element {}".format(id))
+        # Load the svg and page number from cache based on relationship id
+        # and explicit page number, or else render it. First for the model:
+        cached_model_data = observation_cache.get((data['model_observation']['id'], explicit_model_page_number))
+        if cached_model_data:
+            (data['model_svg'], data['model_page_number']) = cached_model_data
 
-        data['model_page_number'] = model_page_number
-        data['derivative_page_number'] = derivative_page_number
-        data['model_svg'] = ET.tostring(rendered_model_svg_xml).decode()
-        data['derivative_svg'] = ET.tostring(rendered_derivative_svg_xml).decode()
+        else:
+            (data['model_svg'], data['model_page_number']) = render_observation(
+                    data['model_observation']['id'],
+                    data['model_observation']['piece']['piece_id'],
+                    data['model_observation']['ema'],
+                    explicit_model_page_number,
+                )
+        # Then for the derivative:
+        cached_derivative_data = observation_cache.get((data['derivative_observation']['id'], explicit_derivative_page_number))
+        if cached_derivative_data:
+            (data['derivative_svg'], data['derivative_page_number']) = cached_derivative_data
+
+        else:
+            (data['derivative_svg'], data['derivative_page_number']) = render_observation(
+                    data['derivative_observation']['id'],
+                    data['derivative_observation']['piece']['piece_id'],
+                    data['derivative_observation']['ema'],
+                    explicit_derivative_page_number,
+                )
 
         template_names = ['relationship/relationship_detail.html']
         template = self.resolve_template(template_names)
