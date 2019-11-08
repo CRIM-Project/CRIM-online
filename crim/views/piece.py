@@ -6,6 +6,7 @@ from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 
+from crim.common import cache_values_to_string
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer, CRIMPieceWithDiscussionsSerializer
 from crim.models.forum import CRIMForumPost
@@ -20,6 +21,28 @@ import verovio
 
 COMPOSER = 'composer'
 PUBLISHER = 'printer'
+
+
+def render_piece(piece_id, page_number):
+    tk = verovio.toolkit()
+    raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
+
+    tk.setOption('noHeader', 'true')
+    tk.setOption('noFooter', 'true')
+    # Calculate optimal size of score window based on number of voices
+    tk.setOption('pageHeight', '1152')
+    tk.setOption('adjustPageHeight', 'true')
+    tk.setOption('spacingSystem', '12')
+    tk.setOption('spacingDurDetection', 'true')
+    tk.setOption('pageWidth', '2048')
+
+    tk.loadData(raw_mei)
+    tk.setScale(35)
+
+    svg = tk.renderToSVG(page_number)
+    caches['pieces'].set(cache_values_to_string(piece_id, page_number), svg, None)
+
+    return svg
 
 
 class PieceSetPagination(PageNumberPagination):
@@ -60,28 +83,15 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         page_number_string = renderer_context['request'].GET.get('p')
         page_number = eval(page_number_string) if page_number_string else 1
         data['page_number'] = page_number
-        piece_cache = caches['pieces']
 
         # Load the svg from cache based on piece and page number
-        data['svg'] = piece_cache.get((data['piece_id'], page_number))
+        cached_svg = caches['pieces'].get(cache_values_to_string(data['piece_id'], page_number))
+
+        if cached_svg:
+            data['svg'] = cached_svg
         # If it wasn't in cache, then render the MEI
-        if not data['svg']:
-            tk = verovio.toolkit()
-            raw_mei = open(os.path.join('crim/static/mei', data['piece_id'] + '.mei')).read()
-
-            tk.setOption('noHeader', 'true')
-            tk.setOption('noFooter', 'true')
-            # Calculate optimal size of score window based on number of voices
-            tk.setOption('pageHeight', '1152')
-            tk.setOption('adjustPageHeight', 'true')
-            tk.setOption('spacingSystem', '12')
-            tk.setOption('spacingDurDetection', 'true')
-            tk.setOption('pageWidth', '2048')
-
-            tk.loadData(raw_mei)
-            tk.setScale(35)
-            data['svg'] = tk.renderToSVG(page_number)
-            piece_cache.set((data['piece_id'], page_number), data['svg'], None)
+        else:
+            data['svg'] = render_piece(data['piece_id'], page_number)
 
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)

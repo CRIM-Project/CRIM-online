@@ -6,6 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+from crim.common import cache_values_to_string
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
@@ -65,7 +66,7 @@ def render_observation(id, piece_id, ema, explicit_page_number=None):
                 element.set('class', ' cw-highlighted')
 
     svg = ET.tostring(rendered_svg_xml).decode()
-    observation_cache.set((id, explicit_page_number), (svg, page_number), None)
+    observation_cache.set(cache_values_to_string(id, explicit_page_number), (svg, page_number), None)
     return (svg, page_number)
 
 
@@ -225,12 +226,12 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         page_number_string = renderer_context['request'].GET.get('p')
-        explicit_page_number = eval(page_number_string) if page_number_string else None
+        explicit_page_number = eval(page_number_string) if page_number_string else ''
         observation_cache = caches['observations']
 
         # Load the svg and page number from cache based on observation id
         # and explicit page number
-        cached_data = observation_cache.get((data['id'], explicit_page_number))
+        cached_data = observation_cache.get(cache_values_to_string(data['id'], explicit_page_number))
         if cached_data:
             (data['svg'], data['page_number']) = cached_data
 
