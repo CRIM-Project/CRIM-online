@@ -19,7 +19,7 @@ import verovio
 import xml.etree.ElementTree as ET
 
 
-def render_observation(id, piece_id, ema, explicit_page_number=None):
+def render_observation(observation_id, piece_id, ema, explicit_page_number=None):
     ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
     tk = verovio.toolkit()
     raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
@@ -43,6 +43,7 @@ def render_observation(id, piece_id, ema, explicit_page_number=None):
     # If a page number has not been explicitly given, make it the first
     # page that has a highlighted element.
     if explicit_page_number:
+        # print(repr(explicit_page_number))
         page_number = explicit_page_number
     else:
         if highlight_list:
@@ -64,7 +65,12 @@ def render_observation(id, piece_id, ema, explicit_page_number=None):
                 element.set('class', ' cw-highlighted')
 
     svg = ET.tostring(rendered_svg_xml).decode()
-    caches['observations'].set(cache_values_to_string(id, explicit_page_number), (svg, page_number), None)
+    # print('Saving cache for ' + repr(cache_values_to_string(observation_id, explicit_page_number)))
+    caches['observations'].set(
+            cache_values_to_string(observation_id, explicit_page_number),
+            (svg, page_number),
+            None,
+        )
     return (svg, page_number)
 
 
@@ -228,12 +234,15 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
 
         # Load the svg and page number from cache based on observation id
         # and explicit page number
+        # print(repr(cache_values_to_string(data['id'], explicit_page_number)))
         cached_data = caches['observations'].get(cache_values_to_string(data['id'], explicit_page_number))
         if cached_data:
+            # print('We have a cache for <{}> page {}'.format(data['id'], explicit_page_number))
             (data['svg'], data['page_number']) = cached_data
 
         # If it wasn't in cache, then render the MEI
         else:
+            # print('NO CACHE for <{}> page {}'.format(data['id'], explicit_page_number))
             (data['svg'], data['page_number']) = render_observation(
                     data['id'],
                     data['piece']['piece_id'],
