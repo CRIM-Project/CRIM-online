@@ -40,6 +40,7 @@ def render_piece(piece_id, page_number):
     tk.setScale(35)
 
     svg = tk.renderToSVG(page_number)
+    # print('Saving cache for ' + repr(cache_values_to_string(piece_id, page_number)))
     caches['pieces'].set(cache_values_to_string(piece_id, page_number), svg, None)
 
     return svg
@@ -87,10 +88,13 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         # Load the svg from cache based on piece and page number
         cached_svg = caches['pieces'].get(cache_values_to_string(data['piece_id'], page_number))
 
+        # print(repr(cache_values_to_string(data['piece_id'], page_number)))
         if cached_svg:
+            # print('We have a cache for <{}> page {}'.format(data['piece_id'], page_number))
             data['svg'] = cached_svg
         # If it wasn't in cache, then render the MEI
         else:
+            # print('NO CACHE for <{}> page {}'.format(data['piece_id'], page_number))
             data['svg'] = render_piece(data['piece_id'], page_number)
 
         template_names = ['piece/piece_detail.html']
