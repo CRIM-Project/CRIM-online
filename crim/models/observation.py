@@ -191,6 +191,13 @@ def update_observation_cache(sender, instance, created, **kwargs):
     from crim.views.observation import render_observation
     print('Caching <{}>'.format(instance.id))
     render_observation(instance.id, instance.piece.piece_id, instance.ema, None)
+    # Delete page caches, which might have changed. Don't want to take the time
+    # to cache them all right now; use a management command for that.
+    for i in range(30):
+        caches['observations'].delete(cache_values_to_string(
+                observation.id,
+                i+1,
+            ))
 
 
 @receiver(post_delete, sender=CRIMObservation)
@@ -201,7 +208,7 @@ def delete_observation_cache(sender, observation, **kwargs):
             observation.id,
             None,
         ))
-    for i in range(35):
+    for i in range(30):
         caches['observations'].delete(cache_values_to_string(
                 observation.id,
                 i+1,
