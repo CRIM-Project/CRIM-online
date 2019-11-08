@@ -1,9 +1,6 @@
 import re
 
 
-OMAS = 'http://127.0.0.1:5000/'
-
-
 def two_digit_string(n):
     # We expect an integer, but will convert strings.
     if isinstance(n, str):
