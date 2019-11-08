@@ -252,7 +252,6 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
                 'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
                 'Access-Control-Allow-Credentials': 'true',
                 'Access-Control-Allow-Headers': 'origin, content-type, accept',
-                #     'Access-Control-Allow-Origin': 'http://127.0.0.1:8000',
             }
             return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
         else:
