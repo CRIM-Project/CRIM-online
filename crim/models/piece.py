@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from crim.common import get_date_sort
+from crim.common import get_date_sort, cache_values_to_string
 from crim.models.genre import CRIMGenre
 from crim.models.role import CRIMRole
 
