@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
+from crim.common import cache_values_to_string
+
 
 class CRIMObservation(models.Model):
     class Meta:
