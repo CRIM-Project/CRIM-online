@@ -198,21 +198,21 @@ def update_observation_cache(sender, instance, created, **kwargs):
     # to cache them all right now; use a management command for that.
     for i in range(30):
         caches['observations'].delete(cache_values_to_string(
-                observation.id,
+                instance.id,
                 i+1,
             ))
 
 
 @receiver(post_delete, sender=CRIMObservation)
-def delete_observation_cache(sender, observation, **kwargs):
+def delete_observation_cache(sender, instance, **kwargs):
     from django.core.cache import caches
-    print('Deleting cache for <{}>'.format(observation.id))
+    print('Deleting cache for <{}>'.format(instance.id))
     caches['observations'].delete(cache_values_to_string(
-            observation.id,
+            instance.id,
             None,
         ))
     for i in range(30):
         caches['observations'].delete(cache_values_to_string(
-                observation.id,
+                instance.id,
                 i+1,
             ))
