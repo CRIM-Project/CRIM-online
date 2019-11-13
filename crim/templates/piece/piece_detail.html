@@ -171,6 +171,11 @@
           </ul>
         </div>
       {% endif %}
+      <div class="well span12">
+        {% with "mp3/"|add:content.piece_id|add:".mp3" as audio_url %}
+          <h3><a href="{% static audio_url %}">Link to audio</a></h3>
+        {% endwith %}
+      </div>
     </div>
   </div>
   <div class="row-fluid">
