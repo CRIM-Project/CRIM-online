@@ -15,7 +15,6 @@ from crim.models.piece import CRIMPiece
 
 import os
 import re
-import requests
 import verovio
 
 
