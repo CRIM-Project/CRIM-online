@@ -223,7 +223,7 @@ class RelationshipListData(RelationshipList):
 
 
 class RelationshipListBriefData(RelationshipListData):
-    serializer_class = CRIMRelationshipSerializer
+    serializer_class = CRIMRelationshipBriefSerializer
 
 
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
