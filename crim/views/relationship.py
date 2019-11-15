@@ -222,6 +222,10 @@ class RelationshipListData(RelationshipList):
     renderer_classes = (JSONRenderer,)
 
 
+class RelationshipListBriefData(RelationshipListData):
+    serializer_class = CRIMRelationshipSerializer
+
+
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
