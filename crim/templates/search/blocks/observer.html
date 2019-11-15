@@ -3,7 +3,7 @@
     {% for obs in observer %}
       <li>
         <label class="checkbox" for="observer{{ forloop.counter }}">
-          <input type="checkbox" id="observer{{ forloop.counter }}" name="observer" value="{{ obs }}" />{{ obs }} ({{ observer|dictkey:obs }})
+          <input type="checkbox" id="observer{{ forloop.counter }}" name="observer" value="{{ obs }}" />{{ obs }} <!-- ({{ observer|dictkey:obs }}) -->
         </label>
       </li>
     {% endfor %}

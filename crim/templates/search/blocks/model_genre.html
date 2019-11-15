@@ -7,7 +7,7 @@
     {% for g in model_genre %}
       <li>
         <label class="checkbox" for="model-genre{{ forloop.counter }}">
-          <input type="checkbox" id="model-genre{{ forloop.counter }}" name="model-genre" value="{{ g }}" />{{ g }} ({{ model_genre|dictkey:g }})
+          <input type="checkbox" id="model-genre{{ forloop.counter }}" name="model-genre" value="{{ g }}" />{{ g }} <!-- ({{ model_genre|dictkey:g }}) -->
         </label>
       </li>
     {% endfor %}
