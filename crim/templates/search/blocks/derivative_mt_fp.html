@@ -3,14 +3,14 @@
   <ul class="column-checklist">
     <li>
       <label class="checkbox" for="derivative_mt_fp">
-        <input type="checkbox" class="derivative_mt_fp" id="derivative_mt_fp" name="derivative-mt-fp" value="true" />Any ({{ derivative_mt_fp.true }})
+        <input type="checkbox" class="derivative_mt_fp" id="derivative_mt_fp" name="derivative-mt-fp" value="true" />Any <!-- ({{ derivative_mt_fp.true }}) -->
       </label>
     </li>
     <!-- TODO: Mention comment here? though it is searched for in the main field above -->
     {% if derivative_mt_fp_ir.true %}
     <li>
       <label class="checkbox" for="derivative_mt_fp_ir">
-        <input type="checkbox" class="derivative_mt_fp" id="derivative_mt_fp_ir" name="derivative-mt-fp-ir" value="true" />Internal repetition ({{ derivative_mt_fp_ir.true }})
+        <input type="checkbox" class="derivative_mt_fp" id="derivative_mt_fp_ir" name="derivative-mt-fp-ir" value="true" />Internal repetition <!-- ({{ derivative_mt_fp_ir.true }}) -->
       </label>
     </li>
     {% endif %}

@@ -7,7 +7,7 @@
     {% for g in derivative_genre %}
       <li>
         <label class="checkbox" for="derivative-genre{{ forloop.counter }}">
-          <input type="checkbox" id="derivative-genre{{ forloop.counter }}" name="derivative-genre" value="{{ g }}" />{{ g }} ({{ derivative_genre|dictkey:g }})
+          <input type="checkbox" id="derivative-genre{{ forloop.counter }}" name="derivative-genre" value="{{ g }}" />{{ g }} <!-- ({{ derivative_genre|dictkey:g }}) -->
         </label>
       </li>
     {% endfor %}

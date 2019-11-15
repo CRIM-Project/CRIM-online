@@ -7,7 +7,7 @@
     {% for t in derivative_title %}
       <li>
         <label class="checkbox" for="derivative-title{{ forloop.counter }}">
-          <input type="checkbox" id="derivative-title{{ forloop.counter }}" name="derivative-title" value="{{ t }}" />{{ t }} ({{ derivative_title|dictkey:t }})
+          <input type="checkbox" id="derivative-title{{ forloop.counter }}" name="derivative-title" value="{{ t }}" />{{ t }} <!-- ({{ derivative_title|dictkey:t }}) -->
         </label>
       </li>
     {% endfor %}
