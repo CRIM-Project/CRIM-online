@@ -3,14 +3,14 @@
   <ul class="column-checklist">
     <li>
       <label class="checkbox" for="model_mt_fp">
-        <input type="checkbox" class="model_mt_fp" id="model_mt_fp" name="model-mt-fp" value="true" />Any ({{ model_mt_fp.true }})
+        <input type="checkbox" class="model_mt_fp" id="model_mt_fp" name="model-mt-fp" value="true" />Any <!-- ({{ model_mt_fp.true }}) -->
       </label>
     </li>
     <!-- TODO: Mention comment here? though it is searched for in the main field above -->
     {% if model_mt_fp_ir.true %}
     <li>
       <label class="checkbox" for="model_mt_fp_ir">
-        <input type="checkbox" class="model_mt_fp" id="model_mt_fp_ir" name="model-mt-fp-ir" value="true" />Internal repetition ({{ model_mt_fp_ir.true }})
+        <input type="checkbox" class="model_mt_fp" id="model_mt_fp_ir" name="model-mt-fp-ir" value="true" />Internal repetition <!-- ({{ model_mt_fp_ir.true }}) -->
       </label>
     </li>
     {% endif %}
