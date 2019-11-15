@@ -258,7 +258,7 @@ class CRIMRelationshipBriefSerializer(serializers.HyperlinkedModelSerializer):
     derivative_observation = CRIMObservationBriefSerializer(read_only=True)
 
     class Meta:
-        model = CRIMObservation
+        model = CRIMRelationship
         fields = (
             'url',
             'id',
