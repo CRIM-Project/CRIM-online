@@ -234,3 +234,20 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'updated',
             'curated',
         )
+
+
+class CRIMObservationBriefSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    piece = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
+
+    class Meta:
+        model = CRIMObservation
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'musical_type',
+            'piece',
+            'ema',
+        )

@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from crim.common import cache_values_to_string
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.observation import CRIMObservationSerializer
+from crim.serializers.observation import CRIMObservationSerializer, CRIMObservationBriefSerializer
 from crim.models.observation import CRIMObservation
 from crim.models.piece import CRIMPiece
 
@@ -295,6 +295,10 @@ class ObservationDetail(generics.RetrieveAPIView):
 class ObservationListData(ObservationList):
     pagination_class = None
     renderer_classes = (JSONRenderer,)
+
+
+class ObservationListBriefData(ObservationListData):
+    serializer_class = CRIMObservationBriefSerializer
 
 
 class ObservationDetailData(generics.RetrieveUpdateAPIView):
