@@ -17,7 +17,7 @@ from django.conf.urls import include, re_path
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.flatpages import views as flat_views
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -67,7 +67,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
 
     urlpatterns += [
         re_path(r'^$', flat_views.flatpage, {'url': '/home/'}, name='home'),
-        re_path(r'^about/home/$', RedirectView.as_view(name='home'), name='go-to-home'),
+        re_path(r'^about/home/$', RedirectView.as_view(url=reverse_lazy('home'), permanent=True), name='go-to-home'),
         re_path(r'^search/$', search, name='search'),
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
         re_path(r'^citations/$', TemplateView.as_view(template_name='main/citations.html'), name='citations'),
