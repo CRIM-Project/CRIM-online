@@ -4,6 +4,7 @@ from crim.models.piece import CRIMPiece
 from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRole, CRIMRoleType
 from crim.models.observation import CRIMObservation
+from crim.serializers.observation import CRIMObservationBriefSerializer
 from rest_framework import serializers
 
 
@@ -247,4 +248,22 @@ class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
             'created',
             'updated',
             'curated',
+        )
+
+
+class CRIMRelationshipBriefSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
+    observer = CRIMPersonRelationshipSerializer(read_only=True)
+    model_observation = CRIMObservationBriefSerializer(read_only=True)
+    derivative_observation = CRIMObservationBriefSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMRelationship
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'relationship_type',
+            'model_observation',
+            'derivative_observation',
         )

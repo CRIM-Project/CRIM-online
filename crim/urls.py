@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, re_path
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.flatpages import views as flat_views
 from django.urls import path
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
@@ -45,8 +46,8 @@ from crim.views.part import PartListData, PartDetailData
 from crim.views.person import PersonListData, PersonDetailData
 from crim.views.phrase import PhraseListData, PhraseDetailData
 from crim.views.piece import PieceListData, ModelListData, PieceDetailData, PieceWithObservationsData, PieceWithRelationshipsData
-from crim.views.observation import ObservationListData, ObservationDetailData, ObservationCreateData
-from crim.views.relationship import RelationshipListData, RelationshipDetailData, RelationshipCreateData
+from crim.views.observation import ObservationListData, ObservationListBriefData, ObservationDetailData, ObservationCreateData
+from crim.views.relationship import RelationshipListData, RelationshipListBriefData, RelationshipDetailData, RelationshipCreateData
 from crim.views.role import RoleListData, RoleDetailData
 from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
 from crim.views.source import SourceListData, SourceDetailData
@@ -65,7 +66,8 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
     ]
 
     urlpatterns += [
-        re_path(r'/', include('django.contrib.flatpages.urls')),
+        re_path(r'^$', flat_views.flatpage, {'url': '/home/'}, name='home'),
+        re_path(r'^about/home/$', RedirectView.as_view(name='home'), name='go-to-home'),
         re_path(r'^search/$', search, name='search'),
         re_path(r'^search/results/(?P<restype>[a-z]+)/$', result_callback),
         re_path(r'^citations/$', TemplateView.as_view(template_name='main/citations.html'), name='citations'),
@@ -111,6 +113,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/masses/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/data/pieces/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail-data'),
         re_path(r'^data/models/$', ModelListData.as_view(), name='crimmodel-list-data'),
         re_path(r'^data/observations/$', ObservationListData.as_view(), name='crimobservation-list-data'),
+        re_path(r'^data/observations/brief/$', ObservationListBriefData.as_view(), name='crimobservation-list-brief-data'),
         re_path(r'^data/observations/(?P<id>[0-9]+)/$', ObservationDetailData.as_view(), name='crimobservation-detail-data'),
         re_path(r'^data/observations/new/$', ObservationCreateData.as_view(), name='crimobservation-new-data'),
         re_path(r'^data/parts/$', PartListData.as_view(), name='crimpart-list-data'),
@@ -124,6 +127,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/pieces/(?P<piece_id>[-_A-Za-z0-9]+)/observations/$', PieceWithObservationsData.as_view(), name='crimpiece-observations-detail-data'),
         re_path(r'^data/pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationshipsData.as_view(), name='crimpiece-relationships-detail-data'),
         re_path(r'^data/relationships/$', RelationshipListData.as_view(), name='crimrelationship-list-data'),
+        re_path(r'^data/relationships/brief/$', RelationshipListBriefData.as_view(), name='crimrelationship-list-brief-data'),
         re_path(r'^data/relationships/(?P<id>[0-9]+)/$', RelationshipDetailData.as_view(), name='crimrelationship-detail-data'),
         re_path(r'^data/relationships/new/$', RelationshipCreateData.as_view(), name='crimrelationship-new-data'),
         re_path(r'^data/roles/$', RoleListData.as_view(), name='crimrole-list-data'),
@@ -147,3 +151,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path('about', include('django.contrib.flatpages.urls')),
     ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('debug/', include(debug_toolbar.urls)),
+    ] + urlpatterns

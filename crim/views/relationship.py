@@ -12,7 +12,7 @@ from crim.models.relationship import CRIMRelationship
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationSerializer
-from crim.serializers.relationship import CRIMRelationshipSerializer
+from crim.serializers.relationship import CRIMRelationshipSerializer, CRIMRelationshipBriefSerializer
 from crim.views.observation import render_observation, create_observation_from_request
 
 import os
@@ -220,6 +220,10 @@ class RelationshipDetail(generics.RetrieveAPIView):
 class RelationshipListData(RelationshipList):
     pagination_class = None
     renderer_classes = (JSONRenderer,)
+
+
+class RelationshipListBriefData(RelationshipListData):
+    serializer_class = CRIMRelationshipBriefSerializer
 
 
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
