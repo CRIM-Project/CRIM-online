@@ -191,16 +191,17 @@ class CRIMObservation(models.Model):
 
 @receiver(post_save, sender=CRIMObservation)
 def update_observation_cache(sender, instance, created, **kwargs):
-    from crim.views.observation import render_observation
-    print('Caching <{}>'.format(instance.id))
-    render_observation(instance.id, instance.piece.piece_id, instance.ema, None)
-    # Delete page caches, which might have changed. Don't want to take the time
-    # to cache them all right now; use a management command for that.
-    for i in range(30):
-        caches['observations'].delete(cache_values_to_string(
-                instance.id,
-                i+1,
-            ))
+    if not kwargs.get('raw', True):  # So that this does not run when importing fixture
+        from crim.views.observation import render_observation
+        print('Caching <{}>'.format(instance.id))
+        render_observation(instance.id, instance.piece.piece_id, instance.ema, None)
+        # Delete page caches, which might have changed. Don't want to take the time
+        # to cache them all right now; use a management command for that.
+        for i in range(30):
+            caches['observations'].delete(cache_values_to_string(
+                    instance.id,
+                    i+1,
+                ))
 
 
 @receiver(post_delete, sender=CRIMObservation)
