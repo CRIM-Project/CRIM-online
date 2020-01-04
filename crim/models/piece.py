@@ -1,3 +1,5 @@
+import re
+
 from django.core.cache import caches
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -8,7 +10,15 @@ from crim.common import get_date_sort, cache_values_to_string
 from crim.models.genre import CRIMGenre
 from crim.models.role import CRIMRole
 
-import re
+
+# This decorator is for not trying to cache things imported as fixture.
+def disable_for_loaddata(signal_handler):
+    @wraps(signal_handler)
+    def wrapper(*args, **kwargs):
+        if kwargs['raw']:
+            return
+        signal_handler(*args, **kwargs)
+    return wrapper
 
 
 COMPOSER = 'Composer'
@@ -148,15 +158,16 @@ class CRIMPiece(models.Model):
 
 
 @receiver(post_save, sender=CRIMPiece)
-def update_piece_cache(sender, piece, created, **kwargs):
-    from crim.views.piece import render_piece
-    print('Caching {}'.format(piece.piece_id))
-    for i in range(30):
-        render_piece(piece.piece_id, i+1)
+def update_piece_cache(sender, piece=None, created=None, **kwargs):
+    if not kwargs.get('raw', True):  # So that this does not run when importing fixture
+        from crim.views.piece import render_piece
+        print('Caching {}'.format(piece.piece_id))
+        for i in range(30):
+            render_piece(piece.piece_id, i+1)
 
 
 @receiver(post_delete, sender=CRIMPiece)
-def delete_piece_cache(sender, piece, **kwargs):
+def delete_piece_cache(sender, piece=None, **kwargs):
     from django.core.cache import caches
     print('Deleting cache for {}'.format(piece.piece_id))
     for i in range(30):
