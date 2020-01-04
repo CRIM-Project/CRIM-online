@@ -11,7 +11,6 @@ MODELS = {
     'sites.site': '4',
     'flatpages.flatpage': '5',
     'admin.logentry': 'skip',
-    'crim.crimforumcomment': 'skip',
 }
 
 LAST = 'last'
