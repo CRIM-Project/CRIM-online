@@ -20,13 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-ALLOWED_HOSTS = (
-    '127.0.0.1',
-    'crimproject.org',
-    'dev.crimproject.org',
-    'ema.crimproject.org',
-)
-
 # Application definition
 
 INSTALLED_APPS = [
