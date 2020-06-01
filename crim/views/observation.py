@@ -266,12 +266,10 @@ class ObservationList(generics.ListAPIView):
         JSONRenderer,
     )
 
+    # Cache page for the requested url
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
-        if self.request.user.is_authenticated:
-            return CRIMObservation.objects.all().order_by(order_by)
-        else:
-            return CRIMObservation.objects.filter(curated=True).order_by(order_by)
+        return CRIMObservation.objects.all().order_by(order_by)
 
 
 class ObservationDetail(generics.RetrieveAPIView):

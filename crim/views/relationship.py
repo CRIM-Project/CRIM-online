@@ -193,10 +193,7 @@ class RelationshipList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
-        if self.request.user.is_authenticated:
-            return CRIMRelationship.objects.all().order_by(order_by)
-        else:
-            return CRIMRelationship.objects.filter(curated=True).order_by(order_by)
+        return CRIMRelationship.objects.all().order_by(order_by)
 
 
 class RelationshipDetail(generics.RetrieveAPIView):
