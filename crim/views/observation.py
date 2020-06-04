@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from crim.common import cache_values_to_string
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.observation import CRIMObservationSerializer, CRIMObservationBriefSerializer
+from crim.serializers.observation import CRIMObservationDetailSerializer, CRIMObservationListSerializer, CRIMObservationBriefSerializer
 from crim.models.observation import CRIMObservation
 from crim.models.piece import CRIMPiece
 
@@ -259,7 +259,7 @@ class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
 class ObservationList(generics.ListAPIView):
     model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMObservationSerializer
+    serializer_class = CRIMObservationListSerializer
     pagination_class = ObservationSetPagination
     renderer_classes = (
         ObservationListHTMLRenderer,
@@ -269,15 +269,23 @@ class ObservationList(generics.ListAPIView):
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
-            return CRIMObservation.objects.all().order_by(order_by)
+            return CRIMObservation.objects.all().order_by(order_by).select_related(
+                    'observer',
+                    'piece',
+                    'piece__mass',
+            )
         else:
-            return CRIMObservation.objects.filter(curated=True).order_by(order_by)
+            return CRIMObservation.objects.filter(curated=True).order_by(order_by).select_related(
+                    'observer',
+                    'piece',
+                    'piece__mass',
+            )
 
 
 class ObservationDetail(generics.RetrieveAPIView):
     model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMObservationSerializer
+    serializer_class = CRIMObservationDetailSerializer
     renderer_classes = (
         ObservationDetailHTMLRenderer,
         JSONRenderer,
@@ -304,7 +312,7 @@ class ObservationListBriefData(ObservationListData):
 class ObservationDetailData(generics.RetrieveUpdateAPIView):
     model = CRIMObservation
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMObservationSerializer
+    serializer_class = CRIMObservationDetailSerializer
     renderer_classes = (JSONRenderer,)
     queryset = CRIMObservation.objects.all()
 
@@ -324,7 +332,7 @@ class ObservationDetailData(generics.RetrieveUpdateAPIView):
 
             instance.save()
 
-            serialized = CRIMObservationSerializer(instance, data=request.data, context={'request': request})
+            serialized = CRIMObservationDetailSerializer(instance, data=request.data, context={'request': request})
             # serialized = self.get_serializer(instance)
             if serialized.is_valid():
                 if request.user.is_staff:
@@ -351,7 +359,7 @@ class ObservationCreateData(generics.CreateAPIView):
             return observation_or_response
 
         observation = observation_or_response
-        serialized = CRIMObservationSerializer(observation, data=request.data, context={'request': request})
+        serialized = CRIMObservationDetailSerializer(observation, data=request.data, context={'request': request})
         # If the user is an admin, the observation should be marked as curated.
         if serialized.is_valid():
             if request.user.is_staff:

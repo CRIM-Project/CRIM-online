@@ -49,11 +49,6 @@ class CRIMMassObservationSerializer(serializers.HyperlinkedModelSerializer):
         view_name='crimmass-detail-data',
         lookup_field='mass_id',
     )
-    roles = CRIMRoleObservationSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_mass',
-    )
 
     class Meta:
         model = CRIMMass
@@ -61,7 +56,6 @@ class CRIMMassObservationSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'mass_id',
             'title',
-            'roles',
         )
 
 
@@ -95,9 +89,23 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
         return obj.mei_links.split('\n')
 
 
+class CRIMPieceObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    mass = CRIMMassObservationSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'mass',
+        )
+
+
 class CRIMObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
-    piece = CRIMPieceObservationSerializer(read_only=True)
+    piece = CRIMPieceObservationSummarySerializer(read_only=True)
 
     class Meta:
         model = CRIMObservation
@@ -126,7 +134,7 @@ class CRIMRelationshipObservationSerializer(serializers.HyperlinkedModelSerializ
         )
 
 
-class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
+class CRIMObservationDetailSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
     piece = CRIMPieceObservationSerializer(read_only=True)
@@ -152,6 +160,104 @@ class CRIMObservationSerializer(serializers.HyperlinkedModelSerializer):
             'musical_type',
             'relationships_as_model',
             'relationships_as_derivative',
+            'mt_cf',
+            'mt_cf_voices',
+            'mt_cf_dur',
+            'mt_cf_mel',
+            'mt_sog',
+            'mt_sog_voices',
+            'mt_sog_dur',
+            'mt_sog_mel',
+            'mt_sog_ostinato',
+            'mt_sog_periodic',
+            'mt_csog',
+            'mt_csog_voices',
+            'mt_csog_dur',
+            'mt_csog_mel',
+            'mt_cd',
+            'mt_cd_voices',
+            'mt_fg',
+            'mt_fg_voices',
+            'mt_fg_int',
+            'mt_fg_tint',
+            'mt_fg_periodic',
+            'mt_fg_strict',
+            'mt_fg_flexed',
+            'mt_fg_sequential',
+            'mt_fg_inverted',
+            'mt_fg_retrograde',
+            'mt_pe',
+            'mt_pe_voices',
+            'mt_pe_int',
+            'mt_pe_tint',
+            'mt_pe_strict',
+            'mt_pe_flexed',
+            'mt_pe_flt',
+            'mt_pe_sequential',
+            'mt_pe_added',
+            'mt_pe_invertible',
+            'mt_id',
+            'mt_id_voices',
+            'mt_id_int',
+            'mt_id_tint',
+            'mt_id_strict',
+            'mt_id_flexed',
+            'mt_id_flt',
+            'mt_id_invertible',
+            'mt_nid',
+            'mt_nid_voices',
+            'mt_nid_int',
+            'mt_nid_tint',
+            'mt_nid_strict',
+            'mt_nid_flexed',
+            'mt_nid_flt',
+            'mt_nid_sequential',
+            'mt_nid_invertible',
+            'mt_hr',
+            'mt_hr_voices',
+            'mt_hr_simple',
+            'mt_hr_staggered',
+            'mt_hr_sequential',
+            'mt_hr_fauxbourdon',
+            'mt_cad',
+            'mt_cad_cantizans',
+            'mt_cad_tenorizans',
+            'mt_cad_type',
+            'mt_cad_tone',
+            'mt_cad_dtv',
+            'mt_cad_dti',
+            'mt_int',
+            'mt_int_voices',
+            'mt_int_p6',
+            'mt_int_p3',
+            'mt_int_c35',
+            'mt_int_c83',
+            'mt_int_c65',
+            'mt_fp',
+            'mt_fp_ir',
+            'mt_fp_range',
+            'mt_fp_comment',
+            'remarks',
+            'created',
+            'updated',
+            'curated',
+        )
+
+
+class CRIMObservationListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    piece = CRIMPieceObservationSummarySerializer(read_only=True)
+
+    class Meta:
+        model = CRIMObservation
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'piece',
+            'ema',
+            'musical_type',
             'mt_cf',
             'mt_cf_voices',
             'mt_cf_dur',
