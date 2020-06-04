@@ -215,11 +215,55 @@ class CRIMObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSe
         )
 
 
-class CRIMRelationshipSerializer(serializers.HyperlinkedModelSerializer):
+class CRIMRelationshipDetailSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='id')
     observer = CRIMPersonRelationshipSerializer(read_only=True)
     model_observation = CRIMObservationRelationshipDetailSerializer(read_only=True)
     derivative_observation = CRIMObservationRelationshipDetailSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMRelationship
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'model_observation',
+            'derivative_observation',
+            'relationship_type',
+            'musical_type',
+            'rt_q',
+            'rt_q_x',
+            'rt_q_monnayage',
+            'rt_tm',
+            'rt_tm_snd',
+            'rt_tm_minv',
+            'rt_tm_retrograde',
+            'rt_tm_ms',
+            'rt_tm_transposed',
+            'rt_tm_invertible',
+            'rt_tnm',
+            'rt_tnm_embellished',
+            'rt_tnm_reduced',
+            'rt_tnm_amplified',
+            'rt_tnm_truncated',
+            'rt_tnm_ncs',
+            'rt_tnm_ocs',
+            'rt_tnm_ocst',
+            'rt_tnm_nc',
+            'rt_nm',
+            'rt_om',
+            'remarks',
+            'created',
+            'updated',
+            'curated',
+        )
+
+
+class CRIMRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='id')
+    observer = CRIMPersonRelationshipSerializer(read_only=True)
+    model_observation = CRIMObservationRelationshipListSerializer(read_only=True)
+    derivative_observation = CRIMObservationRelationshipListSerializer(read_only=True)
 
     class Meta:
         model = CRIMRelationship
