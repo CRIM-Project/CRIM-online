@@ -11,8 +11,8 @@ from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.observation import CRIMObservationSerializer
-from crim.serializers.relationship import CRIMRelationshipSerializer, CRIMRelationshipBriefSerializer
+from crim.serializers.observation import CRIMObservationDetailSerializer, CRIMObservationListSerializer
+from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer, CRIMRelationshipBriefSerializer
 from crim.views.observation import render_observation, create_observation_from_request
 
 import os
@@ -49,7 +49,7 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             model_observation = model_observation_or_response
-            serialized_model = CRIMObservationSerializer(model_observation, data={}, context={'request': request})
+            serialized_model = CRIMObservationDetailSerializer(model_observation, data={}, context={'request': request})
             if serialized_model.is_valid():
                 if request.user.is_staff:
                     serialized_model.validated_data['curated'] = True
@@ -64,7 +64,7 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             derivative_observation = derivative_observation_or_response
-            serialized_derivative = CRIMObservationSerializer(derivative_observation, data={}, context={'request': request})
+            serialized_derivative = CRIMObservationDetailSerializer(derivative_observation, data={}, context={'request': request})
             if serialized_derivative.is_valid():
                 if request.user.is_staff:
                     serialized_derivative.validated_data['curated'] = True
@@ -184,7 +184,7 @@ class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
 class RelationshipList(generics.ListAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRelationshipSerializer
+    serializer_class = CRIMRelationshipListSerializer
     pagination_class = RelationshipSetPagination
     renderer_classes = (
         RelationshipListHTMLRenderer,
@@ -194,15 +194,31 @@ class RelationshipList(generics.ListAPIView):
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
-            return CRIMRelationship.objects.all().order_by(order_by)
+            return CRIMRelationship.objects.all().order_by(order_by).select_related(
+                'observer',
+                'model_observation',
+                'model_observation__piece',
+                'model_observation__piece__mass',
+                'derivative_observation',
+                'derivative_observation__piece',
+                'derivative_observation__piece__mass',
+            )
         else:
-            return CRIMRelationship.objects.filter(curated=True).order_by(order_by)
+            return CRIMRelationship.objects.filter(curated=True).order_by(order_by).select_related(
+                'observer',
+                'model_observation',
+                'model_observation__piece',
+                'model_observation__piece__mass',
+                'derivative_observation',
+                'derivative_observation__piece',
+                'derivative_observation__piece__mass',
+            )
 
 
 class RelationshipDetail(generics.RetrieveAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRelationshipSerializer
+    serializer_class = CRIMRelationshipDetailSerializer
     renderer_classes = (
         RelationshipDetailHTMLRenderer,
         JSONRenderer,
@@ -229,7 +245,7 @@ class RelationshipListBriefData(RelationshipListData):
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     model = CRIMRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    serializer_class = CRIMRelationshipSerializer
+    serializer_class = CRIMRelationshipDetailSerializer
     lookup_field = 'id'
     renderer_classes = (JSONRenderer,)
     queryset = CRIMRelationship.objects.all()
@@ -243,7 +259,7 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
 
             instance.save()
 
-            serialized = CRIMRelationshipSerializer(instance, data=request.data, context={'request': request})
+            serialized = CRIMRelationshipDetailSerializer(instance, data=request.data, context={'request': request})
             # serialized = self.get_serializer(instance)
             if serialized.is_valid():
                 if request.user.is_staff:
@@ -280,7 +296,7 @@ class RelationshipCreateData(generics.CreateAPIView):
 
         # Otherwise, create the object.
         relationship = relationship_or_response
-        serialized = CRIMRelationshipSerializer(relationship, data=request.data, context={'request': request})
+        serialized = CRIMRelationshipDetailSerializer(relationship, data=request.data, context={'request': request})
         # If the user is an admin, the relationship should be marked as curated.
         if serialized.is_valid():
             if request.user.is_staff:
