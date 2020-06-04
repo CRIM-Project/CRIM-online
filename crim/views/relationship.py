@@ -11,7 +11,7 @@ from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.observation import CRIMObservationSerializer
+from crim.serializers.observation import CRIMObservationDetailSerializer, CRIMObservationListSerializer
 from crim.serializers.relationship import CRIMRelationshipSerializer, CRIMRelationshipBriefSerializer
 from crim.views.observation import render_observation, create_observation_from_request
 
@@ -49,7 +49,7 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             model_observation = model_observation_or_response
-            serialized_model = CRIMObservationSerializer(model_observation, data={}, context={'request': request})
+            serialized_model = CRIMObservationDetailSerializer(model_observation, data={}, context={'request': request})
             if serialized_model.is_valid():
                 if request.user.is_staff:
                     serialized_model.validated_data['curated'] = True
@@ -64,7 +64,7 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             derivative_observation = derivative_observation_or_response
-            serialized_derivative = CRIMObservationSerializer(derivative_observation, data={}, context={'request': request})
+            serialized_derivative = CRIMObservationDetailSerializer(derivative_observation, data={}, context={'request': request})
             if serialized_derivative.is_valid():
                 if request.user.is_staff:
                     serialized_derivative.validated_data['curated'] = True
@@ -194,9 +194,17 @@ class RelationshipList(generics.ListAPIView):
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
-            return CRIMRelationship.objects.all().order_by(order_by)
+            return CRIMRelationship.objects.all().order_by(order_by).select_related(
+                'observer',
+                'model_observation',
+                'derivative_observation',
+            )
         else:
-            return CRIMRelationship.objects.filter(curated=True).order_by(order_by)
+            return CRIMRelationship.objects.filter(curated=True).order_by(order_by).select_related(
+                'observer',
+                'model_observation',
+                'derivative_observation',
+            )
 
 
 class RelationshipDetail(generics.RetrieveAPIView):

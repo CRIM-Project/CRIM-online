@@ -50,11 +50,6 @@ class CRIMMassRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         view_name='crimmass-detail-data',
         lookup_field='mass_id',
     )
-    roles = CRIMRoleRelationshipSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_mass',
-    )
 
     class Meta:
         model = CRIMMass
@@ -62,7 +57,6 @@ class CRIMMassRelationshipSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'mass_id',
             'title',
-            'roles',
         )
 
 
@@ -96,9 +90,23 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         return obj.mei_links.split('\n')
 
 
+class CRIMPieceRelationshipSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    mass = CRIMMassRelationshipSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'mass',
+        )
+
+
 class CRIMObservationRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
-    piece = CRIMPieceRelationshipSerializer(read_only=True)
+    piece = CRIMPieceRelationshipSummarySerializer(read_only=True)
 
     class Meta:
         model = CRIMObservation
