@@ -241,6 +241,19 @@ class RelationshipListData(RelationshipList):
 class RelationshipListBriefData(RelationshipListData):
     serializer_class = CRIMRelationshipBriefSerializer
 
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'pk')
+        if self.request.user.is_authenticated:
+            return CRIMRelationship.objects.all().order_by(order_by).select_related(
+                'model_observation',
+                'derivative_observation',
+            )
+        else:
+            return CRIMRelationship.objects.filter(curated=True).order_by(order_by).select_related(
+                'model_observation',
+                'derivative_observation',
+            )
+
 
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     model = CRIMRelationship
