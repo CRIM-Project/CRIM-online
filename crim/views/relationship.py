@@ -243,16 +243,21 @@ class RelationshipListBriefData(RelationshipListData):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
-        if self.request.user.is_authenticated:
-            return CRIMRelationship.objects.all().order_by(order_by).select_related(
-                'model_observation',
-                'derivative_observation',
-            )
-        else:
-            return CRIMRelationship.objects.filter(curated=True).order_by(order_by).select_related(
-                'model_observation',
-                'derivative_observation',
-            )
+        return CRIMRelationship.objects.filter(curated=True).order_by(order_by).select_related(
+            'model_observation',
+            'derivative_observation',
+        ).only(
+            'observer',
+            'relationship_type',
+            'model_observation__observer',
+            'model_observation__musical_type',
+            'model_observation__piece',
+            'model_observation__ema',
+            'derivative_observation__observer',
+            'derivative_observation__musical_type',
+            'derivative_observation__piece',
+            'derivative_observation__ema',
+        )
 
 
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
