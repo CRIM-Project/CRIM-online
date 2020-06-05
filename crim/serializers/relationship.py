@@ -1,4 +1,3 @@
-from crim.models.mass import CRIMMass
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.relationship import CRIMRelationship
@@ -45,24 +44,8 @@ class CRIMRoleRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class CRIMMassRelationshipSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='crimmass-detail-data',
-        lookup_field='mass_id',
-    )
-
-    class Meta:
-        model = CRIMMass
-        fields = (
-            'url',
-            'mass_id',
-            'title',
-        )
-
-
 class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = CRIMMassRelationshipSerializer(read_only=True)
     roles = CRIMRoleRelationshipSerializer(
         many=True,
         read_only=True,
@@ -76,8 +59,7 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'piece_id',
-            'title',
-            'mass',
+            'full_title',
             'roles',
             'mei_links',
             'pdf_links',
@@ -92,15 +74,13 @@ class CRIMPieceRelationshipSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceRelationshipSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = CRIMMassRelationshipSerializer(read_only=True)
 
     class Meta:
         model = CRIMPiece
         fields = (
             'url',
             'piece_id',
-            'title',
-            'mass',
+            'full_title',
         )
 
 

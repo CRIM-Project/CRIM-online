@@ -6,7 +6,7 @@
 {% load static %}
 
 {% block title %}
-  <title>CRIM | {% if content.mass %}{{ content.mass.title }}:{% endif %} {{ content.title }}</title>
+  <title>CRIM | {{ content.full_title }}</title>
   <style>
     .cw-score { width: 100%; height: 500px }
     .cw-highlighted { color: #000000; fill: currentColor }
@@ -18,7 +18,7 @@
     <div class="span9">
       <hgroup class="page-title">
         <h1>
-          {% if content.mass %}{{ content.mass.title|apostrophe }}:{% endif %} {{ content.title|apostrophe }}
+          {{ content.full_title|apostrophe }}
           <!-- Don't include links for mass movements because they already appear at the sidebar -->
           {% if not content.mass %}
             {% for pdf_link in content.pdf_links %}

@@ -58,7 +58,7 @@
                 {% endfor %}
                 <a href="{{ piece.url|htmlsite }}">[{{ piece.piece_id }}]</a>
               </td>
-              <td>{{ piece.title }}</td>
+              <td>{{ piece.full_title }}</td>
               <td><a href="{{piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
               <td>{% if piece.roles|people:"composer" %}{{ piece.roles|people:"composer"|safe }}{% elif piece.mass.roles|people:"composer" %}{{ piece.mass.roles|people:"composer"|safe }}{% else %}-{% endif %}</td>
               <td>{{ piece.voices|length }}</td>

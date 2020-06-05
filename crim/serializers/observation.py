@@ -1,4 +1,3 @@
-from crim.models.mass import CRIMMass
 from crim.models.observation import CRIMObservation
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
@@ -44,24 +43,8 @@ class CRIMRoleObservationSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class CRIMMassObservationSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='crimmass-detail-data',
-        lookup_field='mass_id',
-    )
-
-    class Meta:
-        model = CRIMMass
-        fields = (
-            'url',
-            'mass_id',
-            'title',
-        )
-
-
 class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = CRIMMassObservationSerializer(read_only=True)
     roles = CRIMRoleObservationSerializer(
         many=True,
         read_only=True,
@@ -75,8 +58,7 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'piece_id',
-            'title',
-            'mass',
+            'full_title',
             'roles',
             'mei_links',
             'pdf_links',
@@ -91,14 +73,13 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = CRIMMassObservationSerializer(read_only=True)
 
     class Meta:
         model = CRIMPiece
         fields = (
             'url',
             'piece_id',
-            'title',
+            'full_title',
             'mass',
         )
 

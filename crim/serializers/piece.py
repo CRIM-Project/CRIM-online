@@ -91,6 +91,7 @@ class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'pdf_links',
             'mei_links',
         )
@@ -156,7 +157,7 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = CRIMMassPieceSerializer(read_only=True)
+    mass = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
 
     class Meta:
         model = CRIMPiece
@@ -164,6 +165,7 @@ class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'mass',
         )
 
@@ -392,6 +394,7 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'voices',
@@ -446,6 +449,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
@@ -504,6 +508,7 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
@@ -566,6 +571,7 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
@@ -617,6 +623,7 @@ class CRIMPieceWithDiscussionsSerializer(serializers.HyperlinkedModelSerializer)
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',

@@ -38,10 +38,7 @@
               <td>
                 <a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.piece.url|htmlsite }}">
                   [{{ observation.piece.piece_id }}]
-                  {% if observation.piece.mass %}
-                    {{observation.piece.mass.title}}:
-                  {% endif %}
-                  {{ observation.piece.title }}
+                  {{ observation.piece.full_title }}
                 </a>
               </td>
               <td>

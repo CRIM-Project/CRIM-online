@@ -12,10 +12,7 @@
 {% block title %}
   <title>
     CRIM | {% if content.curated %}Observation{% else %}Uncurated observation{% endif %} &lt;{{ content.id }}&gt;
-    {% if content.piece.mass %}
-      {{ content.piece.mass.title }}:
-    {% endif %}
-    {{ content.piece.title }}
+    {{ content.piece.full_title }}
   </title>
   <style>
     .cw-score { width: 100%; height: 500px }
@@ -43,10 +40,7 @@
           </a>
         </small>
         <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
-          {% if relationship.derivative_observation.piece.mass %}
-            {{ relationship.derivative_observation.piece.mass.title }}:
-          {% endif %}
-          {{ relationship.derivative_observation.piece.title }}
+          {{ relationship.derivative_observation.piece.full_title }}
         </a>
       </h3>
     {% endfor %}
@@ -66,10 +60,7 @@
           </a>
         </small>
         <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
-          {% if relationship.model_observation.piece.mass %}
-            {{ relationship.model_observation.piece.mass.title }}:
-          {% endif %}
-          {{ relationship.model_observation.piece.title }}
+          {{ relationship.model_observation.piece.full_title }}
         </a>
       </h3>
     {% endfor %}
@@ -84,10 +75,8 @@
               Score:
                 {% if content.piece.roles|people:"composer" %}{{ content.piece.roles|people:"composer"|safe }},
                 {% elif content.piece.mass.roles|people:"composer" %}{{ content.piece.mass.roles|people:"composer"|safe }},
-                {% endif %}{% if content.piece.mass %}
-                <a href="{{ content.piece.mass.url|htmlsite }}">{{ content.piece.mass.title }}</a>:
-              {% endif %}
-              <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.title }}</a>
+                {% endif %}
+                <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.full_title }}</a>
             </h2>
           </div>
           <div class="span3">

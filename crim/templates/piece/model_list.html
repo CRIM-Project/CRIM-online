@@ -52,7 +52,7 @@
             <td><a href="{{ piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
             <td>{{ piece.roles|people:"composer"|safe }}</td>
             <td>{{ piece.voices|length }}</td>
-            <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% elif piece.mass.roles|earliest_date:"composer" %}{{ piece.mass.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
+            <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -41,10 +41,7 @@
                   &lt;{{ relationship.model_observation.id }}&gt;
                 </a>
                 <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.piece.url|htmlsite }}">
-                  {% if relationship.model_observation.piece.mass %}
-                    {{relationship.model_observation.piece.mass.title}}:
-                  {% endif %}
-                  {{ relationship.model_observation.piece.title }}
+                  {{ relationship.model_observation.piece.full_title }}
                 </a>
               </td>
               <td>
@@ -52,10 +49,7 @@
                   &lt;{{ relationship.derivative_observation.id }}&gt;
                 </a>
                 <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
-                  {% if relationship.derivative_observation.piece.mass %}
-                    {{relationship.derivative_observation.piece.mass.title}}:
-                  {% endif %}
-                  {{ relationship.derivative_observation.piece.title }}
+                  {{ relationship.derivative_observation.piece.full_title }}
                 </a>
               </td>
               <td>

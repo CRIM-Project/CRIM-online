@@ -62,6 +62,7 @@ class CRIMPiece(models.Model):
         db_index=True,
     )
     title = models.CharField(max_length=128)
+    full_title = models.CharField(max_length=128)
     genre = models.ForeignKey(
         CRIMGenre,
         on_delete=models.SET_NULL,
@@ -86,6 +87,7 @@ class CRIMPiece(models.Model):
 
     def title_with_id(self):
         return self.__str__()
+
     title_with_id.short_description = 'piece'
     title_with_id.admin_order_field = 'title'
 
@@ -137,13 +139,13 @@ class CRIMPiece(models.Model):
     def save(self):
         # If it is a mass movement, then fill in the Piece ID, title and genre
         if self.mass:
-            # `self.title` will be a one-character string ('1', '2', ...)
-            # where '1' corresponds to Kyrie, etc.  See the list of
-            # constants at the top of the model definition
             movement_order = dict((x, y) for x, y in self.MASS_MOVEMENT_ORDER)
             self.piece_id = (self.mass.mass_id + '_' + movement_order[self.title])
+            self.full_title = self.mass.title + ': ' + self.title
             # Finally, add the genre Mass to this mass movement.
             self.genre = CRIMGenre.objects.get(genre_id='mass')
+        else:
+            self.full_title = self.title
         # Remove extraneous newlines from links and voices fields
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
@@ -151,10 +153,7 @@ class CRIMPiece(models.Model):
         super().save()
 
     def __str__(self):
-        if not self.mass:
-            return '[{0}] {1}'.format(self.piece_id, self.title)
-        else:
-            return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
+        return '[{0}] {1}'.format(self.piece_id, self.full_title)
 
 
 @receiver(post_save, sender=CRIMPiece)
