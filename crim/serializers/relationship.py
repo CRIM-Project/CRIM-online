@@ -305,7 +305,7 @@ class CRIMRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMRelationshipBriefSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
-    observer = CRIMPersonRelationshipSerializer(read_only=True)
+    observer = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
     model_observation = CRIMObservationBriefSerializer(read_only=True)
     derivative_observation = CRIMObservationBriefSerializer(read_only=True)
 

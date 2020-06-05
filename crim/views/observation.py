@@ -270,15 +270,15 @@ class ObservationList(generics.ListAPIView):
         order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
             return CRIMObservation.objects.all().order_by(order_by).select_related(
-                    'observer',
-                    'piece',
-                    'piece__mass',
+                'observer',
+                'piece',
+                'piece__mass',
             )
         else:
             return CRIMObservation.objects.filter(curated=True).order_by(order_by).select_related(
-                    'observer',
-                    'piece',
-                    'piece__mass',
+                'observer',
+                'piece',
+                'piece__mass',
             )
 
 
@@ -294,7 +294,11 @@ class ObservationDetail(generics.RetrieveAPIView):
 
     def get_object(self):
         url_arg = self.kwargs['id']
-        observation = CRIMObservation.objects.filter(id=url_arg)
+        observation = CRIMObservation.objects.filter(id=url_arg).select_related(
+            'observer',
+            'piece',
+            'piece__mass',
+        )
         obj = get_object_or_404(observation)
         self.check_object_permissions(self.request, obj)
         return obj
@@ -307,6 +311,15 @@ class ObservationListData(ObservationList):
 
 class ObservationListBriefData(ObservationListData):
     serializer_class = CRIMObservationBriefSerializer
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by', 'pk')
+        return CRIMObservation.objects.filter(curated=True).order_by(order_by).only(
+            'observer',
+            'musical_type',
+            'piece',
+            'ema',
+        )
 
 
 class ObservationDetailData(generics.RetrieveUpdateAPIView):

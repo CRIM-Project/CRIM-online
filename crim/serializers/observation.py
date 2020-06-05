@@ -344,7 +344,7 @@ class CRIMObservationListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMObservationBriefSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
-    observer = CRIMPersonObservationSerializer(read_only=True)
+    observer = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
     piece = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
 
     class Meta:
