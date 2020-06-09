@@ -5,6 +5,9 @@ from django.utils.text import slugify
 from crim.common import get_date_sort
 
 
+COMPOSER = 'Composer'
+
+
 class CRIMRoleType(models.Model):
     class Meta:
         app_label = 'crim'
@@ -65,7 +68,7 @@ class CRIMRole(models.Model):
     )
 
     date = models.CharField(
-        max_length=32,
+        max_length=128,
         blank=True,
         db_index=True,
     )
@@ -160,5 +163,28 @@ class CRIMRole(models.Model):
 
     def save(self, *args, **kwargs):
         self.date_sort = get_date_sort(self.date)
+
+        # Update the related piece
+        if self.role_type.name == COMPOSER:
+            from crim.models.piece import CRIMPiece
+            # Only update the piece or mass if the new date is earlier or equal to the current one
+            if self.piece and self.piece.date_sort and self.piece.date_sort >= get_date_sort(self.date):
+                self.piece.composer = self.person
+                self.piece.date = self.date
+                self.piece.date_sort = get_date_sort(self.date)
+                self.piece.save()
+            elif self.mass:
+                if self.mass.date_sort and self.mass.date_sort >= get_date_sort(self.date):
+                    self.mass.composer = self.person
+                    self.mass.date = self.date
+                    self.mass.date_sort = get_date_sort(self.date)
+                    self.mass.save()
+                for p in CRIMPiece.objects.filter(mass=self.mass):
+                    if p.date_sort and p.date_sort >= get_date_sort(self.date):
+                        p.composer = self.person
+                        p.date = self.date
+                        p.date_sort = get_date_sort(self.date)
+                        p.save()
+
         # Finalize changes
         super().save()

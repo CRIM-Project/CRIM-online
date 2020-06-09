@@ -158,17 +158,16 @@ class PieceList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        if self.request.GET.get('genre') and CRIMGenre.objects.filter(genre_id=self.request.GET.get('genre')):
-            genre = CRIMGenre.objects.get(genre_id=self.request.GET.get('genre'))
-            return CRIMPiece.objects.filter(genre=genre).distinct().order_by(order_by)
+        genre_name = self.request.GET.get('genre')
+        if genre_name:
+            return CRIMPiece.objects.filter(genre__genre_id=genre_name).distinct().order_by(order_by).select_related('genre', 'composer')
         else:
             # We want to put models before masses when sorting by piece_id
             if order_by == 'piece_id':
-                return CRIMPiece.objects.annotate(
-                        number_of_voices=Count('voices')).distinct().order_by(
-                        F('mass').asc(nulls_first=True), 'piece_id')
+                return CRIMPiece.objects.distinct().order_by(
+                        F('mass').asc(nulls_first=True), 'piece_id').select_related('genre', 'composer')
             else:
-                return CRIMPiece.objects.all().annotate(number_of_voices=Count('voices')).distinct().order_by(order_by)
+                return CRIMPiece.objects.all().distinct().order_by(order_by).select_related('genre', 'composer')
 
 
 class ModelList(generics.ListAPIView):
@@ -182,7 +181,7 @@ class ModelList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'piece_id')
-        return CRIMPiece.objects.filter(mass=None).annotate(number_of_voices=Count('voices')).order_by(order_by)
+        return CRIMPiece.objects.filter(mass=None).order_by(order_by).select_related('genre', 'composer')
 
 
 class PieceDetail(generics.RetrieveAPIView):

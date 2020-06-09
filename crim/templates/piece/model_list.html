@@ -25,11 +25,11 @@
       <thead>
         <tr>
           <th><a href="?order_by=piece_id">Piece ID</a></th>
-          <th><a href="?order_by=title">Title</a></th>
+          <th><a href="?order_by=full_title">Title</a></th>
           <th><a href="?order_by=genre">Genre</a></th>
-          <th>Composer</th>
+          <th><a href="?order_by=composer__name_sort">Composer</a></th>
           <th><a href="?order_by=number_of_voices">Voices</a></th>
-          <th>Date</th>
+          <th><a href="?order_by=date_sort">Date</a></th>
         </tr>
       </thead>
       <tbody>
@@ -48,11 +48,11 @@
               {% endfor %}
               <a href="{{ piece.url|htmlsite }}">[{{ piece.piece_id }}]</a>
             </td>
-            <td>{{ piece.title }}</td>
+            <td>{{ piece.full_title }}</td>
             <td><a href="{{ piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
-            <td>{{ piece.roles|people:"composer"|safe }}</td>
-            <td>{{ piece.voices|length }}</td>
-            <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
+            <td><a href="{{ piece.composer.url|htmlsite }}">{{ piece.composer.name }}</a></td>
+            <td>{% if piece.number_of_voices %}{{ piece.number_of_voices }}{% else %}-{% endif %}</td>
+            <td>{% if piece.date %}{{ piece.date }}{% else %}-{% endif %}</td>
           </tr>
         {% endfor %}
       </tbody>

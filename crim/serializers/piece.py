@@ -374,16 +374,7 @@ class CRIMVoicePieceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    voices = CRIMVoicePieceSerializer(
-        many=True,
-        read_only=True,
-    )
-    roles = CRIMRolePieceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_piece',
-    )
-    mass = CRIMMassPieceSerializer(read_only=True)
+    composer = CRIMPersonPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
@@ -396,11 +387,12 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'full_title',
             'genre',
-            'mass',
-            'voices',
-            'roles',
             'pdf_links',
             'mei_links',
+            'composer',
+            'date',
+            'date_sort',
+            'number_of_voices',
             'remarks',
         )
 
