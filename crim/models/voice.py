@@ -65,3 +65,5 @@ class CRIMVoice(models.Model):
 @receiver(post_save, sender=CRIMVoice)
 def update_voice_count(sender, instance, created, **kwargs):
     instance.piece.save()
+    if piece.mass:
+        instance.piece.mass.save()

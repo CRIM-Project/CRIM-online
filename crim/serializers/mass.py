@@ -123,16 +123,7 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail-data', lookup_field='mass_id')
-    genre = CRIMGenreMassSerializer(read_only=True)
-    roles = CRIMRoleMassSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_mass',
-    )
-    movements = CRIMPieceMassSerializer(
-        many=True,
-        read_only=True,
-    )
+    composer = CRIMPersonMassSerializer(read_only=True)
 
     class Meta:
         model = CRIMMass
@@ -140,9 +131,11 @@ class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'mass_id',
             'title',
-            'genre',
-            'roles',
-            'movements',
+            'composer',
+            'date',
+            'date_sort',
+            'min_number_of_voices',
+            'max_number_of_voices',
             'remarks',
         )
 

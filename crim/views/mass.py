@@ -14,15 +14,11 @@ PUBLISHER = 'printer'
 class MassListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         for mass in data:
-            # Add the number of voices, based on the voices in the constituent movements
-            list_of_voice_counts = [len(movement['voices']) for movement in mass['movements']]
-            if min(list_of_voice_counts) == max(list_of_voice_counts):
-                mass['number_of_voices'] = str(max(list_of_voice_counts))
+            if mass['min_number_of_voices'] == mass['max_number_of_voices'] or not mass['min_number_of_voices']:
+                mass['total_voice_count'] = mass['max_number_of_voices']
             else:
-                mass['number_of_voices'] = '{}-{}'.format(
-                    str(min(list_of_voice_counts)), str(max(list_of_voice_counts))
-                )
-
+                mass['total_voice_count'] = '{0}-{1}'.format(
+                        mass['min_number_of_voices'], mass['max_number_of_voices'])
         template_names = ['mass/mass_list.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
@@ -52,7 +48,7 @@ class MassList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'mass_id')
-        return CRIMMass.objects.all().order_by(order_by)
+        return CRIMMass.objects.all().order_by(order_by).select_related('composer')
 
 
 class MassDetail(generics.RetrieveAPIView):

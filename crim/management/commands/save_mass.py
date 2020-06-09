@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand
-from crim.models.piece import CRIMPiece
+from crim.models.mass import CRIMMass
 
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        for piece in CRIMPiece.objects.all():
-            piece.save()
+        for mass in CRIMMass.objects.all():
+            mass.save()
