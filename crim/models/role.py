@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 
-from crim.common import get_date_sort
+from crim.helpers.dates import get_date_sort
 
 
 COMPOSER = 'Composer'

@@ -6,7 +6,7 @@ from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 
-from crim.common import cache_values_to_string
+from crim.helpers.common import cache_values_to_string
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsSerializer, CRIMPieceWithDiscussionsSerializer
 from crim.models.forum import CRIMForumPost

@@ -1,6 +1,6 @@
 from django.db import models
 
-from crim.common import two_digit_string
+from crim.helpers.common import two_digit_string
 
 
 class CRIMPhrase(models.Model):

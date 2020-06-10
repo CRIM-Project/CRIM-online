@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from crim.common import get_date_sort
+from crim.helpers.dates import get_date_sort
 from crim.models.genre import CRIMGenre
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece

@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import escape
-from crim.common import get_date_sort, latest_date
+from crim.helpers.dates import get_date_sort, latest_date
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.models.role import CRIMRoleType

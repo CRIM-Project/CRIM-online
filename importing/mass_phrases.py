@@ -3,7 +3,7 @@ import json
 import os
 
 from collections import OrderedDict
-from crim.common import two_digit_string
+from crim.helpers.common import two_digit_string
 
 PATH_IN = 'source/mass_phrases'
 FILE_IN_LIST = os.listdir(PATH_IN)

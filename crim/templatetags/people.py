@@ -1,6 +1,5 @@
 from django.template.defaultfilters import register
 
-
 def people_list(roles, role_types=''):
     '''Returns a list of person names, with urls, based on a list
     of roles. Restricts names to those associated with the given
@@ -16,7 +15,6 @@ def people_list(roles, role_types=''):
         else:
             names_to_add = []
         return names_to_add + people_list(roles[1:], role_types)
-
 
 @register.filter(name='people')
 def people(roles, role_types=''):

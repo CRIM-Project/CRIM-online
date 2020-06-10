@@ -1,19 +1,21 @@
 import re
 
+from crim.helpers.common import get_nonempty
 
-OMAS = 'https://ema.crimproject.org/'
 
-
-def two_digit_string(n):
-    # We expect an integer, but will convert strings.
-    if isinstance(n, str):
-        n = eval(n)
-
-    if n >= 0 and n < 10:
-        return '0' + str(n)
+def date_list(roles, role_types=''):
+    '''Returns a list of dates given a list of roles. If role types
+    are given, return only dates in roles with an acceptable role type.'''
+    if not roles:
+        return []
     else:
-        return str(n)
-
+        # If no role type list has been given, allow all of them;
+        # otherwise, restrict to those given.
+        if roles[0]['role_type']['role_type_id'] in role_types.split(',') or not role_types:
+            dates_to_add = [roles[0]['date']]
+        else:
+            dates_to_add = []
+        return dates_to_add + date_list(roles[1:], role_types)
 
 def get_date_sort(date):
     '''Given a date, return an integer year that approximates
@@ -35,18 +37,6 @@ def get_date_sort(date):
         match = re.match(yyy, date)
     return int(match.group(1).replace('x', '0')) if match else None
 
-
-def get_nonempty(a, b, comparator, processor):
-    '''Return the higher of function(a) and function(b),
-    with None counting as lowest.'''
-    if processor(a) is None:
-        return b
-    elif processor(b) is None:
-        return a
-    else:
-        return comparator(a, b)
-
-
 def earliest_date(dates):
     '''Takes a list of dates as strings, parses them,
     and returns the earliest one.'''
@@ -55,7 +45,6 @@ def earliest_date(dates):
     else:
         return get_nonempty(dates[0], latest_date(dates[1:]), min, get_date_sort)
 
-
 def latest_date(dates):
     '''Takes a list of dates as strings, parses them,
     and returns the latest one.'''
@@ -63,10 +52,3 @@ def latest_date(dates):
         return None
     else:
         return get_nonempty(dates[0], latest_date(dates[1:]), max, get_date_sort)
-
-
-def cache_values_to_string(id, page_number):
-    if page_number is None:
-        return str(id) + ','
-    else:
-        return str(id) + ',' + str(page_number)

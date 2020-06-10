@@ -2,7 +2,7 @@ import csv
 import json
 import re
 from collections import OrderedDict
-from crim.common import latest_date
+from crim.helpers.dates import latest_date
 
 FILE_IN = 'source/CRIM_Person_Catalog.csv'
 FILE_OUT = '../crim/fixtures/person.json'
