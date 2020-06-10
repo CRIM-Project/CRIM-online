@@ -180,6 +180,7 @@ class CRIMModelAdmin(admin.ModelAdmin):
     fields = (
         'piece_id',
         'title',
+        'composer',
         'genre',
         'pdf_links',
         'mei_links',
@@ -187,9 +188,9 @@ class CRIMModelAdmin(admin.ModelAdmin):
     )
     inlines = (
         CRIMRolePieceInline,
-        CRIMVoicePieceInline,
-        CRIMPartPieceInline,
-        CRIMPhrasePieceInline,
+        # CRIMVoicePieceInline,
+        # CRIMPartPieceInline,
+        # CRIMPhrasePieceInline,
     )
     search_fields = (
         'piece_id',
@@ -207,6 +208,9 @@ class CRIMModelAdmin(admin.ModelAdmin):
     )
     list_filter = (
         'genre',
+    )
+    readonly_fields = (
+        'composer',
     )
 
 
@@ -226,9 +230,9 @@ class CRIMMassMovementAdmin(admin.ModelAdmin):
     )
     inlines = (
         CRIMRolePieceInline,
-        CRIMVoicePieceInline,
-        CRIMPartPieceInline,
-        CRIMPhrasePieceInline,
+        # CRIMVoicePieceInline,
+        # CRIMPartPieceInline,
+        # CRIMPhrasePieceInline,
     )
     search_fields = (
         'mass__mass_id',
@@ -478,6 +482,7 @@ class CRIMRoleAdmin(admin.ModelAdmin):
 
 class CRIMRoleTypeAdmin(admin.ModelAdmin):
     fields = (
+        'role_type_id',
         'name',
         'name_plural',
         'remarks',
@@ -487,6 +492,9 @@ class CRIMRoleTypeAdmin(admin.ModelAdmin):
     )
     ordering = (
         'name',
+    )
+    readonly_fields = (
+        'role_type_id',
     )
 
 
