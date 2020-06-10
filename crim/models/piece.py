@@ -10,7 +10,7 @@ from crim.helpers.common import cache_values_to_string
 from crim.helpers.dates import get_date_sort
 from crim.models.genre import CRIMGenre
 from crim.models.person import CRIMPerson
-from crim.models.role import CRIMRole
+from crim.models.role import CRIMRole, CRIMRoleType
 from crim.models.voice import CRIMVoice
 
 
@@ -22,9 +22,6 @@ def disable_for_loaddata(signal_handler):
             return
         signal_handler(*args, **kwargs)
     return wrapper
-
-
-COMPOSER = 'Composer'
 
 
 class CRIMPiece(models.Model):
@@ -160,27 +157,35 @@ class CRIMPiece(models.Model):
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
 
+        # Save the composer role with the earliest date associated with this piece
+        # in the piece.composer field.
+        primary_role = CRIMRole.objects.filter(piece=self, role_type__role_type_id='composer').order_by('date_sort').first()
+        self.composer = primary_role.person if primary_role else None
+        self.date = primary_role.date if primary_role else ''
+        self.date_sort = primary_role.date_sort if primary_role else None
+
         super().save()
 
     def __str__(self):
         return '[{0}] {1}'.format(self.piece_id, self.full_title)
 
 
-@receiver(post_save, sender=CRIMPiece)
-def update_piece_cache(sender, piece=None, created=None, **kwargs):
-    if piece and not kwargs.get('raw', True):  # So that this does not run when importing fixture
-        from crim.views.piece import render_piece
-        print('Caching {}'.format(piece.piece_id))
-        for i in range(30):
-            render_piece(piece.piece_id, i+1)
+# @receiver(post_save, sender=CRIMPiece)
+# def update_piece_cache(sender, instance=None, created=None, **kwargs):
+#     # Cache the notation for this piece
+#     if instance and not kwargs.get('raw', True):  # So that this does not run when importing fixture
+#         from crim.views.piece import render_piece
+#         print('Caching {}'.format(instance.piece_id))
+#         for i in range(30):
+#             render_piece(instance.piece_id, i+1)
 
 
 @receiver(post_delete, sender=CRIMPiece)
-def delete_piece_cache(sender, piece=None, **kwargs):
+def delete_piece_cache(sender, instance=None, **kwargs):
     from django.core.cache import caches
-    print('Deleting cache for {}'.format(piece.piece_id))
+    print('Deleting cache for {}'.format(instance.piece_id))
     for i in range(30):
-        caches['pieces'].delete(cache_values_to_string(piece.piece_id, i+1))
+        caches['pieces'].delete(cache_values_to_string(instance.piece_id, i+1))
 
 
 class CRIMModel(CRIMPiece):

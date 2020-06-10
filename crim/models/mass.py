@@ -10,8 +10,6 @@ from crim.models.voice import CRIMVoice
 
 import re
 
-COMPOSER = 'Composer'
-
 
 class CRIMMass(models.Model):
     class Meta:
@@ -94,6 +92,18 @@ class CRIMMass(models.Model):
         list_of_voice_counts = [CRIMVoice.objects.filter(piece=p).count() for p in CRIMPiece.objects.filter(mass=self)]
         self.min_number_of_voices = min(list_of_voice_counts)
         self.max_number_of_voices = max(list_of_voice_counts)
+
+        # Save the composer role with the earliest date associated with this mass
+        # in the mass.composer field.
+        primary_role = CRIMRole.objects.filter(mass=self, role_type__role_type_id='composer').order_by('date_sort').first()
+        self.composer = primary_role.person if primary_role else None
+        self.date = primary_role.date if primary_role else ''
+        self.date_sort = primary_role.date_sort if primary_role else None
+
+        # Save related pieces as well, which may need roles updated
+        for p in CRIMPiece.objects.filter(mass=self):
+            p.save()
+
         super().save()
 
     def __str__(self):

@@ -1,11 +1,10 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.utils.text import slugify
 
 from crim.helpers.dates import get_date_sort
-
-
-COMPOSER = 'Composer'
 
 
 class CRIMRoleType(models.Model):
@@ -164,27 +163,15 @@ class CRIMRole(models.Model):
     def save(self, *args, **kwargs):
         self.date_sort = get_date_sort(self.date)
 
-        # Update the related piece
-        if self.role_type.name == COMPOSER:
-            from crim.models.piece import CRIMPiece
-            # Only update the piece or mass if the new date is earlier or equal to the current one
-            if self.piece and self.piece.date_sort and self.piece.date_sort >= get_date_sort(self.date):
-                self.piece.composer = self.person
-                self.piece.date = self.date
-                self.piece.date_sort = get_date_sort(self.date)
-                self.piece.save()
-            elif self.mass:
-                if self.mass.date_sort and self.mass.date_sort >= get_date_sort(self.date):
-                    self.mass.composer = self.person
-                    self.mass.date = self.date
-                    self.mass.date_sort = get_date_sort(self.date)
-                    self.mass.save()
-                for p in CRIMPiece.objects.filter(mass=self.mass):
-                    if p.date_sort and p.date_sort >= get_date_sort(self.date):
-                        p.composer = self.person
-                        p.date = self.date
-                        p.date_sort = get_date_sort(self.date)
-                        p.save()
-
         # Finalize changes
         super().save()
+
+
+@receiver(post_save, sender=CRIMRole)
+@receiver(post_delete, sender=CRIMRole)
+def delete_redundant_data(sender, instance=None, **kwargs):
+    # Reset the cached data on the related object by saving it
+    if instance.piece:
+        instance.piece.save()
+    elif instance.mass:
+        instance.mass.save()

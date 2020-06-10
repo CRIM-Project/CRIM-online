@@ -7,9 +7,6 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.models.mass import CRIMMass
 from crim.serializers.mass import CRIMMassListSerializer, CRIMMassDetailSerializer
 
-COMPOSER = 'composer'
-PUBLISHER = 'printer'
-
 
 class MassListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):

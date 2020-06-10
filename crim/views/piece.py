@@ -18,10 +18,6 @@ import re
 import verovio
 
 
-COMPOSER = 'composer'
-PUBLISHER = 'printer'
-
-
 def render_piece(piece_id, page_number):
     tk = verovio.toolkit()
     raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
