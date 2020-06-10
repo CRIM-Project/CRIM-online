@@ -70,11 +70,7 @@ class CRIMSourceTreatiseSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail-data', lookup_field='document_id')
-    roles = CRIMRoleTreatiseSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_treatise',
-    )
+    author = CRIMPersonTreatiseSerializer(read_only=True)
     external_links = serializers.SerializerMethodField()
 
     class Meta:
@@ -83,7 +79,9 @@ class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'document_id',
             'title',
-            'roles',
+            'author',
+            'date',
+            'date_sort',
             'external_links',
             'remarks',
         )

@@ -48,7 +48,7 @@ class SourceList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'document_id')
-        return CRIMSource.objects.all().order_by(order_by)
+        return CRIMSource.objects.all().order_by(order_by).select_related('publisher')
 
 
 class SourceDetail(generics.RetrieveAPIView):

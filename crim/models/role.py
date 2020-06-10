@@ -175,3 +175,7 @@ def delete_redundant_data(sender, instance=None, **kwargs):
         instance.piece.save()
     elif instance.mass:
         instance.mass.save()
+    elif instance.treatise:
+        instance.treatise.save()
+    elif instance.source:
+        instance.source.save()

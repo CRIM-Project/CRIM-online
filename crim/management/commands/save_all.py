@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
+from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.mass import CRIMMass
 from crim.models.observation import CRIMObservation
 from crim.models.person import CRIMPerson
@@ -16,6 +17,11 @@ class Command(BaseCommand):
             person.save()
         for role in CRIMRole.objects.all():
             role.save()
+
+        for treatise in CRIMTreatise.objects.all():
+            treatise.save()
+        for source in CRIMSource.object.all():
+            source.save()
 
         for piece in CRIMPiece.objects.all():
             piece.save()

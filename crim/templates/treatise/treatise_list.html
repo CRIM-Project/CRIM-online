@@ -2,8 +2,6 @@
 {% load markdown %}
 {% load shorten %}
 {% load static %}
-{% load people %}
-{% load earliest_date %}
 
 {% block title %}
   <title>CRIM | Treatises</title>
@@ -24,10 +22,10 @@
       <table class="table table-white table-bordered table-hover">
         <thead>
           <tr>
-            <th>Document ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Date</th>
+            <th><a href="?order_by=document_id">Document ID</a></th>
+            <th><a href="?order_by=title">Title</a></th>
+            <th><a href="?order_by=author__name_sort">Author</a></th>
+            <th><a href="?order_by=date_sort">Date</a></th>
           </tr>
         </thead>
         <tbody>
@@ -41,8 +39,8 @@
               {% endfor %}
               <a href="{{ document.url|htmlsite }}">[{{ document.document_id }}]</a></td>
             <td>{{ document.title }}</td>
-            <td>{{ document.roles|people:"author"|safe }}</td>
-            <td>{{ document.roles|earliest_date:"author" }}</td>
+            <td><a href="{{ document.author.url|htmlsite }}">{{ document.author.name }}</a></td>
+            <td>{{ document.date }}</td>
           </tr>
           {% endfor %}
         </tbody>
