@@ -1,6 +1,6 @@
 from django.template.defaultfilters import register
 
-from crim.common import get_date_sort
+from crim.helpers.dates import get_date_sort
 
 
 @register.filter(name='shortendate')

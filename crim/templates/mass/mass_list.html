@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load markdown %}
 {% load shorten %}
-{% load people %}
-{% load earliest_date %}
 
 {% block title %}
   <title>CRIM | Masses</title>
@@ -25,9 +23,9 @@
           <tr>
             <th><a href="?order_by=mass_id">Mass ID</a></th>
             <th><a href="?order_by=title">Title</a></th>
-            <th>Composer</th>
-            <th>Voices</th>
-            <th>Date</th>
+            <th><a href="?order_by=composer__name_sort">Composer</a></th>
+            <th><a href="?order_by=max_number_of_voices">Voices</a></th>
+            <th><a href="?order_by=date_sort">Date</a></th>
           </tr>
         </thead>
         <tbody>
@@ -35,9 +33,9 @@
             <tr>
               <td><a href="{{ mass.url|htmlsite }}">[{{ mass.mass_id }}]</a></td>
               <td><a href="{{ mass.url|htmlsite }}">{{ mass.title }}</a></td>
-              <td>{{ mass.roles|people:"composer"|safe }}</td>
-              <td>{{ mass.number_of_voices|figuredash }}</td>
-              <td>{{ mass.roles|earliest_date:"composer" }}</td>
+              <td><a href="{{ mass.composer.url|htmlsite }}">{{ mass.composer.name }}</a></td>
+              <td>{{ mass.total_voice_count|figuredash }}</td>
+              <td>{{ mass.date }}</td>
             </tr>
           {% endfor %}
         </tbody>

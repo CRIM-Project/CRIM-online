@@ -6,9 +6,12 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from crim.common import get_date_sort, cache_values_to_string
+from crim.helpers.common import cache_values_to_string
+from crim.helpers.dates import get_date_sort
 from crim.models.genre import CRIMGenre
-from crim.models.role import CRIMRole
+from crim.models.person import CRIMPerson
+from crim.models.role import CRIMRole, CRIMRoleType
+from crim.models.voice import CRIMVoice
 
 
 # This decorator is for not trying to cache things imported as fixture.
@@ -19,9 +22,6 @@ def disable_for_loaddata(signal_handler):
             return
         signal_handler(*args, **kwargs)
     return wrapper
-
-
-COMPOSER = 'Composer'
 
 
 class CRIMPiece(models.Model):
@@ -84,32 +84,39 @@ class CRIMPiece(models.Model):
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
+    # The following data are meant as caches only:
+    # they are updated upon save for performance optimization.
+
+    full_title = models.CharField(
+        max_length=128,
+        blank=True,
+        db_index=True,
+    )
+    composer = models.ForeignKey(
+        CRIMPerson,
+        on_delete=models.SET_NULL,
+        to_field='person_id',
+        null=True,
+        db_index=True,
+        related_name='pieces',
+    )
+    date = models.CharField(
+        max_length=128,
+        blank=True,
+        db_index=True,
+    )
+    date_sort = models.IntegerField(
+        null=True
+    )
+    number_of_voices = models.IntegerField(
+        null=True
+    )
+
     def title_with_id(self):
         return self.__str__()
+
     title_with_id.short_description = 'piece'
     title_with_id.admin_order_field = 'title'
-
-    @property
-    def composer(self):
-        composer_roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
-        mass_composer_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
-        if composer_roles:
-            return composer_roles[0].person
-        elif mass_composer_roles:
-            return mass_composer_roles[0].person
-        else:
-            return None
-
-    @property
-    def date_sort(self):
-        composer_roles = CRIMRole.objects.filter(piece=self, role_type__name=COMPOSER)
-        mass_composer_roles = CRIMRole.objects.filter(mass=self.mass, role_type__name=COMPOSER)
-        if composer_roles:
-            return get_date_sort(composer_roles[0].date)
-        elif mass_composer_roles:
-            return get_date_sort(mass_composer_roles[0].date)
-        else:
-            return None
 
     @property
     def models(self):
@@ -137,41 +144,48 @@ class CRIMPiece(models.Model):
     def save(self):
         # If it is a mass movement, then fill in the Piece ID, title and genre
         if self.mass:
-            # `self.title` will be a one-character string ('1', '2', ...)
-            # where '1' corresponds to Kyrie, etc.  See the list of
-            # constants at the top of the model definition
+            self.full_title = self.mass.title + ': ' + self.title
             movement_order = dict((x, y) for x, y in self.MASS_MOVEMENT_ORDER)
             self.piece_id = (self.mass.mass_id + '_' + movement_order[self.title])
-            # Finally, add the genre Mass to this mass movement.
+            # Add the genre Mass to this mass movement.
             self.genre = CRIMGenre.objects.get(genre_id='mass')
+        else:
+            self.full_title = self.title
+        # Add number of voices
+        self.number_of_voices = CRIMVoice.objects.filter(piece=self).count()
         # Remove extraneous newlines from links and voices fields
         self.pdf_links = re.sub(r'[\n\r]+', r'\n', self.pdf_links)
         self.mei_links = re.sub(r'[\n\r]+', r'\n', self.mei_links)
 
+        # Save the composer role with the earliest date associated with this piece
+        # in the piece.composer field.
+        primary_role = CRIMRole.objects.filter(piece=self, role_type__role_type_id='composer').order_by('date_sort').first()
+        self.composer = primary_role.person if primary_role else None
+        self.date = primary_role.date if primary_role else ''
+        self.date_sort = primary_role.date_sort if primary_role else None
+
         super().save()
 
     def __str__(self):
-        if not self.mass:
-            return '[{0}] {1}'.format(self.piece_id, self.title)
-        else:
-            return '[{0}] {1}: {2}'.format(self.piece_id, self.mass.title, self.title)
+        return '[{0}] {1}'.format(self.piece_id, self.full_title)
 
 
-@receiver(post_save, sender=CRIMPiece)
-def update_piece_cache(sender, piece=None, created=None, **kwargs):
-    if not kwargs.get('raw', True):  # So that this does not run when importing fixture
-        from crim.views.piece import render_piece
-        print('Caching {}'.format(piece.piece_id))
-        for i in range(30):
-            render_piece(piece.piece_id, i+1)
+# @receiver(post_save, sender=CRIMPiece)
+# def update_piece_cache(sender, instance=None, created=None, **kwargs):
+#     # Cache the notation for this piece
+#     if instance and not kwargs.get('raw', True):  # So that this does not run when importing fixture
+#         from crim.views.piece import render_piece
+#         print('Caching {}'.format(instance.piece_id))
+#         for i in range(30):
+#             render_piece(instance.piece_id, i+1)
 
 
 @receiver(post_delete, sender=CRIMPiece)
-def delete_piece_cache(sender, piece=None, **kwargs):
+def delete_piece_cache(sender, instance=None, **kwargs):
     from django.core.cache import caches
-    print('Deleting cache for {}'.format(piece.piece_id))
+    print('Deleting cache for {}'.format(instance.piece_id))
     for i in range(30):
-        caches['pieces'].delete(cache_values_to_string(piece.piece_id, i+1))
+        caches['pieces'].delete(cache_values_to_string(instance.piece_id, i+1))
 
 
 class CRIMModel(CRIMPiece):

@@ -1,12 +1,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from crim.models.person import CRIMPerson
 from crim.models.role import CRIMRole
 
 import re
-
-AUTHOR = 'author'
-PUBLISHER = 'printer'
 
 
 class CRIMDocument(models.Model):
@@ -25,6 +23,18 @@ class CRIMDocument(models.Model):
     title = models.CharField(max_length=128)
     external_links = models.TextField('external links (one per line)', blank=True)
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
+
+    # The following data are meant as caches only:
+    # they are updated upon save for performance optimization.
+
+    date = models.CharField(
+        max_length=128,
+        blank=True,
+        db_index=True,
+    )
+    date_sort = models.IntegerField(
+        null=True
+    )
 
     def title_with_id(self):
         return self.__str__()
@@ -46,18 +56,33 @@ class CRIMTreatise(CRIMDocument):
         verbose_name = 'Treatise'
         verbose_name_plural = 'Treatises'
 
-    @property
-    def author(self):
-        author_roles = CRIMRole.objects.filter(treatise=self, role_type__role_type_id=AUTHOR)
-        return author_roles[0].person if author_roles else None
+    # The following is meant as a cache, containing redundant data
+    # for performance reasons.
 
-    @property
-    def date_sort(self):
-        roles = CRIMRole.objects.filter(treatise=self).order_by('date_sort')
-        return roles[0].date_sort if roles else None
+    author = models.ForeignKey(
+        CRIMPerson,
+        on_delete=models.SET_NULL,
+        to_field='person_id',
+        null=True,
+        db_index=True,
+        related_name='treatises',
+    )
 
     def get_absolute_url(self):
         return '/treatises/{0}/'.format(self.document_id)
+
+    def save(self):
+        # Remove extraneous newlines from external_links field
+        self.external_links = re.sub(r'[\n\r]+', r'\n', self.external_links)
+
+        # Save the author role with the earliest date associated with this piece
+        # in the document.author field.
+        primary_role = CRIMRole.objects.filter(treatise=self, role_type__role_type_id='author').order_by('date_sort').first()
+        self.author = primary_role.person if primary_role else None
+        self.date = primary_role.date if primary_role else ''
+        self.date_sort = primary_role.date_sort if primary_role else None
+
+        super().save()
 
 
 class CRIMSource(CRIMDocument):
@@ -95,15 +120,30 @@ class CRIMSource(CRIMDocument):
         related_name='sources',
     )
 
-    @property
-    def publisher(self):
-        publisher_roles = CRIMRole.objects.filter(source=self, role_type__role_type_id=PUBLISHER)
-        return publisher_roles[0].person if publisher_roles else None
+    # The following is meant as a cache, containing redundant data
+    # for performance reasons.
 
-    @property
-    def date_sort(self):
-        roles = CRIMRole.objects.filter(source=self).order_by('date_sort')
-        return roles[0].date_sort if roles else None
+    publisher = models.ForeignKey(
+        CRIMPerson,
+        on_delete=models.SET_NULL,
+        to_field='person_id',
+        null=True,
+        db_index=True,
+        related_name='sources',
+    )
 
     def get_absolute_url(self):
         return '/sources/{0}/'.format(self.document_id)
+
+    def save(self):
+        # Remove extraneous newlines from external_links field
+        self.external_links = re.sub(r'[\n\r]+', r'\n', self.external_links)
+
+        # Save the printer role with the earliest date associated with this piece
+        # in the document.publisher field.
+        primary_role = CRIMRole.objects.filter(source=self, role_type__role_type_id='printer').order_by('date_sort').first()
+        self.publisher = primary_role.person if primary_role else None
+        self.date = primary_role.date if primary_role else ''
+        self.date_sort = primary_role.date_sort if primary_role else None
+
+        super().save()

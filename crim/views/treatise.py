@@ -39,7 +39,9 @@ class TreatiseList(generics.ListAPIView):
 
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'document_id')
-        return CRIMTreatise.objects.all().order_by(order_by)
+        return CRIMTreatise.objects.all().order_by(order_by).select_related(
+            'author',
+        )
 
 
 class TreatiseDetail(generics.RetrieveAPIView):

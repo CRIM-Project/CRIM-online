@@ -12,15 +12,9 @@
 {% block title %}
   <title>
     CRIM | {% if content.curated %}Relationship{% else %}Uncurated relationship{% endif %} &lt;R{{ content.id }}&gt;
-    {% if content.model_observation.piece.mass %}
-      {{ content.model_observation.piece.mass.title }}:
-    {% endif %}
-    {{ content.model_observation.piece.title }}
+    {{ content.model_observation.piece.full_title }}
     &rarr;
-    {% if content.derivative_observation.piece.mass %}
-      {{ content.derivative_observation.piece.mass.title }}:
-    {% endif %}
-    {{ content.derivative_observation.piece.title }}
+    {{ content.derivative_observation.piece.full_title }}
   </title>
   <style>
     .cw-score-model { width: 100%; height: 500px }
@@ -52,10 +46,8 @@
               Model:
                 {% if content.model_observation.piece.roles|people:"composer" %}{{ content.model_observation.piece.roles|people:"composer"|safe }},
                 {% elif content.model_observation.piece.mass.roles|people:"composer" %}{{ content.model_observation.piece.mass.roles|people:"composer"|safe }},
-                {% endif %}{% if content.model_observation.piece.mass %}
-                <a href="{{ content.model_observation.piece.mass.url|htmlsite }}">{{ content.model_observation.piece.mass.title }}</a>:
-              {% endif %}
-              <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.title }}</a>
+                {% endif %}
+                <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.full_title }}</a>
             </h2>
           </div>
           <div class="span3">
@@ -88,10 +80,8 @@
               Derivative:
                 {% if content.derivative_observation.piece.roles|people:"composer" %}{{ content.derivative_observation.piece.roles|people:"composer"|safe }},
                 {% elif content.derivative_observation.piece.mass.roles|people:"composer" %}{{ content.derivative_observation.piece.mass.roles|people:"composer"|safe }},
-                {% endif %}{% if content.derivative_observation.piece.mass %}
-                <a href="{{ content.derivative_observation.piece.mass.url|htmlsite }}">{{ content.derivative_observation.piece.mass.title }}</a>:
-              {% endif %}
-              <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.title }}</a>
+                {% endif %}
+                <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.full_title }}</a>
             </h2>
           </div>
           <div class="span3">

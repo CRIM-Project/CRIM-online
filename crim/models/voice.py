@@ -1,5 +1,7 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 import re
 
@@ -58,3 +60,10 @@ class CRIMVoice(models.Model):
 
     def __str__(self):
         return '{0} ({1})'.format(str(self.order), self.regularized_name)
+
+
+@receiver(post_save, sender=CRIMVoice)
+def update_voice_count(sender, instance, created, **kwargs):
+    instance.piece.save()
+    if piece.mass:
+        instance.piece.mass.save()

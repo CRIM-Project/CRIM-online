@@ -6,7 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from crim.common import cache_values_to_string
+from crim.helpers.common import cache_values_to_string
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
 from crim.omas.localapi import slice_from_file

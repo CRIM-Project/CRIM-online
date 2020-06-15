@@ -1,8 +1,10 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.utils.text import slugify
 
-from crim.common import get_date_sort
+from crim.helpers.dates import get_date_sort
 
 
 class CRIMRoleType(models.Model):
@@ -65,7 +67,7 @@ class CRIMRole(models.Model):
     )
 
     date = models.CharField(
-        max_length=32,
+        max_length=128,
         blank=True,
         db_index=True,
     )
@@ -160,5 +162,20 @@ class CRIMRole(models.Model):
 
     def save(self, *args, **kwargs):
         self.date_sort = get_date_sort(self.date)
+
         # Finalize changes
         super().save()
+
+
+@receiver(post_save, sender=CRIMRole)
+@receiver(post_delete, sender=CRIMRole)
+def delete_redundant_data(sender, instance=None, **kwargs):
+    # Reset the cached data on the related object by saving it
+    if instance.piece:
+        instance.piece.save()
+    elif instance.mass:
+        instance.mass.save()
+    elif instance.treatise:
+        instance.treatise.save()
+    elif instance.source:
+        instance.source.save()

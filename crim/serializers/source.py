@@ -124,11 +124,7 @@ class CRIMSourceSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail-data', lookup_field='document_id')
-    roles = CRIMRoleSourceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_source',
-    )
+    publisher = CRIMPersonSourceSerializer(read_only=True)
     external_links = serializers.SerializerMethodField()
 
     class Meta:
@@ -137,7 +133,9 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'document_id',
             'title',
-            'roles',
+            'publisher',
+            'date',
+            'date_sort',
             'external_links',
             'remarks',
         )

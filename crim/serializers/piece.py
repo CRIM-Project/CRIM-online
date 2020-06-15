@@ -91,6 +91,7 @@ class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'pdf_links',
             'mei_links',
         )
@@ -156,7 +157,7 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = CRIMMassPieceSerializer(read_only=True)
+    mass = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
 
     class Meta:
         model = CRIMPiece
@@ -164,6 +165,7 @@ class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'mass',
         )
 
@@ -372,16 +374,7 @@ class CRIMVoicePieceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    voices = CRIMVoicePieceSerializer(
-        many=True,
-        read_only=True,
-    )
-    roles = CRIMRolePieceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_piece',
-    )
-    mass = CRIMMassPieceSerializer(read_only=True)
+    composer = CRIMPersonPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
@@ -392,12 +385,14 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
-            'mass',
-            'voices',
-            'roles',
             'pdf_links',
             'mei_links',
+            'composer',
+            'date',
+            'date_sort',
+            'number_of_voices',
             'remarks',
         )
 
@@ -446,6 +441,7 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
@@ -504,6 +500,7 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
@@ -566,6 +563,7 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
@@ -617,6 +615,7 @@ class CRIMPieceWithDiscussionsSerializer(serializers.HyperlinkedModelSerializer)
             'url',
             'piece_id',
             'title',
+            'full_title',
             'genre',
             'mass',
             'phrases',
