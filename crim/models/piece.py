@@ -170,14 +170,14 @@ class CRIMPiece(models.Model):
         return '[{0}] {1}'.format(self.piece_id, self.full_title)
 
 
-# @receiver(post_save, sender=CRIMPiece)
-# def update_piece_cache(sender, instance=None, created=None, **kwargs):
-#     # Cache the notation for this piece
-#     if instance and not kwargs.get('raw', True):  # So that this does not run when importing fixture
-#         from crim.views.piece import render_piece
-#         print('Caching {}'.format(instance.piece_id))
-#         for i in range(30):
-#             render_piece(instance.piece_id, i+1)
+@receiver(post_save, sender=CRIMPiece)
+def update_piece_cache(sender, instance=None, created=None, **kwargs):
+    # Cache the notation for this piece
+    if instance and not kwargs.get('raw', True):  # So that this does not run when importing fixture
+        from crim.views.piece import render_piece
+        print('Caching {}'.format(instance.piece_id))
+        for i in range(30):
+            render_piece(instance.piece_id, i+1)
 
 
 @receiver(post_delete, sender=CRIMPiece)
