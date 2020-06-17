@@ -37,7 +37,7 @@ class CRIMPieceMassInline(admin.TabularInline):
 
     form = CRIMPieceMassForm
     model = CRIMPiece
-    exclude = ('piece_id', 'genre', 'remarks')
+    exclude = ('piece_id', 'genre', 'remarks', 'composer', 'date_sort', 'number_of_voices')
     extra = 5
     max_num = 5
 
