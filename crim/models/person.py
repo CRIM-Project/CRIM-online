@@ -78,4 +78,4 @@ class CRIMPerson(models.Model):
         from crim.models.piece import CRIMPiece
         return CRIMPiece.objects.filter(
                 observations__observer=self,
-            ).order_by('mass', 'piece_id').distinct()
+            ).order_by('mass', 'piece_id').prefetch_related('genre').distinct()
