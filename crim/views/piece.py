@@ -72,9 +72,9 @@ class ModelListHTMLRenderer(CustomHTMLRenderer):
 
 class PieceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        # Sort roles alphabetically by role type
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        # Sort roles alphabetically by role type, including mass roles
+        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
         page_number_string = renderer_context['request'].GET.get('p')
         page_number = eval(page_number_string) if page_number_string else 1
@@ -101,9 +101,10 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
 class PieceWithSourcesHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         data['show_sources'] = True
-        # Sort roles alphabetically by role type
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        # Sort roles alphabetically by role type, including mass roles
+        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
@@ -113,9 +114,10 @@ class PieceWithSourcesHTMLRenderer(PieceDetailHTMLRenderer):
 class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         data['show_observations'] = True
-        # Sort roles alphabetically by role type
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        # Sort roles alphabetically by role type, including mass roles
+        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
@@ -125,9 +127,10 @@ class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
 class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         data['show_relationships'] = True
-        # Sort roles alphabetically by role type; if no role, put at end
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        # Sort roles alphabetically by role type, including mass roles
+        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
@@ -145,9 +148,10 @@ class PieceWithDiscussionsHTMLRenderer(PieceDetailHTMLRenderer):
         )
         data['discussions'] = related
 
-        # Sort roles alphabetically by role type; if no role, put at end
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        # Sort roles alphabetically by role type, including mass roles
+        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
