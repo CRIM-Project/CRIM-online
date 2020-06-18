@@ -125,6 +125,7 @@ class CRIMPersonListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
+    pieces_analyzed = CRIMPiecePersonSerializer(many=True, read_only=True)
     role_types = CRIMRoleTypePersonSerializer(many=True, read_only=True)
     roles = CRIMRolePersonSerializer(many=True, read_only=True)
 
@@ -140,6 +141,7 @@ class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
             'death_date',
             'active_date',
             'role_types',
+            'pieces_analyzed',
             'remarks',
             'roles',
         )

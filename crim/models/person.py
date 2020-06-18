@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.html import escape
+
 from crim.helpers.dates import get_date_sort, latest_date
 from crim.models.observation import CRIMObservation
 from crim.models.relationship import CRIMRelationship
@@ -71,3 +72,10 @@ class CRIMPerson(models.Model):
             return CRIMRoleType.objects.filter(Q(roles__person=self) | Q(role_type_id=ANALYST)).distinct()
         else:
             return CRIMRoleType.objects.filter(roles__person=self).distinct()
+
+    @property
+    def pieces_analyzed(self):
+        from crim.models.piece import CRIMPiece
+        return CRIMPiece.objects.filter(
+                observations__observer=self,
+            ).order_by('mass', 'piece_id').distinct()
