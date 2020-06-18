@@ -4,7 +4,7 @@ from django.template.defaultfilters import register
 @register.filter(name='start')
 def start(request):
     '''Goes to the default page.'''
-    return '?'
+    return '?#score'
 
 @register.filter(name='prevpage')
 def prevpage(request, current_page_number=1):
@@ -12,12 +12,12 @@ def prevpage(request, current_page_number=1):
     previous_page_number = current_page_number - 1
     if previous_page_number < 1:
         previous_page_number = 1
-    return '?p={}'.format(str(previous_page_number))
+    return '?p={}#score'.format(str(previous_page_number))
 
 @register.filter(name='nextpage')
 def nextpage(request, current_page_number=1):
     '''Goes to the next page using the ?p= parameter.'''
-    return '?p={}'.format(str(current_page_number + 1))
+    return '?p={}#score'.format(str(current_page_number + 1))
 
 
 @register.filter(name='start_model')
@@ -30,7 +30,7 @@ def start_model(request):
         derivative_parameter = 'pd={}'.format(current_derivative_page_number)
     else:
         derivative_parameter = ''
-    return '?{}'.format(derivative_parameter)
+    return '?{}#score'.format(derivative_parameter)
 
 @register.filter(name='prevpage_model')
 def prevpage_model(request, current_model_page_number=1):
@@ -49,7 +49,7 @@ def prevpage_model(request, current_model_page_number=1):
     else:
         derivative_parameter = ''
 
-    return '?pm={}{}'.format(str(previous_model_page_number), derivative_parameter)
+    return '?pm={}{}#score'.format(str(previous_model_page_number), derivative_parameter)
 
 @register.filter(name='nextpage_model')
 def nextpage_model(request, current_model_page_number=1):
@@ -66,7 +66,7 @@ def nextpage_model(request, current_model_page_number=1):
     else:
         derivative_parameter = ''
 
-    return '?pm={}{}'.format(str(next_model_page_number), derivative_parameter)
+    return '?pm={}{}#score'.format(str(next_model_page_number), derivative_parameter)
 
 
 @register.filter(name='start_derivative')
@@ -79,7 +79,7 @@ def start_derivative(request):
         model_parameter = 'pm={}'.format(current_model_page_number)
     else:
         model_parameter = ''
-    return '?{}'.format(model_parameter)
+    return '?{}#score'.format(model_parameter)
 
 @register.filter(name='prevpage_derivative')
 def prevpage_derivative(request, current_derivative_page_number=1):
@@ -98,7 +98,7 @@ def prevpage_derivative(request, current_derivative_page_number=1):
     else:
         model_parameter = ''
 
-    return '?{}pd={}'.format(model_parameter, str(previous_derivative_page_number))
+    return '?{}pd={}#score'.format(model_parameter, str(previous_derivative_page_number))
 
 @register.filter(name='nextpage_derivative')
 def nextpage_derivative(request, current_derivative_page_number=1):
@@ -115,4 +115,4 @@ def nextpage_derivative(request, current_derivative_page_number=1):
     else:
         model_parameter = ''
 
-    return '?{}pd={}'.format(model_parameter, str(next_derivative_page_number))
+    return '?{}pd={}#score'.format(model_parameter, str(next_derivative_page_number))
