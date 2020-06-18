@@ -44,7 +44,7 @@
     <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
   {% endif %}
 
-  {% if content.has_works %}
+  {% if content.has_works or content.pieces_analyzed %}
     <h2>Works</h2>
     <table class="table table-white table-bordered table-hover">
       <thead>
