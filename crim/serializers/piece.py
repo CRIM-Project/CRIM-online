@@ -459,6 +459,89 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         return obj.mei_links.split('\n')
 
 
+class CRIMPieceScoreSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    roles = CRIMRolePieceSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
+    mass = CRIMMassPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'full_title',
+            'genre',
+            'mass',
+            'roles',
+            'pdf_links',
+            'mei_links',
+            'remarks',
+        )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
+
+
+class CRIMPieceWithSourcesSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    roles = CRIMRolePieceSerializer(
+        many=True,
+        read_only=True,
+        source='roles_as_piece',
+    )
+    mass = CRIMMassPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+    phrases = CRIMPhrasePieceSerializer(
+        read_only=True,
+        many=True,
+    )
+    voices = CRIMVoicePieceSerializer(
+        many=True,
+        read_only=True,
+    )
+    sources = CRIMSourcePieceSerializer(
+        many=True,
+        read_only=True,
+    )
+    pdf_links = serializers.SerializerMethodField()
+    mei_links = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CRIMPiece
+        fields = (
+            'url',
+            'piece_id',
+            'title',
+            'full_title',
+            'genre',
+            'mass',
+            'phrases',
+            'voices',
+            'roles',
+            'sources',
+            'pdf_links',
+            'mei_links',
+            'remarks',
+        )
+
+    def get_pdf_links(self, obj):
+        return obj.pdf_links.split('\n')
+
+    def get_mei_links(self, obj):
+        return obj.mei_links.split('\n')
+
+
 class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
     roles = CRIMRolePieceSerializer(

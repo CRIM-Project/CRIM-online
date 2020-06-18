@@ -49,7 +49,7 @@
         {% endfor %}
       </hgroup>
 
-      {% if not content.show_observations and not content.show_relationships and not content.show_discussions %}
+      {% if content.show_sources %}
         {% include "piece/text.html" with phrases=content.phrases %}
         {% include "source/source_block.html" with sources=content.sources %}
       {% endif %}
@@ -59,7 +59,7 @@
         <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
       {% endif %}
 
-      {% if not content.show_observations and not content.show_relationships and not content.show_discussions %}
+      {% if not content.show_sources and not content.show_observations and not content.show_relationships and not content.show_discussions %}
         {% include "piece/score.html" %}
       {% endif %}
 
@@ -73,10 +73,10 @@
     </div>
     <div class="span3">
       <div class="well span12">
-        {% if not content.show_observations and not content.show_relationships and not content.show_discussions %}
-          <h3>Piece details</h3>
+        {% if not content.show_sources and not content.show_observations and not content.show_relationships and not content.show_discussions %}
+          <h3>Score</h3>
         {% else %}
-          <h3><a href="{{ content.url|htmlsite }}">Piece details</a></h3>
+          <h3><a href="{{ content.url|htmlsite }}">Score</a></h3>
         {% endif %}
 
         <!--
@@ -87,10 +87,16 @@
         {% endif %}
         -->
 
-        {% if content.show_relationships %}
-          <h3>Piece relationships</h3>
+        {% if content.show_sources %}
+          <h3>Details</h3>
         {% else %}
-          <h3><a href="{{ content.url|htmlsite }}relationships/">Piece relationships</a></h3>
+          <h3><a href="{{ content.url|htmlsite }}sources/">Details</a></h3>
+        {% endif %}
+
+        {% if content.show_relationships %}
+          <h3>Relationships</h3>
+        {% else %}
+          <h3><a href="{{ content.url|htmlsite }}relationships/">Relationships</a></h3>
         {% endif %}
 
         {% if content.show_discussions %}
