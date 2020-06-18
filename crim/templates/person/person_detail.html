@@ -58,7 +58,15 @@
       </thead>
       <tbody>
         {% for role in content.roles %}
-          {% if role.mass %}
+        {% if role.piece %}
+          <tr>
+            <td><a href="{{ role.piece.url|htmlsite }}">{{ role.piece.full_title }}</a></td>
+            <td><a href="{{ role.piece.genre.url|htmlsite }}">{{ role.piece.genre.name }}</a></td>
+            <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
+            <td>{{ role.date }}</td>
+            <td>{{ role.remarks }}</td>
+          </tr>
+          {% elif role.mass %}
             <tr>
               <td><a href="{{ role.mass.url|htmlsite }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
               <td><a href="/masses/">Mass</a></td>
@@ -67,21 +75,7 @@
               <td>{{ role.date }}</td>
               <td>{{ role.remarks }}</td>
             </tr>
-          {% endif %}
-        {% endfor %}
-        {% for role in content.roles %}
-          {% if role.piece %}
-            <tr>
-              <td><a href="{{ role.piece.url|htmlsite }}">{{ role.piece.title }}</a></td>
-              <td><a href="{{ role.piece.genre.url|htmlsite }}">{{ role.piece.genre.name }}</a></td>
-              <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
-              <td>{{ role.date }}</td>
-              <td>{{ role.remarks }}</td>
-            </tr>
-          {% endif %}
-        {% endfor %}
-        {% for role in content.roles %}
-          {% if role.treatise %}
+          {% elif role.treatise %}
             <tr>
               <td><a href="{{ role.treatise.url|htmlsite }}">{{ role.treatise.title }}</a></td>
               <td>Treatise</td>
@@ -89,10 +83,7 @@
               <td>{{ role.date }}</td>
               <td>{{ role.remarks }}</td>
             </tr>
-          {% endif %}
-        {% endfor %}
-        {% for role in content.roles %}
-          {% if role.source %}
+          {% elif role.source %}
             <tr>
               <td><a href="{{ role.source.url|htmlsite }}">{{ role.source.title }}</a></td>
               <td>Source</td>
