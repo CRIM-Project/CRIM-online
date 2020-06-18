@@ -192,7 +192,7 @@ class PieceDetail(generics.RetrieveAPIView):
 
     def get_object(self):
         url_arg = self.kwargs['piece_id']
-        piece = CRIMPiece.objects.filter(piece_id=url_arg)
+        piece = CRIMPiece.objects.filter(piece_id=url_arg).prefetch_related('sources', 'sources__roles_as_source', 'roles_as_piece__role_type', 'roles_as_piece__person', 'phrases__part')
         if not piece.exists():
             piece = CRIMPiece.objects.filter(title__iexact=url_arg)
 
