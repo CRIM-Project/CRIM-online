@@ -20,7 +20,7 @@ def solr_index_single(relationship, solrconn):
             'type': 'crim_relationship',
             'id': relationship.id,
             'observer_s': relationship.observer.name,
-            'observer_id_s': relationship.observer.id,
+            'observer_id_s': relationship.observer.person_id,
             'musical_type_s': relationship.musical_type,
 
             # Information about the relationship type
