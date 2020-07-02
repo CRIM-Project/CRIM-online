@@ -129,6 +129,26 @@ class CRIMMassPieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class CRIMMassSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='crimmass-detail-data',
+        lookup_field='mass_id',
+    )
+    composer = CRIMPersonPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
+
+    class Meta:
+        model = CRIMMass
+        fields = (
+            'url',
+            'mass_id',
+            'title',
+            'composer',
+            'genre',
+            'date',
+        )
+
+
 class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='crimsource-detail-data',
@@ -154,7 +174,9 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    mass = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
+    mass = CRIMMassSummarySerializer(many=False,read_only=True)
+    composer = CRIMPersonPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
 
     class Meta:
         model = CRIMPiece
@@ -162,8 +184,10 @@ class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
-            'full_title',
             'mass',
+            'composer',
+            'genre',
+            'date',
         )
 
 
@@ -172,8 +196,8 @@ class CRIMObservationPieceSerializer(serializers.HyperlinkedModelSerializer):
         view_name='crimobservation-detail-data',
         lookup_field='id',
     )
-    observer = CRIMPersonPieceSerializer(read_only=True)
-    piece = CRIMPieceSummarySerializer(read_only=True)
+    observer = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
+    piece = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
 
     class Meta:
         model = CRIMObservation
@@ -421,14 +445,6 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         read_only=True,
     )
-    models = CRIMPieceSummarySerializer(
-        many=True,
-        read_only=True
-    )
-    derivatives = CRIMPieceSummarySerializer(
-        many=True,
-        read_only=True
-    )
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
 
@@ -445,8 +461,6 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
             'voices',
             'roles',
             'sources',
-            'models',
-            'derivatives',
             'pdf_links',
             'mei_links',
             'remarks',
@@ -542,7 +556,7 @@ class CRIMPieceWithSourcesSerializer(serializers.HyperlinkedModelSerializer):
         return obj.mei_links.split('\n')
 
 
-class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer):
+class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
     roles = CRIMRolePieceSerializer(
         many=True,
@@ -551,14 +565,6 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
     )
     mass = CRIMMassPieceSerializer(read_only=True)
     genre = CRIMGenrePieceSerializer(read_only=True)
-    phrases = CRIMPhrasePieceSerializer(
-        read_only=True,
-        many=True,
-    )
-    sources = CRIMSourcePieceSerializer(
-        many=True,
-        read_only=True,
-    )
     models = CRIMPieceSummarySerializer(
         many=True,
         read_only=True
@@ -566,10 +572,6 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
     derivatives = CRIMPieceSummarySerializer(
         many=True,
         read_only=True
-    )
-    observations = CRIMObservationPieceSerializer(
-        many=True,
-        read_only=True,
     )
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
@@ -583,12 +585,9 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
             'full_title',
             'genre',
             'mass',
-            'phrases',
             'roles',
-            'sources',
             'models',
             'derivatives',
-            'observations',
             'pdf_links',
             'mei_links',
             'remarks',
@@ -601,30 +600,12 @@ class CRIMPieceWithObservationsSerializer(serializers.HyperlinkedModelSerializer
         return obj.mei_links.split('\n')
 
 
-class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerializer):
+class CRIMPieceWithRelationshipsDataSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
     roles = CRIMRolePieceSerializer(
         many=True,
         read_only=True,
         source='roles_as_piece',
-    )
-    mass = CRIMMassPieceSerializer(read_only=True)
-    genre = CRIMGenrePieceSerializer(read_only=True)
-    phrases = CRIMPhrasePieceSerializer(
-        read_only=True,
-        many=True,
-    )
-    sources = CRIMSourcePieceSerializer(
-        many=True,
-        read_only=True,
-    )
-    models = CRIMPieceSummarySerializer(
-        many=True,
-        read_only=True
-    )
-    derivatives = CRIMPieceSummarySerializer(
-        many=True,
-        read_only=True
     )
     relationships_as_model = CRIMRelationshipPieceSerializer(
         many=True,
@@ -634,6 +615,8 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
         many=True,
         read_only=True,
     )
+    mass = CRIMMassPieceSerializer(read_only=True)
+    genre = CRIMGenrePieceSerializer(read_only=True)
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
 
@@ -646,11 +629,7 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
             'full_title',
             'genre',
             'mass',
-            'phrases',
             'roles',
-            'sources',
-            'models',
-            'derivatives',
             'relationships_as_model',
             'relationships_as_derivative',
             'pdf_links',

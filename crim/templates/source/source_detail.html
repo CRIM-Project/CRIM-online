@@ -25,6 +25,11 @@
     {% endfor %}
   </hgroup>
 
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+  {% endif %}
+
   {% if content.mass_contents or content.piece_contents or content.treatise_contents %}
     <h2>Contents</h2>
     <div class="row-fluid">
@@ -76,12 +81,5 @@
       </div>
     </div>
   {% endif %}
-
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
-
-
 
 {% endblock %}

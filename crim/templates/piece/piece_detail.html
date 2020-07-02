@@ -49,22 +49,18 @@
         {% endfor %}
       </hgroup>
 
-      {% if content.show_sources %}
-        {% include "piece/text.html" with phrases=content.phrases %}
-        {% include "source/source_block.html" with sources=content.sources %}
-      {% endif %}
-
       {% if content.remarks %}
         <h2>Remarks</h2>
         <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
       {% endif %}
 
-      {% if not content.show_sources and not content.show_observations and not content.show_relationships and not content.show_discussions %}
-        {% include "piece/score.html" %}
+      {% if content.show_sources %}
+        {% include "piece/text.html" with phrases=content.phrases %}
+        {% include "source/source_block.html" with sources=content.sources %}
       {% endif %}
 
-      {% if content.show_observations %}
-        {% include "piece/observations.html" %}
+      {% if not content.show_sources and not content.show_relationships and not content.show_discussions %}
+        {% include "piece/score.html" %}
       {% endif %}
 
       {% if content.show_relationships %}
@@ -73,24 +69,16 @@
     </div>
     <div class="span3">
       <div class="well span12">
-        {% if not content.show_sources and not content.show_observations and not content.show_relationships and not content.show_discussions %}
+        {% if not content.show_sources and not content.show_relationships and not content.show_discussions %}
           <h3>Score</h3>
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}">Score</a></h3>
         {% endif %}
 
-        <!--
-        {% if content.show_observations %}
-          <h3>Piece observations</h3>
-        {% else %}
-          <h3><a href="{{ content.url|htmlsite }}observations/">Piece observations</a></h3>
-        {% endif %}
-        -->
-
         {% if content.show_sources %}
-          <h3>Details</h3>
+          <h3>Text and sources</h3>
         {% else %}
-          <h3><a href="{{ content.url|htmlsite }}sources/">Details</a></h3>
+          <h3><a href="{{ content.url|htmlsite }}sources/">Text and sources</a></h3>
         {% endif %}
 
         {% if content.show_relationships %}
@@ -104,6 +92,10 @@
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}discussions/">Forum discussions</a></h3>
         {% endif %}
+
+        {% with "mp3/"|add:content.piece_id|add:".mp3" as audio_url %}
+          <h3><a href="{% static audio_url %}">Link to audio</a></h3>
+        {% endwith %}
       </div>
       <!-- Sidebar giving all mass movements -->
       {% if content.mass %}
@@ -136,52 +128,6 @@
           {% endfor %}
         </div>
       {% endif %}
-      <!-- Show related pieces -->
-      {% if content.models and not content.show_discussions %}
-        <div class="well span12">
-          <h3>Models</h3>
-          <ul>
-            {% for work in content.models|include_mass_once %}
-              <li>
-                <a href="{{ work.url|htmlsite }}">
-                  {% if work.piece_id %}
-                    [{{ work.piece_id }}]
-                  {% elif work.mass_id %}
-                    [{{ work.mass_id }}]
-                  {% endif %}
-                  <br>
-                  {{ work.title }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      {% if content.derivatives and not content.show_discussions %}
-        <div class="well span12">
-          <h3>Derivatives</h3>
-          <ul>
-            {% for work in content.derivatives|include_mass_once %}
-              <li>
-                <a href="{{ work.url|htmlsite }}">
-                  {% if work.piece_id %}
-                    [{{ work.piece_id }}]
-                  {% elif work.mass_id %}
-                    [{{ work.mass_id }}]
-                  {% endif %}
-                  <br>
-                  {{ work.title }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      <div class="well span12">
-        {% with "mp3/"|add:content.piece_id|add:".mp3" as audio_url %}
-          <h3><a href="{% static audio_url %}">Link to audio</a></h3>
-        {% endwith %}
-      </div>
     </div>
   </div>
   <div class="row-fluid">

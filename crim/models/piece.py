@@ -123,14 +123,26 @@ class CRIMPiece(models.Model):
         return CRIMPiece.objects.filter(
                 relationships_as_model__derivative_piece=self,
                 relationships_as_model__curated=True,
-            ).order_by('mass', 'piece_id').distinct()
+            ).order_by('mass', 'piece_id').select_related(
+                'mass',
+                'mass__genre',
+                'mass__composer',
+                'genre',
+                'composer',
+            ).distinct()
 
     @property
     def derivatives(self):
         return CRIMPiece.objects.filter(
                 relationships_as_derivative__model_piece=self,
                 relationships_as_derivative__curated=True,
-            ).order_by('mass', 'piece_id').distinct()
+            ).order_by('mass', 'piece_id').select_related(
+                'mass',
+                'mass__genre',
+                'mass__composer',
+                'genre',
+                'composer',
+            ).distinct()
 
     def get_absolute_url(self):
         return '/pieces/{0}/'.format(self.piece_id)
