@@ -302,8 +302,8 @@ class PieceDetailData(PieceDetail):
 class PieceWithRelationshipsData(generics.RetrieveAPIView):
     model = CRIMPiece
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-        serializer_class = CRIMPieceWithRelationshipsDataSerializer
-        renderer_classes = (JSONRenderer,)
+    serializer_class = CRIMPieceWithRelationshipsDataSerializer
+    renderer_classes = (JSONRenderer,)
     queryset = CRIMPiece.objects.all()
 
     def get_object(self):
