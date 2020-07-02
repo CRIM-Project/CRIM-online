@@ -1,6 +1,7 @@
 from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.genre import CRIMGenre
 from crim.models.mass import CRIMMass
+from crim.models.observation import CRIMObservation
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRoleType, CRIMRole
@@ -40,6 +41,7 @@ class CRIMMassPersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMMass
         fields = (
             'url',
+            'mass_id',
             'title',
             'genre',
         )
@@ -53,8 +55,10 @@ class CRIMPiecePersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMPiece
         fields = (
             'url',
-            'title',
+            'piece_id',
+            'full_title',
             'genre',
+            'date',
         )
 
 
@@ -65,6 +69,7 @@ class CRIMTreatisePersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMTreatise
         fields = (
             'url',
+            'document_id',
             'title',
         )
 
@@ -76,6 +81,7 @@ class CRIMSourcePersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMSource
         fields = (
             'url',
+            'document_id',
             'title',
         )
 
@@ -123,6 +129,7 @@ class CRIMPersonListSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimperson-detail-data', lookup_field='person_id')
+    pieces_analyzed = CRIMPiecePersonSerializer(many=True, read_only=True)
     role_types = CRIMRoleTypePersonSerializer(many=True, read_only=True)
     roles = CRIMRolePersonSerializer(many=True, read_only=True)
 
@@ -138,6 +145,7 @@ class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
             'death_date',
             'active_date',
             'role_types',
+            'pieces_analyzed',
             'remarks',
             'roles',
         )

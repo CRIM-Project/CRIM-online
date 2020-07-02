@@ -1,9 +1,21 @@
+from crim.models.genre import CRIMGenre
 from crim.models.person import CRIMPerson
 from crim.models.mass import CRIMMass
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRoleType, CRIMRole
 from crim.models.document import CRIMTreatise, CRIMSource
 from rest_framework import serializers
+
+
+class CRIMGenreSourceSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimgenre-detail-data', lookup_field='genre_id')
+
+    class Meta:
+        model = CRIMGenre
+        fields = (
+            'url',
+            'name',
+        )
 
 
 class CRIMRoleTypeSourceSerializer(serializers.HyperlinkedModelSerializer):
@@ -66,6 +78,7 @@ class CRIMMassSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceSourceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    genre = CRIMGenreSourceSerializer(read_only=True)
     roles = CRIMRoleSourceSerializer(
         many=True,
         read_only=True,

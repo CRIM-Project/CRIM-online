@@ -1,129 +1,81 @@
-{% if content.relationships_as_model %}
-  <h2>Relationships as model</h2>
-  <table class="table table-bordered table-hover">
+{% load static %}
+
+{% if content.models %}
+  <h2>Models</h2>
+  <h3>
+    <a href="/search/?q=&derivative-piece-id={{ content.piece_id }}">
+      <img src="{% static 'img/search.png' %}" height=19 />
+      Search this piece’s models
+    </a>
+  </h3>
+  <table class="table table-white table-bordered table-hover">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Observer</th>
-        <th>Relationship type</th>
-        <th>Model</th>
-        <th>Derivative</th>
-        <th>Show details</th>
+        <th>Title</th>
+        <th>Composer</th>
+        <th>Genre</th>
+        <th>Date</th>
       </tr>
     </thead>
-    <tbody>
-      {% for relationship in content.relationships_as_model %}
-        <tr>
-          <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
-          <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
-          <td>
-            {% if relationship.relationship_type %}
-              {{ relationship.relationship_type }}
-            {% else %}
-              None
+    {% for work in content.models|include_mass_once %}
+      <tr>
+        <td>
+          <a href="{{ work.url|htmlsite }}">
+            {% if work.piece_id %}
+              [{{ work.piece_id }}]
+            {% elif work.mass_id %}
+              [{{ work.mass_id }}]
             {% endif %}
-          </td>
-          <td>
-            <a href="{{ relationship.model_observation.url|htmlsite }}">
-              &lt;{{ relationship.model_observation.id }}&gt;
-            </a>
-          </td>
-          <td>
-            <a href="{{ relationship.derivative_observation.url|htmlsite }}">
-              &lt;{{ relationship.derivative_observation.id }}&gt;
-            </a>
-            <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
-              {{ relationship.derivative_observation.piece.full_title }}
-            </a>
-          </td>
-          <td>
-            {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
-              <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
-            {% else %}
-              -
-            {% endif %}
-          </td>
-        </tr>
-        <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-          <td colspan="6" class="expansion">
-            {% include "relationship/relationship_expanded.html" %}
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
+          </a>
+        </td>
+        <td>{{ work.title }}</td>
+        <td><a href="{{ work.composer.url|htmlsite }}">{{ work.composer.name }}</a></td>
+        <td><a href="{{ work.genre.url|htmlsite }}">{{ work.genre.name }}</a></td>
+        <td>{{ work.date }}</td>
+      </tr>
+    {% endfor %}
   </table>
 {% endif %}
-{% if content.relationships_as_derivative %}
-  <h2>Relationships as derivative</h2>
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Observer</th>
-          <th>Relationship type</th>
-          <th>Model</th>
-          <th>Derivative</th>
-          <th>Show details</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for relationship in content.relationships_as_derivative %}
-          <tr>
-            <td><a href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
-            <td><a href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
-            <td>
-              {% if relationship.relationship_type %}
-                {{ relationship.relationship_type }}
-              {% else %}
-                None
-              {% endif %}
-            </td>
-            <td>
-              <a href="{{ relationship.model_observation.url|htmlsite }}">
-                &lt;{{ relationship.model_observation.id }}&gt;
-              </a>
-              <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
-                {{ relationship.model_observation.piece.full_title }}
-              </a>
-            </td>
-            <td>
-              <a href="{{ relationship.derivative_observation.url|htmlsite }}">
-                &lt;{{ relationship.derivative_observation.id }}&gt;
-              </a>
-            </td>
-            <td>
-              {% if relationship.rt_q or relationship.rt_tm or relationship.rt_tnm %}
-                <a href="#" class="relationship-info-expand" target="relationship-info-{{ forloop.counter }}">Expand</a>
-              {% else %}
-                -
-              {% endif %}
-            </td>
-          </tr>
-          <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
-            <td colspan="6" class="expansion">
-              {% include "relationship/relationship_expanded.html" %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-{% endif %}
-{% if not content.relationships_as_model and not content.relationships_as_derivative %}
-  <h2>Relationships</h2>
-  <p>No relationships associated with this piece.</p>
+
+{% if content.derivatives %}
+  <h2>Derivatives</h2>
+  <h3>
+    <a href="/search/?q=&model-piece-id={{ content.piece_id }}">
+      <img src="{% static 'img/search.png' %}" height=19 />
+      Search this piece’s derivatives
+    </a>
+  </h3>
+  <table class="table table-white table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Composer</th>
+        <th>Genre</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    {% for work in content.derivatives|include_mass_once %}
+      <tr>
+        <td>
+          <a href="{{ work.url|htmlsite }}">
+            {% if work.piece_id %}
+              [{{ work.piece_id }}]
+            {% elif work.mass_id %}
+              [{{ work.mass_id }}]
+            {% endif %}
+          </a>
+        </td>
+        <td>{{ work.title }}</td>
+        <td><a href="{{ work.composer.url|htmlsite }}">{{ work.composer.name }}</a></td>
+        <td><a href="{{ work.genre.url|htmlsite }}">{{ work.genre.name }}</a></td>
+        <td>{{ work.date }}</td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endif %}
 
-<script type="text/javascript">
-  // This script expands and hides relationship details
-  $('.relationship-info').hide();
-  $('.relationship-info-expand').on({
-    'click': function(event) {
-      event.preventDefault();
-      tgt = "#" + $(this).attr('target');
-      $(tgt).toggle();
-      tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
-      $(this).text(tag);
-      return false;
-    }
-  })
-</script>
+{% if not content.models and not content.derivatives %}
+  <h3>No models or derivatives for this piece.</h3>
+{% endif %}

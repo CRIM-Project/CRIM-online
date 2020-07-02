@@ -70,10 +70,6 @@ class CRIMVoiceMassSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
-    voices = CRIMVoiceMassSerializer(
-        many=True,
-        read_only=True,
-    )
     pdf_links = serializers.SerializerMethodField()
     mei_links = serializers.SerializerMethodField()
 
@@ -83,7 +79,6 @@ class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'piece_id',
             'title',
-            'voices',
             'pdf_links',
             'mei_links',
         )

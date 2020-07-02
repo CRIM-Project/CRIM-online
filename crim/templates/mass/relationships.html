@@ -1,0 +1,81 @@
+{% load static %}
+
+{% if content.models %}
+  <h2>Models</h2>
+  <h3>
+    <a href="/search/?q=&derivative-piece-id={{ content.piece_id }}">
+      <img src="{% static 'img/search.png' %}" height=19 />
+      Search this mass’s models
+    </a>
+  </h3>
+  <table class="table table-white table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Composer</th>
+        <th>Genre</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    {% for work in content.models|include_mass_once %}
+      <tr>
+        <td>
+          <a href="{{ work.url|htmlsite }}">
+            {% if work.piece_id %}
+              [{{ work.piece_id }}]
+            {% elif work.mass_id %}
+              [{{ work.mass_id }}]
+            {% endif %}
+          </a>
+        </td>
+        <td>{{ work.title }}</td>
+        <td><a href="{{ work.composer.url|htmlsite }}">{{ work.composer.name }}</a></td>
+        <td><a href="{{ work.genre.url|htmlsite }}">{{ work.genre.name }}</a></td>
+        <td>{{ work.date }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% if content.derivatives %}
+  <h2>Derivatives</h2>
+  <h3>
+    <a href="/search/?q=&model-piece-id={{ content.piece_id }}">
+      <img src="{% static 'img/search.png' %}" height=19 />
+      Search this mass’s derivatives
+    </a>
+  </h3>
+  <table class="table table-white table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Composer</th>
+        <th>Genre</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    {% for work in content.derivatives|include_mass_once %}
+      <tr>
+        <td>
+          <a href="{{ work.url|htmlsite }}">
+            {% if work.piece_id %}
+              [{{ work.piece_id }}]
+            {% elif work.mass_id %}
+              [{{ work.mass_id }}]
+            {% endif %}
+          </a>
+        </td>
+        <td>{{ work.title }}</td>
+        <td><a href="{{ work.composer.url|htmlsite }}">{{ work.composer.name }}</a></td>
+        <td><a href="{{ work.genre.url|htmlsite }}">{{ work.genre.name }}</a></td>
+        <td>{{ work.date }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% if not content.models and not content.derivatives %}
+  <h3>No models or derivatives for this mass.</h3>
+{% endif %}

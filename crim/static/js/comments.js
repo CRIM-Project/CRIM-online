@@ -207,8 +207,8 @@ function startCommentFeed(piece, days_to_show){
             // @username replaced with link to profile page
             // word = word.replace(/^@([a-z0-9_]+)/gi,"<a href='/people/$1/'>@$1</a>");
 
-            // DCxxxx replaced with link to piece page
-            word = word.replace(/^#?DC([0-9]{4}[a-z]?)/gi,"<a href='/pieces/DC$1/'>DC$1</a>");
+            // Piece IDs and Mass IDs replaced with link to piece or mass page
+            word = word.replace(/^#?(CRIM_Piece_[0-9]{4})/gi,"<a href='/pieces/$1/'>$1</a>").replace(/^#?(CRIM_Mass_[0-9]{4}_[0-9]{2})/gi,"<a href='/pieces/$1/'>$1</a>").replace(/^#?(CRIM_Mass_[0-9]{4})/gi,"<a href='/masses/$1/'>$1</a>");
 
             if (i != 0 ){ return_text = return_text + " "; }
             return_text = return_text + word;

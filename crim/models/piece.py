@@ -123,14 +123,26 @@ class CRIMPiece(models.Model):
         return CRIMPiece.objects.filter(
                 relationships_as_model__derivative_piece=self,
                 relationships_as_model__curated=True,
-            ).order_by('mass', 'piece_id').distinct()
+            ).order_by('mass', 'piece_id').select_related(
+                'mass',
+                'mass__genre',
+                'mass__composer',
+                'genre',
+                'composer',
+            ).distinct()
 
     @property
     def derivatives(self):
         return CRIMPiece.objects.filter(
                 relationships_as_derivative__model_piece=self,
                 relationships_as_derivative__curated=True,
-            ).order_by('mass', 'piece_id').distinct()
+            ).order_by('mass', 'piece_id').select_related(
+                'mass',
+                'mass__genre',
+                'mass__composer',
+                'genre',
+                'composer',
+            ).distinct()
 
     def get_absolute_url(self):
         return '/pieces/{0}/'.format(self.piece_id)
@@ -160,9 +172,18 @@ class CRIMPiece(models.Model):
         # Save the composer role with the earliest date associated with this piece
         # in the piece.composer field.
         primary_role = CRIMRole.objects.filter(piece=self, role_type__role_type_id='composer').order_by('date_sort').first()
-        self.composer = primary_role.person if primary_role else None
-        self.date = primary_role.date if primary_role else ''
-        self.date_sort = primary_role.date_sort if primary_role else None
+        # Get the information from the related mass if necessary
+        if not primary_role and self.mass:
+            primary_role = CRIMRole.objects.filter(mass=self.mass, role_type__role_type_id='composer').order_by('date_sort').first()
+
+        if primary_role:
+            self.composer = primary_role.person
+            self.date = primary_role.date
+            self.date_sort = primary_role.date_sort
+        else:
+            self.composer = None
+            self.date = ''
+            self.date_sort = None
 
         super().save()
 

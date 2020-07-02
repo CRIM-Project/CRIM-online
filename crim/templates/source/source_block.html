@@ -28,10 +28,10 @@
           {{ source.title }}
         </td>
         <td>
-          {{ source.roles|people:"printer"|safe }}
+          <a href="{{ source.publisher.url|htmlsite }}">{{ source.publisher.name }}</a>
         </td>
         <td>
-          {{ source.roles|earliest_date:"printer" }}
+          {{ source.date }}
         </td>
       {% endfor %}
     </tbody>

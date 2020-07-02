@@ -25,6 +25,11 @@
     {% endfor %}
   </hgroup>
 
+  {% if content.remarks %}
+    <h2>Remarks</h2>
+    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
+  {% endif %}
+
   {% if content.mass_contents or content.piece_contents or content.treatise_contents %}
     <h2>Contents</h2>
     <div class="row-fluid">
@@ -43,7 +48,7 @@
             {% for mass in content.mass_contents %}
               <tr>
                 <td><a href="{{ mass.url|htmlsite }}">[{{ mass.mass_id }}]</a></td>
-                <td>Mass</td>
+                <td><a href="/masses/">Mass</a></td>
                 <td>{{ mass.title }}</td>
                 <td>{{ mass.roles|people:"composer"|safe }}</td>
                 <td>{{ mass.roles|earliest_date:"composer" }}</td>
@@ -52,9 +57,9 @@
             {% for piece in content.piece_contents %}
               {% if piece.mass not in content.mass_contents %}
               <tr>
-                <td>{{ piece.piece_id }}</td>
-                <td>Piece</td>
-                <td><a href="{{ piece.url|htmlsite }}">[{{ piece.title }}]</a></td>
+                <td><a href="{{ piece.url|htmlsite }}">[{{ piece.piece_id }}]</a></td>
+                <td><a href="{{ piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
+                <td>{{ piece.title }}</td>
                 <td>{{ piece.roles|people:"composer"|safe }}</td>
                 <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% elif piece.mass.roles|earliest_date:"composer" %}{{ piece.mass.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
                 <td>{{ piece.remarks|markdown|shorten|safe }}</td>
@@ -64,7 +69,7 @@
             {% for treatise in content.treatise_contents %}
               <tr>
                 <td>{{ treatise.document_id }}</td>
-                <td>Treatise</td>
+                <td><a href="/treatises/">Treatise</a></td>
                 <td><a href="{{ treatise.url|htmlsite }}">[{{ treatise.title }}]</a></td>
                 <td>{{ treatise.roles|people:"author"|htmlsite|safe }}</td>
                 <td>{{ treatise.roles|earliest_date:"author" }}</td>
@@ -76,12 +81,5 @@
       </div>
     </div>
   {% endif %}
-
-  {% if content.remarks %}
-    <h2>Remarks</h2>
-    <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
-  {% endif %}
-
-
 
 {% endblock %}
