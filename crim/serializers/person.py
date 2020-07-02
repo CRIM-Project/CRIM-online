@@ -41,6 +41,7 @@ class CRIMMassPersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMMass
         fields = (
             'url',
+            'mass_id',
             'title',
             'genre',
         )
@@ -54,6 +55,7 @@ class CRIMPiecePersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMPiece
         fields = (
             'url',
+            'piece_id',
             'full_title',
             'genre',
             'date',
@@ -67,6 +69,7 @@ class CRIMTreatisePersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMTreatise
         fields = (
             'url',
+            'document_id',
             'title',
         )
 
@@ -78,6 +81,7 @@ class CRIMSourcePersonSerializer(serializers.HyperlinkedModelSerializer):
         model = CRIMSource
         fields = (
             'url',
+            'document_id',
             'title',
         )
 

@@ -49,7 +49,8 @@
     <table class="table table-white table-bordered table-hover">
       <thead>
         <tr>
-          <th><a href="?order_by=date_sort">Title</a></th>
+          <th>ID</th>
+          <th>Title</th>
           <th>Genre</th>
           <th>Role</th>
           <th>Date</th>
@@ -60,7 +61,8 @@
         {% for role in content.roles %}
         {% if role.piece %}
           <tr>
-            <td><a href="{{ role.piece.url|htmlsite }}">{{ role.piece.full_title }}</a></td>
+            <td><a href="{{ role.piece.url|htmlsite }}">[{{ role.piece.piece_id }}]</a></td>
+            <td>{{ role.piece.full_title }}</td>
             <td><a href="{{ role.piece.genre.url|htmlsite }}">{{ role.piece.genre.name }}</a></td>
             <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
             <td>{{ role.date }}</td>
@@ -68,7 +70,8 @@
           </tr>
           {% elif role.mass %}
             <tr>
-              <td><a href="{{ role.mass.url|htmlsite }}">{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</a></td>
+              <td><a href="{{ role.mass.url|htmlsite }}">[{{ role.mass.mass_id }}]</a></td>
+              <td>{% if role.mass.title %}{{ role.mass.title }}{% else %}[Mass]{% endif %}</td>
               <td><a href="/masses/">Mass</a></td>
               <!-- The above could be made into a specific genre if we were to add more specific genres to masses. -->
               <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
@@ -77,7 +80,8 @@
             </tr>
           {% elif role.treatise %}
             <tr>
-              <td><a href="{{ role.treatise.url|htmlsite }}">{{ role.treatise.title }}</a></td>
+              <td><a href="{{ role.treatise.url|htmlsite }}">[{{ role.treatise.document_id }}]</a></td>
+              <td>{{ role.treatise.title }}</td>
               <td>Treatise</td>
               <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
               <td>{{ role.date }}</td>
@@ -85,7 +89,8 @@
             </tr>
           {% elif role.source %}
             <tr>
-              <td><a href="{{ role.source.url|htmlsite }}">{{ role.source.title }}</a></td>
+              <td><a href="{{ role.source.url|htmlsite }}">[{{ role.source.document_id }}]</a></td>
+              <td>{{ role.source.title }}</td>
               <td>Source</td>
               <td><a href="{{ role.role_type.url|htmlsite }}">{{ role.role_type.name }}</a></td>
               <td>{{ role.date }}</td>
@@ -105,7 +110,5 @@
       </tbody>
     </table>
   {% endif %}
-
-
 
 {% endblock %}
