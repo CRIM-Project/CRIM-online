@@ -34,11 +34,12 @@
         {% if role.remarks %}<p class="subheading">{{ role.remarks }}</p>{% endif %}
         {% endfor %}
       </hgroup>
-      {% include "source/source_block.html" with sources=content.sources %}
       {% if content.remarks %}
         <h2>Remarks</h2>
         <p id="remarks-text">{{ content.remarks|markdown|safe }}</p>
       {% endif %}
+      {% include "source/source_block.html" with sources=content.sources %}
+      {% include "mass/relationships.html" %}
     </div>
     <div class="span3">
       {% if content.movements %}
@@ -59,47 +60,6 @@
               <a href="{{ piece.url|htmlsite }}">{{ piece.title }}</a>
             </h3>
           {% endfor %}
-        </div>
-      {% endif %}
-      <!-- Show related pieces -->
-      {% if content.models %}
-        <div class="well span12">
-          <h3>Models</h3>
-          <ul>
-            {% for work in content.models|include_mass_once %}
-              <li>
-                <a href="{{ work.url|htmlsite }}">
-                  {% if work.piece_id %}
-                    [{{ work.piece_id }}]
-                  {% elif work.mass_id %}
-                    [{{ work.mass_id }}]
-                  {% endif %}
-                  <br>
-                  {{ work.title }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      {% if content.derivatives %}
-        <div class="well span12">
-          <h3>Derivatives</h3>
-          <ul>
-            {% for work in content.derivatives|include_mass_once %}
-              <li>
-                <a href="{{ work.url|htmlsite }}">
-                  {% if work.piece_id %}
-                    [{{ work.piece_id }}]
-                  {% elif work.mass_id %}
-                    [{{ work.mass_id }}]
-                  {% endif %}
-                  <br>
-                  {{ work.title }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
         </div>
       {% endif %}
     </div>
