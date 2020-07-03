@@ -3,7 +3,7 @@
 {% if content.models %}
   <h2>Models</h2>
   <h3>
-    <a href="/search/?q=&derivative-piece-id={{ content.piece_id }}">
+    <a href="/search/?q=&derivative-mass-id={{ content.mass_id }}">
       <img src="{% static 'img/search.png' %}" height=19 />
       Search this mass’s models
     </a>
@@ -41,7 +41,7 @@
 {% if content.derivatives %}
   <h2>Derivatives</h2>
   <h3>
-    <a href="/search/?q=&model-piece-id={{ content.piece_id }}">
+    <a href="/search/?q=&model-mass-id={{ content.mass_id }}">
       <img src="{% static 'img/search.png' %}" height=19 />
       Search this mass’s derivatives
     </a>

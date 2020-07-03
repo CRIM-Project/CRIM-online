@@ -163,7 +163,8 @@ def solr_index_single(relationship, solrconn):
 
             'model_piece_id_s': relationship.model_observation.piece.piece_id,
             'model_title_s': relationship.model_observation.piece.mass.title + ': ' + relationship.model_observation.piece.title if relationship.model_observation.piece.mass else relationship.model_observation.piece.title,
-            'model_mass_s': relationship.model_observation.piece.mass.title if relationship.model_observation.piece.mass else None,
+            'model_mass_id_s': relationship.model_observation.piece.mass.mass_id if relationship.model_observation.piece.mass else None,
+            'model_mass_title_s': relationship.model_observation.piece.mass.title if relationship.model_observation.piece.mass else None,
             'model_composer_s': relationship.model_observation.piece.composer.name if relationship.model_observation.piece.composer else '',
             'model_genre_s': relationship.model_observation.piece.genre,
             'model_date_i': relationship.model_observation.piece.date_sort,
@@ -277,7 +278,8 @@ def solr_index_single(relationship, solrconn):
 
             'derivative_piece_id_s': relationship.derivative_observation.piece.piece_id,
             'derivative_title_s': relationship.derivative_observation.piece.mass.title + ': ' + relationship.derivative_observation.piece.title if relationship.derivative_observation.piece.mass else relationship.derivative_observation.piece.title,
-            'derivative_mass_s': relationship.derivative_observation.piece.mass.title if relationship.derivative_observation.piece.mass else None,
+            'derivative_mass_id_s': relationship.derivative_observation.piece.mass.mass_id if relationship.derivative_observation.piece.mass else None,
+            'derivative_mass_title_s': relationship.derivative_observation.piece.mass.title if relationship.derivative_observation.piece.mass else None,
             'derivative_composer_s': relationship.derivative_observation.piece.composer.name if relationship.derivative_observation.piece.composer else '',
             'derivative_genre_s': relationship.derivative_observation.piece.genre,
             'derivative_date_i': relationship.derivative_observation.piece.date_sort,
