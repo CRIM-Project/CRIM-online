@@ -25,8 +25,9 @@ class MassListHTMLRenderer(CustomHTMLRenderer):
 class MassDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         # Sort roles alphabetically by role type
-        data['roles'] = sorted(data['roles'],
-                               key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+        if 'roles' in data:
+            data['roles'] = sorted(data['roles'],
+                                   key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
         template_names = ['mass/mass_detail.html']
         template = self.resolve_template(template_names)
