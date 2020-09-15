@@ -6,9 +6,6 @@ import os.path
 MEI_LOC = '../../crim/static/mei/'
 MEI_OUT = 'output/'
 
-# More metadata to be found here:
-# https://sites.google.com/haverford.edu/crim-project/technical-team#h.fm1mz32ig3l5
-
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Convert all MEI files in CRIM-Online from v3 to v4.')
   parser.add_argument('--mei', default=MEI_LOC, dest="mei", help="directory where MEI files are located")
