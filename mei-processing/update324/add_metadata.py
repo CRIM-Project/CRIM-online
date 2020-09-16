@@ -41,8 +41,8 @@ def apply_metadata(mei, metadata):
   # composer
   ET.SubElement(respStmt_el, 'persName', {
     'role': 'composer',
-    'auth': 'VIAF',
-    'auth.uri': metadata[5]
+    'auth': 'BNF',
+    'auth.uri': metadata[6]
   }).text = metadata[4]
   # editors
   editors = metadata[8].split('|')
@@ -104,7 +104,7 @@ def create_mass_mei(mass_name, metadata):
       <titleStmt>
         <title>{metadata[2]}</title>
         <respStmt>
-          <persName role="composer" auth="VIAF" auth.uri="{metadata[5]}">{metadata[4]}</persName>
+          <persName role="composer" auth="BNF" auth.uri="{metadata[6]}">{metadata[4]}</persName>
         </respStmt>
       </titleStmt>
       <pubStmt>
@@ -126,7 +126,7 @@ def create_mass_mei(mass_name, metadata):
       <work>
         <title>{metadata[2]}</title>
         <composer>
-          <persName role="composer" auth="VIAF" auth.uri="{metadata[5]}">{metadata[4]}</persName>
+          <persName role="composer" auth="BNF" auth.uri="{metadata[6]}">{metadata[4]}</persName>
         </composer>
         <contents></contents>
       </work>
@@ -139,7 +139,7 @@ def create_mass_mei(mass_name, metadata):
         </titleStmt>
         <pubStmt>
           <publisher>
-            <persName auth="VIAF" auth.uri="{metadata[14]}">{metadata[13]}</persName>
+            <persName auth="BNF" auth.uri="{metadata[15]}">{metadata[13]}</persName>
           </publisher>
           <date isodate="{metadata[16]}"/>
         </pubStmt>
