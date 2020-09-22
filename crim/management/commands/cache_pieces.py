@@ -20,5 +20,8 @@ class Command(BaseCommand):
             for piece_id in options['piece_ids']:
                 try:
                     piece = CRIMPiece.objects.get(piece_id=piece_id)
+                    print('Caching {}'.format(piece.piece_id))
+                    for i in range(30):
+                        render_piece(piece.piece_id, i+1)
                 except CRIMPiece.DoesNotExist:
                     raise CommandError('Piece "%s" does not exist' % piece_id)
