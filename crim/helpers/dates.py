@@ -2,7 +2,6 @@ import re
 
 from crim.helpers.common import get_nonempty
 
-
 def date_list(roles, role_types=''):
     '''Returns a list of dates given a list of roles. If role types
     are given, return only dates in roles with an acceptable role type.'''
