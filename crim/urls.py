@@ -150,9 +150,3 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path('about', include('django.contrib.flatpages.urls')),
     ]
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        path('debug/', include(debug_toolbar.urls)),
-    ] + urlpatterns
