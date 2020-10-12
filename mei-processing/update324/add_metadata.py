@@ -6,6 +6,7 @@ from datetime import date
 import xml.etree.ElementTree as ET
 
 MEI_LOC = 'output/'
+MEI_OUTPUT = 'output/metadata'
 METADATA_MASSES = os.path.join('data', 'metadata-masses.csv')
 METADATA_MODELS = os.path.join('data', 'metadata-models.csv')
 
@@ -274,6 +275,11 @@ def add_mass_metadata(mei_doc, metadata):
   })
   return mei_doc
 
+# MAIN
+
+if not os.path.exists(MEI_OUTPUT):
+  os.makedirs(MEI_OUTPUT)
+
 # Deal with masses first.
 updated_masses = {}
 
@@ -303,7 +309,7 @@ with open(METADATA_MASSES, newline='') as csvfile:
         mass.write(MEIDECLS)
         mass.write(ET.tostring(mass_doc, encoding='unicode'))
     # Add metadata to section file
-    with open(mei+'-v4', 'w') as mei_output:
+    with open(os.path.join(MEI_OUTPUT, mei_filename), 'w') as mei_output:
       mei_output.write(MEIDECLS)
       mei_output.write(apply_metadata(mei, row))
 
@@ -320,6 +326,6 @@ with open(METADATA_MODELS, newline='') as csvfile:
     if (not os.path.exists(mei)):
       print('Could not locate ', mei)
       continue
-    with open(mei+'-v4', 'w') as mei_output:
+    with open(os.path.join(MEI_OUTPUT, mei_filename), 'w') as mei_output:
       mei_output.write(MEIDECLS)
       mei_output.write(apply_model_metadata(mei, row))
