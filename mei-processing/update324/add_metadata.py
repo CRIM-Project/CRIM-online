@@ -25,6 +25,13 @@ def apply_model_metadata(mei, metadata):
   mei_doc = ET.parse(mei)
   root = mei_doc.getroot()
 
+  # Revert staffDef/label to staffDef/@label
+  staffDefs = root.findall(f'{MEINS}music//{MEINS}staffDef')
+  for staffDef in staffDefs:
+    label = staffDef.find(f'{MEINS}label').text
+    if label:
+      staffDef.set('label', label)
+
   head_el = root.find(f'{MEINS}meiHead')
   fileDesc_el = head_el.find(f'{MEINS}fileDesc')
 
@@ -124,6 +131,12 @@ def apply_metadata(mei, metadata):
   mei_doc = ET.parse(mei)
   root = mei_doc.getroot()
 
+  # Revert staffDef/label to staffDef/@label
+  staffDefs = root.findall(f'{MEINS}music//{MEINS}staffDef')
+  for staffDef in staffDefs:
+    label = staffDef.find(f'{MEINS}label').text
+    staffDef.set('label', label)
+
   # set mdiv's id to "movement"
   mdiv_el = root.find(f'{MEINS}music//{MEINS}mdiv')
   del mdiv_el.attrib['{http://www.w3.org/XML/1998/namespace}id']
@@ -134,7 +147,10 @@ def apply_metadata(mei, metadata):
 
   titleStmt_el = fileDesc_el.find(f'{MEINS}titleStmt')
   title_el = titleStmt_el.find(f'{MEINS}title')
+  title_el_id = title_el.get('{http://www.w3.org/XML/1998/namespace}id')
+  titleStmt_el.set('xml:id', title_el_id+'-ts')
   title_el.clear()
+  title_el.set('xml:id', title_el_id)
   title_el.text = metadata[1]
 
   respStmt_el = ET.SubElement(titleStmt_el, 'respStmt')
