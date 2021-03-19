@@ -173,9 +173,9 @@ def delete_redundant_data(sender, instance=None, **kwargs):
     # Reset the cached data on the related object by saving it
     if instance.piece:
         instance.piece.save()
-    elif instance.mass:
+    if instance.mass:
         instance.mass.save()
-    elif instance.treatise:
+    if instance.treatise:
         instance.treatise.save()
-    elif instance.source:
+    if instance.source:
         instance.source.save()
