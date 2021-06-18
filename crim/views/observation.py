@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 def render_observation(observation_id, piece_id, ema, explicit_page_number=None):
     ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
     tk = verovio.toolkit()
-    raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
+    raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', piece_id + '.mei')).read()
     cited_mei = slice_from_file(raw_mei, ema)
     plist_match = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei)
     plist = plist_match.group(1) if plist_match else None
