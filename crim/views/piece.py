@@ -20,7 +20,7 @@ import verovio
 
 def render_piece(piece_id, page_number):
     tk = verovio.toolkit()
-    raw_mei = open(os.path.join('crim/static/mei', piece_id + '.mei')).read()
+    raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', piece_id + '.mei')).read()
 
     tk.setOption('noHeader', 'true')
     tk.setOption('noFooter', 'true')

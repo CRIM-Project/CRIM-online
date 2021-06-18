@@ -3,7 +3,7 @@ import argparse
 from os import listdir
 import os.path
 
-MEI_LOC = '../../crim/static/mei/'
+MEI_LOC = '../../crim/static/mei/MEI_3.0/'
 MEI_OUT = 'output/'
 
 if __name__ == '__main__':
@@ -11,7 +11,7 @@ if __name__ == '__main__':
   parser.add_argument('--mei', default=MEI_LOC, dest="mei", help="directory where MEI files are located")
   parser.add_argument('--output', default=MEI_OUT, dest="output", help="output directory")
   parser.add_argument('--meigarage', default=None, dest="garage", help="MEI Garage endpoint")
-  
+
   options = parser.parse_args()
 
   if not os.path.exists(options.output):
