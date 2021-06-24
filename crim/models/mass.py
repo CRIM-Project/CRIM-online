@@ -100,10 +100,11 @@ class CRIMMass(models.Model):
             raise ValidationError('The Mass ID must consist of letters, numbers, hyphens, and underscores.')
 
     def save(self, *args, **kwargs):
-        # Add number of voices
+        # Add number of voices, if that information exists
         list_of_voice_counts = [CRIMVoice.objects.filter(piece=p).count() for p in CRIMPiece.objects.filter(mass=self)]
-        self.min_number_of_voices = min(list_of_voice_counts)
-        self.max_number_of_voices = max(list_of_voice_counts)
+        if list_of_voice_counts:
+            self.min_number_of_voices = min(list_of_voice_counts)
+            self.max_number_of_voices = max(list_of_voice_counts)
 
         # Save the composer role with the earliest date associated with this mass
         # in the mass.composer field.
