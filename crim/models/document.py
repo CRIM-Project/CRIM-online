@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 from crim.models.person import CRIMPerson
@@ -139,9 +140,9 @@ class CRIMSource(CRIMDocument):
         # Remove extraneous newlines from external_links field
         self.external_links = re.sub(r'[\n\r]+', r'\n', self.external_links)
 
-        # Save the printer role with the earliest date associated with this piece
-        # in the document.publisher field.
-        primary_role = CRIMRole.objects.filter(source=self, role_type__role_type_id='printer').order_by('date_sort').first()
+        # Save the printer or scribe role (whichever is applicable) with the
+        # earliest date associated with this piece in the document.publisher field.
+        primary_role = CRIMRole.objects.get(source=self, Q(role_type__role_type_id='scribe') | Q(role_type__role_type_id='printer')).order_by('date_sort').first()
         self.publisher = primary_role.person if primary_role else None
         self.date = primary_role.date if primary_role else ''
         self.date_sort = primary_role.date_sort if primary_role else None
