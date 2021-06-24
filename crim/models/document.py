@@ -142,7 +142,7 @@ class CRIMSource(CRIMDocument):
 
         # Save the printer or scribe role (whichever is applicable) with the
         # earliest date associated with this piece in the document.publisher field.
-        primary_role = CRIMRole.objects.get(Q(role_type__role_type_id='scribe') | Q(role_type__role_type_id='printer'), source=self).order_by('date_sort').first()
+        primary_role = CRIMRole.objects.filter(Q(role_type__role_type_id='scribe') | Q(role_type__role_type_id='printer'), source=self).order_by('date_sort').first()
         self.publisher = primary_role.person if primary_role else None
         self.date = primary_role.date if primary_role else ''
         self.date_sort = primary_role.date_sort if primary_role else None
