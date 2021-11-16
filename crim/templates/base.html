@@ -39,7 +39,7 @@
         {% if request.user.is_authenticated %}
           <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="/accounts/profile/">My Account</a> | <a href="/accounts/logout/">Logout</a></p>
         {% else %}
-          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="mailto:{{ADMIN_EMAIL}}?subject=Account request">Request account</a> | <a href="/accounts/login/">Login</a></p>
+          <p class="navbar-text pull-right"><i class="icon-user"></i> <a href="mailto:{% admin_email %}?subject=Account request">Request account</a> | <a href="/accounts/login/">Login</a></p>
         {% endif %}
       </div>
     </div>
