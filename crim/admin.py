@@ -22,6 +22,10 @@ from crim.models.voice import CRIMVoice
 from crim.models.note import CRIMNote
 
 
+# This is to fix the annoying layout of the new Django admin interface
+admin.sites.AdminSite.enable_nav_sidebar = False
+
+
 class CRIMPieceMassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
