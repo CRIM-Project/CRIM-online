@@ -1,0 +1,205 @@
+{
+  "id": 8,
+  "relationship_definition": {
+    "mechanical transformation": {
+      "melodically inverted": "boolean",
+      "metrically shifted": "boolean",
+      "retrograde": "boolean",
+      "sounding of different voices": "boolean",
+      "systematic augmentation": "boolean",
+      "systematic diminution": "boolean",
+      "transposition": {
+        "radio": [
+          "not transposed",
+          "transposed",
+          "transposed different amounts"
+        ]
+      }
+    },
+    "new material": "boolean",
+    "non-mechanical transformation": {
+      "activity": {
+        "radio": [
+          "embellished",
+          "reduced"
+        ]
+      },
+      "extent": {
+        "radio": [
+          "amplified",
+          "truncated"
+        ]
+      },
+      "double or invertible counterpoint": "boolean",
+      "melodically inverted": "boolean",
+      "metrically shifted": "boolean",
+      "new combination": "boolean",
+      "new counter subject": "boolean",
+      "old counter subject shifted metrically": "boolean",
+      "old counter subject transposed": "boolean",
+      "retrograde": "boolean",
+      "sounding of different voices": "boolean"
+    },
+    "omission": "boolean",
+    "quotation": {
+      "type": {
+        "radio": [
+          "exact",
+          "monnayage"
+        ]
+      }
+    },
+    "self enchainment": "boolean",
+    "self repetition": "boolean",
+    "self return": "boolean"
+  },
+  "observation_definition": {
+    "cadence": {
+      "tone": {
+        "radio": [
+          "C",
+          "D",
+          "E",
+          "E-flat",
+          "F",
+          "G",
+          "A",
+          "B",
+          "B-flat"
+        ]
+      },
+      "type": {
+        "radio": [
+          "authentic",
+          "plagal",
+          "phrygian"
+        ]
+      },
+      "voices": "text",
+      "dovetail cadence": "boolean",
+      "dovetail cadence voice": "text",
+      "dovetail position": {
+        "radio": [
+          "above",
+          "between",
+          "below"
+        ]
+      },
+      "irregular cadence": "boolean",
+      "irregular roles": {
+        "checkbox": [
+          "cantizans",
+          "altizans",
+          "tenorizans",
+          "bassizans"
+        ]
+      }
+    },
+    "cantus firmus": {
+      "voice": "text",
+      "features": {
+        "radio": [
+          "both pitches and durations",
+          "pitches only",
+          "durations only"
+        ]
+      }
+    },
+    "soggetto": {
+      "voice": "text",
+      "features": {
+        "radio": [
+          "both pitches and durations",
+          "pitches only",
+          "durations only"
+        ]
+      },
+      "ostinato": "boolean",
+      "periodic": "boolean"
+    },
+    "counter soggetto": {
+      "voice": "text",
+      "features": {
+        "radio": [
+          "both pitches and durations",
+          "pitches only",
+          "durations only"
+        ]
+      },
+      "ostinato": "boolean",
+      "periodic": "boolean"
+    },
+    "contrapuntal duo": {
+      "voices": "text"
+    },
+    "fuga": {
+      "voices": "text",
+      "entry intervals": "text",
+      "time intervals": "text",
+      "regularity": {
+        "radio": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      "periodic": "boolean",
+      "sequential": "boolean",
+      "inverted": "boolean",
+      "retrograde": "boolean"
+    },
+    "imitative duo": {
+      "voices": "text",
+      "entry intervals": "text",
+      "time intervals": "text",
+      "regularity": {
+        "radio": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      "invertible counterpoint": "boolean"
+    },
+    "non-imitative duo": {
+      "voices": "text",
+      "entry intervals": "text",
+      "time intervals": "text",
+      "regularity": {
+        "radio": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      "invertible counterpoint": "boolean"
+    },
+    "periodic entry": {
+      "voices": "text",
+      "entry intervals": "text",
+      "time intervals": "text",
+      "regularity": {
+        "radio": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      "invertible counterpoint": "boolean",
+      "sequential": "boolean",
+      "added entries": "boolean"
+    },
+    "homorhythm": {
+      "voices": "text",
+      "type": {
+        "radio": [
+          "simple",
+          "staggered",
+          "sequential",
+          "fauxbourdon"
+        ]
+      },
+      "dialogue": "boolean"
+    }
+  }
+}
