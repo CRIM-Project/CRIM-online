@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
+from crim.models.definition import CRIMDefinition
 from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.mass import CRIMMass
-from crim.models.observation import CRIMObservation
+from crim.models.observation import CRIMObservation, CJObservation
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
-from crim.models.relationship import CRIMRelationship
+from crim.models.relationship import CRIMRelationship, CJRelationship
 from crim.models.role import CRIMRole
 from crim.models.user import CRIMUserProfile
 
@@ -28,9 +29,17 @@ class Command(BaseCommand):
         for mass in CRIMMass.objects.all():
             mass.save()
 
+        # These next two are the old types which are deprecated
         for observation in CRIMObservation.objects.all():
             observation.save()
         for relationship in CRIMRelationship.objects.all():
+            relationship.save()
+
+        for definition in CRIMDefinition.objects.all():
+            definition.save()
+        for observation in CJObservation.objects.all():
+            observation.save()
+        for relationship in CJRelationship.objects.all():
             relationship.save()
 
         for user in User.objects.all():

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load scorenav %}
+{% load static %}
+{% load newlinereplace %}
+{% load newlineplural %}
+{% load firstitem %}
+{% load people %}
+
+{% block title %}
+  <title>
+    CRIM | {% if content.curated %}Relationship{% else %}Uncurated relationship{% endif %} &lt;R{{ content.id }}&gt;
+    {{ content.model_observation.piece.full_title }}
+    &rarr;
+    {{ content.derivative_observation.piece.full_title }}
+  </title>
+  <style>
+    .cw-score-model { width: 100%; height: 500px }
+    .cw-score-derivative { width: 100%; height: 500px }
+    .cw-highlighted { color: #c71a22; fill: currentColor }
+  </style>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup class="page-title">
+    <h1>
+      {% if content.curated %}Relationship{% else %}Uncurated relationship{% endif %}
+      <small>&lt;R{{ content.id }}&gt;</small>
+      {% if request.user.is_staff %}
+        <small><a href="/citations/{{ content.id }}/">[Edit this relationship]</a></small>
+      {% endif %}
+    </h1>
+    <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
+  </hgroup>
+
+  {% include "relationship/relationship_old_expanded.html" with relationship=content %}
+
+  <div class="row-fluid" id="score">
+    <div class="span9">
+      <div style="width:700px">
+        <div id="model-header" class="row-fluid">
+          <div class="span9">
+            <h2>
+              Model:
+                {% if content.model_observation.piece.roles|people:"composer" %}{{ content.model_observation.piece.roles|people:"composer"|safe }},
+                {% elif content.model_observation.piece.mass.roles|people:"composer" %}{{ content.model_observation.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}
+                <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.full_title }}</a>
+            </h2>
+          </div>
+          <div class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
+              <a href="{{ content.url|htmlsite }}{{ request|prevpage_model:content.model_page_number }}" class="btn btn-primary cw-prev">&lt;</a>
+              <a href="{{ content.url|htmlsite }}{{ request|start_model }}" class="btn btn-primary cw-show">start</a>
+              <a href="{{ content.url|htmlsite }}{{ request|nextpage_model:content.model_page_number }}" class="btn btn-primary cw-next">&gt;</a>
+            </div>
+          </div>
+        </div>
+        <div id="model_score">
+          {% autoescape off %}
+            {{ content.model_svg }}
+          {% endautoescape %}
+        </div>
+      </div>
+    </div>
+    <div class="span3">
+      <h2><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.id }}&gt;</a></small></h2>
+      {% include "observation/observation_expanded.html" with observation=content.model_observation %}
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span9">
+      <div style="width:700px">
+        <div id="derivative-header" class="row-fluid">
+          <div class="span9">
+            <h2>
+              Derivative:
+                {% if content.derivative_observation.piece.roles|people:"composer" %}{{ content.derivative_observation.piece.roles|people:"composer"|safe }},
+                {% elif content.derivative_observation.piece.mass.roles|people:"composer" %}{{ content.derivative_observation.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}
+                <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.full_title }}</a>
+            </h2>
+          </div>
+          <div class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
+              <a href="{{ content.url|htmlsite }}{{ request|prevpage_derivative:content.derivative_page_number }}" class="btn btn-primary cw-prev">&lt;</a>
+              <a href="{{ content.url|htmlsite }}{{ request|start_derivative }}" class="btn btn-primary cw-show">start</a>
+              <a href="{{ content.url|htmlsite }}{{ request|nextpage_derivative:content.derivative_page_number }}" class="btn btn-primary cw-next">&gt;</a>
+            </div>
+          </div>
+        </div>
+        <div id="derivative_score">
+          {% autoescape off %}
+            {{ content.derivative_svg }}
+          {% endautoescape %}
+        </div>
+      </div>
+    </div>
+    <div class="span3">
+      <h2><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.id }}&gt;</a></small></h2>
+      {% include "observation/observation_expanded.html" with observation=content.derivative_observation %}
+    </div>
+  </div>
+
+  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
+  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
+
+  <script>
+    var vrv = new window.verovio.toolkit()
+    var cwModel = new CrimViewer({
+      mei: '{{ content.model_observation.piece.mei_links|firstitem }}',
+      ema: '{{ content.model_observation.ema }}',
+      vrv: vrv,
+      div: 'modelScore',
+      controls: 'cw-model-controls'
+    })
+    cwModel.render()
+    var cwDerivative = new CrimViewer({
+      mei: '{{ content.derivative_observation.piece.mei_links|firstitem }}',
+      ema: '{{ content.derivative_observation.ema }}',
+      vrv: vrv,
+      div: 'derivativeScore',
+      controls: 'cw-derivative-controls'
+    })
+    cwDerivative.render()
+  </script>
+
+{% endblock %}

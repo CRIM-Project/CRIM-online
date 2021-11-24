@@ -5,7 +5,7 @@
 {% load get_string %}
 
 {% block title %}
-  <title>CRIM | Observations</title>
+  <title>CRIM | Relationships</title>
 {% endblock %}
 
 {% block wrap %}
@@ -13,7 +13,7 @@
     <div class="span12">
       <div class="show-heading row-fluid">
         <hgroup class="show-title page-title span12">
-          <h1>Observations</h1>
+          <h1>Relationships</h1>
         </hgroup>
       </div>
     </div>
@@ -25,40 +25,47 @@
           <tr>
             <th><a href="?order_by=pk">ID</a></th>
             <th><a href="?order_by=observer__name_sort">Observer</a></th>
-            <th><a href="?order_by=piece__piece_id">Piece</a></th>
-            <th>Observation type</th>
+            <th><a href="?order_by=model_observation__piece__piece_id">Model</a></th>
+            <th><a href="?order_by=derivative_observation__piece__piece_id">Derivative</a></th>
+            <th>Relationship type</th>
             <th>Show details</th>
           </tr>
         </thead>
         <tbody>
-          {% for observation in content.results %}
+          {% for relationship in content.results %}
             <tr>
-              <td><a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.url|htmlsite }}">&lt;{{ observation.id }}&gt;</a></td>
-              <td><a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
+              <td><a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
+              <td><a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
               <td>
-                <a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.piece.url|htmlsite }}">
-                  [{{ observation.piece.piece_id }}]
-                  {{ observation.piece.full_title }}
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.url|htmlsite }}">
+                  &lt;{{ relationship.model_observation.id }}&gt;
+                </a>
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.piece.url|htmlsite }}">
+                  {{ relationship.model_observation.piece.full_title }}
                 </a>
               </td>
               <td>
-                {% if observation.musical_type %}
-                  {{ observation.musical_type }}
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.url|htmlsite }}">
+                  &lt;{{ relationship.derivative_observation.id }}&gt;
+                </a>
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
+                  {{ relationship.derivative_observation.piece.full_title }}
+                </a>
+              </td>
+              <td>
+                {% if relationship.relationship_type %}
+                  {{ relationship.relationship_type }}
                 {% else %}
                   None
                 {% endif %}
               </td>
               <td>
-                {% if observation.details %}
-                  <a href="#" class="observation-info-expand {% if not observation.curated %}uncurated{% endif %}" target="observation-info-{{ forloop.counter }}">Expand</a>
-                {% else %}
-                  -
-                {% endif %}
+                <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
               </td>
             </tr>
-            <tr id="observation-info-{{ forloop.counter }}" class="observation-info">
-              <td colspan="5" class="expansion">
-                {% include "observation/observation_expanded.html" %}
+            <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
+              <td colspan="6" class="expansion">
+                {% include "relationship/relationship_old_expanded.html" %}
               </td>
             </tr>
           {% endfor %}
@@ -73,8 +80,8 @@
             <li class="disabled" id="first-child">&laquo;</li>
           {% endif %}
           <!-- CAREFUL: the parameter of rangelist MUST match
-          the page_size attribute in ObservationSetPagination,
-          found in views/observation.py -->
+          the page_size attribute in RelationshipSetPagination,
+          found in views/relationship.py -->
           {% for i in content.count|rangelist:100 %}
             {% if request.GET.page == i|string %}
               <li class="active">{{ i }}</li>
@@ -95,9 +102,9 @@
   </div>
 
   <script type="text/javascript">
-    // This script expands and hides observation details
-    $('.observation-info').hide();
-    $('.observation-info-expand').on({
+    // This script expands and hides relationship details
+    $('.relationship-info').hide();
+    $('.relationship-info-expand').on({
       'click': function(event) {
         event.preventDefault();
         tgt = "#" + $(this).attr('target');
