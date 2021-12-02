@@ -287,16 +287,16 @@ class CRIMObservation(models.Model):
 #                ))
 
 
-@receiver(post_delete, sender=CRIMObservation)
-def delete_observation_cache(sender, instance, **kwargs):
-    from django.core.cache import caches
-    print('Deleting cache for <{}>'.format(instance.id))
-    caches['observations'].delete(cache_values_to_string(
-            instance.id,
-            None,
-        ))
-    for i in range(30):
-        caches['observations'].delete(cache_values_to_string(
-                instance.id,
-                i+1,
-            ))
+# @receiver(post_delete, sender=CRIMObservation)
+# def delete_observation_cache(sender, instance, **kwargs):
+#     from django.core.cache import caches
+#     print('Deleting cache for <{}>'.format(instance.id))
+#     caches['observations'].delete(cache_values_to_string(
+#             instance.id,
+#             None,
+#         ))
+#     for i in range(30):
+#         caches['observations'].delete(cache_values_to_string(
+#                 instance.id,
+#                 i+1,
+#             ))

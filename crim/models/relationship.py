@@ -258,35 +258,35 @@ class CRIMRelationship(models.Model):
         self.derivative_observation.save()
         # Finalize changes
         super().save()
-
-
-@receiver(post_save, sender=CRIMRelationship)
-def solr_index(sender, instance, created, **kwargs):
-    if not kwargs.get('raw', True):  # So that this does not run when importing fixture
-        print('Indexing in Solr')
-        from django.conf import settings
-        import solr
-        from solr_index import solr_index_single
-
-        solrconn = solr.SolrConnection(settings.SOLR_SERVER)
-        record = solrconn.query("id:{0}".format(instance.id))
-        if record:
-            # the record already exists, so we'll remove it first.
-            print("Deleting {}".format(record.results[0]['id']))
-            solrconn.delete(record.results[0]['id'])
-
-        solr_index_single(instance, solrconn)
-
-
-@receiver(post_delete, sender=CRIMRelationship)
-def solr_delete(sender, instance, **kwargs):
-    from django.conf import settings
-    import solr
-
-    solrconn = solr.SolrConnection(settings.SOLR_SERVER)
-    record = solrconn.query("id:{0}".format(instance.id))
-    if record:
-        # the record already exists, so we'll remove it first.
-        print("Deleting {0}".format(record.results[0]['id']))
-        solrconn.delete_query('id:{0}'.format(instance.id))
-        solrconn.commit()
+#
+#
+# @receiver(post_save, sender=CRIMRelationship)
+# def solr_index(sender, instance, created, **kwargs):
+#     if not kwargs.get('raw', True):  # So that this does not run when importing fixture
+#         print('Indexing in Solr')
+#         from django.conf import settings
+#         import solr
+#         from solr_index import solr_index_single
+#
+#         solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+#         record = solrconn.query("id:{0}".format(instance.id))
+#         if record:
+#             # the record already exists, so we'll remove it first.
+#             print("Deleting {}".format(record.results[0]['id']))
+#             solrconn.delete(record.results[0]['id'])
+#
+#         solr_index_single(instance, solrconn)
+#
+#
+# @receiver(post_delete, sender=CRIMRelationship)
+# def solr_delete(sender, instance, **kwargs):
+#     from django.conf import settings
+#     import solr
+#
+#     solrconn = solr.SolrConnection(settings.SOLR_SERVER)
+#     record = solrconn.query("id:{0}".format(instance.id))
+#     if record:
+#         # the record already exists, so we'll remove it first.
+#         print("Deleting {0}".format(record.results[0]['id']))
+#         solrconn.delete_query('id:{0}'.format(instance.id))
+#         solrconn.commit()
