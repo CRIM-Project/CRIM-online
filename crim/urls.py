@@ -61,6 +61,9 @@ from crim.views.voice import VoiceListData, VoiceDetailData
 from crim.views.user import UserProfileData
 from crim.views import forum as forum_views
 
+from crim.views.relationship_form import get_relationship
+from crim.views.observation_form import get_observation
+
 admin.autodiscover()
 
 urlpatterns = []
@@ -155,6 +158,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
+
+        path('forms/relationship/', get_relationship, name='relationship-form'),
+        path('forms/observation/', get_observation, name='observation-form'),
     ]
 
     urlpatterns += [

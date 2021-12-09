@@ -1,0 +1,230 @@
+<html>
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+        {% load crispy_forms_tags %}
+        {% load concat_str %}
+
+        <div class="shadow-none p-4 mt-4 mb-4 bg-light">
+            <div class="text-center">
+                <h1>Create an observation instance</h1>
+            </div>
+            <form method="POST" action="https://jsonplaceholder.typicode.com/users" id="form">
+            {% csrf_token %}
+            <div class="shadow-none p-4 mb-4 bg-light">
+                <div class="row-sm"> {{form.observer|as_crispy_field}}</div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    {% for key, value in observation_definition.items %}
+                        {% if forloop.first %}
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    {% for key, value in observation_definition.items %}
+                        {% if forloop.first %}
+                            <div class="tab-pane container fade show active" id="{{ key|slugify }}">
+                        {% else %}
+                            <div class="tab-pane container fade" id="{{ key|slugify }}">
+                        {% endif %}
+
+                        <div class="{{ key|slugify }}"></div>
+                            <p><i>Pick the details for this type {{key.capitalize}}</i></p>
+                            {% for innerkey, innervalue in value.items %}
+
+                                {% if innervalue == "boolean" %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type='checkbox' name="{{ key|concat_str:innerkey }}" value='true' id="{{ key|concat_str:innerkey }}">
+                                        <input name="{{ key|concat_str:innerkey }}" type='hidden' value='false'>
+                                        <label class='form-check-label' for="{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
+                                    </div>
+
+                                {% elif innervalue == "text" %}
+                                    <div class="form-group row">
+                                        <label for="{{ key|concat_str:innerkey }}" class="col-sm col-form-label"> {{ innerkey.capitalize }} </label>
+                                        <div class="col-sm">
+                                            <input class="form-control form-control-sm" id="{{ key|concat_str:innerkey }}" name="{{ key|concat_str:innerkey }}">
+                                        </div>
+                                    </div>
+
+                                {% else %}
+                                    {% for innerkey1, innervalue1 in innervalue.items %}
+                                        {% if innerkey1 == "radio" %}
+                                            <input name="{{ key|concat_str:innerkey }}" type='hidden' value='None'>
+                                            <p>{{ innerkey.capitalize }}:
+                                            <div id="{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                            {% for option in innervalue1 %}
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="{{ key|concat_str:innerkey }}" value="{{option}}" id="{{ key|concat_str:innerkey }}">
+                                                    <label class="form-check-label" for="{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
+                                                </div>
+                                            {% endfor %}
+                                            </div></p>
+
+                                        {% elif innerkey1 == "checkbox" %}
+                                            <p>{{ innerkey.capitalize }}:
+                                            <div id="{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                            {% for option in innervalue1 %}
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type='checkbox' name="{{ key|concat_str:option }}" value="{{option}}" id="{{ key|concat_str:option }}">
+                                                    <label class='form-check-label' for="{{ key|concat_str:option }}">{{ option.capitalize }}</label>
+                                                </div>
+                                            {% endfor %}
+                                            </div></p>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <p></p>
+                <div class="row-sm">{{form.details|as_crispy_field}}</div>
+                <div class="row-sm">{{form.observation_definition}}</div>
+
+                <input type="hidden" id="selected-tab" name="selected-tab">
+                <p><br><input class="btn btn-primary" type="submit" name="Submit" value="Submit" id="submit"></p>
+                <p></p>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+
+            </form>
+        </div>
+
+        <hr>
+        <a href = "{% url 'relationship-form' %}">Go back to the relationship form</a>
+
+        <!-- Optional Javascript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+
+        <script>
+
+            // make radios deselectable
+            function deselectableRadios(rootElement) {
+                if(!rootElement) rootElement = document;
+                if(!window.radioChecked) window.radioChecked = null;
+                window.radioClick = function(e) {
+                    const obj = e.target;
+                    if(e.keyCode) return obj.checked = e.keyCode!=32;
+                    obj.checked = window.radioChecked != obj;
+                    window.radioChecked = obj.checked ? obj : null;
+                }
+                rootElement.querySelectorAll("input[type='radio']").forEach( radio => {
+                    radio.setAttribute("onclick", "radioClick(event)");
+                    radio.setAttribute("onkeyup", "radioClick(event)");
+                });
+            }
+
+            deselectableRadios();
+
+            //get checkbox values as true/false on click
+            $("input:checkbox").change(function () {
+                $(this).parent().find('input:hidden').val($(this).is(':checked'));
+            });
+
+
+            $(document).ready(function(){
+
+                // default selected tab == first tab
+                var activeTab = $(".tab-content").find(".active");
+                var id = activeTab.attr('id');
+                $("#selected-tab").val(id);
+
+                // dynamically show tab content
+                $(".nav-tabs a").click(function(){
+                    $(this).tab('show');
+                });
+
+                // change selected tab if clicked on any tab
+                $(".nav-tabs a").on('shown.bs.tab', function(event){
+                    var x = $(event.target).text();         // active tab
+                    var selected = x.replace(/\s+/g, '-').toLowerCase();
+                    $("#selected-tab").val(selected);
+                });
+
+            });
+
+            // GET ALL FORM INPUT AS JSON
+            const form = document.getElementById("form");
+            form.addEventListener("submit", handleFormSubmit)
+
+            async function handleFormSubmit(event) {
+
+                event.preventDefault();
+
+                const form = event.currentTarget;
+                const url = form.action;
+
+                try {
+                    const formData = new FormData(form);
+                    const responseData = await postFormDataAsJson({ url, formData });
+                    console.log({ responseData });
+                    $.ajax({
+                        type:'POST',
+                        url: '',
+                        data: responseData,
+                        success: function(response){
+                            console.log('Success');
+                        },
+                    });
+
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            async function postFormDataAsJson({ url, formData }) {
+                const plainFormData = Object.fromEntries(formData.entries());
+	            const formDataJsonString = JSON.stringify(plainFormData);
+
+                const fetchOptions = {
+                    method: "POST",
+                    headers: {
+			            "Content-Type": "application/json",
+			            "Accept": "application/json"
+                    },
+                    body: formDataJsonString,
+                };
+
+                const response = await fetch(url, fetchOptions);
+
+	            if (!response.ok) {
+		            const errorMessage = await response.text();
+		            throw new Error(errorMessage);
+	            }
+
+	            return response.json();
+
+            }
+
+
+        </script>
+
+    </body>
+</html>
