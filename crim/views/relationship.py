@@ -16,12 +16,9 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CJObservationDetailSerializer, CJObservationListSerializer
 from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer, CRIMRelationshipBriefSerializer
 from crim.serializers.relationship import CJRelationshipDetailSerializer, CJRelationshipListSerializer, CJRelationshipBriefSerializer
-from crim.views.observation import render_observation, create_observation_from_request
+from crim.views.observation import create_observation_from_request
 
 import os
-import re
-import verovio
-import xml.etree.ElementTree as ET
 
 
 def generate_relationship_data(request, model_observation_id=None, derivative_observation_id=None):
@@ -120,35 +117,11 @@ class RelationshipListHTMLRenderer(CustomHTMLRenderer):
 # Deprecated class
 class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_page_number_string = renderer_context['request'].GET.get('pm')
-        derivative_page_number_string = renderer_context['request'].GET.get('pd')
+        model_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
+        data['model_observation']['mei'] = model_raw_mei
 
-        explicit_model_page_number = eval(model_page_number_string) if model_page_number_string else None
-        explicit_derivative_page_number = eval(derivative_page_number_string) if derivative_page_number_string else None
-
-        # Load the svg and page number from cache based on relationship id
-        # and explicit page number, or else render it. First for the model:
-        # cached_model_data = caches['observations'].get(cache_values_to_string(
-        #         data['model_observation']['id'], explicit_model_page_number))
-        # if cached_model_data:
-        #     (data['model_svg'], data['model_page_number']) = cached_model_data
-        (data['model_svg'], data['model_page_number']) = render_observation(
-                data['model_observation']['id'],
-                data['model_observation']['piece']['piece_id'],
-                data['model_observation']['ema'],
-                explicit_model_page_number,
-            )
-        # Then for the derivative:
-        # cached_derivative_data = caches['observations'].get(cache_values_to_string(
-        #         data['derivative_observation']['id'], explicit_derivative_page_number))
-        # if cached_derivative_data:
-        #     (data['derivative_svg'], data['derivative_page_number']) = cached_derivative_data
-        (data['derivative_svg'], data['derivative_page_number']) = render_observation(
-                data['derivative_observation']['id'],
-                data['derivative_observation']['piece']['piece_id'],
-                data['derivative_observation']['ema'],
-                explicit_derivative_page_number,
-            )
+        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
+        data['derivative_observation']['mei'] = derivative_raw_mei
 
         template_names = ['relationship/relationship_old_detail.html']
         template = self.resolve_template(template_names)
@@ -157,35 +130,11 @@ class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_page_number_string = renderer_context['request'].GET.get('pm')
-        derivative_page_number_string = renderer_context['request'].GET.get('pd')
+        model_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
+        data['model_observation']['mei'] = model_raw_mei
 
-        explicit_model_page_number = eval(model_page_number_string) if model_page_number_string else None
-        explicit_derivative_page_number = eval(derivative_page_number_string) if derivative_page_number_string else None
-
-        # Load the svg and page number from cache based on relationship id
-        # and explicit page number, or else render it. First for the model:
-        # cached_model_data = caches['observations'].get(cache_values_to_string(
-        #         data['model_observation']['id'], explicit_model_page_number))
-        # if cached_model_data:
-        #     (data['model_svg'], data['model_page_number']) = cached_model_data
-        (data['model_svg'], data['model_page_number']) = render_observation(
-                data['model_observation']['id'],
-                data['model_observation']['piece']['piece_id'],
-                data['model_observation']['ema'],
-                explicit_model_page_number,
-            )
-        # Then for the derivative:
-        # cached_derivative_data = caches['observations'].get(cache_values_to_string(
-        #         data['derivative_observation']['id'], explicit_derivative_page_number))
-        # if cached_derivative_data:
-        #     (data['derivative_svg'], data['derivative_page_number']) = cached_derivative_data
-        (data['derivative_svg'], data['derivative_page_number']) = render_observation(
-                data['derivative_observation']['id'],
-                data['derivative_observation']['piece']['piece_id'],
-                data['derivative_observation']['ema'],
-                explicit_derivative_page_number,
-            )
+        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
+        data['derivative_observation']['mei'] = model_raw_mei
 
         template_names = ['relationship/relationship_detail.html']
         template = self.resolve_template(template_names)

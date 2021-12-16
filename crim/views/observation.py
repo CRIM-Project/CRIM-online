@@ -17,64 +17,6 @@ from crim.serializers.observation import CRIMObservationDetailSerializer, CRIMOb
 from crim.serializers.observation import CJObservationDetailSerializer, CJObservationListSerializer, CJObservationBriefSerializer
 
 import os
-import re
-import verovio
-import xml.etree.ElementTree as ET
-
-
-def render_observation(observation_id, piece_id, ema, explicit_page_number=None):
-    ET.register_namespace('', 'http://www.music-encoding.org/ns/mei')
-    tk = verovio.toolkit()
-    raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', piece_id + '.mei')).read()
-    cited_mei = slice_from_file(raw_mei, ema)
-    plist_match = re.search(r'type="ema_highlight" plist="([^"]*)"', cited_mei)
-    plist = plist_match.group(1) if plist_match else None
-    highlight_list = plist.replace('#','').split() if plist else []
-
-    tk.setOption('noHeader', 'true')
-    tk.setOption('noFooter', 'true')
-    # Calculate optimal size of score window based on number of voices
-    tk.setOption('pageHeight', '1152')
-    tk.setOption('adjustPageHeight', 'true')
-    tk.setOption('spacingSystem', '12')
-    tk.setOption('spacingDurDetection', 'true')
-    tk.setOption('pageWidth', '2048')
-
-    tk.loadData(cited_mei)
-    tk.setScale(35)
-
-    # If a page number has not been explicitly given, make it the first
-    # page that has a highlighted element.
-    if explicit_page_number:
-        # print(repr(explicit_page_number))
-        page_number = explicit_page_number
-    else:
-        if highlight_list:
-            page_number = tk.getPageWithElement(highlight_list[0])
-        else:
-            page_number = 1
-
-    ET.register_namespace('', 'http://www.w3.org/2000/svg')
-    ET.register_namespace('xml', 'http://www.w3.org/XML/1998/namespace')
-    ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
-    rendered_svg_xml = ET.fromstring(tk.renderToSVG(page_number))
-
-    for id in highlight_list:
-        element = rendered_svg_xml.find(".//*[@id='{0}']".format(id))
-        if element:
-            if 'class' in element.attrib:
-                element.set('class', element.attrib['class'] + ' cw-highlighted')
-            else:
-                element.set('class', ' cw-highlighted')
-
-    svg = ET.tostring(rendered_svg_xml).decode()
-    # print('Saving cache for ' + repr(cache_values_to_string(observation_id, explicit_page_number)))
-    # caches['observations'].set(
-    #         cache_values_to_string(observation_id, explicit_page_number),
-    #         (svg, page_number),
-    #         None,
-    #     )
-    return (svg, page_number)
 
 
 def generate_observation_data(request, prefix=''):
@@ -138,26 +80,8 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 # Deprecated class
 class ObservationOldDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        page_number_string = renderer_context['request'].GET.get('p')
-        explicit_page_number = eval(page_number_string) if page_number_string else None
-
-        # Load the svg and page number from cache based on observation id
-        # and explicit page number
-        # print(repr(cache_values_to_string(data['id'], explicit_page_number)))
-        cached_data = caches['observations'].get(cache_values_to_string(data['id'], explicit_page_number))
-        if cached_data:
-            # print('We have a cache for <{}> page {}'.format(data['id'], explicit_page_number))
-            (data['svg'], data['page_number']) = cached_data
-
-        # If it wasn't in cache, then render the MEI
-        else:
-            # print('NO CACHE for <{}> page {}'.format(data['id'], explicit_page_number))
-            (data['svg'], data['page_number']) = render_observation(
-                    data['id'],
-                    data['piece']['piece_id'],
-                    data['ema'],
-                    explicit_page_number,
-                )
+        raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['piece']['piece_id'] + '.mei')).read()
+        data['mei'] = raw_mei
 
         template_names = ['observation/observation_old_detail.html']
         template = self.resolve_template(template_names)
@@ -166,26 +90,8 @@ class ObservationOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        page_number_string = renderer_context['request'].GET.get('p')
-        explicit_page_number = eval(page_number_string) if page_number_string else None
-
-        # Load the svg and page number from cache based on observation id
-        # and explicit page number
-        # print(repr(cache_values_to_string(data['id'], explicit_page_number)))
-        cached_data = caches['observations'].get(cache_values_to_string(data['id'], explicit_page_number))
-        if cached_data:
-            # print('We have a cache for <{}> page {}'.format(data['id'], explicit_page_number))
-            (data['svg'], data['page_number']) = cached_data
-
-        # If it wasn't in cache, then render the MEI
-        else:
-            # print('NO CACHE for <{}> page {}'.format(data['id'], explicit_page_number))
-            (data['svg'], data['page_number']) = render_observation(
-                    data['id'],
-                    data['piece']['piece_id'],
-                    data['ema'],
-                    explicit_page_number,
-                )
+        raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['piece']['piece_id'] + '.mei')).read()
+        data['mei'] = raw_mei
 
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
