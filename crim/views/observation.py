@@ -11,7 +11,6 @@ from crim.models.definition import CRIMDefinition
 from crim.models.observation import CRIMObservation
 from crim.models.observation import CJObservation
 from crim.models.piece import CRIMPiece
-from crim.omas.localapi import slice_from_file
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CRIMObservationDetailSerializer, CRIMObservationListSerializer, CRIMObservationBriefSerializer
 from crim.serializers.observation import CJObservationDetailSerializer, CJObservationListSerializer, CJObservationBriefSerializer
