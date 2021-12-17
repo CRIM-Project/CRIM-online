@@ -18,7 +18,19 @@
             <form method="POST" action="https://jsonplaceholder.typicode.com/users" id="form">
             {% csrf_token %}
             <div class="shadow-none p-4 mb-4 bg-light">
-                <div class="row-sm"> {{form.observer|as_crispy_field}}</div>
+                <div class="row-sm">
+                  {% comment %}"If the user does not have an associated PersonID, log the username at least,
+                    but alert the user"{% endcomment %}
+                  <input type="hidden" name="observer" id="id_observer" value="{% if user.profile.person.person_id %}{{ user.profile.person.person_id }}{% else %}{{ user }}{% endif %}">
+                  {% if not user.profile.person.person_id %}
+                    <p><strong>Please ask for a CRIM&nbsp;Person record to be added to your account.</strong>
+                    Your submission will be logged, but it must be reviewed and your name
+                    must be manually added to it later; your submission will only appear after
+                    review. When your name is recorded in the list of <a href="/people/">CRIM&nbsp;People</a>, your
+                    submission will appear right away.</p>
+                    <p>You may also simply need to <a href="/accounts/">log in</a>.</p>
+                  {% endif %}
+                </div>
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
@@ -42,7 +54,6 @@
                         {% endif %}
 
                         <div class="{{ key|slugify }}"></div>
-                            <p><i>Pick the details for this type {{key.capitalize}}</i></p>
                             {% for innerkey, innervalue in value.items %}
 
                                 {% if innervalue == "boolean" %}
