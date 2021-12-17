@@ -71,9 +71,10 @@ urlpatterns = []
 if 'django.contrib.admin' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^admin/', admin.site.urls),
-    ]
 
-    urlpatterns += [
+        path('accounts/', include('django.contrib.auth.urls')),
+        re_path(r'^accounts/profile/$', profile),
+
         re_path(r'^$', flat_views.flatpage, {'url': '/home/'}, name='home'),
         re_path(r'^about/$', RedirectView.as_view(url=reverse_lazy('home'), permanent=True), name='go-to-home'),
         re_path(r'^search/$', search, name='search'),
@@ -159,16 +160,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
 
-        path('forms/relationship/', get_relationship, name='relationship-form'),
-        path('forms/observation/', get_observation, name='observation-form'),
-    ]
+        path('relationships/new/', get_relationship, name='relationship-form'),
+        path('observations/new/', get_observation, name='observation-form'),
 
-    urlpatterns += [
-        path('accounts/', include('django.contrib.auth.urls')),
-        re_path(r'^accounts/profile/$', profile),
-    ]
-
-    urlpatterns += [
         re_path('about', include('django.contrib.flatpages.urls')),
     ]
 
