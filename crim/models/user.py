@@ -59,4 +59,4 @@ def add_name(sender, instance, *args, **kwargs):
             instance.name_sort = (instance.user.last_name + ', ' + instance.user.first_name).strip()
 
 
-User.profile = property(lambda u: CRIMUserProfile.objects.get(user=u))
+User.profile = property(lambda u: CRIMUserProfile.objects.get(user=u) if CRIMUserProfile.objects.filter(user=u) else None)
