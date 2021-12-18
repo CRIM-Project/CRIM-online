@@ -231,6 +231,13 @@
 
                 <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="derivative-observation-form" id="derivative-observation-form">
                     <div class="derivative">
+                      <div class="mb-5" id="derivative-piece">
+                        <select name="derivative-piece" id="derivative-piece">
+                          {% for piece in all_pieces %}
+                            <option value="{{ piece.piece_id }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
                         <div class="mb-5" id="derivative-continuo">
                             <p><strong>Music reference (EMA): </strong><em id="emaDerivative"></em></p>
                             <input name="derivative-ema" type='hidden' value='' id="emaDerivativeData">
