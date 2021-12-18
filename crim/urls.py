@@ -43,6 +43,7 @@ from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserProfile
 
 # The following are for the JSON views
+from crim.views.definition import DefinitionDetailData
 from crim.views.genre import GenreListData, GenreDetailData
 from crim.views.mass import MassListData, MassDetailData
 from crim.views.part import PartListData, PartDetailData
@@ -119,6 +120,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^treatises/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
         re_path(r'^users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfile.as_view(), name='crimuserprofile-detail'),
         # The following are for the JSON views
+        re_path(r'^data/definition/(?P<id>[0-9]+)/$', DefinitionDetailData.as_view(), name='crimdefinition-detail-data'),
         re_path(r'^data/genres/$', GenreListData.as_view(), name='crimgenre-list-data'),
         re_path(r'^data/genres/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetailData.as_view(), name='crimgenre-detail-data'),
         re_path(r'^data/masses/$', MassListData.as_view(), name='crimmass-list-data'),

@@ -3,8 +3,8 @@ from crim.models.definition import CRIMDefinition
 
 class CRIMDefinitionSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimdefinition-detail-data', lookup_field='id')
-    observation_definition = serializers.JSONField(*args, **kwargs)
-    relationship_definition = serializers.JSONField(*args, **kwargs)
+    observation_definition = serializers.JSONField()
+    relationship_definition = serializers.JSONField()
 
     class Meta:
         model = CRIMDefinition
