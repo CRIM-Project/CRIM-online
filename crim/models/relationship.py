@@ -114,10 +114,10 @@ class CJRelationship(models.Model):
         #         if curr_subtypes_lower == allowed_subtypes:
         #             valid_sub = True
         #
-            self.definition.save()
-            self.model_observation.save()
-            self.derivative_observation.save()
-            super().save(*args, **kwargs)
+        self.definition.save()
+        self.model_observation.save()
+        self.derivative_observation.save()
+        super().save(*args, **kwargs)
 
             # if not valid_sub:
             #     print('Warning: invalid relationship instance saved')

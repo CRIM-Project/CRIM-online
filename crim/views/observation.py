@@ -20,7 +20,7 @@ import os
 
 def generate_observation_data(request, prefix=''):
     def post_data(v):
-        field = request.POST.get(prefix + '_' + v)
+        field = request.POST.get(prefix + ('_' if prefix else '') + v)
         if field == 'true':
             return True
         elif field == 'false' or field == None:
@@ -29,16 +29,17 @@ def generate_observation_data(request, prefix=''):
             return field
 
     observation_data = {}
+
     if post_data('piece'):
         observation_data['piece'] = CRIMPiece.objects.get(piece_id=post_data('piece'))
     if post_data('ema'):
         observation_data['ema'] = post_data('ema')
-
+    if post_data('musical_type'):
+        observation_data['musical_type'] = post_data('musical_type')
     if post_data('definition'):
         observation_data['definition'] = CRIMDefinition.objects.get(id=post_data('definition'))
     if post_data('details'):
         observation_data['details'] = post_data('details')
-
     if post_data('remarks'):
         observation_data['remarks'] = post_data('remarks')
 

@@ -37,7 +37,8 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             model_observation = model_observation_or_response
-            serialized_model = CJObservationDetailSerializer(model_observation, data={}, context={'request': request})
+            serialized_model = CJObservationDetailSerializer(model_observation, data=request.data, context={'request': request})
+            print(serialized_model)
             if serialized_model.is_valid():
                 if request.user.is_staff:
                     serialized_model.validated_data['curated'] = True
@@ -52,14 +53,14 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             derivative_observation = derivative_observation_or_response
-            serialized_derivative = CJObservationDetailSerializer(derivative_observation, data={}, context={'request': request})
+            serialized_derivative = CJObservationDetailSerializer(derivative_observation, data=request.data, context={'request': request})
             if serialized_derivative.is_valid():
                 if request.user.is_staff:
                     serialized_derivative.validated_data['curated'] = True
             else:
                 return Response({'serialized': serialized_derivative, 'content': derivative_observation})
 
-    # Only save observations now, which is when we know that the entire POST will succeed
+    # Wait to save observations till now, which is when we know that the entire POST will succeed
     if not post_data('model_observation_id') and post_data('model_piece'):
         serialized_model.save()
     if not post_data('derivative_observation_id') and post_data('derivative_piece'):
@@ -67,15 +68,14 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
 
     if post_data('model_observation_id') or post_data('model_piece'):
         relationship_data['model_observation'] = model_observation
-
     if post_data('derivative_observation_id') or post_data('derivative_piece'):
         relationship_data['derivative_observation'] = derivative_observation
-
+    if post_data('relationship_type'):
+        relationship_data['relationship_type'] = post_data('relationship_type')
     if post_data('definition'):
         relationship_data['definition'] = CRIMDefinition.objects.get(id=post_data('definition'))
     if post_data('details'):
         relationship_data['details'] = post_data('details')
-
     if post_data('remarks'):
         relationship_data['remarks'] = post_data('remarks')
 
@@ -385,15 +385,13 @@ class RelationshipCreateData(generics.CreateAPIView):
         if not request.user.is_authenticated or not request.user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        # If one of the observations returns an HTTP response, return that.
         relationship_or_response = create_relationship_from_request(request)
         if isinstance(relationship_or_response, Response):
-            return Response
+            return relationship_or_response
 
-        # Otherwise, create the object.
         relationship = relationship_or_response
         serialized = CJRelationshipDetailSerializer(relationship, data=request.data, context={'request': request})
-        # If the user is an admin, the relationship should be marked as curated.
+
         if serialized.is_valid():
             if request.user.is_staff:
                 serialized.validated_data['curated'] = True
