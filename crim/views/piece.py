@@ -14,31 +14,6 @@ from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
 
 import os
-import re
-import verovio
-
-
-def render_piece(piece_id, page_number):
-    tk = verovio.toolkit()
-    raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', piece_id + '.mei')).read()
-
-    tk.setOption('noHeader', 'true')
-    tk.setOption('noFooter', 'true')
-    # Calculate optimal size of score window based on number of voices
-    tk.setOption('pageHeight', '1152')
-    tk.setOption('adjustPageHeight', 'true')
-    tk.setOption('spacingSystem', '12')
-    tk.setOption('spacingDurDetection', 'true')
-    tk.setOption('pageWidth', '2048')
-
-    tk.loadData(raw_mei)
-    tk.setScale(35)
-
-    svg = tk.renderToSVG(page_number)
-    # print('Saving cache for ' + repr(cache_values_to_string(piece_id, page_number)))
-    caches['pieces'].set(cache_values_to_string(piece_id, page_number), svg, None)
-
-    return svg
 
 
 class PieceSetPagination(PageNumberPagination):
@@ -76,22 +51,8 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
         data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
-        page_number_string = renderer_context['request'].GET.get('p')
-        page_number = eval(page_number_string) if page_number_string else 1
-        data['page_number'] = page_number
-
-        # Load the svg from cache based on piece and page number
-        cached_svg = caches['pieces'].get(cache_values_to_string(data['piece_id'], page_number))
-
-        # print(repr(cache_values_to_string(data['piece_id'], page_number)))
-        if cached_svg:
-            # print('We have a cache for <{}> page {}'.format(data['piece_id'], page_number))
-            data['svg'] = cached_svg
-        # If it wasn't in cache, then render the MEI
-        else:
-            # print('NO CACHE for <{}> page {}'.format(data['piece_id'], page_number))
-            data['svg'] = render_piece(data['piece_id'], page_number)
-
+        raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['piece_id'] + '.mei')).read()
+        data['mei'] = raw_mei
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)

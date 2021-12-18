@@ -1,0 +1,568 @@
+<html>
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Continuo styles override -->
+    <link rel="stylesheet" href="/static/continuo.css">
+    <style>
+        .cnt-container .cnt-pagination {
+            position: absolute;
+            top: auto;
+            right: 85px;
+        }
+        .cnt-container .cnt-emabox {
+            position: absolute;
+            top: auto;
+            left: auto;
+            max-width: 85%;
+        }
+    </style>
+    </head>
+    <body>
+        {% load crispy_forms_tags %}
+        {% load concat_str %}
+
+        <div class="shadow-none p-4 mt-4 mb-4 bg-light">
+            <div class="text-center">
+                <h1>Create a relationship instance</h1>
+            </div>
+            <form method="POST" action="https://jsonplaceholder.typicode.com/users" id="form" autocomplete="on">
+            {% csrf_token %}
+
+            <div class="row-sm">
+              {% comment %}"If the user does not have an associated PersonID, log the username at least,
+                but alert the user"{% endcomment %}
+              <input type="hidden" name="observer" id="id_observer" value="{% if user.profile.person.person_id %}{{ user.profile.person.person_id }}{% else %}{{ user }}{% endif %}">
+              {% if not user.profile.person.person_id %}
+                <p><strong>Please ask for a CRIM&nbsp;Person record to be added to your account.</strong>
+                Your submission will be logged, but it must be reviewed and your name
+                must be manually added to it later; your submission will only appear after
+                review. When your name is recorded in the list of <a href="/people/">CRIM&nbsp;People</a>, your
+                submission will appear right away.</p>
+                <p>You may also simply need to <a href="/accounts/login/">log in</a>.</p>
+              {% endif %}
+            </div>
+            <div class="relationship">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    {% for key, value in relationship_definition.items %}
+                        {% if forloop.first %}
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                <!-- Tab panes -->
+
+                <div class="tab-content">
+                    <p></p>
+                    {% for key, value in relationship_definition.items %}
+                        {% if forloop.first %}
+                            <div class="tab-pane container fade show active" id="{{ key|slugify }}">
+                        {% else %}
+                            <div class="tab-pane container fade" id="{{ key|slugify }}">
+                        {% endif %}
+
+                        <div class="{{ key|slugify }}"></div>
+                            {% for innerkey, innervalue in value.items %}
+
+                                {% if innervalue == "boolean" %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type='checkbox' name="{{ key|concat_str:innerkey }}" value='true' id="{{ key|concat_str:innerkey }}">
+                                        <input name="{{ key|concat_str:innerkey }}" type='hidden' value='false'>
+                                        <label class='form-check-label' for="{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
+                                    </div>
+
+                                {% else %}
+                                    {% for innerkey1, innervalue1 in innervalue.items %}
+                                        {% if innerkey1 == "radio" %}
+                                            <input name="{{ key|concat_str:innerkey }}" type='hidden' value='None'>
+                                            <p>{{ innerkey.capitalize }}:
+                                            <div id="{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                            {% for option in innervalue1 %}
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="{{ key|concat_str:innerkey }}" value="{{option}}" id="{{ key|concat_str:innerkey }}">
+                                                    <label class="form-check-label" for="{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
+                                                </div>
+                                            {% endfor %}
+                                            </div></p>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+
+                <p><br></p>
+
+                <div class="text-left">
+                    <h4>I. Model observation</h4>
+                </div>
+                <br><p><i>Select an existing observation as model observation</i></p>
+                <div class="row-sm"> {{form.model_observation|as_crispy_field}}  </div>
+                <p><b>OR</b></p>
+                <p><i> Create a new observation as model observation </i></p>
+                <p></p>
+
+            <fieldset class="model-form">
+                <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="model-observation-form" id="model-observation-form">
+                    <div class="model">
+                        <div class="mb-5" id="model-continuo">
+                            <p><strong>Music reference (EMA): </strong><em id="emaModel"></em></p>
+                            <input name="model-ema" type='hidden' value='' id="emaModelData">
+                            <p>
+                                <button id="buttonModelContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModelContinuo" aria-expanded="false" aria-controls="collapseModelContinuo">
+                                    Choose music notation
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapseModelContinuo">
+                                <div class="card card-body">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    Loading music notation selector.
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Nav pills -->
+                    <ul class="nav nav-pills">
+                        {% for key, value in observation_definition.items %}
+                            {% if forloop.first %}
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#model-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#model-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        {% for key, value in observation_definition.items %}
+                            {% if forloop.first %}
+                                <div class="tab-pane container fade show active" id="model-{{ key|slugify }}">
+                            {% else %}
+                                <div class="tab-pane container fade" id="model-{{ key|slugify }}">
+                            {% endif %}
+
+                            <div class="model-{{ key|slugify }}"></div>
+                                {% for innerkey, innervalue in value.items %}
+
+                                    {% if innervalue == "boolean" %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type='checkbox' name="model-{{ key|concat_str:innerkey }}" value='true' id="model-{{ key|concat_str:innerkey }}">
+                                            <input name="model-{{ key|concat_str:innerkey }}" type='hidden' value='false'>
+                                            <label class='form-check-label' for="model-{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
+                                        </div>
+
+                                    {% elif innervalue == "text" %}
+                                        <div class="form-group row">
+                                            <label for="model-{{ key|concat_str:innerkey }}" class="col-sm col-form-label"> {{ innerkey.capitalize }} </label>
+                                            <div class="col-sm">
+                                                <input class="form-control form-control-sm" id="model-{{ key|concat_str:innerkey }}" name="model-{{ key|concat_str:innerkey }}">
+                                            </div>
+                                        </div>
+
+                                    {% else %}
+                                        {% for innerkey1, innervalue1 in innervalue.items %}
+                                            {% if innerkey1 == "radio" %}
+                                                <input name="model-{{ key|concat_str:innerkey }}" type='hidden' value='None'>
+                                                <p>{{ innerkey.capitalize }}:
+                                                <div id="model-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                                    {% for option in innervalue1 %}
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="model-{{ key|concat_str:innerkey }}" value="{{option}}" id="model-{{ key|concat_str:innerkey }}">
+                                                            <label class="form-check-label" for="model-{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div></p>
+
+                                            {% elif innerkey1 == "checkbox" %}
+                                                <p>{{ innerkey.capitalize }}:
+                                                <div id="model-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                                    {% for option in innervalue1 %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type='checkbox' name="model-{{ key|concat_str:option }}" value="{{option}}" id="model-{{ key|concat_str:option }}">
+                                                        <label class='form-check-label' for="model-{{ key|concat_str:option }}">{{ option.capitalize }}</label>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div></p>
+
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                </div>
+            </fieldset>
+
+                <hr>
+            <fieldset class="derivative-form">
+                <div class="text-left">
+                    <h4>II. Derivative observation</h4>
+                </div>
+                <br><p><i> Select an existing observation as derivative observation </i></p>
+                <div class="row-sm">{{form.derivative_observation|as_crispy_field}} </div>
+                <p><b>OR</b></p>
+                <p><i> Create a new observation as derivative observation </i></p>
+                <p></p>
+
+                <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="derivative-observation-form" id="derivative-observation-form">
+                    <div class="derivative">
+                        <div class="mb-5" id="derivative-continuo">
+                            <p><strong>Music reference (EMA): </strong><em id="emaDerivative"></em></p>
+                            <input name="derivative-ema" type='hidden' value='' id="emaDerivativeData">
+                            <p>
+                                <button id="buttonDerivativeContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDerivativeContinuo" aria-expanded="false" aria-controls="collapseDerivativeContinuo">
+                                    Choose music notation
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapseDerivativeContinuo">
+                                <div class="card card-body">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    Loading music notation selector.
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Nav pills -->
+                    <ul class="nav nav-pills">
+                        {% for key, value in observation_definition.items %}
+                            {% if forloop.first %}
+                                <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#derivative-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#derivative-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        {% for key, value in observation_definition.items %}
+                            {% if forloop.first %}
+                                <div class="tab-pane container fade show active" id="derivative-{{ key|slugify }}">
+                            {% else %}
+                                <div class="tab-pane container fade" id="derivative-{{ key|slugify }}">
+                            {% endif %}
+
+                            <div class="derivative-{{ key|slugify }}"></div>
+                                {% for innerkey, innervalue in value.items %}
+
+                                    {% if innervalue == "boolean" %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type='checkbox' name="derivative-{{ key|concat_str:innerkey }}" value='true' id="derivative-{{ key|concat_str:innerkey }}">
+                                            <input name="derivative-{{ key|concat_str:innerkey }}" type='hidden' value='false'>
+                                            <label class='form-check-label' for="derivative-{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
+                                        </div>
+
+                                    {% elif innervalue == "text" %}
+                                        <div class="form-group row">
+                                            <label for="derivative-{{ key|concat_str:innerkey }}" class="col-sm col-form-label"> {{ innerkey.capitalize }} </label>
+                                            <div class="col-sm">
+                                                <input class="form-control form-control-sm" id="derivative-{{ key|concat_str:innerkey }}" name="derivative-{{ key|concat_str:innerkey }}">
+                                            </div>
+                                        </div>
+
+                                    {% else %}
+                                        {% for innerkey1, innervalue1 in innervalue.items %}
+                                            {% if innerkey1 == "radio" %}
+                                                <input name="derivative-{{ key|concat_str:innerkey }}" type='hidden' value='None'>
+                                                <p>{{ innerkey.capitalize }}:
+                                                <div id="derivative-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                                    {% for option in innervalue1 %}
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="derivative-{{ key|concat_str:innerkey }}" value="{{option}}" id="derivative-{{ key|concat_str:innerkey }}">
+                                                            <label class="form-check-label" for="derivative-{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div></p>
+
+                                            {% elif innerkey1 == "checkbox" %}
+                                                <p>{{ innerkey.capitalize }}:
+                                                <div id="derivative-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
+                                                    {% for option in innervalue1 %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type='checkbox' name="derivative-{{ key|concat_str:option }}" value="{{option}}" id="derivative-{{ key|concat_str:option }}">
+                                                        <label class='form-check-label' for="derivative-{{ key|concat_str:option }}">{{ option.capitalize }}</label>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div></p>
+
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                </div>
+            </fieldset>
+
+                <input type="hidden" id="selected-tab" name="selected-tab">
+                <input type="hidden" id="model-selected-tab" name="model-selected-tab">
+                <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab">
+                <p><br></p>
+                <input class="btn btn-primary" type="submit" name="Submit" value="Submit">
+
+            </form>
+        </div>
+
+        <!-- Javascript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="/static/continuo.js"></script>
+        <script src="/static/ema-mei.js"></script>
+
+        <script>
+
+           // make radios deselectable
+           function deselectableRadios(rootElement) {
+                if(!rootElement) rootElement = document;
+                if(!window.radioChecked) window.radioChecked = null;
+                window.radioClick = function(e) {
+                    const obj = e.target;
+                    if(e.keyCode) return obj.checked = e.keyCode!=32;
+                    obj.checked = window.radioChecked != obj;
+                    window.radioChecked = obj.checked ? obj : null;
+                }
+                rootElement.querySelectorAll("input[type='radio']").forEach( radio => {
+                    radio.setAttribute("onclick", "radioClick(event)");
+                    radio.setAttribute("onkeyup", "radioClick(event)");
+                });
+            }
+
+            deselectableRadios();
+
+
+            // make checkboxes true false value
+            $("input:checkbox").change(function () {
+                $(this).parent().find('input:hidden').val($(this).is(':checked'));
+            });
+
+            // Setup Continuo
+            function setContinuo(el, ver, opts, MEIurl, emaEl) {
+                let target = document.querySelector(el)
+                let defaultOpts = {
+                    pageWidth: target.offsetWidth * 100 / 35,
+                    ignoreLayout: 1,
+                    adjustPageHeight: 1,
+                    border: 10,
+                    scale: 35
+                }
+                opts = opts ? opts : defaultOpts
+                MEIurl = MEIurl ? MEIurl : 'https://raw.githubusercontent.com/CRIM-Project/CRIM-online/master/crim/static/mei/MEI_4.0/CRIM_Mass_0002_1.mei'
+                $(el).empty()
+                var cnt = new Continuo({el: el, mei: MEIurl, verovioToolkit: ver, paginate: true, verovioOptions: opts})
+                cnt.render()
+
+                const storedEma = $(emaEl+"Data")
+                if (storedEma) {
+                    const ema = storedEma.val()
+                    const expr = "https%3A%2F%2Fraw.githubusercontent.com%2FCRIM-Project%2FCRIM-online%2Fmaster%2Fcrim%2Fstatic%2Fmei%2FMEI_4.0%2FCRIM_Mass_0002_1.mei/" + ema + "/highlight"
+
+                    EmaMei.withFullExpr(expr).then(function (r) {
+                        // The result:
+                        const selection = r.getSelection().querySelector('*|annot')
+                        if (selection) {
+                            for (const id of selection.getAttribute("plist").split(' ')) {
+                                if ($(id).length > 0) {
+                                    cnt.addMusEventFromId(id.replace('#', ''))
+                                }
+                            }
+                        }
+                        })
+                        .catch(function (err) {
+                            console.log(err)
+                        })
+                }
+
+                // Observe EMA string to add it to the form.
+                var observer = new MutationObserver(function(mutations) {
+                    const emaBox = target.querySelector(".cnt-emaexpr-expr")
+                    if (emaBox) {
+                        $(emaEl).text(emaBox.innerText)
+                        $(emaEl+"Data").val($(emaEl).text())
+                    }
+                });
+                observer.observe(target, { childList: true, subtree: true })
+            }
+
+            $(document).ready(function(){
+
+                // Set a place for Verovio
+                var ver = null
+
+                $('#id_model_observation').select2();
+                $('#id_derivative_observation').select2();
+
+                var activeTab = $(".relationship .tab-content").find(".active");
+                var id = activeTab.attr('id');
+                $("#selected-tab").val(id);
+
+
+                var modelActiveTab = $(".model .tab-content").find(".active");
+                var id1 = modelActiveTab.attr('id');
+                $("#model-selected-tab").val(id1.replace("model-", ""));
+
+                var derivativeActiveTab = $(".derivative .tab-content").find(".active");
+                var id2 = derivativeActiveTab.attr('id');
+                if (id2.length > 0)
+                    $("#derivative-selected-tab").val(id2.replace("derivative-", ""));
+
+
+                $(".nav-tabs a").click(function(){
+                    $(this).tab('show');
+                });
+
+                $(".nav-pills a").click(function(){
+                    $(this).tab('show');
+                });
+
+                $(".relationship .nav-tabs a").on('shown.bs.tab', function(event){
+                    var x = $(event.target).text();         // active tab
+                    var selected = x.replace(/\s+/g, '-').toLowerCase();
+                    $("#selected-tab").val(selected);
+                });
+
+                $(".model .nav-pills a").on('shown.bs.tab', function(event){
+                    var x1 = $(event.target).text();         // active model tab
+                    var selected1 = x1.replace(/\s+/g, '-').toLowerCase();
+                    $("#model-selected-tab").val(selected1);
+                });
+
+                $(".derivative .nav-pills a").on('shown.bs.tab', function(event){
+                    var x2 = $(event.target).text();         // active serivative tab
+                    var selected2 = x2.replace(/\s+/g, '-').toLowerCase();
+                    $("#derivative-selected-tab").val(selected2);
+                });
+
+                $('#collapseModelContinuo').on('show.bs.collapse', function () {
+                    $("#buttonModelContinuo").text("Hide music notation")
+                    $("#collapseDerivativeContinuo").collapse('hide')
+                    if (!ver) {
+                        console.log('Loading Verovio for the first time...')
+                        $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
+                            if (jqxhr.status === 200) {
+                                ver = new verovio.toolkit()
+                                setContinuo("#collapseModelContinuo", ver, null, null, "#emaModel")
+                            } else {
+                                $('#collapseModelContinuo').text("Could not load Verovio. Refresh the page and try again.")
+                            }
+                        });
+                    } else {
+                        setContinuo("#collapseModelContinuo", ver, null, null, "#emaModel")
+                    }
+                })
+                .on('hide.bs.collapse', function () {
+                    $("#buttonModelContinuo").text("Choose music notation")
+                })
+
+                $('#collapseDerivativeContinuo').on('show.bs.collapse', function () {
+                    $("#buttonDerivativeContinuo").text("Hide music notation")
+                    $("#collapseModelContinuo").collapse('hide')
+                    if (!ver) {
+                        console.log('Loading Verovio for the first time...')
+                        $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
+                            if (jqxhr.status === 200) {
+                                ver = new verovio.toolkit()
+                                $('#collapseDerivativeContinuo').empty()
+                                setContinuo("#collapseDerivativeContinuo", ver, null, null, "#emaDerivative")
+                            } else {
+                                $('#collapseDerivativeContinuo').text("Could not load Verovio. Refresh the page and try again.")
+                            }
+                        });
+                    } else {
+                        setContinuo("#collapseDerivativeContinuo", ver, null, null, "#emaDerivative")
+                    }
+                })
+                .on('hide.bs.collapse', function () {
+                    $("#buttonDerivativeContinuo").text("Choose music notation")
+                })
+
+            });
+
+            // GET ALL FORM INPUT AS JSON
+            const form = document.getElementById("form");
+            form.addEventListener("submit", handleFormSubmit)
+
+            async function handleFormSubmit(event) {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const url = form.action;
+
+                try {
+                    const formData = new FormData(form);
+                    const responseData = await postFormDataAsJson({ url, formData });
+                    console.log({ responseData });
+                    $.ajax({
+                        type:'POST',
+                        url: '',
+                        data: responseData,
+                        success: function(response){
+                            console.log('Success');
+                            alert("Data was succesfully captured! Press Cancel to go back to home view");
+                        },
+                        error: function(response){
+                            alert("Error with input data, please check again!")
+                        },
+                    });
+
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            async function postFormDataAsJson({ url, formData }) {
+                const plainFormData = Object.fromEntries(formData.entries());
+	            const formDataJsonString = JSON.stringify(plainFormData);
+
+                const fetchOptions = {
+                    method: "POST",
+                    headers: {
+			            "Content-Type": "application/json",
+			            "Accept": "application/json"
+                    },
+                    body: formDataJsonString,
+                };
+
+                const response = await fetch(url, fetchOptions);
+
+	            if (!response.ok) {
+		            const errorMessage = await response.text();
+		            throw new Error(errorMessage);
+	            }
+
+	            return response.json();
+
+            }
+
+
+        </script>
+
+    </body>
+</html>

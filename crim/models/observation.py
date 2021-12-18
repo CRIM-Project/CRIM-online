@@ -1,12 +1,18 @@
 from django.core.cache import caches
 from django.db import models
+from django.db.models import JSONField
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from crim.helpers.common import cache_values_to_string
+from crim.models.definition import CRIMDefinition
 
 
-class CRIMObservation(models.Model):
+class CJObservation(models.Model):
+    '''This is the new observation type created during Linh's
+    summer 2021 work. It uses JSON to encode musical type using
+    a CRIMDefinition object, and should be used moving forward.
+    '''
     class Meta:
         app_label = 'crim'
         verbose_name = 'Observation'
@@ -20,13 +26,90 @@ class CRIMObservation(models.Model):
         db_index=True,
         related_name='observations',
     )
-
     piece = models.ForeignKey(
         'CRIMPiece',
         on_delete=models.CASCADE,
         to_field='piece_id',
         db_index=True,
         related_name='observations',
+    )
+
+    ema = models.CharField(max_length=10000, blank=True)
+    musical_type = models.CharField(max_length=128, blank=True)
+    details = JSONField(blank=True, null=True)
+
+    definition = models.ForeignKey(
+        CRIMDefinition,
+        on_delete=models.CASCADE,
+        db_index=True,
+        related_name='observations',
+        null=True
+    )
+
+    remarks = models.TextField('remarks (supports Markdown)', blank=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    curated = models.BooleanField('curated', default=False)
+
+    def id_in_brackets(self):
+        return '{' + str(self.id) + '}'
+    id_in_brackets.short_description = 'ID'
+    id_in_brackets.admin_order_field = 'id'
+
+    def get_absolute_url(self):
+        return '/observations/{0}/'.format(self.pk)
+
+    def __str__(self):
+        return self.id_in_brackets() + f' {self.piece_id}'
+
+    def save(self, *args, **kwargs):
+        mtypename = str(self.musical_type).lower()
+        allowed_types = list(self.definition.observation_definition.keys())
+
+        if mtypename in allowed_types:
+            valid_sub = False
+            allowed_subtypes = sorted(list(self.definition.observation_definition[mtypename]))
+            string_details = json.dumps(self.details)
+            print(dir(self))
+            sub_dict = json.loads(string_details)
+
+            if allowed_subtypes == []:
+                valid_sub = True
+            else:
+                curr_subtypes = sorted(list(sub_dict.keys()))
+                curr_subtypes_lower = [e.lower() for e in curr_subtypes]
+
+                if curr_subtypes_lower == allowed_subtypes:
+                    valid_sub = True
+
+            if valid_sub:
+                self.definition.save()
+                super(CJObservation, self).save(*args, **kwargs)
+                print("Observation instance saved")
+
+
+class CRIMObservation(models.Model):
+    class Meta:
+        app_label = 'crim'
+        verbose_name = 'Observation (old)'
+        verbose_name_plural = 'Observations (old)'
+
+    observer = models.ForeignKey(
+        'CRIMPerson',
+        on_delete=models.SET_NULL,
+        to_field='person_id',
+        null=True,
+        db_index=True,
+        related_name='old_observations',
+    )
+
+    piece = models.ForeignKey(
+        'CRIMPiece',
+        on_delete=models.CASCADE,
+        to_field='piece_id',
+        db_index=True,
+        related_name='old_observations',
     )
     ema = models.TextField('EMA expression', blank=True)
 
@@ -135,7 +218,10 @@ class CRIMObservation(models.Model):
     id_in_brackets.admin_order_field = 'id'
 
     def get_absolute_url(self):
-        return '/observations/{0}/'.format(self.pk)
+        return '/observations-old/{0}/'.format(self.pk)
+
+    def __str__(self):
+        return '<{0}> {1}'.format(self.id, self.piece_id)
 
     def save(self):
         # Set the parent relationship type field to true if any of the subtypes are
@@ -185,9 +271,6 @@ class CRIMObservation(models.Model):
         # Finalize changes
         super().save()
 
-    def __str__(self):
-        return '<{0}> {1}'.format(self.id, self.piece_id)
-
 
 # @receiver(post_save, sender=CRIMObservation)
 # def update_observation_cache(sender, instance, created, **kwargs):
@@ -204,16 +287,16 @@ class CRIMObservation(models.Model):
 #                ))
 
 
-@receiver(post_delete, sender=CRIMObservation)
-def delete_observation_cache(sender, instance, **kwargs):
-    from django.core.cache import caches
-    print('Deleting cache for <{}>'.format(instance.id))
-    caches['observations'].delete(cache_values_to_string(
-            instance.id,
-            None,
-        ))
-    for i in range(30):
-        caches['observations'].delete(cache_values_to_string(
-                instance.id,
-                i+1,
-            ))
+# @receiver(post_delete, sender=CRIMObservation)
+# def delete_observation_cache(sender, instance, **kwargs):
+#     from django.core.cache import caches
+#     print('Deleting cache for <{}>'.format(instance.id))
+#     caches['observations'].delete(cache_values_to_string(
+#             instance.id,
+#             None,
+#         ))
+#     for i in range(30):
+#         caches['observations'].delete(cache_values_to_string(
+#                 instance.id,
+#                 i+1,
+#             ))

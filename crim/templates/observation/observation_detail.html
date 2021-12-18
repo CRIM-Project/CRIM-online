@@ -2,7 +2,6 @@
 {% load apostrophe %}
 {% load figuredash %}
 {% load markdown %}
-{% load scorenav %}
 {% load static %}
 {% load newlinereplace %}
 {% load newlineplural %}
@@ -81,9 +80,9 @@
           </div>
           <div class="span3">
             <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <button type="button" class="btn btn-primary cw-prev"><a href="{{ content.url|htmlsite }}{{ request|prevpage:content.page_number }}">&lt;</a></button>
-              <button type="button" class="btn btn-primary cw-show"><a href="{{ content.url|htmlsite }}{{ request|start }}">start</a></button>
-              <button type="button" class="btn btn-primary cw-next"><a href="{{ content.url|htmlsite }}{{ request|nextpage:content.page_number }}">&gt;</a></button>
+              <a href="{{ content.url|htmlsite }}{{ request|prevpage:content.page_number }}" class="btn btn-primary cw-prev">&lt;</a>
+              <a href="{{ content.url|htmlsite }}{{ request|start }}" class="btn btn-primary cw-show">start</a>
+              <a href="{{ content.url|htmlsite }}{{ request|nextpage:content.page_number }}" class="btn btn-primary cw-next">&gt;</a>
             </div>
           </div>
         </div>

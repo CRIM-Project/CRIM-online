@@ -49,7 +49,7 @@
                 {% endif %}
               </td>
               <td>
-                {% if observation.mt_cf or observation.mt_sog or observation.mt_csog or observation.mt_fg or observation.mt_pe or observation.mt_id or observation.mt_nid or observation.mt_hr or observation.mt_cad or observation.mt_int or observation.mt_fp %}
+                {% if observation.details %}
                   <a href="#" class="observation-info-expand {% if not observation.curated %}uncurated{% endif %}" target="observation-info-{{ forloop.counter }}">Expand</a>
                 {% else %}
                   -

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap_pagination',
     'corsheaders',
+    'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
     'debug_toolbar',
