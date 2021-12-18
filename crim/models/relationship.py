@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django.db.models import JSONField
 from django.db.models.signals import post_save, post_delete
@@ -66,9 +68,12 @@ class CJRelationship(models.Model):
         return '/relationships/{0}/'.format(self.pk)
 
     def __str__(self):
-        return (self.id_in_brackets() +
-            f' {self.model_observation.piece_id}, {self.derivative_observation.piece_id}'
-        )
+        if self.model_observation and self.derivative_observation:
+            return (self.id_in_brackets() +
+                f' {self.model_observation.piece_id}, {self.derivative_observation.piece_id}'
+            )
+        else:
+            return self.id_in_brackets()
 
     def save(self, *args, **kwargs):
         # For the musical type field, check if both observations use the same
@@ -86,32 +91,36 @@ class CJRelationship(models.Model):
         elif self.derivative_observation.musical_type:
             self.musical_type = self.derivative_observation.musical_type
 
-        #Validation for model instance pre-save
-        rtypename = str(self.relationship_type).lower()
-        allowed_types = list(self.definition.relationship_definition.keys())
+        # TODO: Rework this as a pre-save signal
+        # rtypename = str(self.relationship_type).lower()
+        # allowed_types = list(self.definition.relationship_definition.keys())
+        #
+        # if rtypename in allowed_types:
+        #     valid_sub = False
+        #     allowed_subtypes = sorted(list(self.definition.relationship_definition[rtypename]))
+        #     string_details = json.dumps(self.details)
+        #     sub_dict = json.loads(string_details)
+        #
+        #     if allowed_subtypes == []:
+        #         valid_sub = True
+        #
+        #     else:
+        #         curr_subtypes = sorted(list(sub_dict.keys())) if sub_dict else None
+        #         if curr_subtypes:
+        #             curr_subtypes_lower = [e.lower() for e in curr_subtypes]
+        #         else:
+        #             curr_subtypes_lower = None
+        #
+        #         if curr_subtypes_lower == allowed_subtypes:
+        #             valid_sub = True
+        #
+            self.definition.save()
+            self.model_observation.save()
+            self.derivative_observation.save()
+            super().save(*args, **kwargs)
 
-        if rtypename in allowed_types:
-            valid_sub = False
-            allowed_subtypes = sorted(list(self.definition.relationship_definition[rtypename]))
-            string_details = json.dumps(self.details)
-            sub_dict = json.loads(string_details)
-
-            if allowed_subtypes == []:
-                valid_sub = True
-
-            else:
-                curr_subtypes = sorted(list(sub_dict.keys()))
-                curr_subtypes_lower = [e.lower() for e in curr_subtypes]
-
-                if curr_subtypes_lower == allowed_subtypes:
-                    valid_sub = True
-
-            if valid_sub:
-                self.definition.save()
-                self.model_observation.save()
-                self.derivative_observation.save()
-                super(CJRelationship, self).save(*args, **kwargs)
-                print('Relationship instance saved')
+            # if not valid_sub:
+            #     print('Warning: invalid relationship instance saved')
 
 
 class CRIMRelationship(models.Model):
