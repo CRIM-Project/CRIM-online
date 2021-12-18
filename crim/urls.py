@@ -161,7 +161,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
 
         path('relationships/new/', get_relationship, name='relationship-form'),
-        path('observations/new/', get_observation, name='observation-form'),
+        # path('observations/new/', get_observation, name='observation-form'),
 
         re_path('about', include('django.contrib.flatpages.urls')),
     ]
