@@ -78,13 +78,6 @@
                 <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.full_title }}</a>
             </h2>
           </div>
-          <div class="span3">
-            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <a href="{{ content.url|htmlsite }}{{ request|prevpage:content.page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-              <a href="{{ content.url|htmlsite }}{{ request|start }}" class="btn btn-primary cw-show">start</a>
-              <a href="{{ content.url|htmlsite }}{{ request|nextpage:content.page_number }}" class="btn btn-primary cw-next">&gt;</a>
-            </div>
-          </div>
         </div>
         <div id="score">
           {% autoescape off %}
