@@ -118,23 +118,30 @@
             <fieldset class="model-form">
                 <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="model-observation-form" id="model-observation-form">
                     <div class="model">
-                        <div class="mb-5" id="model-continuo">
-                            <p><strong>Music reference (EMA): </strong><em id="emaModel"></em></p>
-                            <input name="model-ema" type='hidden' value='' id="emaModelData">
-                            <p>
-                                <button id="buttonModelContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModelContinuo" aria-expanded="false" aria-controls="collapseModelContinuo">
-                                    Choose music notation
-                                </button>
-                            </p>
-                            <div class="collapse" id="collapseModelContinuo">
-                                <div class="card card-body">
-                                    <div class="spinner-border" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                    Loading music notation selector.
-                                </div>
-                            </div>
-                        </div>
+                      <div class="mb-5" id="model-piece">
+                        <select name="model-piece" id="model-piece">
+                          {% for piece in all_pieces %}
+                            <option value="{{ piece.piece_id }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="mb-5" id="model-continuo">
+                          <p><strong>Music reference (EMA): </strong><em id="emaModel"></em></p>
+                          <input name="model-ema" type='hidden' value='' id="emaModelData">
+                          <p>
+                              <button id="buttonModelContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModelContinuo" aria-expanded="false" aria-controls="collapseModelContinuo">
+                                  Choose music notation
+                              </button>
+                          </p>
+                          <div class="collapse" id="collapseModelContinuo">
+                              <div class="card card-body">
+                                  <div class="spinner-border" role="status">
+                                      <span class="sr-only">Loading...</span>
+                                  </div>
+                                  Loading music notation selector.
+                              </div>
+                          </div>
+                      </div>
                     <!-- Nav pills -->
                     <ul class="nav nav-pills">
                         {% for key, value in observation_definition.items %}
