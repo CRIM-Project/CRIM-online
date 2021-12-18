@@ -30,7 +30,7 @@
       <div class="text-center">
         <h1>Create a relationship instance</h1>
       </div>
-      <form method="POST" action="https://jsonplaceholder.typicode.com/users" id="form" autocomplete="on">
+      <form id="form">
       {% csrf_token %}
 
       <div class="row-sm">
@@ -539,7 +539,7 @@
 
           const rawFormData = new FormData(form);
           const strippedFormData = Object.fromEntries(rawFormData.entries());
-          console.log(rawFormData);
+          console.log(strippedFormData);
 
           function simplifyFormData(data, objectType, MRType) {
             let simplifiedData = {};
@@ -557,44 +557,40 @@
             return simplifiedData;
           }
 
-          function modelDataFromForm(formData) {
-            let modelData = {};
-            modelData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
-            modelData['observer'] = formData['observer'];
-            modelData['piece'] = formData['model-piece'];
-            modelData['musical_type'] = formData['model-selected-tab'].replaceAll('-', ' ');
-            modelData['observation_details'] = simplifyFormData(formData, 'model', formData['model-selected-tab']);
-            modelData['remarks'] = formData['model-remarks'];
-            return modelData;
-          }
+          function getMassagedData(formData) {
+            let massagedData = {};
+            massagedData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
+            massagedData['observer'] = formData['observer'];
+            massagedData['model_observation'] = formData['model_observation'];
+            massagedData['derivative_observation'] = formData['derivative_observation'];
 
-          function derivativeDataFromForm(formData) {
-            let derivativeData = {};
-            derivativeData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
-            derivativeData['observer'] = formData['observer'];
-            derivativeData['piece'] = formData['derivative-piece'];
-            derivativeData['musical_type'] = formData['derivative-selected-tab'].replaceAll('-', ' ');
-            derivativeData['observation_details'] = simplifyFormData(formData, 'derivative', formData['derivative-selected-tab']);
-            derivativeData['remarks'] = formData['derivative-remarks'];
-            return derivativeData;
-          }
+            massagedData['model_definition'] = formData['definition'];
+            massagedData['model_piece'] = formData['model-piece'];
+            massagedData['model_ema'] = formData['model-ema'];
+            massagedData['model_musical_type'] = formData['model-selected-tab'].replaceAll('-', ' ');
+            massagedData['model_details'] = simplifyFormData(formData, 'model', formData['model-selected-tab']);
+            massagedData['model_remarks'] = formData['model-remarks'];
 
-          function relationshipDataFromForm(formData, model_id, derivative_id) {
-            let relationshipData = {};
-            relationshipData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
-            relationshipData['observer'] = formData['observer'];
-            relationshipData['model_observation'] = model_id;
-            relationshipData['derivative_observation'] = derivative_id;
-            relationshipData['relationship_type'] = formData['relationship-selected-tab'].replaceAll('-', ' ');
-            relationshipData['relationship_details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
-            relationshipData['remarks'] = formData['relationship-remarks'];
-            return relationshipData;
+            massagedData['derivative_definition'] = formData['definition'];
+            massagedData['derivative_piece'] = formData['derivative-piece'];
+            massagedData['derivative_ema'] = formData['derivative-ema'];
+            massagedData['derivative_musical_type'] = formData['derivative-selected-tab'].replaceAll('-', ' ');
+            massagedData['derivative_details'] = simplifyFormData(formData, 'model', formData['derivative-selected-tab']);
+            massagedData['derivative_remarks'] = formData['derivative-remarks'];
+
+            massagedData['definition'] = formData['definition'];
+            massagedData['relationship_type'] = formData['relationship-selected-tab'].replaceAll('-', ' ');
+            massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
+            massagedData['remarks'] = formData['relationship-remarks'];
+
+            return massagedData;
           }
 
           // Ajax request for model
 
           try {
-            const responseData = await postFormDataAsJson({ url, dataForCrim });
+            let massagedData = getMassagedData(strippedFormData);
+            const responseData = await postFormDataAsJson({ url, massagedData });
             console.log({ responseData });
             $.ajax({
               type:'POST',

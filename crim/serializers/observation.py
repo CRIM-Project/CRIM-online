@@ -407,7 +407,6 @@ class CJObservationListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='cjobservation-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
     piece = CRIMPieceObservationSummarySerializer(read_only=True)
-    details = serializers.JSONField()
     definition = CRIMDefinitionObservationSerializer(read_only=True)
 
     class Meta:
@@ -420,7 +419,6 @@ class CJObservationListSerializer(serializers.HyperlinkedModelSerializer):
             'ema',
             'musical_type',
             'definition',
-            'details'
             'remarks',
             'created',
             'updated',
