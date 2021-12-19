@@ -227,6 +227,7 @@ class CJObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSeri
     observer = CRIMPersonRelationshipSerializer(read_only=True)
     piece = CRIMPieceRelationshipSerializer(read_only=True)
     definition = CRIMDefinitionRelationshipSerializer(read_only=True)
+    details = serializers.JSONField()
 
     class Meta:
         model = CJObservation
@@ -295,6 +296,7 @@ class CJRelationshipDetailSerializer(serializers.HyperlinkedModelSerializer):
     model_observation = CJObservationRelationshipDetailSerializer(read_only=True)
     derivative_observation = CJObservationRelationshipDetailSerializer(read_only=True)
     definition = CRIMDefinitionRelationshipSerializer(read_only=True)
+    details = serializers.JSONField()
 
     class Meta:
         model = CRIMRelationship
@@ -365,6 +367,7 @@ class CJRelationshipListSerializer(serializers.HyperlinkedModelSerializer):
     model_observation = CJObservationRelationshipListSerializer(read_only=True)
     derivative_observation = CJObservationRelationshipListSerializer(read_only=True)
     definition = CRIMDefinitionRelationshipSerializer(read_only=True)
+    details = serializers.JSONField()
 
     class Meta:
         model = CJRelationship

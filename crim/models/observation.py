@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from crim.helpers.common import cache_values_to_string
 from crim.models.definition import CRIMDefinition
 
+import json
+
 
 class CJObservation(models.Model):
     '''This is the new observation type created during Linh's
@@ -63,30 +65,35 @@ class CJObservation(models.Model):
     def __str__(self):
         return self.id_in_brackets() + f' {self.piece_id}'
 
-    def save(self, *args, **kwargs):
-        mtypename = str(self.musical_type).lower()
-        allowed_types = list(self.definition.observation_definition.keys())
-
-        if mtypename in allowed_types:
-            valid_sub = False
-            allowed_subtypes = sorted(list(self.definition.observation_definition[mtypename]))
-            string_details = json.dumps(self.details)
-            print(dir(self))
-            sub_dict = json.loads(string_details)
-
-            if allowed_subtypes == []:
-                valid_sub = True
-            else:
-                curr_subtypes = sorted(list(sub_dict.keys()))
-                curr_subtypes_lower = [e.lower() for e in curr_subtypes]
-
-                if curr_subtypes_lower == allowed_subtypes:
-                    valid_sub = True
-
-            if valid_sub:
-                self.definition.save()
-                super(CJObservation, self).save(*args, **kwargs)
-                print("Observation instance saved")
+    # TODO: Rework this as a pre_save signal
+    # def save(self, *args, **kwargs):
+    #     mtypename = str(self.musical_type).lower()
+    #     allowed_types = list(self.definition.observation_definition.keys())
+    #
+    #     if mtypename in allowed_types:
+    #         valid_sub = False
+    #         allowed_subtypes = sorted(list(self.definition.observation_definition[mtypename]))
+    #         string_details = json.dumps(self.details)
+    #         print(dir(self))
+    #         sub_dict = json.loads(string_details)
+    #
+    #         if allowed_subtypes == []:
+    #             valid_sub = True
+    #         else:
+    #             curr_subtypes = sorted(list(sub_dict.keys())) if sub_dict else None
+    #             if curr_subtypes:
+    #                 curr_subtypes_lower = [e.lower() for e in curr_subtypes]
+    #             else:
+    #                 curr_subtypes_lower = None
+    #
+    #             if curr_subtypes_lower == allowed_subtypes:
+    #                 valid_sub = True
+    #
+    #         if not valid_sub:
+    #             print("Warning: invalid observation instance saved")
+    #
+    #         self.definition.save()
+    #         super(CJObservation, self).save(*args, **kwargs)
 
 
 class CRIMObservation(models.Model):

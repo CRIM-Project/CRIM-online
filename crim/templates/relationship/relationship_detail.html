@@ -49,13 +49,6 @@
                 <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.full_title }}</a>
             </h2>
           </div>
-          <div class="span3">
-            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <a href="{{ content.url|htmlsite }}{{ request|prevpage_model:content.model_page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-              <a href="{{ content.url|htmlsite }}{{ request|start_model }}" class="btn btn-primary cw-show">start</a>
-              <a href="{{ content.url|htmlsite }}{{ request|nextpage_model:content.model_page_number }}" class="btn btn-primary cw-next">&gt;</a>
-            </div>
-          </div>
         </div>
         <div id="model_score">
           {% autoescape off %}
@@ -82,13 +75,6 @@
                 {% endif %}
                 <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.full_title }}</a>
             </h2>
-          </div>
-          <div class="span3">
-            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <a href="{{ content.url|htmlsite }}{{ request|prevpage_derivative:content.derivative_page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-              <a href="{{ content.url|htmlsite }}{{ request|start_derivative }}" class="btn btn-primary cw-show">start</a>
-              <a href="{{ content.url|htmlsite }}{{ request|nextpage_derivative:content.derivative_page_number }}" class="btn btn-primary cw-next">&gt;</a>
-            </div>
           </div>
         </div>
         <div id="derivative_score">
