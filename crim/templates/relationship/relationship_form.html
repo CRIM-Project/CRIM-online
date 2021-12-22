@@ -355,7 +355,7 @@
                 scale: 35
             }
             opts = opts ? opts : defaultOpts
-            MEIurl = MEIurl ? MEIurl : 'http://127.0.0.1:8000/mei/CRIM_Model_0001.mei'
+            MEIurl = MEIurl ? MEIurl : 'http://127.0.0.1:8000/static/mei/MEI_4.0/CRIM_Model_0001.mei'
             $(el).empty()
             var cnt = new Continuo({el: el, mei: MEIurl, verovioToolkit: ver, paginate: true, verovioOptions: opts})
             cnt.render()
@@ -363,7 +363,7 @@
             const storedEma = $(emaEl+"Data")
             if (storedEma) {
                 const ema = storedEma.val()
-                const expr = "http%3A%2F%2F127.0.0.1:8000%2Fmei%2FCRIM_Model_0001.mei/" + ema + "/highlight"
+                const expr = "http%3A%2F%2F127.0.0.1:8000%2Fstatic%2Fmei%2FMEI_4.0%2FCRIM_Model_0001.mei/" + ema + "/highlight"
 
                 EmaMei.withFullExpr(expr).then(function (r) {
                     // The result:
@@ -493,7 +493,7 @@
         async function handleFormSubmit(event) {
           event.preventDefault();
           const form = event.currentTarget;
-          const url = 'https://127.0.0.1:8000/data/relationships/new/';
+          const url = 'http://127.0.0.1:8000/data/relationships/new/';
 
           const rawFormData = new FormData(form);
           const strippedFormData = Object.fromEntries(rawFormData.entries());
