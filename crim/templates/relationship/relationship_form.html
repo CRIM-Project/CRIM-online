@@ -56,9 +56,9 @@
         <ul class="nav nav-tabs">
           {% for type in relationship_definition %}
             {% if forloop.first %}
-              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
+              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#relationship-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
+              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relationship-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
             {% endif %}
           {% endfor %}
         </ul>
@@ -68,24 +68,24 @@
         <div class="tab-content">
           <p></p>
           {% for type in relationship_definition %}
-            <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="{{ type.name|slugify }}">
-              <div class="{{ type.name|slugify }}"></div>
+            <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="relationship-{{ type.name|slugify }}">
+              <div class="relationship-{{ type.name|slugify }}"></div>
               {% for subtype in type.subtypes %}
                 {% if subtype.form == "boolean" %}
                   <div class="form-check">
-                    <input class="form-check-input" type='checkbox' name="{{ type.name|concat_str:subtype.name }}" value='true' id="{{ type.name|concat_str:subtype.name }}">
-                    <input name="{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
-                    <label class='form-check-label' for="{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
+                    <input class="form-check-input" type='checkbox' name="relationship-{{ type.name|concat_str:subtype.name }}" value='true' id="relationship-{{ type.name|concat_str:subtype.name }}">
+                    <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
+                    <label class='form-check-label' for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                   </div>
 
                 {% elif subtype.form == "radio" %}
-                  <input name="{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
                   {{ subtype.name.capitalize }}:
-                  <div id="{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                  <div id="relationship-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                     {% for option in subtype.options %}
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="{{ type.name|concat_str:subtype.name }}">
-                        <label class="form-check-label" for="{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                        <input class="form-check-input" type="radio" name="relationship-{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="relationship-{{ type.name|concat_str:subtype.name }}">
+                        <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                       </div>
                     {% endfor %}
                   </div>
@@ -402,7 +402,7 @@
 
             var activeTab = $(".relationship .tab-content").find(".active");
             var id = activeTab.attr('id');
-            $("#selected-tab").val(id);
+            $("#relationship-selected-tab").val(id);
 
 
             var modelActiveTab = $(".model .tab-content").find(".active");
@@ -426,7 +426,7 @@
             $(".relationship .nav-tabs a").on('shown.bs.tab', function(event){
                 var x = $(event.target).text();         // active tab
                 var selected = x.replace(/\s+/g, '-').toLowerCase();
-                $("#selected-tab").val(selected);
+                $("#relationship-selected-tab").val(selected);
             });
 
             $(".model .nav-pills a").on('shown.bs.tab', function(event){
