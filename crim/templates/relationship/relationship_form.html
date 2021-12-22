@@ -52,11 +52,11 @@
       <div class="relationship">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-          {% for key, value in relationship_definition.items %}
+          {% for type in relationship_definition %}
             {% if forloop.first %}
-              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ key|slugify }}">{{ key.capitalize }}</a></li>
+              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ key|slugify }}">{{ key.capitalize }}</a></li>
+              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
             {% endif %}
           {% endfor %}
         </ul>
@@ -65,38 +65,29 @@
 
         <div class="tab-content">
           <p></p>
-          {% for key, value in relationship_definition.items %}
-            {% if forloop.first %}
-              <div class="tab-pane container fade show active" id="{{ key|slugify }}">
-            {% else %}
-              <div class="tab-pane container fade" id="{{ key|slugify }}">
-            {% endif %}
+          {% for type in relationship_definition %}
+            <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="{{ type.name|slugify }}">
+              <div class="{{ type.name|slugify }}"></div>
+              {% for subtype in type.subtypes %}
+                {% if subtype.form == "boolean" %}
+                  <div class="form-check">
+                    <input class="form-check-input" type='checkbox' name="{{ type.name|concat_str:subtype.name }}" value='true' id="{{ type.name|concat_str:subtype.name }}">
+                    <input name="{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
+                    <label class='form-check-label' for="{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
+                  </div>
 
-            <div class="{{ key|slugify }}"></div>
-            {% for innerkey, innervalue in value.items %}
-              {% if innervalue == "boolean" %}
-                <div class="form-check">
-                  <input class="form-check-input" type='checkbox' name="{{ key|concat_str:innerkey }}" value='true' id="{{ key|concat_str:innerkey }}">
-                  <input name="{{ key|concat_str:innerkey }}" type='hidden' value='false'>
-                  <label class='form-check-label' for="{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
-                </div>
-
-                {% else %}
-                  {% for innerkey1, innervalue1 in innervalue.items %}
-                    {% if innerkey1 == "radio" %}
-                      <input name="{{ key|concat_str:innerkey }}" type='hidden' value='None'>
-                      {{ innerkey.capitalize }}:
-                      <div id="{{ key|concat_str:innerkey }}" style="margin-left:50px;">
-                        {% for option in innervalue1 %}
-                          <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="{{ key|concat_str:innerkey }}" value="{{option}}" id="{{ key|concat_str:innerkey }}">
-                            <label class="form-check-label" for="{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
-                          </div>
-                        {% endfor %}
+                {% elif subtype.form == "radio" %}
+                  <input name="{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                  {{ subtype.name.capitalize }}:
+                  <div id="{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                    {% for option in subtype.options %}
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="{{ type.name|concat_str:subtype.name }}">
+                        <label class="form-check-label" for="{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                       </div>
+                    {% endfor %}
+                  </div>
 
-                    {% endif %}
-                  {% endfor %}
                 {% endif %}
               {% endfor %}
             </div>
@@ -149,69 +140,60 @@
               </div>
               <!-- Nav pills -->
               <ul class="nav nav-pills">
-                {% for key, value in observation_definition.items %}
+                {% for type in observation_definition %}
                   {% if forloop.first %}
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#model-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#model-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
                   {% else %}
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#model-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#model-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
                   {% endif %}
                 {% endfor %}
               </ul>
 
               <!-- Tab panes -->
               <div class="tab-content">
-                {% for key, value in observation_definition.items %}
-                  {% if forloop.first %}
-                    <div class="tab-pane container fade show active" id="model-{{ key|slugify }}">
-                  {% else %}
-                    <div class="tab-pane container fade" id="model-{{ key|slugify }}">
-                  {% endif %}
+                {% for type in observation_definition %}
+                  <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="model-{{ type.name|slugify }}">
+                    <div class="model-{{ type.name|slugify }}"></div>
+                    {% for subtype in type.subtypes %}
 
-                  <div class="model-{{ key|slugify }}"></div>
-                    {% for innerkey, innervalue in value.items %}
-
-                      {% if innervalue == "boolean" %}
+                      {% if subtype.form == "boolean" %}
                         <div class="form-check">
-                          <input class="form-check-input" type='checkbox' name="model-{{ key|concat_str:innerkey }}" value='true' id="model-{{ key|concat_str:innerkey }}">
-                          <input name="model-{{ key|concat_str:innerkey }}" type='hidden' value='false'>
-                          <label class='form-check-label' for="model-{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
+                          <input class="form-check-input" type='checkbox' name="model-{{ type.name|concat_str:subtype.name }}" value='true' id="model-{{ type.name|concat_str:subtype.name }}">
+                          <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
+                          <label class='form-check-label' for="model-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                         </div>
 
-                      {% elif innervalue == "text" %}
+                      {% elif subtype.form == "text" %}
                         <div class="form-group row">
-                          <label for="model-{{ key|concat_str:innerkey }}" class="col-sm col-form-label"> {{ innerkey.capitalize }} </label>
+                          <label for="model-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
                           <div class="col-sm">
-                            <input class="form-control form-control-sm" id="model-{{ key|concat_str:innerkey }}" name="model-{{ key|concat_str:innerkey }}">
+                            <input class="form-control form-control-sm" id="model-{{ type.name|concat_str:subtype.name }}" name="model-{{ type.name|concat_str:subtype.name }}">
                           </div>
                         </div>
 
-                      {% else %}
-                        {% for innerkey1, innervalue1 in innervalue.items %}
-                          {% if innerkey1 == "radio" %}
-                            <input name="model-{{ key|concat_str:innerkey }}" type='hidden' value='None'>
-                            {{ innerkey.capitalize }}:
-                            <div id="model-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
-                              {% for option in innervalue1 %}
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="model-{{ key|concat_str:innerkey }}" value="{{option}}" id="model-{{ key|concat_str:innerkey }}">
-                                  <label class="form-check-label" for="model-{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
-                                </div>
-                              {% endfor %}
+                      {% elif subtype.form == "radio" %}
+                        <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                        {{ subtype.name.capitalize }}:
+                        <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                          {% for option in options %}
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="model-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="model-{{ type.name|concat_str:subtype.name }}">
+                              <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                             </div>
+                          {% endfor %}
+                        </div>
 
-                          {% elif innerkey1 == "checkbox" %}
-                            {{ innerkey.capitalize }}:
-                            <div id="model-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
-                                {% for option in innervalue1 %}
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type='checkbox' name="model-{{ key|concat_str:option }}" value="{{option}}" id="model-{{ key|concat_str:option }}">
-                                  <label class='form-check-label' for="model-{{ key|concat_str:option }}">{{ option.capitalize }}</label>
-                                </div>
-                              {% endfor %}
+                      {% elif subtype.form == "checkbox" %}
+                        {{ subtype.name.capitalize }}:
+                        <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                          {% for option in subtype.options %}
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type='checkbox' name="model-{{ type.name|concat_str:option }}" value="{{option}}" id="model-{{ type.name|concat_str:option }}">
+                              <label class='form-check-label' for="model-{{ type.name|concat_str:option }}">{{ option.capitalize }}</label>
                             </div>
+                          {% endfor %}
+                        </div>
 
-                          {% endif %}
-                        {% endfor %}
                       {% endif %}
                     {% endfor %}
                   </div>
@@ -266,71 +248,64 @@
               </div>
               <!-- Nav pills -->
               <ul class="nav nav-pills">
-                {% for key, value in observation_definition.items %}
+                {% for type in observation_definition %}
                   {% if forloop.first %}
-                    <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#derivative-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#derivative-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
                   {% else %}
-                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#derivative-{{ key|slugify }}">{{ key.capitalize }}</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#derivative-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
                   {% endif %}
                 {% endfor %}
               </ul>
 
               <!-- Tab panes -->
               <div class="tab-content">
-                {% for key, value in observation_definition.items %}
-                  {% if forloop.first %}
-                    <div class="tab-pane container fade show active" id="derivative-{{ key|slugify }}">
-                  {% else %}
-                    <div class="tab-pane container fade" id="derivative-{{ key|slugify }}">
-                  {% endif %}
+                {% for type in observation_definition %}
+                  <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="derivative-{{ type.name|slugify }}">
+                    <div class="derivative-{{ type.name|slugify }}"></div>
+                    {% for subtype in type.subtypes %}
 
-                  <div class="derivative-{{ key|slugify }}"></div>
-                    {% for innerkey, innervalue in value.items %}
-
-                      {% if innervalue == "boolean" %}
+                      {% if subtype.form == "boolean" %}
                         <div class="form-check">
-                          <input class="form-check-input" type='checkbox' name="derivative-{{ key|concat_str:innerkey }}" value='true' id="derivative-{{ key|concat_str:innerkey }}">
-                          <input name="derivative-{{ key|concat_str:innerkey }}" type='hidden' value='false'>
-                          <label class='form-check-label' for="derivative-{{ key|concat_str:innerkey }}">{{ innerkey.capitalize }}</label>
+                          <input class="form-check-input" type='checkbox' name="derivative-{{ type.name|concat_str:subtype.name }}" value='true' id="derivative-{{ type.name|concat_str:subtype.name }}">
+                          <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
+                          <label class='form-check-label' for="derivative-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                         </div>
 
-                      {% elif innervalue == "text" %}
+                      {% elif subtype.form == "text" %}
                         <div class="form-group row">
-                          <label for="derivative-{{ key|concat_str:innerkey }}" class="col-sm col-form-label"> {{ innerkey.capitalize }} </label>
+                          <label for="derivative-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
                           <div class="col-sm">
-                            <input class="form-control form-control-sm" id="derivative-{{ key|concat_str:innerkey }}" name="derivative-{{ key|concat_str:innerkey }}">
+                            <input class="form-control form-control-sm" id="derivative-{{ type.name|concat_str:subtype.name }}" name="derivative-{{ type.name|concat_str:subtype.name }}">
                           </div>
                         </div>
 
-                      {% else %}
-                        {% for innerkey1, innervalue1 in innervalue.items %}
-                          {% if innerkey1 == "radio" %}
-                            <input name="derivative-{{ key|concat_str:innerkey }}" type='hidden' value='None'>
-                            {{ innerkey.capitalize }}:
-                            <div id="derivative-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
-                              {% for option in innervalue1 %}
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="derivative-{{ key|concat_str:innerkey }}" value="{{option}}" id="derivative-{{ key|concat_str:innerkey }}">
-                                  <label class="form-check-label" for="derivative-{{ key|concat_str:innerkey }}">{{ option.capitalize }}</label>
-                                </div>
-                              {% endfor %}
+                      {% elif subtype.form == "radio" %}
+                        <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                        {{ subtype.name.capitalize }}:
+                        <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                          {% for option in options %}
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="derivative-{{ type.name|concat_str:subtype.name }}">
+                              <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                             </div>
+                          {% endfor %}
+                        </div>
 
-                          {% elif innerkey1 == "checkbox" %}
-                            {{ innerkey.capitalize }}:
-                            <div id="derivative-{{ key|concat_str:innerkey }}" style="margin-left:50px;">
-                              {% for option in innervalue1 %}
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type='checkbox' name="derivative-{{ key|concat_str:option }}" value="{{option}}" id="derivative-{{ key|concat_str:option }}">
-                                  <label class='form-check-label' for="derivative-{{ key|concat_str:option }}">{{ option.capitalize }}</label>
-                                </div>
-                              {% endfor %}
+                      {% elif subtype.form == "checkbox" %}
+                        {{ subtype.name.capitalize }}:
+                        <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                          {% for option in subtype.options %}
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type='checkbox' name="derivative-{{ type.name|concat_str:option }}" value="{{option}}" id="derivative-{{ type.name|concat_str:option }}">
+                              <label class='form-check-label' for="derivative-{{ type.name|concat_str:option }}">{{ option.capitalize }}</label>
                             </div>
-                          {% endif %}
-                        {% endfor %}
+                          {% endfor %}
+                        </div>
+
                       {% endif %}
+
                     {% endfor %}
-                  </div>
+                    </div>
                 {% endfor %}
               </div>
               <label for="derivative-remarks">Remarks for derivative:</label><br>
