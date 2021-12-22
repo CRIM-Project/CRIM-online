@@ -119,7 +119,7 @@
               <div class="mb-5" id="model-piece">
                 <select name="model-piece" id="model-piece">
                   {% for piece in all_pieces %}
-                    <option value="{{ piece.piece_id }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -227,7 +227,7 @@
               <div class="mb-5" id="derivative-piece">
                 <select name="derivative-piece" id="derivative-piece">
                   {% for piece in all_pieces %}
-                    <option value="{{ piece.piece_id }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
                   {% endfor %}
                 </select>
               </div>
