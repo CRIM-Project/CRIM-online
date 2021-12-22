@@ -82,7 +82,7 @@
                   <div id="{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                     {% for option in subtype.options %}
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="{{ type.name|concat_str:subtype.name }}">
+                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="{{ type.name|concat_str:subtype.name }}">
                         <label class="form-check-label" for="{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                       </div>
                     {% endfor %}
@@ -175,7 +175,7 @@
                         <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
                         {{ subtype.name.capitalize }}:
                         <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in options %}
+                          {% for option in subtype.options %}
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="radio" name="model-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="model-{{ type.name|concat_str:subtype.name }}">
                               <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
@@ -283,7 +283,7 @@
                         <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
                         {{ subtype.name.capitalize }}:
                         <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in options %}
+                          {% for option in subtype.options %}
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="radio" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="derivative-{{ type.name|concat_str:subtype.name }}">
                               <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
@@ -314,7 +314,7 @@
           </div>
         </fieldset>
 
-        <input type="hidden" id="selected-tab" name="selected-tab">
+        <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab">
         <input type="hidden" id="model-selected-tab" name="model-selected-tab">
         <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab">
         <p><br></p>
