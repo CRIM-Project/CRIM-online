@@ -33,6 +33,8 @@
       <form id="form">
       {% csrf_token %}
 
+      <input type="hidden" name="definition" id="definition" value="{{ current_definition_id }}">
+
       <div class="row-sm">
         {% comment %}"If the user does not have an associated PersonID, log the username at least,
           but alert the user"{% endcomment %}
