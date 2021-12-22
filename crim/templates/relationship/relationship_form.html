@@ -547,9 +547,7 @@
           // Ajax request for model
 
           try {
-            console.log(strippedFormData);
             const massagedData = getMassagedData(strippedFormData);
-            console.log(massagedData);
             const stringData = JSON.stringify(massagedData);
 
             $.ajax({
@@ -568,6 +566,7 @@
                 alert("Data was succesfully captured");
               },
               error: function(response){
+                console.log(stringData);
                 console.log(response);
                 alert("Error with input data, please check again");
               },
