@@ -79,17 +79,18 @@ class CJRelationship(models.Model):
         # For the musical type field, check if both observations use the same
         # musical type; otherwise, use whichever has a musical type if one of
         # them doesn't (e.g. omission), or include them both.
-        if self.model_observation.musical_type and self.derivative_observation.musical_type:
-            mt1 = self.model_observation.musical_type
-            mt2 = self.derivative_observation.musical_type
-            if not mt1 == mt2:
-                self.musical_type = mt1 + ', ' + mt2
-            else:
-                self.musical_type = mt1
-        elif self.model_observation.musical_type:
-            self.musical_type = self.model_observation.musical_type
-        elif self.derivative_observation.musical_type:
-            self.musical_type = self.derivative_observation.musical_type
+        if self.model_observation and self.derivative_observation:
+            if self.model_observation.musical_type and self.derivative_observation.musical_type:
+                mt1 = self.model_observation.musical_type
+                mt2 = self.derivative_observation.musical_type
+                if not mt1 == mt2:
+                    self.musical_type = mt1 + ', ' + mt2
+                else:
+                    self.musical_type = mt1
+            elif self.model_observation.musical_type:
+                self.musical_type = self.model_observation.musical_type
+            elif self.derivative_observation.musical_type:
+                self.musical_type = self.derivative_observation.musical_type
 
         # TODO: Rework this as a pre-save signal
         # rtypename = str(self.relationship_type).lower()
@@ -114,9 +115,8 @@ class CJRelationship(models.Model):
         #         if curr_subtypes_lower == allowed_subtypes:
         #             valid_sub = True
         #
-        self.definition.save()
-        self.model_observation.save()
-        self.derivative_observation.save()
+            self.model_observation.save()
+            self.derivative_observation.save()
         super().save(*args, **kwargs)
 
             # if not valid_sub:
