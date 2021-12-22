@@ -1,0 +1,90 @@
+.cnt-container svg {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.cnt-container svg .cnt-selected {
+  color: #06f;
+  fill: currentColor;
+}
+.cnt-container svg .cnt-highlighted {
+  color: #f90;
+  fill: currentColor;
+}
+.cnt-container svg .cnt-selectable {
+  pointer-events: bounding-box;
+}
+.cnt-container svg .cnt-selectable:hover {
+  fill: #4d94ff;
+}
+.cnt-container svg rect.cnt-areaSel {
+  stroke: gray;
+  stroke-dasharray: 4px;
+  stroke-opacity: 0.5;
+  fill: #06f;
+  fill-opacity: 0.3;
+}
+.cnt-container .cnt-pagination {
+  position: fixed;
+  top: 1em;
+  right: 1em;
+}
+.cnt-container .cnt-pagination a {
+  font-size: 17px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  padding: 2px 8px 2px 8px;
+}
+.cnt-container .cnt-pagination a:link, .cnt-container .cnt-pagination a:hover, .cnt-container .cnt-pagination a:visited, .cnt-container .cnt-pagination a:active {
+  text-decoration: none;
+  color: black;
+}
+.cnt-container .cnt-emabox.cnt-hidden .cnt-emaexpr-expr {
+  display: none;
+}
+.cnt-container .cnt-emabox {
+  display: none;
+  border-radius: 0.5em;
+  margin-left: 20px;
+  background-color: #06f;
+  padding: 5px;
+  position: fixed;
+  top: 1em;
+  left: 1em;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr .cnt-emaexpr-expr {
+  font-family: Helvetica, Arial, Sans-Serif;
+  font-weight: bold;
+  line-height: 2em;
+  color: #fff;
+  font-size: 30px;
+  padding: 0 5px 0 5px;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-cp, .cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-hide, .cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-x {
+  position: absolute;
+  left: -20px;
+  font-size: 17px;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  padding: 2px 8px 2px 8px;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-cp svg, .cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-hide svg, .cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-x svg {
+  width: 10px;
+  height: 10px;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-x {
+  top: -5px;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-hide {
+  top: 24px;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr .cnt-emabox-cp {
+  top: 52px;
+}
+.cnt-container .cnt-emabox .cnt-emaexpr a:link, .cnt-container .cnt-emabox .cnt-emaexpr a:hover, .cnt-container .cnt-emabox .cnt-emaexpr a:visited, .cnt-container .cnt-emabox .cnt-emaexpr a:active {
+  text-decoration: none;
+  color: black;
+}
