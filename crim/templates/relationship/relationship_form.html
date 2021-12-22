@@ -514,7 +514,6 @@
 
           const rawFormData = new FormData(form);
           const strippedFormData = Object.fromEntries(rawFormData.entries());
-          console.log(strippedFormData);
 
           function simplifyFormData(data, objectType, MRType) {
             let simplifiedData = {};
@@ -534,6 +533,7 @@
 
           function getMassagedData(formData) {
             let massagedData = {};
+
             massagedData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
             massagedData['observer'] = formData['observer'];
             massagedData['model_observation'] = formData['model_observation'];
@@ -564,9 +564,8 @@
           // Ajax request for model
 
           try {
-            let massagedData = getMassagedData(strippedFormData);
-            const responseData = await postFormDataAsJson({ url, massagedData });
-            console.log({ responseData });
+            const massagedData = getMassagedData(strippedFormData);
+            const responseData = await postFormDataAsJson( url, massagedData );
             $.ajax({
               type:'POST',
               url: '',
@@ -585,9 +584,8 @@
           }
         }
 
-        async function postFormDataAsJson({ url, formData }) {
-          const plainFormData = Object.fromEntries(formData.entries());
-          const formDataJsonString = JSON.stringify(plainFormData);
+        async function postFormDataAsJson( url, formData ) {
+          const formDataJsonString = JSON.stringify(formData);
 
           const fetchOptions = {
             method: "POST",
