@@ -19,7 +19,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.flatpages import views as flat_views
 from django.urls import path, reverse_lazy
-from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
@@ -96,9 +95,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^masses/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
         re_path(r'^masses/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/pieces/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail'),
         re_path(r'^models/$', ModelList.as_view(), name='crimmodel-list'),
-        re_path(r'^observations-old/$', cache_page(600)(ObservationOldList.as_view()), name='crimobservation-list'),
+        re_path(r'^observations-old/$', ObservationOldList.as_view(), name='crimobservation-list'),
         re_path(r'^observations-old/(?P<id>[0-9]+)/$', ObservationOldDetail.as_view(), name='crimobservation-detail'),
-        re_path(r'^observations/$', cache_page(600)(ObservationList.as_view()), name='cjobservation-list'),
+        re_path(r'^observations/$', ObservationList.as_view(), name='cjobservation-list'),
         re_path(r'^observations/(?P<id>[0-9]+)/$', ObservationDetail.as_view(), name='cjobservation-detail'),
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
         re_path(r'^people/(?P<person_id>[-_A-Za-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
@@ -107,9 +106,9 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/sources/$', PieceWithSources.as_view(), name='crimpiece-sources-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationships.as_view(), name='crimpiece-relationships-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/discussions/$', PieceWithDiscussions.as_view(), name='crimpiece-discussions-detail'),
-        re_path(r'^relationships-old/$', cache_page(600)(RelationshipOldList.as_view()), name='crimrelationship-list'),
+        re_path(r'^relationships-old/$', RelationshipOldList.as_view(), name='crimrelationship-list'),
         re_path(r'^relationships-old/(?P<id>[0-9]+)/$', RelationshipOldDetail.as_view(), name='crimrelationship-detail'),
-        re_path(r'^relationships/$', cache_page(600)(RelationshipList.as_view()), name='cjrelationship-list'),
+        re_path(r'^relationships/$', RelationshipList.as_view(), name='cjrelationship-list'),
         re_path(r'^relationships/(?P<id>[0-9]+)/$', RelationshipDetail.as_view(), name='cjrelationship-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
         re_path(r'^roletypes/(?P<role_type_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/people/?role=%(role_type_id)s', permanent=False), name='crimroletype-detail'),
