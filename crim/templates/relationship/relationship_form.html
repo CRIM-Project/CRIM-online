@@ -444,6 +444,7 @@
                 $("#buttonModelContinuo").text("Hide music notation")
                 $("#collapseDerivativeContinuo").collapse('hide')
                 MEIurl = $("#model-piece option:selected").data('piece-url')
+                // MEIurl = MEIurl.replace('https://crim', 'https://dev.crim')
                 if (!ver) {
                     console.log('Loading Verovio for the first time...')
                     $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
@@ -462,10 +463,19 @@
                 $("#buttonModelContinuo").text("Choose music notation")
             })
 
+            $("#model-piece").on('change', function() {
+              // clear EMA
+              $("#emaModel").text("")
+              $("#emaModel-data").val("")
+              // Hide music
+              $("#collapseModelContinuo").collapse('hide')
+            })
+
             $('#collapseDerivativeContinuo').on('show.bs.collapse', function () {
                 $("#buttonDerivativeContinuo").text("Hide music notation")
-                $("#collapseModelContinuo").collapse('hide')
+                $("#collapseDerivativeContinuo").collapse('hide')
                 MEIurl = $("#derivative-piece option:selected").data('piece-url')
+                // MEIurl = MEIurl.replace('https://crim', 'https://dev.crim')
                 if (!ver) {
                     console.log('Loading Verovio for the first time...')
                     $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
@@ -486,6 +496,14 @@
             })
 
         });
+
+        $("#derivative-piece").on('change', function() {
+              // clear EMA
+              $("#emaDerivative").text("")
+              $("#emaDerivative-data").val("")
+              // Hide music
+              $("#collapseDerivativeContinuo").collapse('hide')
+            })
 
         // GET ALL FORM INPUT AS JSON
         const form = document.getElementById("form");
