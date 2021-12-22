@@ -20,7 +20,7 @@ import os
 
 def generate_observation_data(request, prefix=''):
     def post_data(v):
-        field = request.POST.get(prefix + ('_' if prefix else '') + v)
+        field = request.data.get(prefix + ('_' if prefix else '') + v)
         if field == 'true':
             return True
         elif field == 'false' or field == None:

@@ -33,6 +33,8 @@
       <form id="form">
       {% csrf_token %}
 
+      <input type="hidden" name="definition" id="definition" value="{{ current_definition_id }}">
+
       <div class="row-sm">
         {% comment %}"If the user does not have an associated PersonID, log the username at least,
           but alert the user"{% endcomment %}
@@ -54,9 +56,9 @@
         <ul class="nav nav-tabs">
           {% for type in relationship_definition %}
             {% if forloop.first %}
-              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
+              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#relationship-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
+              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relationship-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
             {% endif %}
           {% endfor %}
         </ul>
@@ -66,24 +68,24 @@
         <div class="tab-content">
           <p></p>
           {% for type in relationship_definition %}
-            <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="{{ type.name|slugify }}">
-              <div class="{{ type.name|slugify }}"></div>
+            <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="relationship-{{ type.name|slugify }}">
+              <div class="relationship-{{ type.name|slugify }}"></div>
               {% for subtype in type.subtypes %}
                 {% if subtype.form == "boolean" %}
                   <div class="form-check">
-                    <input class="form-check-input" type='checkbox' name="{{ type.name|concat_str:subtype.name }}" value='true' id="{{ type.name|concat_str:subtype.name }}">
-                    <input name="{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
-                    <label class='form-check-label' for="{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
+                    <input class="form-check-input" type='checkbox' name="relationship-{{ type.name|concat_str:subtype.name }}" value='true' id="relationship-{{ type.name|concat_str:subtype.name }}">
+                    <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
+                    <label class='form-check-label' for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                   </div>
 
                 {% elif subtype.form == "radio" %}
-                  <input name="{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
                   {{ subtype.name.capitalize }}:
-                  <div id="{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                  <div id="relationship-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                     {% for option in subtype.options %}
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="{{ type.name|concat_str:subtype.name }}">
-                        <label class="form-check-label" for="{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                        <input class="form-check-input" type="radio" name="relationship-{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="relationship-{{ type.name|concat_str:subtype.name }}">
+                        <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                       </div>
                     {% endfor %}
                   </div>
@@ -102,14 +104,14 @@
       <div class="text-left">
         <h4>I. Model observation</h4>
       </div>
-      <br><p><i>Select an existing observation as model observation</i></p>
+      <!-- <br><p><i>Select an existing observation as model observation</i></p>
       <div class="row-sm">
         {{form.model_observation|as_crispy_field}}
       </div>
       <p></p>
       <p><b>OR</b></p>
       <p><i>Create a new observation as model observation</i></p>
-      <p></p>
+      <p></p> -->
 
       <fieldset class="model-form">
         <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="model-observation-form" id="model-observation-form">
@@ -117,7 +119,7 @@
               <div class="mb-5" id="model-piece">
                 <select name="model-piece" id="model-piece">
                   {% for piece in all_pieces %}
-                    <option value="{{ piece.piece_id }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -210,7 +212,7 @@
           <div class="text-left">
             <h4>II. Derivative observation</h4>
           </div>
-          <br>
+          <!-- <br>
           <p><i>Select an existing observation as derivative observation</i></p>
           <div class="row-sm">
             {{form.derivative_observation|as_crispy_field}}
@@ -218,14 +220,14 @@
           <p></p>
           <p><b>OR</b></p>
           <p><i>Create a new observation as derivative observation</i></p>
-          <p></p>
+          <p></p> -->
 
           <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="derivative-observation-form" id="derivative-observation-form">
             <div class="derivative">
               <div class="mb-5" id="derivative-piece">
                 <select name="derivative-piece" id="derivative-piece">
                   {% for piece in all_pieces %}
-                    <option value="{{ piece.piece_id }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -400,7 +402,7 @@
 
             var activeTab = $(".relationship .tab-content").find(".active");
             var id = activeTab.attr('id');
-            $("#selected-tab").val(id);
+            $("#relationship-selected-tab").val(id);
 
 
             var modelActiveTab = $(".model .tab-content").find(".active");
@@ -424,7 +426,7 @@
             $(".relationship .nav-tabs a").on('shown.bs.tab', function(event){
                 var x = $(event.target).text();         // active tab
                 var selected = x.replace(/\s+/g, '-').toLowerCase();
-                $("#selected-tab").val(selected);
+                $("#relationship-selected-tab").val(selected);
             });
 
             $(".model .nav-pills a").on('shown.bs.tab', function(event){
@@ -502,7 +504,7 @@
               // Include only if this key is the right object (for example,
               // a relationship) and is of the right musical or relationship
               // type (for example, fuga).
-              if (key.includes(objectType) && key.includes(MRType)) {
+              if (key.includes(objectType) && key.includes(MRType) && !key.includes('selected-tab') && !key.includes('remarks')) {
                 // Remove "relationship-" and "fuga-" (for example) from the
                 // key actually added to the jsonfield
                 let keyName = key.replace(objectType.concat('-'), '').replace(MRType.concat('-'), '');
@@ -531,11 +533,11 @@
             massagedData['derivative_piece'] = formData['derivative-piece'];
             massagedData['derivative_ema'] = formData['derivative-ema'];
             massagedData['derivative_musical_type'] = formData['derivative-selected-tab'].replaceAll('-', ' ');
-            massagedData['derivative_details'] = simplifyFormData(formData, 'model', formData['derivative-selected-tab']);
+            massagedData['derivative_details'] = simplifyFormData(formData, 'derivative', formData['derivative-selected-tab']);
             massagedData['derivative_remarks'] = formData['derivative-remarks'];
 
             massagedData['definition'] = formData['definition'];
-            massagedData['relationship_type'] = formData['relationship-selected-tab'].replaceAll('-', ' ');
+            massagedData['relationship_type'] = formData['relationship-selected-tab'].replace('relationship-','').replaceAll('-', ' ');
             massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
             massagedData['remarks'] = formData['relationship-remarks'];
 
@@ -546,46 +548,32 @@
 
           try {
             const massagedData = getMassagedData(strippedFormData);
-            const responseData = await postFormDataAsJson( url, massagedData );
+            const stringData = JSON.stringify(massagedData);
+
             $.ajax({
               type:'POST',
-              url: '',
-              data: responseData,
+              url: url,
+              data: stringData,
+              contentType: "application/json",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-CSRFToken": massagedData['csrfmiddlewaretoken']
+              },
               success: function(response){
-                console.log('Success');
-                alert("Data was succesfully captured! Press Cancel to go back to home view");
+                console.log(stringData);
+                console.log(response);
+                alert("Data was succesfully captured");
               },
               error: function(response){
-                alert("Error with input data, please check again!")
+                console.log(stringData);
+                console.log(response);
+                alert("Error with input data, please check again");
               },
             });
-
           } catch (error) {
             console.error(error);
           }
-        }
-
-        async function postFormDataAsJson( url, formData ) {
-          const formDataJsonString = JSON.stringify(formData);
-
-          const fetchOptions = {
-            method: "POST",
-            headers: {
-	            "Content-Type": "application/json",
-	            "Accept": "application/json"
-            },
-            body: formDataJsonString,
-          };
-
-          const response = await fetch(url, fetchOptions);
-
-          if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(errorMessage);
-          }
-
-          return response.json();
-
         }
 
     </script>

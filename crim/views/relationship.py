@@ -22,7 +22,7 @@ import os
 
 def generate_relationship_data(request, model_observation_id=None, derivative_observation_id=None):
     def post_data(v):
-        return request.POST.get(v)
+        return request.data.get(v)
 
     relationship_data = {}
 
@@ -38,7 +38,6 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
         else:
             model_observation = model_observation_or_response
             serialized_model = CJObservationDetailSerializer(model_observation, data=request.data, context={'request': request})
-            print(serialized_model)
             if serialized_model.is_valid():
                 if request.user.is_staff:
                     serialized_model.validated_data['curated'] = True

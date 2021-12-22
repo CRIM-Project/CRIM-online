@@ -1,9 +1,10 @@
 from crim.models.definition import CRIMDefinition
 
-try:
-    CURRENT_DEFINITION = CRIMDefinition.objects.latest('id')
-except:
-    CURRENT_DEFINITION = CRIMDefinition(
-        observation_definition={},
-        relationship_definition={},
-    )
+def get_current_definition():
+    try:
+        return CRIMDefinition.objects.latest('id')
+    except:
+        return CRIMDefinition(
+            observation_definition={},
+            relationship_definition={},
+        )
