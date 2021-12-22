@@ -4,7 +4,6 @@ from django.shortcuts import render
 import json
 
 from crim.forms.relationship import RelationshipForm
-from crim.forms.observation import ObservationForm
 from crim.models.definition import CRIMDefinition
 from crim.models.piece import CRIMPiece
 

@@ -63,7 +63,6 @@ from crim.views.user import UserProfileData
 from crim.views import forum as forum_views
 
 from crim.views.relationship_form import get_relationship
-from crim.views.observation_form import get_observation
 
 admin.autodiscover()
 
