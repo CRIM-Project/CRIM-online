@@ -547,47 +547,34 @@
           // Ajax request for model
 
           try {
+            console.log(strippedFormData);
             const massagedData = getMassagedData(strippedFormData);
-            const responseData = await postFormDataAsJson( url, massagedData );
+            console.log(massagedData);
+            const stringData = JSON.stringify(massagedData);
+
             $.ajax({
               type:'POST',
-              url: '',
-              data: responseData,
+              url: url,
+              data: stringData,
+              contentType: "application/json",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-CSRFToken": massagedData['csrfmiddlewaretoken']
+              },
               success: function(response){
-                console.log('Success');
-                alert("Data was succesfully captured! Press Cancel to go back to home view");
+                console.log(stringData);
+                console.log(response);
+                alert("Data was succesfully captured");
               },
               error: function(response){
-                alert("Error with input data, please check again!")
+                console.log(response);
+                alert("Error with input data, please check again");
               },
             });
-
           } catch (error) {
             console.error(error);
           }
-        }
-
-        async function postFormDataAsJson( url, formData ) {
-          const formDataJsonString = JSON.stringify(formData);
-
-          const fetchOptions = {
-            method: "POST",
-            headers: {
-	            "Content-Type": "application/json",
-	            "Accept": "application/json"
-            },
-            body: formDataJsonString,
-          };
-
-          const response = await fetch(url, fetchOptions);
-
-          if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(errorMessage);
-          }
-
-          return response.json();
-
         }
 
     </script>
