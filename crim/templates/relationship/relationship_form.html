@@ -116,7 +116,7 @@
       <fieldset class="model-form">
         <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="model-observation-form" id="model-observation-form">
             <div class="model">
-              <div class="mb-5" id="model-piece">
+              <div class="mb-5">
                 <select name="model-piece" id="model-piece">
                   {% for piece in all_pieces %}
                     <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
@@ -224,7 +224,7 @@
 
           <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="derivative-observation-form" id="derivative-observation-form">
             <div class="derivative">
-              <div class="mb-5" id="derivative-piece">
+              <div class="mb-5">
                 <select name="derivative-piece" id="derivative-piece">
                   {% for piece in all_pieces %}
                     <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
@@ -355,7 +355,6 @@
                 scale: 35
             }
             opts = opts ? opts : defaultOpts
-            MEIurl = MEIurl ? MEIurl : 'https://dev.crimproject.org/mei/CRIM_Model_0001.mei'
             $(el).empty()
             var cnt = new Continuo({el: el, mei: MEIurl, verovioToolkit: ver, paginate: true, verovioOptions: opts})
             cnt.render()
@@ -363,7 +362,7 @@
             const storedEma = $(emaEl+"Data")
             if (storedEma) {
                 const ema = storedEma.val()
-                const expr = "https%3A%2F%2Fdev.crimproject.org%2Fmei%2FCRIM_Model_0001.mei/" + ema + "/highlight"
+                const expr = encodeURIComponent(MEIurl) + "/" + ema + "/highlight"
 
                 EmaMei.withFullExpr(expr).then(function (r) {
                     // The result:
@@ -444,18 +443,19 @@
             $('#collapseModelContinuo').on('show.bs.collapse', function () {
                 $("#buttonModelContinuo").text("Hide music notation")
                 $("#collapseDerivativeContinuo").collapse('hide')
+                MEIurl = $("#model-piece option:selected").data('piece-url')
                 if (!ver) {
                     console.log('Loading Verovio for the first time...')
                     $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
                         if (jqxhr.status === 200) {
                             ver = new verovio.toolkit()
-                            setContinuo("#collapseModelContinuo", ver, null, null, "#emaModel")
+                            setContinuo("#collapseModelContinuo", ver, null, MEIurl, "#emaModel")
                         } else {
                             $('#collapseModelContinuo').text("Could not load Verovio. Refresh the page and try again.")
                         }
                     });
                 } else {
-                    setContinuo("#collapseModelContinuo", ver, null, null, "#emaModel")
+                    setContinuo("#collapseModelContinuo", ver, null, MEIurl, "#emaModel")
                 }
             })
             .on('hide.bs.collapse', function () {
@@ -465,19 +465,20 @@
             $('#collapseDerivativeContinuo').on('show.bs.collapse', function () {
                 $("#buttonDerivativeContinuo").text("Hide music notation")
                 $("#collapseModelContinuo").collapse('hide')
+                MEIurl = $("#derivative-piece option:selected").data('piece-url')
                 if (!ver) {
                     console.log('Loading Verovio for the first time...')
                     $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
                         if (jqxhr.status === 200) {
                             ver = new verovio.toolkit()
                             $('#collapseDerivativeContinuo').empty()
-                            setContinuo("#collapseDerivativeContinuo", ver, null, null, "#emaDerivative")
+                            setContinuo("#collapseDerivativeContinuo", ver, null, MEIurl, "#emaDerivative")
                         } else {
                             $('#collapseDerivativeContinuo').text("Could not load Verovio. Refresh the page and try again.")
                         }
                     });
                 } else {
-                    setContinuo("#collapseDerivativeContinuo", ver, null, null, "#emaDerivative")
+                    setContinuo("#collapseDerivativeContinuo", ver, null, MEIurl, "#emaDerivative")
                 }
             })
             .on('hide.bs.collapse', function () {
