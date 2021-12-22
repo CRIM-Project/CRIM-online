@@ -537,7 +537,7 @@
             massagedData['derivative_remarks'] = formData['derivative-remarks'];
 
             massagedData['definition'] = formData['definition'];
-            massagedData['relationship_type'] = formData['relationship-selected-tab'].replaceAll('-', ' ');
+            massagedData['relationship_type'] = formData['relationship-selected-tab'].replace('relationship-','').replaceAll('-', ' ');
             massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
             massagedData['remarks'] = formData['relationship-remarks'];
 
