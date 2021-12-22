@@ -82,7 +82,7 @@
                   <div id="{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                     {% for option in subtype.options %}
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="{{ type.name|concat_str:subtype.name }}">
+                        <input class="form-check-input" type="radio" name="{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="{{ type.name|concat_str:subtype.name }}">
                         <label class="form-check-label" for="{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
                       </div>
                     {% endfor %}
@@ -175,7 +175,7 @@
                         <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
                         {{ subtype.name.capitalize }}:
                         <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in options %}
+                          {% for option in subtype.options %}
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="radio" name="model-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="model-{{ type.name|concat_str:subtype.name }}">
                               <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
@@ -283,7 +283,7 @@
                         <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
                         {{ subtype.name.capitalize }}:
                         <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in options %}
+                          {% for option in subtype.options %}
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="radio" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="derivative-{{ type.name|concat_str:subtype.name }}">
                               <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
@@ -314,7 +314,7 @@
           </div>
         </fieldset>
 
-        <input type="hidden" id="selected-tab" name="selected-tab">
+        <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab">
         <input type="hidden" id="model-selected-tab" name="model-selected-tab">
         <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab">
         <p><br></p>
@@ -336,25 +336,6 @@
     <script src="/static/ema-mei.js"></script>
 
     <script>
-
-       // make radios deselectable
-       function deselectableRadios(rootElement) {
-            if(!rootElement) rootElement = document;
-            if(!window.radioChecked) window.radioChecked = null;
-            window.radioClick = function(e) {
-                const obj = e.target;
-                if(e.keyCode) return obj.checked = e.keyCode!=32;
-                obj.checked = window.radioChecked != obj;
-                window.radioChecked = obj.checked ? obj : null;
-            }
-            rootElement.querySelectorAll("input[type='radio']").forEach( radio => {
-                radio.setAttribute("onclick", "radioClick(event)");
-                radio.setAttribute("onkeyup", "radioClick(event)");
-            });
-        }
-
-        deselectableRadios();
-
 
         // make checkboxes true false value
         $("input:checkbox").change(function () {
@@ -514,7 +495,6 @@
 
           const rawFormData = new FormData(form);
           const strippedFormData = Object.fromEntries(rawFormData.entries());
-          console.log(strippedFormData);
 
           function simplifyFormData(data, objectType, MRType) {
             let simplifiedData = {};
@@ -534,6 +514,7 @@
 
           function getMassagedData(formData) {
             let massagedData = {};
+
             massagedData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
             massagedData['observer'] = formData['observer'];
             massagedData['model_observation'] = formData['model_observation'];
@@ -564,9 +545,8 @@
           // Ajax request for model
 
           try {
-            let massagedData = getMassagedData(strippedFormData);
-            const responseData = await postFormDataAsJson({ url, massagedData });
-            console.log({ responseData });
+            const massagedData = getMassagedData(strippedFormData);
+            const responseData = await postFormDataAsJson( url, massagedData );
             $.ajax({
               type:'POST',
               url: '',
@@ -585,9 +565,8 @@
           }
         }
 
-        async function postFormDataAsJson({ url, formData }) {
-          const plainFormData = Object.fromEntries(formData.entries());
-          const formDataJsonString = JSON.stringify(plainFormData);
+        async function postFormDataAsJson( url, formData ) {
+          const formDataJsonString = JSON.stringify(formData);
 
           const fetchOptions = {
             method: "POST",
