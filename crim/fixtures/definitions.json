@@ -1,9 +1,324 @@
 [
   {
     "model": "crim.crimdefinition",
-    "pk": 10,
+    "pk": 11,
     "fields": {
-      "observation_definition": [{"name":"cantus firmus","subtypes":[{"name":"voice","form":"text"},{"name":"features","form":"radio","options":["both pitches and durations","pitches only","durations only"]}]},{"name":"soggetto","subtypes":[{"name":"voices","form":"text"},{"name":"features","form":"radio","options":["both pitches and durations","pitches only","durations only"]},{"name":"ostinato","form":"boolean"},{"name":"periodic","form":"boolean"}]},{"name":"counter soggetto","subtypes":[{"name":"voice","form":"text"},{"name":"features","form":"radio","options":["both pitches and durations","pitches only","durations only"]},{"name":"ostinato","form":"boolean"},{"name":"periodic","form":"boolean"}]},{"name":"contrapuntal duo","subtypes":[{"name":"voices","form":"text"}]},{"name":"fuga","subtypes":[{"name":"voices","form":"text"},{"name":"inverted","form":"boolean"},{"name":"periodic","form":"boolean"},{"name":"regularity","form":"radio","options":["strict","flexed","flexed tonal"]},{"name":"retrograde","form":"boolean"},{"name":"sequential","form":"boolean"},{"name":"time intervals","form":"text"},{"name":"entry intervals","form":"text"}]},{"name":"imitative duo","subtypes":[{"name":"voices","form":"text"},{"name":"regularity","form":"radio","options":["strict","flexed","flexed tonal"]},{"name":"time intervals","form":"text"},{"name":"entry intervals","form":"text"},{"name":"invertible counterpoint","form":"boolean"}]},{"name":"periodic entry","subtypes":[{"name":"voices","form":"text"},{"name":"regularity","form":"radio","options":["strict","flexed","flexed tonal"]},{"name":"sequential","form":"boolean"},{"name":"added entries","form":"boolean"},{"name":"time intervals","form":"text"},{"name":"entry intervals","form":"text"},{"name":"invertible counterpoint","form":"boolean"}]},{"name":"non-imitative duo","subtypes":[{"name":"voices","form":"text"},{"name":"regularity","form":"radio","options":["strict","flexed","flexed tonal"]},{"name":"time intervals","form":"text"},{"name":"entry intervals","form":"text"},{"name":"invertible counterpoint","form":"boolean"}]},{"name":"homorhythm","subtypes":[{"name":"type","form":"radio","options":["simple","staggered","sequential","fauxbourdon"]},{"name":"voices","form":"text"},{"name":"dialogue","form":"boolean"}]},{"name":"cadence","subtypes":[{"name":"tone","form":"radio","options":["C","D","E","E-flat","F","G","A","B","B-flat"]},{"name":"type","form":"radio","options":["authentic","plagal","phrygian"]},{"name":"voices","form":"text"},{"name":"irregular roles","form":"checkbox","options":["cantizans","altizans","tenorizans","bassizans"]},{"name":"dovetail cadence","form":"boolean"},{"name":"dovetail position","form":"radio","options":["above","between","below"]},{"name":"irregular cadence","form":"boolean"},{"name":"dovetail cadence voice","form":"text"}]}],
+      "observation_definition": [
+  {
+    "name": "cantus firmus",
+    "subtypes": [
+      {
+        "name": "voice",
+        "form": "text"
+      },
+      {
+        "name": "features",
+        "form": "radio",
+        "options": [
+          "both pitches and durations",
+          "pitches only",
+          "durations only"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "soggetto",
+    "subtypes": [
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "features",
+        "form": "radio",
+        "options": [
+          "both pitches and durations",
+          "pitches only",
+          "durations only"
+        ]
+      },
+      {
+        "name": "ostinato",
+        "form": "boolean"
+      },
+      {
+        "name": "periodic",
+        "form": "boolean"
+      }
+    ]
+  },
+  {
+    "name": "counter soggetto",
+    "subtypes": [
+      {
+        "name": "voice",
+        "form": "text"
+      },
+      {
+        "name": "features",
+        "form": "radio",
+        "options": [
+          "both pitches and durations",
+          "pitches only",
+          "durations only"
+        ]
+      },
+      {
+        "name": "ostinato",
+        "form": "boolean"
+      },
+      {
+        "name": "periodic",
+        "form": "boolean"
+      }
+    ]
+  },
+  {
+    "name": "contrapuntal duo",
+    "subtypes": [
+      {
+        "name": "voices",
+        "form": "text"
+      }
+    ]
+  },
+  {
+    "name": "fuga",
+    "subtypes": [
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "time intervals",
+        "form": "text"
+      },
+      {
+        "name": "entry intervals",
+        "form": "text"
+      },
+      {
+        "name": "regularity",
+        "form": "radio",
+        "options": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      {
+        "name": "inverted",
+        "form": "boolean"
+      },
+      {
+        "name": "periodic",
+        "form": "boolean"
+      },
+      {
+        "name": "retrograde",
+        "form": "boolean"
+      },
+      {
+        "name": "sequential",
+        "form": "boolean"
+      }
+    ]
+  },
+  {
+    "name": "imitative duo",
+    "subtypes": [
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "time intervals",
+        "form": "text"
+      },
+      {
+        "name": "entry intervals",
+        "form": "text"
+      },
+      {
+        "name": "regularity",
+        "form": "radio",
+        "options": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      {
+        "name": "invertible counterpoint",
+        "form": "boolean"
+      },
+      {
+        "name": "added entries",
+        "form": "boolean"
+      },
+    ]
+  },
+  {
+    "name": "periodic entry",
+    "subtypes": [
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "regularity",
+        "form": "radio",
+        "options": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      {
+        "name": "time intervals",
+        "form": "text"
+      },
+      {
+        "name": "entry intervals",
+        "form": "text"
+      },
+      {
+        "name": "sequential",
+        "form": "boolean"
+      },
+      {
+        "name": "invertible counterpoint",
+        "form": "boolean"
+      },
+      {
+        "name": "added entries",
+        "form": "boolean"
+      },
+    ]
+  },
+  {
+    "name": "non-imitative duo",
+    "subtypes": [
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "time intervals",
+        "form": "text"
+      },
+      {
+        "name": "entry intervals",
+        "form": "text"
+      },
+      {
+        "name": "regularity",
+        "form": "radio",
+        "options": [
+          "strict",
+          "flexed",
+          "flexed tonal"
+        ]
+      },
+      {
+        "name": "invertible counterpoint",
+        "form": "boolean"
+      },
+      {
+        "name": "added entries",
+        "form": "boolean"
+      },
+    ]
+  },
+  {
+    "name": "homorhythm",
+    "subtypes": [
+      {
+        "name": "type",
+        "form": "radio",
+        "options": [
+          "simple",
+          "staggered",
+          "sequential",
+          "fauxbourdon"
+        ]
+      },
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "dialogue",
+        "form": "boolean"
+      }
+    ]
+  },
+  {
+    "name": "cadence",
+    "subtypes": [
+      {
+        "name": "tone",
+        "form": "radio",
+        "options": [
+          "C",
+          "D",
+          "E",
+          "E-flat",
+          "F",
+          "G",
+          "A",
+          "B",
+          "B-flat"
+        ]
+      },
+      {
+        "name": "type",
+        "form": "radio",
+        "options": [
+          "authentic",
+          "plagal",
+          "phrygian"
+        ]
+      },
+      {
+        "name": "voices",
+        "form": "text"
+      },
+      {
+        "name": "irregular roles",
+        "form": "checkbox",
+        "options": [
+          "cantizans",
+          "altizans",
+          "tenorizans",
+          "bassizans"
+        ]
+      },
+      {
+        "name": "dovetail cadence",
+        "form": "boolean"
+      },
+      {
+        "name": "dovetail position",
+        "form": "radio",
+        "options": [
+          "above",
+          "between",
+          "below"
+        ]
+      },
+      {
+        "name": "irregular cadence",
+        "form": "boolean"
+      },
+      {
+        "name": "dovetail cadence voice",
+        "form": "text"
+      }
+    ]
+  }
+],
       "relationship_definition": [
         {
           "name": "quotation",
