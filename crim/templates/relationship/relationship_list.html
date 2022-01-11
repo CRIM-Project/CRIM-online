@@ -54,7 +54,7 @@
               </td>
               <td>
                 {% if relationship.relationship_type %}
-                  {{ relationship.relationship_type }}
+                  {{ relationship.relationship_type|capitalize }}
                 {% else %}
                   None
                 {% endif %}
