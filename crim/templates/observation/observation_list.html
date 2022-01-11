@@ -43,7 +43,7 @@
               </td>
               <td>
                 {% if observation.musical_type %}
-                  {{ observation.musical_type }}
+                  {{ observation.musical_type|capitalize }}
                 {% else %}
                   None
                 {% endif %}
