@@ -1,6 +1,5 @@
-<h3>{% if observation.musical_type %}{{ observation.musical_type }}{% else %}Observation{% endif %}</h3>
-[This needs to be updated to display better.]
-{{ observation.details }}
+<h3>{% if observation.musical_type %}{{ observation.musical_type|capitalize }}{% else %}Observation{% endif %}</h3>
+{{ observation|expand:"observation" }}
 {% if observation.remarks %}
   <p class="hanging"><strong>Remarks:</strong> {{ observation.remarks }}</p>
 {% endif %}

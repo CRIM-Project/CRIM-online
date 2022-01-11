@@ -1,5 +1,5 @@
 <div>
-  <h3>{% if relationship.relationship_type %}{{ relationship.relationship_type }}{% else %}Relationship{% endif %}</h3>
+  <h3>{% if relationship.relationship_type %}{{ relationship.relationship_type|capitalize }}{% else %}Relationship{% endif %}</h3>
 </div>
 <div class="row-fluid">
 {% if relationship.remarks %}
@@ -7,8 +7,7 @@
 {% else %}
   <div class="span12">
 {% endif %}
-[This needs to be updated to display better.]
-{{ relationship.details }}
+{{ relationship|expand:"relationship" }}
 </div>
 
 {% if relationship.remarks %}
