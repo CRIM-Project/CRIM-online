@@ -138,13 +138,13 @@ class ObservationList(generics.ListAPIView):
     def get_queryset(self):
         order_by = self.request.GET.get('order_by', 'pk')
         if self.request.user.is_authenticated:
-            return CRIMObservation.objects.all().order_by(order_by).select_related(
+            return CJObservation.objects.all().order_by(order_by).select_related(
                 'observer',
                 'piece',
                 'piece__mass',
             )
         else:
-            return CRIMObservation.objects.filter(curated=True).order_by(order_by).select_related(
+            return CJObservation.objects.filter(curated=True).order_by(order_by).select_related(
                 'observer',
                 'piece',
                 'piece__mass',

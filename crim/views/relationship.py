@@ -234,7 +234,7 @@ class RelationshipDetail(generics.RetrieveAPIView):
         RelationshipDetailHTMLRenderer,
         JSONRenderer,
     )
-    queryset = CRIMRelationship.objects.all()
+    queryset = CJRelationship.objects.all()
 
     def get_object(self):
         url_arg = self.kwargs['id']
@@ -343,7 +343,7 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     serializer_class = CJRelationshipDetailSerializer
     lookup_field = 'id'
     renderer_classes = (JSONRenderer,)
-    queryset = CRIMRelationship.objects.all()
+    queryset = CJRelationship.objects.all()
 
     def update(self, request, *args, **kwargs):
         if request.user.is_staff:
