@@ -15,6 +15,7 @@ class CRIMDefinitionObservationSerializer(serializers.HyperlinkedModelSerializer
         fields = (
             'url',
             'id',
+            'observation_definition',
         )
 
 
@@ -418,6 +419,7 @@ class CJObservationListSerializer(serializers.HyperlinkedModelSerializer):
             'piece',
             'ema',
             'musical_type',
+            'details',
             'definition',
             'remarks',
             'created',

@@ -17,6 +17,19 @@ class CRIMDefinitionRelationshipSerializer(serializers.HyperlinkedModelSerialize
         fields = (
             'url',
             'id',
+            'relationship_definition',
+        )
+
+
+class CRIMDefinitionObservationRelationshipSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimdefinition-detail-data', lookup_field='id')
+
+    class Meta:
+        model = CRIMDefinition
+        fields = (
+            'url',
+            'id',
+            'observation_definition',
         )
 
 
@@ -226,7 +239,7 @@ class CJObservationRelationshipDetailSerializer(serializers.HyperlinkedModelSeri
     url = serializers.HyperlinkedIdentityField(view_name='cjobservation-detail-data', lookup_field='id')
     observer = CRIMPersonRelationshipSerializer(read_only=True)
     piece = CRIMPieceRelationshipSerializer(read_only=True)
-    definition = CRIMDefinitionRelationshipSerializer(read_only=True)
+    definition = CRIMDefinitionObservationRelationshipSerializer(read_only=True)
     details = serializers.JSONField()
 
     class Meta:
