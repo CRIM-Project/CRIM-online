@@ -1,5 +1,6 @@
 from django.core.cache import caches
 from django.shortcuts import get_object_or_404
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
@@ -90,8 +91,8 @@ class ObservationOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['piece']['piece_id'] + '.mei')).read()
-        data['mei'] = raw_mei
+        raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['piece']['piece_id'] + '.mei').read()
+        data['mei'] = raw_mei.decode()
 
         template_names = ['observation/observation_detail.html']
         template = self.resolve_template(template_names)
