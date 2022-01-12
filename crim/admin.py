@@ -668,7 +668,7 @@ class CJObservationAdmin(admin.ModelAdmin):
 
 
 class CJRelationshipAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ['musical_type']
 
 
 class CRIMForumPostAdmin(admin.ModelAdmin):
