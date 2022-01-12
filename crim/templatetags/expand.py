@@ -16,6 +16,7 @@ def expand(obs_or_rel, kind, autoescape=True):
     else:
         esc = lambda x: x
 
+    # If no definition is provided, use the most recent one
     if kind == 'relationship':
         type_kind = 'relationship_type'
         try:
@@ -30,10 +31,14 @@ def expand(obs_or_rel, kind, autoescape=True):
             definition = get_current_definition().observation_definition
 
     html = ''
-    # If no definition is provided, use the most recent one
     if definition is None:
         return mark_safe('-')
     else:
+        details = obs_or_rel.get('details')
+        # If we have no details, we need to make this an empty dicionary
+        # because we will query it for keys.
+        if details is None:
+            details = {}
         for type in definition:
             if type.get('name') == obs_or_rel.get(type_kind):
                 if not type.get('subtypes'):
@@ -41,7 +46,7 @@ def expand(obs_or_rel, kind, autoescape=True):
                 else:
                     for subtype in type.get('subtypes'):
                         subtype_name = subtype.get('name')
-                        subtype_value = obs_or_rel.get('details').get(subtype_name)
+                        subtype_value = details.get(subtype_name)
                         subtype_value_html = ''
                         if isinstance(subtype_value, list):
                             for e in subtype_value:
