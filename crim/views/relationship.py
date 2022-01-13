@@ -1,5 +1,7 @@
 from django.core.cache import caches
 from django.shortcuts import get_object_or_404
+from django.contrib.staticfiles.storage import staticfiles_storage
+
 
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
@@ -128,11 +130,11 @@ class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
-        data['model_observation']['mei'] = model_raw_mei
+        model_raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['model_observation']['piece']['piece_id'] + '.mei').read()
+        data['model_observation']['mei'] = model_raw_mei.decode()
 
-        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
-        data['derivative_observation']['mei'] = model_raw_mei
+        derivative_raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['derivative_observation']['piece']['piece_id'] + '.mei').read()
+        data['derivative_observation']['mei'] = derivative_raw_mei.decode()
 
         template_names = ['relationship/relationship_detail.html']
         template = self.resolve_template(template_names)
