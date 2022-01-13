@@ -45,9 +45,7 @@ var setScore = function (container_id, score_id, nav_id, mei, ema, reloadDataOnP
       start_button.addEventListener('click', function(e) {
           e.preventDefault()
           const start_page = window.vrv.getPageWithElement(selectedEvents[0].replace('#', ''))
-          console.log(start_page)
-          if (page != start_page + 1) {
-              console.log('h')
+          if (page != start_page) {
               page = start_page
               _handleDisabledBtns()
               _renderPage(page)
@@ -87,6 +85,7 @@ var setScore = function (container_id, score_id, nav_id, mei, ema, reloadDataOnP
         prev_button.classList.add('disabled')
         next_button.classList.remove('disabled')
       } else if (page === window.vrv.getPageCount()) {
+        prev_button.classList.remove('disabled')
         next_button.classList.add('disabled')
       } else {
         prev_button.classList.remove('disabled')
@@ -102,9 +101,7 @@ var setScore = function (container_id, score_id, nav_id, mei, ema, reloadDataOnP
         if (selection) {
             selectedEvents = selection.getAttribute("plist").split(' ')
             const start_page = window.vrv.getPageWithElement(selectedEvents[0].replace('#', ''))
-            console.log(start_page)
             if (page != start_page + 1) {
-                console.log('h')
                 page = start_page
                 _handleDisabledBtns()
                 _renderPage(page)
