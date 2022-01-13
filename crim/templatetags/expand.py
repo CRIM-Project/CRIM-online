@@ -2,7 +2,7 @@ from django.template.defaultfilters import register
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-from crim.common import get_current_definition
+from crim.common import get_current_definition, get_voice_name_from_number
 from crim.models.definition import CRIMDefinition
 
 
@@ -35,6 +35,8 @@ def expand(obs_or_rel, kind, autoescape=True):
         return mark_safe('-')
     else:
         details = obs_or_rel.get('details')
+        if obs_or_rel.get('piece'):
+            piece_id = obs_or_rel.get('piece').get('piece_id')
         # If we have no details, we need to make this an empty dicionary
         # because we will query it for keys.
         if details is None:
@@ -49,12 +51,19 @@ def expand(obs_or_rel, kind, autoescape=True):
                         subtype_value = details.get(subtype_name)
                         subtype_value_html = ''
                         if isinstance(subtype_value, list):
-                            for e in subtype_value:
-                                subtype_value_html += '<br>' + esc(str(e).capitalize())
+                            if subtype_name == 'voices':
+                                for e in subtype_value:
+                                    subtype_value_html += '<br>' + esc(get_voice_name_from_number(piece_id, e))
+                            else:
+                                for e in subtype_value:
+                                    subtype_value_html += '<br>' + esc(str(e).capitalize())
                         elif subtype_value is None:
                             subtype_value_html = '-'
                         else:
-                            subtype_value_html = esc(str(subtype_value).capitalize())
+                            if subtype_name == 'voices':
+                                subtype_value_html = esc(get_voice_name_from_number(piece_id, subtype_value))
+                            else:
+                                subtype_value_html = esc(str(subtype_value).capitalize())
                         html += ('<p class="hanging"><strong>' +
                                  esc(subtype_name.capitalize()) + ':' +
                                  '</strong>' + ' ' +
