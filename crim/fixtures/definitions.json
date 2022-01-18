@@ -1,7 +1,7 @@
 [
   {
     "model": "crim.crimdefinition",
-    "pk": 13,
+    "pk": 14,
     "fields": {
       "observation_definition": [
         {
@@ -9,11 +9,13 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voice"
+              "name": "voice",
+              "validation": "\\d"
             },
             {
               "form": "radio",
               "name": "features",
+              "default": "both pitches and durations"
               "options": [
                 "both pitches and durations",
                 "pitches only",
@@ -27,11 +29,13 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voice"
+              "name": "voice",
+              "validation": "\\d"
             },
             {
               "form": "radio",
               "name": "features",
+              "default": "both pitches and durations",
               "options": [
                 "both pitches and durations",
                 "pitches only",
@@ -53,11 +57,13 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voice"
+              "name": "voice",
+              "validation": "\\d"
             },
             {
               "form": "radio",
               "name": "features",
+              "default": "both pitches and durations",
               "options": [
                 "both pitches and durations",
                 "pitches only",
@@ -79,7 +85,8 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voices"
+              "name": "voices",
+              "validation": "\\d,\\d"
             }
           ]
         },
@@ -88,19 +95,24 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voices"
+              "name": "voices",
+              "validation": "\\d(,\\d)+"
+            },
+
+            {
+              "form": "text",
+              "name": "entry intervals",
+              "validation": "(\\d{1,2}[\+-])+"
             },
             {
               "form": "text",
-              "name": "entry intervals"
-            },
-            {
-              "form": "text",
-              "name": "time intervals"
+              "name": "time intervals",
+              "validation": "[LBSM]\\d{1,2}(\\/\\d{1,2})*"
             },
             {
               "form": "radio",
               "name": "regularity",
+              "required": true,
               "options": [
                 "strict",
                 "flexed",
@@ -130,19 +142,23 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voices"
+              "name": "voices",
+              "validation": "\\d,\\d(,\\d,\\d)*"
             },
             {
               "form": "text",
-              "name": "entry intervals"
+              "name": "entry intervals",
+              "validation": "(\\d{1,2}[\+-])+"
             },
             {
               "form": "text",
-              "name": "time intervals"
+              "name": "time intervals",
+              "validation": "[LBSM]\\d{1,2}(\\/\\d{1,2})*"
             },
             {
               "form": "radio",
               "name": "regularity",
+              "required": true,
               "options": [
                 "strict",
                 "flexed",
@@ -164,19 +180,23 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voices"
+              "name": "voices",
+              "validation": "\\d,\\d(,\\d)+"
             },
             {
               "form": "text",
-              "name": "entry intervals"
+              "name": "entry intervals",
+              "validation": "(\\d{1,2}[\+-])+"
             },
             {
               "form": "text",
-              "name": "time intervals"
+              "name": "time intervals",
+              "validation": "[LBSM]\\d{1,2}(\\/\\d{1,2})*"
             },
             {
               "form": "radio",
               "name": "regularity",
+              "required": true,
               "options": [
                 "strict",
                 "flexed",
@@ -202,19 +222,23 @@
           "subtypes": [
             {
               "form": "text",
-              "name": "voices"
+              "name": "voices",
+              "validation": "\\d,\\d(,\\d,\\d)*"
             },
             {
               "form": "text",
-              "name": "entry intervals"
+              "name": "entry intervals",
+              "validation": "(\\d{1,2}[\+-])+"
             },
             {
               "form": "text",
-              "name": "time intervals"
+              "name": "time intervals",
+              "validation": "[LBSM]\\d{1,2}(\\/\\d{1,2})*"
             },
             {
               "form": "radio",
               "name": "regularity",
+              "required": true,
               "options": [
                 "strict",
                 "flexed",
@@ -241,6 +265,7 @@
             {
               "form": "radio",
               "name": "type",
+              "required": true,
               "options": [
                 "simple",
                 "staggered",
@@ -250,7 +275,8 @@
             },
             {
               "form": "text",
-              "name": "voices"
+              "name": "voices",
+              "validation": "\\d,\\d(,\\d)+"
             },
             {
               "form": "boolean",
@@ -264,6 +290,7 @@
             {
               "form": "radio",
               "name": "tone",
+              "required": true,
               "options": [
                 "C",
                 "D",
@@ -279,6 +306,7 @@
             {
               "form": "radio",
               "name": "type",
+              "required": true,
               "options": [
                 "authentic",
                 "plagal",
@@ -287,11 +315,13 @@
             },
             {
               "form": "text",
-              "name": "cantizans"
+              "name": "cantizans",
+              "validation": "\d?"
             },
-            {
+          {
               "form": "text",
               "name": "tenorizans"
+              "validation": "\d?"
             },
             {
               "form": "boolean",
@@ -313,11 +343,13 @@
             },
             {
               "form": "text",
-              "name": "dovetail cadence voice"
+              "name": "dovetail cadence voice",
+              "validation": "\d?"
             },
             {
               "form": "radio",
               "name": "dovetail position",
+              "required": false,
               "options": [
                 "above",
                 "between",
@@ -334,6 +366,7 @@
             {
               "form": "radio",
               "name": "type",
+              "required": true,
               "options": [
                 "exact",
                 "monnayage"
@@ -342,6 +375,7 @@
             {
               "form": "radio",
               "name": "self",
+              "default": "none",
               "options": [
                 "none",
                 "enchainment",
@@ -373,6 +407,7 @@
             {
               "form": "radio",
               "name": "transposition",
+              "required": true,
               "options": [
                 "not transposed",
                 "transposed",
@@ -394,6 +429,7 @@
             {
               "form": "radio",
               "name": "self",
+              "default": "none",
               "options": [
                 "none",
                 "enchainment",
@@ -409,7 +445,9 @@
             {
               "form": "radio",
               "name": "extent",
+              "default": "not changed",
               "options": [
+                "not changed",
                 "amplified",
                 "truncated"
               ]
@@ -417,7 +455,9 @@
             {
               "form": "radio",
               "name": "activity",
+              "default": "not changed",
               "options": [
+                "not changed",
                 "embellished",
                 "reduced"
               ]
@@ -465,6 +505,7 @@
             {
               "form": "radio",
               "name": "self",
+              "default": "none",
               "options": [
                 "none",
                 "enchainment",
@@ -483,9 +524,9 @@
           "name": "new material"
         }
       ],
-      "remarks": "It would be nice to validate duration and interval sequences, as well as voice/staff number lists. Self subtypes subject to revision.",
-      "created": "2022-01-12",
-      "updated": "2022-01-12"
+      "remarks": "Marks required fields and default values for radio and checkbox fields. Includes validation for all text fields. Some conditional requirements (fields required if and only if another field is marked, or where at least one of a group of subtypes is required) are not validated here.",
+      "created": "2022-01-17",
+      "updated": "2022-01-17"
     }
   }
 ]
