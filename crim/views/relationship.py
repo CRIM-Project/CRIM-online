@@ -17,7 +17,7 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CJObservationDetailSerializer, CJObservationListSerializer
 from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer, CRIMRelationshipBriefSerializer
 from crim.serializers.relationship import CJRelationshipDetailSerializer, CJRelationshipListSerializer, CJRelationshipBriefSerializer
-from crim.views.observation import create_observation_from_request
+from crim.views.observation import create_observation_from_request, generate_observation_data
 
 import os
 
@@ -39,7 +39,7 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             model_observation = model_observation_or_response
-            serialized_model = CJObservationDetailSerializer(model_observation, data=request.data, context={'request': request})
+            serialized_model = CJObservationDetailSerializer(model_observation, data=generate_observation_data(request, 'model'), context={'request': request})
             if serialized_model.is_valid():
                 if request.user.is_staff:
                     serialized_model.validated_data['curated'] = True
@@ -54,7 +54,7 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
             return response
         else:
             derivative_observation = derivative_observation_or_response
-            serialized_derivative = CJObservationDetailSerializer(derivative_observation, data=request.data, context={'request': request})
+            serialized_derivative = CJObservationDetailSerializer(derivative_observation, data=generate_observation_data(request, 'derivative'), context={'request': request})
             if serialized_derivative.is_valid():
                 if request.user.is_staff:
                     serialized_derivative.validated_data['curated'] = True
