@@ -531,10 +531,10 @@
                 // Now if it's a voice field, we need to do special handling
                 // to make sure that we have it encoded as an integer or list
                 // instead of a string.
-                if (key.endsWith('voice')) {
+                if (key == objectType + '-' + MRType + '-voice') {
                   simplifiedData[keyName.replaceAll('-', ' ')] = parseInt(data[key], 10);
                 }
-                else if (key.endsWith('voices')) {
+                else if (key == objectType + '-' + MRType + '-voices') {
                   simplifiedData[keyName.replaceAll('-', ' ')] = (data[key].split(',')).map(n => parseInt(n, 10));
                 }
                 else {
