@@ -524,7 +524,7 @@
               // Include only if this key is the right object (for example,
               // a relationship) and is of the right musical or relationship
               // type (for example, fuga).
-              if (key.includes(objectType) && key.includes(MRType) && !key.includes('selected-tab') && !key.includes('remarks')) {
+              if (key.startsWith(objectType + '-' + MRType) && !key.includes('selected-tab') && !key.includes('remarks')) {
                 // Remove "relationship-" and "fuga-" (for example) from the
                 // key actually added to the jsonfield.
                 let keyName = key.replace((objectType + '-' + MRType + '-'), '');
