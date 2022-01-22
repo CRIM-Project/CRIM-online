@@ -60,7 +60,7 @@ def expand(obs_or_rel, kind, autoescape=True):
                         elif subtype_value is None:
                             subtype_value_html = '-'
                         else:
-                            if subtype_name == 'voices':
+                            if subtype_name == 'voice':
                                 subtype_value_html = esc(get_voice_name_from_number(piece_id, subtype_value))
                             else:
                                 subtype_value_html = esc(str(subtype_value).capitalize())
