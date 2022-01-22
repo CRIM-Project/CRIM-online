@@ -42,7 +42,7 @@ def expand(obs_or_rel, kind, autoescape=True):
         if details is None:
             details = {}
         for type in definition:
-            if type.get('name') == obs_or_rel.get(type_kind):
+            if type.get('name').replace('-', ' ') == obs_or_rel.get(type_kind).replace('-', ' '):
                 if not type.get('subtypes'):
                     return mark_safe(f'No further details about this {kind}.')
                 else:
