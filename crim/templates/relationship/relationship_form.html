@@ -79,7 +79,7 @@
                   </div>
 
                 {% elif subtype.form == "radio" %}
-                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
                   {{ subtype.name.capitalize }}:
                   <div id="relationship-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                     {% for option in subtype.options %}
@@ -174,7 +174,7 @@
                         </div>
 
                       {% elif subtype.form == "radio" %}
-                        <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                        <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
                         {{ subtype.name.capitalize }}:
                         <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                           {% for option in subtype.options %}
@@ -282,7 +282,7 @@
                         </div>
 
                       {% elif subtype.form == "radio" %}
-                        <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='None'>
+                        <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
                         {{ subtype.name.capitalize }}:
                         <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                           {% for option in subtype.options %}
