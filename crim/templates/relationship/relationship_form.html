@@ -538,7 +538,22 @@
                   simplifiedData[keyName.replaceAll('-', ' ')] = (data[key].split(',')).map(n => parseInt(n, 10));
                 }
                 else {
-                  simplifiedData[keyName.replaceAll('-', ' ')] = data[key];
+                  // If it's null, true, or false, save that value
+                  // instead of a string
+                  let processed_key = null;
+                  if (data[key] == 'null') {
+                    processed_key = null;
+                  }
+                  else if (data[key] == 'true') {
+                    processed_key = true;
+                  }
+                  else if (data[key] == 'false') {
+                    processed_key = false;
+                  }
+                  else {
+                    processed_key = data[key];
+                  }
+                    simplifiedData[keyName.replaceAll('-', ' ')] = processed_key;
                 }
               }
             }
