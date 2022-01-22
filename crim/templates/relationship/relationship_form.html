@@ -512,6 +512,7 @@
         async function handleFormSubmit(event) {
           event.preventDefault();
           const form = event.currentTarget;
+          // const url = 'http://127.0.0.1:8000/data/relationships/new/';
           const url = 'https://dev.crimproject.org/data/relationships/new/';
 
           const rawFormData = new FormData(form);
