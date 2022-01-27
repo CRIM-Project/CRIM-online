@@ -2,7 +2,7 @@ from django.template.defaultfilters import register
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-from crim.common import get_current_definition, get_voice_name_from_number
+from crim.common import get_current_definition, print_voice
 from crim.models.definition import CRIMDefinition
 
 
@@ -53,7 +53,7 @@ def expand(obs_or_rel, kind, autoescape=True):
                         if isinstance(subtype_value, list):
                             if subtype_name == 'voices':
                                 for e in subtype_value:
-                                    subtype_value_html += '<br>' + esc(get_voice_name_from_number(piece_id, e))
+                                    subtype_value_html += '<br>' + print_voice(piece_id, e)
                             else:
                                 for e in subtype_value:
                                     subtype_value_html += '<br>' + esc(str(e).capitalize())
@@ -61,7 +61,7 @@ def expand(obs_or_rel, kind, autoescape=True):
                             subtype_value_html = '-'
                         else:
                             if subtype_name == 'voice':
-                                subtype_value_html = esc(get_voice_name_from_number(piece_id, subtype_value))
+                                subtype_value_html = print_voice(piece_id, subtype_value)
                             else:
                                 subtype_value_html = esc(str(subtype_value).capitalize())
                         html += ('<p class="hanging"><strong>' +
