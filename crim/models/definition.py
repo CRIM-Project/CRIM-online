@@ -6,6 +6,7 @@ class CRIMDefinition(models.Model):
         app_label = 'crim'
         verbose_name = 'Definition'
         verbose_name_plural = 'Definitions'
+        ordering = ['-id']
 
     observation_definition = JSONField(null=True)
     relationship_definition = JSONField(null=True)

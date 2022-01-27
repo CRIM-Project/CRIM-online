@@ -660,7 +660,11 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
 
 
 class CRIMDefinitionAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        'id',
+        'created',
+        'updated',
+    )
 
 
 class CJObservationAdmin(admin.ModelAdmin):
