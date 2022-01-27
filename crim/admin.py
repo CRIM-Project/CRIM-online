@@ -668,11 +668,51 @@ class CRIMDefinitionAdmin(admin.ModelAdmin):
 
 
 class CJObservationAdmin(admin.ModelAdmin):
-    pass
+    # Including the commented-out fields slows performance considerably
+    list_display = [
+        'id_in_brackets',
+        'curated',
+        # 'observer',
+        'musical_type',
+        # 'model_observation',
+        # 'derivative_observation',
+        'created',
+        'updated',
+    ]
+    search_fields = (
+        'observer__person_id',
+        'observer__name',
+        'musical_type',
+        'piece__piece_id',
+        'piece__title',
+        'piece__mass__title',
+    )
 
 
 class CJRelationshipAdmin(admin.ModelAdmin):
     readonly_fields = ['musical_type']
+    # Including the commented-out fields slows performance considerably
+    list_display = [
+        'id_in_brackets',
+        'curated',
+        # 'observer',
+        'relationship_type',
+        # 'model_observation',
+        # 'derivative_observation',
+        'created',
+        'updated',
+    ]
+    search_fields = (
+        'observer__person_id',
+        'observer__name',
+        'relationship_type',
+        'model_observation__piece__piece_id',
+        'model_observation__piece__title',
+        'model_observation__piece__mass__title',
+        'derivative_observation__piece__piece_id',
+        'derivative_observation__piece__title',
+        'derivative_observation__piece__mass__title',
+    )
 
 
 class CRIMForumPostAdmin(admin.ModelAdmin):
