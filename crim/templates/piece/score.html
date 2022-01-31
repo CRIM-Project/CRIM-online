@@ -1,17 +1,29 @@
-<div style="width:700px">
+{% load static %}
+
+<div id="score_container">
   <div id="piece-header" class="row-fluid">
     <div class="span9"><h2>Score</h2></div>
     <div class="span3">
-      <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-        <a href="{{ content.url|htmlsite }}{{ request|prevpage:content.page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-        <a href="{{ content.url|htmlsite }}{{ request|start }}" class="btn btn-primary cw-show">start</a>
-        <a href="{{ content.url|htmlsite }}{{ request|nextpage:content.page_number }}" class="btn btn-primary cw-next">&gt;</a>
+      <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="score_nav">
+        <a href="#" class="btn btn-primary disabled score_prev">&lt;</a>
+        <a href="#" class="btn btn-primary score_start">start</a>
+        <a href="#" class="btn btn-primary score_next">&gt;</a>
       </div>
     </div>
   </div>
   <div>
-    {% autoescape off %}
-      {{ content.svg }}
-    {% endautoescape %}
+    <div id="piece_score">Loading score…</div>
   </div>
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
+  <script src="{% static 'js/score.js' %}"></script>
+  <script>
+    const mei = `
+      {% autoescape off %}
+        {{ content.mei }}
+      {% endautoescape %}
+    `
+    document.addEventListener("DOMContentLoaded", (event) => {
+      setScore('score_container', 'piece_score', 'score_nav', mei)
+    });
+  </script>
 </div>

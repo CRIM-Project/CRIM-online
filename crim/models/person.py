@@ -5,8 +5,8 @@ from django.utils.text import slugify
 from django.utils.html import escape
 
 from crim.helpers.dates import get_date_sort, latest_date
-from crim.models.observation import CRIMObservation
-from crim.models.relationship import CRIMRelationship
+from crim.models.observation import CJObservation
+from crim.models.relationship import CJRelationship
 from crim.models.role import CRIMRoleType
 import re
 
@@ -68,7 +68,7 @@ class CRIMPerson(models.Model):
     # has observations or relationships, then we add the Analyst role type.
     @property
     def role_types(self):
-        if CRIMObservation.objects.filter(observer=self).exists() or CRIMRelationship.objects.filter(observer=self).exists():
+        if CJObservation.objects.filter(observer=self).exists() or CJRelationship.objects.filter(observer=self).exists():
             return CRIMRoleType.objects.filter(Q(roles__person=self) | Q(role_type_id=ANALYST)).distinct()
         else:
             return CRIMRoleType.objects.filter(roles__person=self).distinct()

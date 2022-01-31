@@ -2,7 +2,6 @@
 {% load apostrophe %}
 {% load figuredash %}
 {% load markdown %}
-{% load scorenav %}
 {% load static %}
 {% load newlinereplace %}
 {% load newlineplural %}
@@ -15,8 +14,7 @@
     {{ content.piece.full_title }}
   </title>
   <style>
-    .cw-score { width: 100%; height: 500px }
-    .cw-highlighted { color: #c71a22; fill: currentColor }
+    .ema-highlight { color: #c71a22; fill: currentColor }
   </style>
 {% endblock %}
 
@@ -31,7 +29,7 @@
             &lt;R{{ relationship.id }}&gt;
           </a>
         </small>
-        {{ relationship.relationship_type }}
+        {{ relationship.relationship_type|capitalize }}
         &mdash;
         Model for
         <small>
@@ -51,7 +49,7 @@
             &lt;R{{ relationship.id }}&gt;
           </a>
         </small>
-        {{ relationship.relationship_type }}
+        {{ relationship.relationship_type|capitalize }}
         &mdash;
         Derivative of
         <small>
@@ -68,7 +66,7 @@
 
   <div class="row-fluid">
     <div class="span9">
-      <div style="width:700px">
+      <div id="score_container">
         <div id="piece-header" class="row-fluid">
           <div class="span9">
             <h2>
@@ -80,17 +78,15 @@
             </h2>
           </div>
           <div class="span3">
-            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <a href="{{ content.url|htmlsite }}{{ request|prevpage:content.page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-              <a href="{{ content.url|htmlsite }}{{ request|start }}" class="btn btn-primary cw-show">start</a>
-              <a href="{{ content.url|htmlsite }}{{ request|nextpage:content.page_number }}" class="btn btn-primary cw-next">&gt;</a>
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="score_nav">
+              <a href="#" class="btn btn-primary cw-prev score_prev">&lt;</a>
+              <a href="#" class="btn btn-primary cw-show score_start">start</a>
+              <a href="#" class="btn btn-primary cw-next score_next">&gt;</a>
             </div>
           </div>
         </div>
-        <div id="score">
-          {% autoescape off %}
-            {{ content.svg }}
-          {% endautoescape %}
+        <div id="observation_score">
+          Loading score…
         </div>
       </div>
     </div>
@@ -98,5 +94,21 @@
       {% include "observation/observation_expanded.html" with observation=content %}
     </div>
   </div>
+
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
+  <script src="{% static 'js/ema-mei.js' %}" defer></script>
+  <script src="{% static 'js/score.js' %}" defer></script>
+
+  <script>
+    const mei = `
+      {% autoescape off %}
+        {{ content.mei }}
+      {% endautoescape %}
+    `
+    document.addEventListener("DOMContentLoaded", (event) => {
+      setScore('score_container', 'observation_score', 'score_nav', mei, '{{content.ema}}')
+    });
+
+  </script>
 
 {% endblock %}

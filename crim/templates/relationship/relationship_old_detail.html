@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load static %}
+{% load newlinereplace %}
+{% load newlineplural %}
+{% load firstitem %}
+{% load people %}
+
+{% block title %}
+  <title>
+    CRIM | {% if content.curated %}Relationship{% else %}Uncurated relationship{% endif %} &lt;R{{ content.id }}&gt;
+    {{ content.model_observation.piece.full_title }}
+    &rarr;
+    {{ content.derivative_observation.piece.full_title }}
+  </title>
+  <style>
+    .ema-highlight { color: #c71a22; fill: currentColor }
+  </style>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup class="page-title">
+    <h1>
+      {% if content.curated %}Relationship{% else %}Uncurated relationship{% endif %}
+      <small>&lt;R{{ content.id }}&gt;</small>
+      {% if request.user.is_staff %}
+        <small><a href="/citations/{{ content.id }}/">[Edit this relationship]</a></small>
+      {% endif %}
+    </h1>
+    <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
+  </hgroup>
+
+  {% include "relationship/relationship_old_expanded.html" with relationship=content %}
+
+  <div class="row-fluid" id="score">
+    <div class="span9">
+      <div id="model_score_container">
+        <div id="model-header" class="row-fluid">
+          <div class="span9">
+            <h2>
+              Model:
+                {% if content.model_observation.piece.roles|people:"composer" %}{{ content.model_observation.piece.roles|people:"composer"|safe }},
+                {% elif content.model_observation.piece.mass.roles|people:"composer" %}{{ content.model_observation.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}
+                <a href="{{ content.model_observation.piece.url|htmlsite }}">{{ content.model_observation.piece.full_title }}</a>
+            </h2>
+          </div>
+          <div class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="model_score_nav">
+              <a href="#" class="btn btn-primary score_prev">&lt;</a>
+              <a href="#" class="btn btn-primary score_start">start</a>
+              <a href="#" class="btn btn-primary score_next">&gt;</a>
+            </div>
+          </div>
+        </div>
+        <div id="model_score">
+          Loading score…
+        </div>
+      </div>
+    </div>
+    <div class="span3">
+      <h2><small><a href="{{ content.model_observation.url|htmlsite }}">&lt;{{ content.model_observation.id }}&gt;</a></small></h2>
+      {% include "observation/observation_expanded.html" with observation=content.model_observation %}
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span9">
+      <div id="derivative_score_container">
+        <div id="derivative-header" class="row-fluid">
+          <div class="span9">
+            <h2>
+              Derivative:
+                {% if content.derivative_observation.piece.roles|people:"composer" %}{{ content.derivative_observation.piece.roles|people:"composer"|safe }},
+                {% elif content.derivative_observation.piece.mass.roles|people:"composer" %}{{ content.derivative_observation.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}
+                <a href="{{ content.derivative_observation.piece.url|htmlsite }}">{{ content.derivative_observation.piece.full_title }}</a>
+            </h2>
+          </div>
+          <div class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="derivative_score_nav">
+              <a href="#" class="btn btn-primary score_prev">&lt;</a>
+              <a href="#" class="btn btn-primary score_start">start</a>
+              <a href="#" class="btn btn-primary score_next">&gt;</a>
+            </div>
+          </div>
+        </div>
+        <div id="derivative_score">
+          Loading score…
+        </div>
+      </div>
+    </div>
+    <div class="span3">
+      <h2><small><a href="{{ content.derivative_observation.url|htmlsite }}">&lt;{{ content.derivative_observation.id }}&gt;</a></small></h2>
+      {% include "observation/observation_expanded.html" with observation=content.derivative_observation %}
+    </div>
+  </div>
+
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
+  <script src="{% static 'js/ema-mei.js' %}" defer></script>
+  <script src="{% static 'js/score.js' %}" defer></script>
+
+  <script>
+    const model_mei = `
+      {% autoescape off %}
+        {{ content.model_observation.mei }}
+      {% endautoescape %}
+    `
+
+    const derivative_mei = `
+      {% autoescape off %}
+        {{ content.derivative_observation.mei }}
+      {% endautoescape %}
+    `
+    document.addEventListener("DOMContentLoaded", (event) => {
+      setScore('model_score_container', 'model_score', 'model_score_nav', model_mei, '{{content.model_observation.ema}}', true)
+      setScore('derivative_score_container', 'derivative_score', 'derivative_score_nav', derivative_mei, '{{content.derivative_observation.ema}}', true)
+    });
+
+  </script>
+
+{% endblock %}

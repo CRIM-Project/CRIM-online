@@ -1,0 +1,39 @@
+<div>
+  <h3>{% if relationship.relationship_type %}{{ relationship.relationship_type }}{% else %}Relationship{% endif %}</h3>
+</div>
+<div class="row-fluid">
+{% if relationship.remarks %}
+  <div class="span4">
+{% else %}
+  <div class="span12">
+{% endif %}
+{% if relationship.rt_q %}
+  <p class="hanging"><strong>Exact:</strong> {{ relationship.rt_q_x }}</p>
+  <p class="hanging"><strong>Monnayage:</strong> {{ relationship.rt_q_monnayage }}</p>
+{% endif %}
+{% if relationship.rt_tm %}
+  <p class="hanging"><strong>Sounding in different voice(s):</strong> {{ relationship.rt_tm_snd }}</p>
+  <p class="hanging"><strong>Melodically inverted:</strong> {{ relationship.rt_tm_minv }}</p>
+  <p class="hanging"><strong>Retrograde:</strong> {{ relationship.rt_tm_retrograde }}</p>
+  <p class="hanging"><strong>Metrically shifted:</strong> {{ relationship.rt_tm_ms }}</p>
+  <p class="hanging"><strong>Transposed:</strong> {{ relationship.rt_tm_transposed }}</p>
+  <p class="hanging"><strong>Double or invertible counterpoint:</strong> {{ relationship.rt_tm_invertible }}</p>
+{% endif %}
+{% if relationship.rt_tnm %}
+  <p class="hanging"><strong>Embellished:</strong> {{ relationship.rt_tnm_embellished }}</p>
+  <p class="hanging"><strong>Reduced:</strong> {{ relationship.rt_tnm_reduced }}</p>
+  <p class="hanging"><strong>Amplified:</strong> {{ relationship.rt_tnm_amplified }}</p>
+  <p class="hanging"><strong>Truncated:</strong> {{ relationship.rt_tnm_truncated }}</p>
+  <p class="hanging"><strong>New counter-subject:</strong> {{ relationship.rt_tnm_ncs }}</p>
+  <p class="hanging"><strong>Old counter-subject shifted:</strong> {{ relationship.rt_tnm_ocs }}</p>
+  <p class="hanging"><strong>Old counter-subject transposed:</strong> {{ relationship.rt_tnm_ocst }}</p>
+  <p class="hanging"><strong>New combination:</strong> {{ relationship.rt_tnm_nc }}</p>
+{% endif %}
+</div>
+
+{% if relationship.remarks %}
+<div class="span8">
+  <p class="hanging"><strong>Remarks:</strong> {{ relationship.remarks }}</p>
+</div>
+{% endif %}
+</div>

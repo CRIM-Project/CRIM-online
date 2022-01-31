@@ -6,6 +6,7 @@ from django import forms
 from crim.models.user import CRIMUserProfile
 from crim.models.person import CRIMPerson
 
+from crim.models.definition import CRIMDefinition
 from crim.models.document import CRIMTreatise, CRIMSource
 from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
@@ -15,8 +16,8 @@ from crim.models.phrase import CRIMPhrase
 from crim.models.piece import CRIMPiece, CRIMModel, CRIMMassMovement
 from crim.models.mass import CRIMMass
 from crim.models.role import CRIMRole, CRIMRoleType
-from crim.models.observation import CRIMObservation
-from crim.models.relationship import CRIMRelationship
+from crim.models.observation import CRIMObservation, CJObservation
+from crim.models.relationship import CRIMRelationship, CJRelationship
 from crim.models.voice import CRIMVoice
 
 from crim.models.note import CRIMNote
@@ -658,6 +659,62 @@ class CRIMRelationshipAdmin(admin.ModelAdmin):
     )
 
 
+class CRIMDefinitionAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'created',
+        'updated',
+    )
+
+
+class CJObservationAdmin(admin.ModelAdmin):
+    # Including the commented-out fields slows performance considerably
+    list_display = [
+        'id_in_brackets',
+        'curated',
+        # 'observer',
+        'musical_type',
+        # 'model_observation',
+        # 'derivative_observation',
+        'created',
+        'updated',
+    ]
+    search_fields = (
+        'observer__person_id',
+        'observer__name',
+        'musical_type',
+        'piece__piece_id',
+        'piece__title',
+        'piece__mass__title',
+    )
+
+
+class CJRelationshipAdmin(admin.ModelAdmin):
+    readonly_fields = ['musical_type']
+    # Including the commented-out fields slows performance considerably
+    list_display = [
+        'id_in_brackets',
+        'curated',
+        # 'observer',
+        'relationship_type',
+        # 'model_observation',
+        # 'derivative_observation',
+        'created',
+        'updated',
+    ]
+    search_fields = (
+        'observer__person_id',
+        'observer__name',
+        'relationship_type',
+        'model_observation__piece__piece_id',
+        'model_observation__piece__title',
+        'model_observation__piece__mass__title',
+        'derivative_observation__piece__piece_id',
+        'derivative_observation__piece__title',
+        'derivative_observation__piece__mass__title',
+    )
+
+
 class CRIMForumPostAdmin(admin.ModelAdmin):
     fields = (
         'author',
@@ -714,6 +771,10 @@ admin.site.register(CRIMRelationship, CRIMRelationshipAdmin)
 
 admin.site.register(CRIMGenre, CRIMGenreAdmin)
 admin.site.register(CRIMRoleType, CRIMRoleTypeAdmin)
+
+admin.site.register(CRIMDefinition, CRIMDefinitionAdmin)
+admin.site.register(CJObservation, CJObservationAdmin)
+admin.site.register(CJRelationship, CJRelationshipAdmin)
 
 admin.site.register(CRIMNote)
 

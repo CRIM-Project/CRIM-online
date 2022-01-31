@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load markdown %}
+{% load shorten %}
+{% load static %}
+{% load get_string %}
+
+{% block title %}
+  <title>CRIM | Relationships</title>
+{% endblock %}
+
+{% block wrap %}
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="show-heading row-fluid">
+        <hgroup class="show-title page-title span12">
+          <h1>Relationships</h1>
+        </hgroup>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th><a href="?order_by=pk">ID</a></th>
+            <th><a href="?order_by=observer__name_sort">Observer</a></th>
+            <th><a href="?order_by=model_observation__piece__piece_id">Model</a></th>
+            <th><a href="?order_by=derivative_observation__piece__piece_id">Derivative</a></th>
+            <th>Relationship type</th>
+            <th>Show details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for relationship in content.results %}
+            <tr>
+              <td><a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
+              <td><a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.observer.url|htmlsite }}">{{ relationship.observer.name }}</a></td>
+              <td>
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.url|htmlsite }}">
+                  &lt;{{ relationship.model_observation.id }}&gt;
+                </a>
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.piece.url|htmlsite }}">
+                  {{ relationship.model_observation.piece.full_title }}
+                </a>
+              </td>
+              <td>
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.url|htmlsite }}">
+                  &lt;{{ relationship.derivative_observation.id }}&gt;
+                </a>
+                <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
+                  {{ relationship.derivative_observation.piece.full_title }}
+                </a>
+              </td>
+              <td>
+                {% if relationship.relationship_type %}
+                  {{ relationship.relationship_type }}
+                {% else %}
+                  None
+                {% endif %}
+              </td>
+              <td>
+                <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
+              </td>
+            </tr>
+            <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
+              <td colspan="6" class="expansion">
+                {% include "relationship/relationship_old_expanded.html" %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <ul class="pagination">
+          {% if content.previous %}
+            <li class="pagination" id="first-child"><a href="{{ content.previous }}">&laquo;</a></li>
+          {% else %}
+            <li class="disabled" id="first-child">&laquo;</li>
+          {% endif %}
+          <!-- CAREFUL: the parameter of rangelist MUST match
+          the page_size attribute in RelationshipSetPagination,
+          found in views/relationship.py -->
+          {% for i in content.count|rangelist:100 %}
+            {% if request.GET.page == i|string %}
+              <li class="active">{{ i }}</li>
+            {% elif not request.GET.page and i == 1 %}
+              <li class="active">{{ i }}</li>
+            {% else %}
+              <li class="pagination"><a href='?{% get_string "page" i %}'>{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if content.next %}
+            <li class="pagination" id="last-child"><a href="{{ content.next }}">&raquo;</a></li>
+          {% else %}
+            <li class="disabled" id="last-child">&raquo;</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // This script expands and hides relationship details
+    $('.relationship-info').hide();
+    $('.relationship-info-expand').on({
+      'click': function(event) {
+        event.preventDefault();
+        tgt = "#" + $(this).attr('target');
+        $(tgt).toggle();
+        tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+        $(this).text(tag);
+        return false;
+      }
+    })
+  </script>
+{% endblock %}

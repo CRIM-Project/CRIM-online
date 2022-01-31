@@ -2,7 +2,6 @@
 {% load apostrophe %}
 {% load figuredash %}
 {% load markdown %}
-{% load scorenav %}
 {% load static %}
 {% load newlinereplace %}
 {% load newlineplural %}
@@ -17,9 +16,7 @@
     {{ content.derivative_observation.piece.full_title }}
   </title>
   <style>
-    .cw-score-model { width: 100%; height: 500px }
-    .cw-score-derivative { width: 100%; height: 500px }
-    .cw-highlighted { color: #c71a22; fill: currentColor }
+    .ema-highlight { color: #c71a22; fill: currentColor }
   </style>
 {% endblock %}
 
@@ -39,7 +36,7 @@
 
   <div class="row-fluid" id="score">
     <div class="span9">
-      <div style="width:700px">
+      <div id="model_score_container">
         <div id="model-header" class="row-fluid">
           <div class="span9">
             <h2>
@@ -51,17 +48,15 @@
             </h2>
           </div>
           <div class="span3">
-            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <a href="{{ content.url|htmlsite }}{{ request|prevpage_model:content.model_page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-              <a href="{{ content.url|htmlsite }}{{ request|start_model }}" class="btn btn-primary cw-show">start</a>
-              <a href="{{ content.url|htmlsite }}{{ request|nextpage_model:content.model_page_number }}" class="btn btn-primary cw-next">&gt;</a>
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="model_score_nav">
+              <a href="#" class="btn btn-primary score_prev">&lt;</a>
+              <a href="#" class="btn btn-primary score_start">start</a>
+              <a href="#" class="btn btn-primary score_next">&gt;</a>
             </div>
           </div>
         </div>
         <div id="model_score">
-          {% autoescape off %}
-            {{ content.model_svg }}
-          {% endautoescape %}
+          Loading score…
         </div>
       </div>
     </div>
@@ -73,7 +68,7 @@
 
   <div class="row-fluid">
     <div class="span9">
-      <div style="width:700px">
+      <div id="derivative_score_container">
         <div id="derivative-header" class="row-fluid">
           <div class="span9">
             <h2>
@@ -85,17 +80,15 @@
             </h2>
           </div>
           <div class="span3">
-            <div class="btn-group pull-right" role="group" aria-label="Score control button group">
-              <a href="{{ content.url|htmlsite }}{{ request|prevpage_derivative:content.derivative_page_number }}" class="btn btn-primary cw-prev">&lt;</a>
-              <a href="{{ content.url|htmlsite }}{{ request|start_derivative }}" class="btn btn-primary cw-show">start</a>
-              <a href="{{ content.url|htmlsite }}{{ request|nextpage_derivative:content.derivative_page_number }}" class="btn btn-primary cw-next">&gt;</a>
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="derivative_score_nav">
+              <a href="#" class="btn btn-primary score_prev">&lt;</a>
+              <a href="#" class="btn btn-primary score_start">start</a>
+              <a href="#" class="btn btn-primary score_next">&gt;</a>
             </div>
           </div>
         </div>
         <div id="derivative_score">
-          {% autoescape off %}
-            {{ content.derivative_svg }}
-          {% endautoescape %}
+          Loading score…
         </div>
       </div>
     </div>
@@ -105,27 +98,27 @@
     </div>
   </div>
 
-  <script type="text/JavaScript" src="/static/js/verovio/verovio-toolkit.js"></script>
-  <script type="text/JavaScript" src="/static/js/cw/cw.js"></script>
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
+  <script src="{% static 'js/ema-mei.js' %}" defer></script>
+  <script src="{% static 'js/score.js' %}" defer></script>
 
   <script>
-    var vrv = new window.verovio.toolkit()
-    var cwModel = new CrimViewer({
-      mei: '{{ content.model_observation.piece.mei_links|firstitem }}',
-      ema: '{{ content.model_observation.ema }}',
-      vrv: vrv,
-      div: 'modelScore',
-      controls: 'cw-model-controls'
-    })
-    cwModel.render()
-    var cwDerivative = new CrimViewer({
-      mei: '{{ content.derivative_observation.piece.mei_links|firstitem }}',
-      ema: '{{ content.derivative_observation.ema }}',
-      vrv: vrv,
-      div: 'derivativeScore',
-      controls: 'cw-derivative-controls'
-    })
-    cwDerivative.render()
+    const model_mei = `
+      {% autoescape off %}
+        {{ content.model_observation.mei }}
+      {% endautoescape %}
+    `
+
+    const derivative_mei = `
+      {% autoescape off %}
+        {{ content.derivative_observation.mei }}
+      {% endautoescape %}
+    `
+    document.addEventListener("DOMContentLoaded", (event) => {
+      setScore('model_score_container', 'model_score', 'model_score_nav', model_mei, '{{content.model_observation.ema}}', true)
+      setScore('derivative_score_container', 'derivative_score', 'derivative_score_nav', derivative_mei, '{{content.derivative_observation.ema}}', true)
+    });
+
   </script>
 
 {% endblock %}

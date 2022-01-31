@@ -8,10 +8,10 @@ from django.urls import reverse
 from ..models.document import CRIMSource
 from ..models.forum import CRIMForumPost
 from ..models.mass import CRIMMass
-from ..models.observation import CRIMObservation
+from ..models.observation import CJObservation
 from ..models.person import CRIMPerson
 from ..models.piece import CRIMPiece
-from ..models.relationship import CRIMRelationship
+from ..models.relationship import CJRelationship
 from ..models.user import CRIMUserProfile
 
 
@@ -151,8 +151,8 @@ def insert_links(text):
     text = _source_regex.sub(lambda m: create_link(CRIMSource, m.group(0), document_id=m.group(0)), text)
     text = _person_regex.sub(lambda m: create_link(CRIMPerson, m.group(0), person_id=m.group(0)), text)
     # the group(1) is for matching just the integer id and not the angle brackets around it.
-    text = _observation_regex.sub(lambda m: create_link(CRIMObservation, m.group(0), id=int(m.group(1))), text)
-    text = _relationship_regex.sub(lambda m: create_link(CRIMRelationship, m.group(0), id=int(m.group(1))), text)
+    text = _observation_regex.sub(lambda m: create_link(CJObservation, m.group(0), id=int(m.group(1))), text)
+    text = _relationship_regex.sub(lambda m: create_link(CJRelationship, m.group(0), id=int(m.group(1))), text)
     text = '<p>' + _newline_regex.sub('</p><p>', text) + '</p>'
     return text
 

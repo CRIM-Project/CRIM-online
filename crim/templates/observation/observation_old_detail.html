@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load apostrophe %}
+{% load figuredash %}
+{% load markdown %}
+{% load static %}
+{% load newlinereplace %}
+{% load newlineplural %}
+{% load firstitem %}
+{% load people %}
+
+{% block title %}
+  <title>
+    CRIM | {% if content.curated %}Observation{% else %}Uncurated observation{% endif %} &lt;{{ content.id }}&gt;
+    {{ content.piece.full_title }}
+  </title>
+  <style>
+    .ema-highlight { color: #c71a22; fill: currentColor }
+  </style>
+{% endblock %}
+
+{% block wrap %}
+  <hgroup class="page-title">
+    <h1>{% if content.curated %}Observation{% else %}Uncurated observation{% endif %} <small>&lt;{{ content.id }}&gt;</small></h1>
+    <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
+    {% for relationship in content.relationships_as_model %}
+      <h3>
+        <small>
+          <a href="{{ relationship.url|htmlsite }}">
+            &lt;R{{ relationship.id }}&gt;
+          </a>
+        </small>
+        {{ relationship.relationship_type }}
+        &mdash;
+        Model for
+        <small>
+          <a href="{{ relationship.derivative_observation.url|htmlsite }}">
+            &lt;{{ relationship.derivative_observation.id }}&gt;
+          </a>
+        </small>
+        <a href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
+          {{ relationship.derivative_observation.piece.full_title }}
+        </a>
+      </h3>
+    {% endfor %}
+    {% for relationship in content.relationships_as_derivative %}
+      <h3>
+        <small>
+          <a href="{{ relationship.url|htmlsite }}">
+            &lt;R{{ relationship.id }}&gt;
+          </a>
+        </small>
+        {{ relationship.relationship_type }}
+        &mdash;
+        Derivative of
+        <small>
+          <a href="{{ relationship.model_observation.url|htmlsite }}">
+            &lt;{{ relationship.model_observation.id }}&gt;
+          </a>
+        </small>
+        <a href="{{ relationship.model_observation.piece.url|htmlsite }}">
+          {{ relationship.model_observation.piece.full_title }}
+        </a>
+      </h3>
+    {% endfor %}
+  </hgroup>
+
+  <div class="row-fluid">
+    <div class="span9">
+      <div id="score_container">
+        <div id="piece-header" class="row-fluid">
+          <div class="span9">
+            <h2>
+              Score:
+                {% if content.piece.roles|people:"composer" %}{{ content.piece.roles|people:"composer"|safe }},
+                {% elif content.piece.mass.roles|people:"composer" %}{{ content.piece.mass.roles|people:"composer"|safe }},
+                {% endif %}
+                <a href="{{ content.piece.url|htmlsite }}">{{ content.piece.full_title }}</a>
+            </h2>
+          </div>
+          <div class="span3">
+            <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="score_nav">
+              <a href="#" class="btn btn-primary cw-prev score_prev">&lt;</a>
+              <a href="#" class="btn btn-primary cw-show score_start">start</a>
+              <a href="#" class="btn btn-primary cw-next score_next">&gt;</a>
+            </div>
+          </div>
+        </div>
+        <div id="observation_score">
+          Loading score…
+        </div>
+      </div>
+    </div>
+    <div class="span3">
+      {% include "observation/observation_old_expanded.html" with observation=content %}
+    </div>
+  </div>
+
+  <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
+  <script src="{% static 'js/ema-mei.js' %}" defer></script>
+  <script src="{% static 'js/score.js' %}" defer></script>
+
+  <script>
+    const mei = `
+      {% autoescape off %}
+        {{ content.mei }}
+      {% endautoescape %}
+    `
+    document.addEventListener("DOMContentLoaded", (event) => {
+      setScore('score_container', 'observation_score', 'score_nav', mei, '{{content.ema}}')
+    });
+
+  </script>
+
+{% endblock %}

@@ -1,9 +1,22 @@
-from crim.models.observation import CRIMObservation
+from crim.models.definition import CRIMDefinition
+from crim.models.observation import CRIMObservation, CJObservation
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
-from crim.models.relationship import CRIMRelationship
+from crim.models.relationship import CRIMRelationship, CJRelationship
 from crim.models.role import CRIMRole, CRIMRoleType
 from rest_framework import serializers
+
+
+class CRIMDefinitionObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='crimdefinition-detail-data', lookup_field='id')
+
+    class Meta:
+        model = CRIMDefinition
+        fields = (
+            'url',
+            'id',
+            'observation_definition',
+        )
 
 
 class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
@@ -84,6 +97,7 @@ class CRIMPieceObservationSummarySerializer(serializers.HyperlinkedModelSerializ
         )
 
 
+# Deprecated class
 class CRIMObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     piece = CRIMPieceObservationSummarySerializer(read_only=True)
@@ -96,7 +110,20 @@ class CRIMObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
             'piece',
         )
 
+class CJObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='cjobservation-detail-data', lookup_field='id')
+    piece = CRIMPieceObservationSummarySerializer(read_only=True)
 
+    class Meta:
+        model = CJObservation
+        fields = (
+            'url',
+            'id',
+            'piece',
+        )
+
+
+# Deprecated class
 class CRIMRelationshipObservationSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimrelationship-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
@@ -114,7 +141,25 @@ class CRIMRelationshipObservationSerializer(serializers.HyperlinkedModelSerializ
             'relationship_type',
         )
 
+class CJRelationshipObservationSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='cjrelationship-detail-data', lookup_field='id')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    model_observation = CJObservationSummarySerializer(read_only=True)
+    derivative_observation = CJObservationSummarySerializer(read_only=True)
 
+    class Meta:
+        model = CJRelationship
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'model_observation',
+            'derivative_observation',
+            'relationship_type',
+        )
+
+
+# Deprecated class
 class CRIMObservationDetailSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
@@ -224,7 +269,44 @@ class CRIMObservationDetailSerializer(serializers.HyperlinkedModelSerializer):
             'curated',
         )
 
+class CJObservationDetailSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='cjobservation-detail-data', lookup_field='id')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    piece = CRIMPieceObservationSerializer(read_only=True)
+    relationships_as_model = CJRelationshipObservationSerializer(
+        many=True,
+        read_only=True,
+        source='observations_as_model',
+    )
+    relationships_as_derivative = CJRelationshipObservationSerializer(
+        many=True,
+        read_only=True,
+        source='observations_as_derivative',
+    )
+    definition = CRIMDefinitionObservationSerializer(read_only=True)
+    details = serializers.JSONField()
 
+    class Meta:
+        model = CJObservation
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'piece',
+            'ema',
+            'musical_type',
+            'relationships_as_model',
+            'relationships_as_derivative',
+            'definition',
+            'details',
+            'remarks',
+            'created',
+            'updated',
+            'curated',
+        )
+
+
+# Deprecated class
 class CRIMObservationListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = CRIMPersonObservationSerializer(read_only=True)
@@ -322,7 +404,31 @@ class CRIMObservationListSerializer(serializers.HyperlinkedModelSerializer):
             'curated',
         )
 
+class CJObservationListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='cjobservation-detail-data', lookup_field='id')
+    observer = CRIMPersonObservationSerializer(read_only=True)
+    piece = CRIMPieceObservationSummarySerializer(read_only=True)
+    definition = CRIMDefinitionObservationSerializer(read_only=True)
 
+    class Meta:
+        model = CJObservation
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'piece',
+            'ema',
+            'musical_type',
+            'details',
+            'definition',
+            'remarks',
+            'created',
+            'updated',
+            'curated',
+        )
+
+
+# Deprecated class
 class CRIMObservationBriefSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimobservation-detail-data', lookup_field='id')
     observer = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
@@ -330,6 +436,22 @@ class CRIMObservationBriefSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = CRIMObservation
+        fields = (
+            'url',
+            'id',
+            'observer',
+            'musical_type',
+            'piece',
+            'ema',
+        )
+
+class CJObservationBriefSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='cjobservation-detail-data', lookup_field='id')
+    observer = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
+    piece = serializers.PrimaryKeyRelatedField(many=False,read_only=True)
+
+    class Meta:
+        model = CJObservation
         fields = (
             'url',
             'id',

@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf.urls import include, re_path
 from django.conf import settings
 from django.contrib import admin
@@ -30,7 +31,9 @@ from crim.views.main import home, profile
 from crim.views.genre import GenreList
 from crim.views.mass import MassList, MassDetail
 from crim.views.person import PersonList, PersonDetail
+from crim.views.observation import ObservationOldList, ObservationOldDetail
 from crim.views.observation import ObservationList, ObservationDetail
+from crim.views.relationship import RelationshipOldList, RelationshipOldDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
 from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithSources, PieceWithRelationships, PieceWithDiscussions
 from crim.views.roletype import RoleTypeList
@@ -40,13 +43,16 @@ from crim.views.treatise import TreatiseList, TreatiseDetail
 from crim.views.user import UserProfile
 
 # The following are for the JSON views
+from crim.views.definition import DefinitionDetailData
 from crim.views.genre import GenreListData, GenreDetailData
 from crim.views.mass import MassListData, MassDetailData
 from crim.views.part import PartListData, PartDetailData
 from crim.views.person import PersonListData, PersonDetailData
 from crim.views.phrase import PhraseListData, PhraseDetailData
 from crim.views.piece import PieceListData, ModelListData, PieceDetailData, PieceWithRelationshipsData
+from crim.views.observation import ObservationOldListData, ObservationOldListBriefData, ObservationOldDetailData
 from crim.views.observation import ObservationListData, ObservationListBriefData, ObservationDetailData, ObservationCreateData
+from crim.views.relationship import RelationshipOldListData, RelationshipOldListBriefData, RelationshipOldDetailData
 from crim.views.relationship import RelationshipListData, RelationshipListBriefData, RelationshipDetailData, RelationshipCreateData
 from crim.views.role import RoleListData, RoleDetailData
 from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
@@ -56,6 +62,8 @@ from crim.views.voice import VoiceListData, VoiceDetailData
 from crim.views.user import UserProfileData
 from crim.views import forum as forum_views
 
+from crim.views.relationship_form import get_relationship
+
 admin.autodiscover()
 
 urlpatterns = []
@@ -63,9 +71,10 @@ urlpatterns = []
 if 'django.contrib.admin' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^admin/', admin.site.urls),
-    ]
 
-    urlpatterns += [
+        path('accounts/', include('django.contrib.auth.urls')),
+        re_path(r'^accounts/profile/$', profile),
+
         re_path(r'^$', flat_views.flatpage, {'url': '/home/'}, name='home'),
         re_path(r'^about/$', RedirectView.as_view(url=reverse_lazy('home'), permanent=True), name='go-to-home'),
         re_path(r'^search/$', search, name='search'),
@@ -87,8 +96,10 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^masses/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetail.as_view(), name='crimmass-detail'),
         re_path(r'^masses/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/pieces/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail'),
         re_path(r'^models/$', ModelList.as_view(), name='crimmodel-list'),
-        re_path(r'^observations/$', cache_page(600)(ObservationList.as_view()), name='crimobservation-list'),
-        re_path(r'^observations/(?P<id>[0-9]+)/$', ObservationDetail.as_view(), name='crimobservation-detail'),
+        re_path(r'^observations-old/$', cache_page(600)(ObservationOldList.as_view()), name='crimobservation-list'),
+        re_path(r'^observations-old/(?P<id>[0-9]+)/$', ObservationOldDetail.as_view(), name='crimobservation-detail'),
+        re_path(r'^observations/$', ObservationList.as_view(), name='cjobservation-list'),
+        re_path(r'^observations/(?P<id>[0-9]+)/$', ObservationDetail.as_view(), name='cjobservation-detail'),
         re_path(r'^people/$', PersonList.as_view(), name='crimperson-list'),
         re_path(r'^people/(?P<person_id>[-_A-Za-z0-9]+)/$', PersonDetail.as_view(), name='crimperson-detail'),
         re_path(r'^pieces/$', PieceList.as_view(), name='crimpiece-list'),
@@ -96,8 +107,10 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/sources/$', PieceWithSources.as_view(), name='crimpiece-sources-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationships.as_view(), name='crimpiece-relationships-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/discussions/$', PieceWithDiscussions.as_view(), name='crimpiece-discussions-detail'),
-        re_path(r'^relationships/$', cache_page(600)(RelationshipList.as_view()), name='crimrelationship-list'),
-        re_path(r'^relationships/(?P<id>[0-9]+)/$', RelationshipDetail.as_view(), name='crimrelationship-detail'),
+        re_path(r'^relationships-old/$', cache_page(600)(RelationshipOldList.as_view()), name='crimrelationship-list'),
+        re_path(r'^relationships-old/(?P<id>[0-9]+)/$', RelationshipOldDetail.as_view(), name='crimrelationship-detail'),
+        re_path(r'^relationships/$', RelationshipList.as_view(), name='cjrelationship-list'),
+        re_path(r'^relationships/(?P<id>[0-9]+)/$', RelationshipDetail.as_view(), name='cjrelationship-detail'),
         re_path(r'^roletypes/$', RoleTypeList.as_view(), name='crimroletype-list'),
         re_path(r'^roletypes/(?P<role_type_id>[-A-Za-z0-9]+)/$', RedirectView.as_view(url='/people/?role=%(role_type_id)s', permanent=False), name='crimroletype-detail'),
         re_path(r'^sources/$', SourceList.as_view(), name='crimsource-list'),
@@ -106,16 +119,20 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^treatises/(?P<document_id>[-_A-Za-z0-9]+)/$', TreatiseDetail.as_view(), name='crimtreatise-detail'),
         re_path(r'^users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfile.as_view(), name='crimuserprofile-detail'),
         # The following are for the JSON views
+        re_path(r'^data/definition/(?P<id>[0-9]+)/$', DefinitionDetailData.as_view(), name='crimdefinition-detail-data'),
         re_path(r'^data/genres/$', GenreListData.as_view(), name='crimgenre-list-data'),
         re_path(r'^data/genres/(?P<genre_id>[-A-Za-z0-9]+)/$', GenreDetailData.as_view(), name='crimgenre-detail-data'),
         re_path(r'^data/masses/$', MassListData.as_view(), name='crimmass-list-data'),
         re_path(r'^data/masses/(?P<mass_id>[-_A-Za-z0-9]+)/$', MassDetailData.as_view(), name='crimmass-detail-data'),
         re_path(r'^data/masses/(?P<mass_id>[-_A-Za-z0-9]+)/(?P<movement_number>[0-9]+)/$', RedirectView.as_view(url='/data/pieces/%(mass_id)s_%(movement_number)s/', permanent=True), name='crimmassmovement-detail-data'),
         re_path(r'^data/models/$', ModelListData.as_view(), name='crimmodel-list-data'),
-        re_path(r'^data/observations/$', ObservationListData.as_view(), name='crimobservation-list-data'),
-        re_path(r'^data/observations/brief/$', ObservationListBriefData.as_view(), name='crimobservation-list-brief-data'),
-        re_path(r'^data/observations/(?P<id>[0-9]+)/$', ObservationDetailData.as_view(), name='crimobservation-detail-data'),
-        re_path(r'^data/observations/new/$', ObservationCreateData.as_view(), name='crimobservation-new-data'),
+        re_path(r'^data/observations-old/$', ObservationOldListData.as_view(), name='crimobservation-list-data'),
+        re_path(r'^data/observations-old/brief/$', ObservationOldListBriefData.as_view(), name='crimobservation-list-brief-data'),
+        re_path(r'^data/observations-old/(?P<id>[0-9]+)/$', ObservationOldDetailData.as_view(), name='crimobservation-detail-data'),
+        re_path(r'^data/observations/$', ObservationListData.as_view(), name='cjobservation-list-data'),
+        re_path(r'^data/observations/brief/$', ObservationListBriefData.as_view(), name='cjobservation-list-brief-data'),
+        re_path(r'^data/observations/(?P<id>[0-9]+)/$', ObservationDetailData.as_view(), name='cjobservation-detail-data'),
+        re_path(r'^data/observations/new/$', ObservationCreateData.as_view(), name='cjobservation-new-data'),
         re_path(r'^data/parts/$', PartListData.as_view(), name='crimpart-list-data'),
         re_path(r'^data/parts/(?P<part_id>[-_A-Za-z0-9\.]+)/$', PartDetailData.as_view(), name='crimpart-detail-data'),
         re_path(r'^data/people/$', PersonListData.as_view(), name='crimperson-list-data'),
@@ -126,9 +143,12 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/pieces/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetailData.as_view(), name='crimpiece-detail-data'),
         re_path(r'^data/pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationshipsData.as_view(), name='crimpiece-relationships-detail-data'),
         re_path(r'^data/relationships/$', RelationshipListData.as_view(), name='crimrelationship-list-data'),
-        re_path(r'^data/relationships/brief/$', RelationshipListBriefData.as_view(), name='crimrelationship-list-brief-data'),
-        re_path(r'^data/relationships/(?P<id>[0-9]+)/$', RelationshipDetailData.as_view(), name='crimrelationship-detail-data'),
-        re_path(r'^data/relationships/new/$', RelationshipCreateData.as_view(), name='crimrelationship-new-data'),
+        re_path(r'^data/relationships-old/brief/$', RelationshipOldListBriefData.as_view(), name='crimrelationship-list-brief-data'),
+        re_path(r'^data/relationships-old/(?P<id>[0-9]+)/$', RelationshipOldDetailData.as_view(), name='crimrelationship-detail-data'),
+        re_path(r'^data/relationships-old/$', RelationshipOldListData.as_view(), name='cjrelationship-list-data'),
+        re_path(r'^data/relationships/brief/$', RelationshipListBriefData.as_view(), name='cjrelationship-list-brief-data'),
+        re_path(r'^data/relationships/(?P<id>[0-9]+)/$', RelationshipDetailData.as_view(), name='cjrelationship-detail-data'),
+        re_path(r'^data/relationships/new/$', RelationshipCreateData.as_view(), name='cjrelationship-new-data'),
         re_path(r'^data/roles/$', RoleListData.as_view(), name='crimrole-list-data'),
         re_path(r'^data/roles/(?P<id>[0-9]+)/$', RoleDetailData.as_view(), name='crimrole-detail-data'),
         re_path(r'^data/roletypes/$', RoleTypeListData.as_view(), name='crimroletype-list-data'),
@@ -140,14 +160,10 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/users/(?P<username>[0-9a-zA-Z_@+\.-]+)/$', UserProfileData.as_view(), name='crimuserprofile-detail-data'),
         re_path(r'^data/voices/$', VoiceListData.as_view(), name='crimvoice-list-data'),
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
-    ]
 
-    urlpatterns += [
-        path('accounts/', include('django.contrib.auth.urls')),
-        re_path(r'^accounts/profile/$', profile),
-    ]
+        path('relationships/new/', get_relationship, name='relationship-form'),
+        # path('observations/new/', get_observation, name='observation-form'),
 
-    urlpatterns += [
         re_path('about', include('django.contrib.flatpages.urls')),
     ]
 
