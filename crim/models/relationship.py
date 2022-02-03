@@ -59,6 +59,27 @@ class CJRelationship(models.Model):
     updated = models.DateTimeField(auto_now=True)
     curated = models.BooleanField('curated', default=False)
 
+    # These next two fields are redundant, but make it easier
+    # to access all relationships associated with a piece using
+    # a reverse lookup.  Removing these fields will make the
+    # piece/xxx/relationship template not work.
+    model_piece = models.ForeignKey(
+        'CRIMPiece',
+        on_delete=models.CASCADE,
+        to_field='piece_id',
+        db_index=True,
+        related_name='relationships_as_model',
+        null=True,
+    )
+    derivative_piece = models.ForeignKey(
+        'CRIMPiece',
+        on_delete=models.CASCADE,
+        to_field='piece_id',
+        db_index=True,
+        related_name='relationships_as_derivative',
+        null=True,
+    )
+
     def id_in_brackets(self):
         return '{R' + str(self.id) + '}'
     id_in_brackets.short_description = 'ID'
@@ -80,6 +101,9 @@ class CJRelationship(models.Model):
         # musical type; otherwise, use whichever has a musical type if one of
         # them doesn't (e.g. omission), or include them both.
         if self.model_observation and self.derivative_observation:
+            self.model_piece = self.model_observation.piece
+            self.derivative_piece = self.derivative_observation.piece
+
             if self.model_observation.musical_type and self.derivative_observation.musical_type:
                 mt1 = self.model_observation.musical_type
                 mt2 = self.derivative_observation.musical_type
@@ -267,6 +291,7 @@ class CRIMRelationship(models.Model):
         self.derivative_observation.save()
         # Finalize changes
         super().save()
+
 #
 #
 # @receiver(post_save, sender=CRIMRelationship)
