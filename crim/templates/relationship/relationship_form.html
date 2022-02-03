@@ -337,6 +337,9 @@
     <script src="/static/continuo.js"></script>
     <script src="/static/ema-mei.js"></script>
 
+    {{ singular_voice_fields|json_script:"singular-voice-fields" }}
+    {{ plural_voice_fields|json_script:"plural-voice-fields" }}
+
     <script>
 
         // make checkboxes true false value
@@ -530,10 +533,12 @@
                 // Now if it's a voice field, we need to do special handling
                 // to make sure that we have it encoded as an integer or list
                 // instead of a string.
-                if (key == objectType + '-' + MRType + '-voice') {
+                const singularVoiceFields = JSON.parse(document.getElementById('singular-voice-fields').textContent);
+                const pluralVoiceFields = JSON.parse(document.getElementById('plural-voice-fields').textContent);
+                if (singularVoiceFields.includes(keyName)) {
                   simplifiedData[keyName.replaceAll('-', ' ')] = parseInt(data[key], 10);
                 }
-                else if (key == objectType + '-' + MRType + '-voices') {
+                else if (pluralVoiceFields.includes(keyName)) {
                   simplifiedData[keyName.replaceAll('-', ' ')] = (data[key].split(',')).map(n => parseInt(n, 10));
                 }
                 else {
@@ -617,6 +622,7 @@
               },
             });
           } catch (error) {
+            console.log(getMassagedData(strippedFormData));
             console.error(error);
           }
         }

@@ -10,6 +10,7 @@ class CRIMDefinition(models.Model):
 
     observation_definition = JSONField(null=True)
     relationship_definition = JSONField(null=True)
+    voice_fields = JSONField(null=False, default=dict)
 
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 

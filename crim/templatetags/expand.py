@@ -35,6 +35,12 @@ def expand(obs_or_rel, kind, autoescape=True):
         return mark_safe('-')
     else:
         details = obs_or_rel.get('details')
+        try:
+            singular_voice_fields = definition.voice_fields['singular']
+            plural_voice_fields = definition.voice_fields['plural']
+        except (AttributeError, KeyError) as error:
+            singular_voice_fields = []
+            plural_voice_fields = []
         if obs_or_rel.get('piece'):
             piece_id = obs_or_rel.get('piece').get('piece_id')
         # If we have no details, we need to make this an empty dicionary
@@ -50,20 +56,18 @@ def expand(obs_or_rel, kind, autoescape=True):
                         subtype_name = subtype.get('name')
                         subtype_value = details.get(subtype_name)
                         subtype_value_html = ''
-                        if isinstance(subtype_value, list):
-                            if subtype_name == 'voices':
-                                for e in subtype_value:
-                                    subtype_value_html += '<br>' + print_voice(piece_id, e)
-                            else:
-                                for e in subtype_value:
-                                    subtype_value_html += '<br>' + esc(str(e).capitalize())
+                        if subtype_name in plural_voice_fields:
+                            for e in subtype_value:
+                                subtype_value_html += '<br>' + print_voice(piece_id, e)
+                        elif subtype_name in singular_voice_fields:
+                            subtype_value_html = print_voice(piece_id, subtype_value)
+                        elif isinstance(subtype_value, list):
+                            for e in subtype_value:
+                                subtype_value_html += '<br>' + esc(str(e).capitalize())
                         elif subtype_value is None:
                             subtype_value_html = '-'
                         else:
-                            if subtype_name == 'voice':
-                                subtype_value_html = print_voice(piece_id, subtype_value)
-                            else:
-                                subtype_value_html = esc(str(subtype_value).capitalize())
+                            subtype_value_html = esc(str(subtype_value).capitalize())
                         html += ('<p class="hanging"><strong>' +
                                  esc(subtype_name.capitalize()) + ':' +
                                  '</strong>' + ' ' +
