@@ -190,12 +190,11 @@
                         <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                           {% for option in subtype.options %}
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type='checkbox' name="model-{{ type.name|concat_str:option }}" value="{{option}}" id="model-{{ type.name|concat_str:option }}">
-                              <label class='form-check-label' for="model-{{ type.name|concat_str:option }}">{{ option.capitalize }}</label>
+                              <input class="form-check-input" type='checkbox' name="model-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="model-{{ type.name|concat_str:subtype.name|concat_str:option }}">
+                              <label class='form-check-label' for="model-{{ type.name|concat_str:subtype.name|concat_str:option }}">{{ option.capitalize }}</label>
                             </div>
                           {% endfor %}
                         </div>
-
                       {% endif %}
                     {% endfor %}
                   </div>
@@ -298,8 +297,8 @@
                         <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                           {% for option in subtype.options %}
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type='checkbox' name="derivative-{{ type.name|concat_str:option }}" value="{{option}}" id="derivative-{{ type.name|concat_str:option }}">
-                              <label class='form-check-label' for="derivative-{{ type.name|concat_str:option }}">{{ option.capitalize }}</label>
+                              <input class="form-check-input" type='checkbox' name="derivative-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}">
+                              <label class='form-check-label' for="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}">{{ option.capitalize }}</label>
                             </div>
                           {% endfor %}
                         </div>
@@ -541,6 +540,19 @@
                 else if (pluralVoiceFields.includes(keyName)) {
                   simplifiedData[keyName.replaceAll('-', ' ')] = (data[key].split(',')).map(n => parseInt(n, 10));
                 }
+                // For checkboxes, use JavaScript to get the values of everything
+                // in the list and add it to an array.
+                else if (keyName.includes('[]')) {
+                  console.log(key);
+                  let checkboxes = document.getElementsByName(key);
+                  let listOfValues = [];
+                  for (var i=0, len=checkboxes.length; i<len; i++) {
+                    if (checkboxes[i].checked) {
+                      listOfValues.push(checkboxes[i].value);
+                    }
+                  }
+                  simplifiedData[keyName.replaceAll('-', ' ').replaceAll('[]', '')] = listOfValues;
+                }
                 else {
                   // If it's null, true, or false, save that value
                   // instead of a string
@@ -557,7 +569,7 @@
                   else {
                     processed_key = data[key];
                   }
-                    simplifiedData[keyName.replaceAll('-', ' ')] = processed_key;
+                  simplifiedData[keyName.replaceAll('-', ' ')] = processed_key;
                 }
               }
             }
