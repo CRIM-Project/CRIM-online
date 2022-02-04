@@ -401,10 +401,9 @@
             $('#id_model_observation').select2();
             $('#id_derivative_observation').select2();
 
-            var activeTab = $(".relationship .tab-content").find(".active");
-            var id = activeTab.attr('id');
-            $("#relationship-selected-tab").val(id);
-
+            var relationshipActiveTab = $(".relationship .tab-content").find(".active");
+            var id0 = relationshipActiveTab.attr('id');
+            $("#relationship-selected-tab").val(id0.replace("relationship-", ""));
 
             var modelActiveTab = $(".model .tab-content").find(".active");
             var id1 = modelActiveTab.attr('id');
@@ -428,6 +427,7 @@
                 var x = $(event.target).text();         // active tab
                 var selected = x.replace(/\s+/g, '-').toLowerCase();
                 $("#relationship-selected-tab").val(selected);
+                console.log($("#relationship-selected-tab"));
             });
 
             $(".model .nav-pills a").on('shown.bs.tab', function(event){
