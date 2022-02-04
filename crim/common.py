@@ -22,12 +22,14 @@ def print_voice(piece_id, voice_number):
         else:
             name_to_use = f'[{v.regularized_name}]'
         return (conditional_escape(str(voice_number)) +
-                ' - ' +
+                ': ' +
                 conditional_escape(name_to_use)
                )
     except:
-        voice_number = voice_number if voice_number else '----'
-        return ('<span style="color:#c71a22;">' +
-                conditional_escape(str(voice_number)) +
-                '</span>'
-               )
+        if voice_number:
+            return ('<span style="color:#c71a22;">' +
+                    conditional_escape(str(voice_number)) +
+                    '</span>'
+                   )
+        else:
+            return conditional_escape('-')
