@@ -17,6 +17,10 @@ def expand(obs_or_rel, kind, autoescape=True):
         esc = lambda x: x
 
     # If no definition is provided, use the most recent one
+
+    singular_voice_fields = []
+    plural_voice_fields = []
+
     if kind == 'relationship':
         type_kind = 'relationship_type'
         try:
@@ -26,21 +30,24 @@ def expand(obs_or_rel, kind, autoescape=True):
     else:  # Observation
         type_kind = 'musical_type'
         try:
-            definition = obs_or_rel.get('definition').get('observation_definition')
+            complete_definition = obs_or_rel.get('definition')
+            definition = complete_definition.get('observation_definition')
+            singular_voice_fields = complete_definition.get('voice_fields')['singular']
+            plural_voice_fields = complete_definition.get('voice_fields')['plural']
         except:
-            definition = get_current_definition().observation_definition
+            complete_definition = get_current_definition()
+            definition = complete_definition.observation_definition
+            try:
+                singular_voice_fields = complete_definition.voice_fields['singular']
+                plural_voice_fields = complete_definition.voice_fields['plural']
+            except:
+                pass
 
     html = ''
     if definition is None:
         return mark_safe('-')
     else:
         details = obs_or_rel.get('details')
-        try:
-            singular_voice_fields = definition.voice_fields['singular']
-            plural_voice_fields = definition.voice_fields['plural']
-        except (AttributeError, KeyError) as error:
-            singular_voice_fields = []
-            plural_voice_fields = []
         if obs_or_rel.get('piece'):
             piece_id = obs_or_rel.get('piece').get('piece_id')
         # If we have no details, we need to make this an empty dicionary
