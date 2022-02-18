@@ -169,7 +169,7 @@
                         <div class="form-group row">
                           <label for="model-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
                           <div class="col-sm">
-                            <input class="form-control form-control-sm" id="model-{{ type.name|concat_str:subtype.name }}" name="model-{{ type.name|concat_str:subtype.name }}">
+                            <input class="form-control form-control-sm" id="model-{{ type.name|concat_str:subtype.name }}" name="model-{{ type.name|concat_str:subtype.name }}" pattern="[0-9]{1}">
                           </div>
                         </div>
 
