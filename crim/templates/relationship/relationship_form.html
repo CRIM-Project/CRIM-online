@@ -9,6 +9,9 @@
   <!-- Continuo styles override -->
   <link rel="stylesheet" href="/static/continuo.css">
   <style>
+
+    .required input:after { content:"*"; };
+
     .cnt-container .cnt-pagination {
       position: absolute;
       top: auto;
@@ -391,7 +394,246 @@
                 }
             });
             observer.observe(target, { childList: true, subtree: true })
-        }
+        };
+
+        // universal validation for relationship/model/derivative tabs
+        function validateTab(currentTab){
+
+          var currentName = currentTab.id.split("-").slice(1).join("");
+
+          if (currentName == "cantusfirmus") {
+            var voiceInput = document.getElementById(currentTab.id + "-voice");
+            voiceInput.pattern = "\\d";
+            voiceInput.placeholder = "e.g. 1";
+
+            // the radio form (default & unrequired)
+            var radioButtons = document.getElementsByName(currentTab.id + "-features");
+            for (var i = 0; i < radioButtons.length; i++) {
+              radioButtons[i].removeAttribute("required");
+              if (radioButtons[i].value == "both pitches and durations") {
+                radioButtons[i].checked = "true";
+              }
+            }
+          }
+
+          else if (currentName == "soggetto") {
+            var voiceInput = document.getElementById(currentTab.id + "-voice");
+            voiceInput.pattern = "\\d";
+            voiceInput.placeholder = "e.g. 1";
+
+            var radioButtons = document.getElementsByName(currentTab.id + "-features");
+            for (var i = 0; i < radioButtons.length; i++) {
+              radioButtons[i].removeAttribute("required");
+              if (radioButtons[i].value == "both pitches and durations") {
+                radioButtons[i].checked = "true";
+              }
+            }
+          }
+
+          else if (currentName == "countersoggetto") {
+            var voiceInput = document.getElementById(currentTab.id + "-voice");
+            voiceInput.pattern = "\\d";
+            voiceInput.placeholder = "e.g. 1";
+
+            var radioButtons = document.getElementsByName(currentTab.id + "-features");
+            for (var i = 0; i < radioButtons.length; i++) {
+              radioButtons[i].removeAttribute("required");
+              if (radioButtons[i].value == "both pitches and durations") {
+                radioButtons[i].checked = "true";
+              }
+            }
+          }
+
+          else if (currentName == "contrapuntalduo") {
+            var voiceInput = document.getElementById(currentTab.id + "-voices");
+            voiceInput.pattern = "\\d,\\d";
+            voiceInput.placeholder = "e.g. 1,2";
+          }
+
+          else if (currentName == "fuga") {
+            var voiceInput = document.getElementById(currentTab.id + "-voices");
+            var entryInput = document.getElementById(currentTab.id + "-entry-intervals");
+            var timeInput = document.getElementById(currentTab.id + "-time-intervals");
+
+            voiceInput.pattern = "\\d(,\\d)+";
+            voiceInput.placeholder = "e.g. 2,3";
+            entryInput.pattern = "(\\d{1,2}[\\+-])+";
+            entryInput.placeholder = "e.g. 1+2-"
+            timeInput.pattern = "[LBSM]\\d{1,2}(\\/\\d{1,2})*";
+            timeInput.placeholder = "e.g. S2/3";
+          }
+
+          // imitative duo formatting
+          else if (currentName == "imitativeduo") {
+            var voiceInput = document.getElementById(currentTab.id + "-voices");
+            var entryInput = document.getElementById(currentTab.id + "-entry-intervals");
+            var timeInput = document.getElementById(currentTab.id + "-time-intervals");
+
+            voiceInput.pattern = "\\d,\\d(,\\d,\\d)*";
+            voiceInput.placeholder = "e.g. 2,3,2,4";
+            entryInput.pattern = "(\\d{1,2}[\\+-])+";
+            entryInput.placeholder = "e.g. 1+2-"
+            timeInput.pattern = "[LBSM]\\d{1,2}(\\/\\d{1,2})*";
+            timeInput.placeholder = "e.g. B2/3"
+          }
+
+          // periodic entry formatting
+          else if (currentName == "periodicentry") {
+            var voiceInput = document.getElementById(currentTab.id + "-voices");
+            var entryInput = document.getElementById(currentTab.id + "-entry-intervals");
+            var timeInput = document.getElementById(currentTab.id + "-time-intervals");
+
+            voiceInput.pattern = "\\d,\\d(,\\d)+";
+            voiceInput.placeholder = "e.g. 2,3...";
+            entryInput.pattern = "(\\d{1,2}[\\+-])+";
+            entryInput.placeholder = "e.g. 1+2-"
+            timeInput.pattern = "[LBSM]\\d{1,2}(\\/\\d{1,2})*";
+            timeInput.placeholder = "e.g. S2/3"
+          }
+
+          // non-imitative duo formatting
+          else if (currentName == "nonimitativeduo") {
+            var voiceInput = document.getElementById(currentTab.id + "-voices");
+            var entryInput = document.getElementById(currentTab.id + "-entry-intervals");
+            var timeInput = document.getElementById(currentTab.id + "-time-intervals");
+
+            voiceInput.pattern = "\\d,\\d(,\\d,\\d)*";
+            voiceInput.placeholder = "e.g. 2,3";
+            entryInput.pattern = "(\\d{1,2}[\\+-])+";
+            entryInput.placeholder = "e.g. 1+2-"
+            timeInput.pattern = "[LBSM]\\d{1,2}(\\/\\d{1,2})*";
+            timeInput.placeholder = "e.g. S2/3"
+          }
+
+          // homorhythm formatting
+          else if (currentName == "homorhythm") {
+            var voiceInput = document.getElementById(currentTab.id + "-voices");
+            voiceInput.pattern = "\\d,\\d(,\\d)+";
+            voiceInput.placeholder = "e.g. 1,1..."
+          }
+
+          // cadence formatting
+          else if (currentName == "cadence") {
+            var cantizansInput = document.getElementById(currentTab.id + "-cantizans");
+            var tenorizansInput = document.getElementById(currentTab.id + "-tenorizans");
+            var dovetailInput = document.getElementById(currentTab.id + "-dovetail-cadence-voice");
+
+            cantizansInput.removeAttribute("required");
+            cantizansInput.pattern = "\\d?";
+            cantizansInput.placeholder = "e.g. 2";
+            tenorizansInput.removeAttribute("required");
+            tenorizansInput.pattern = "\\d?";
+            tenorizansInput.placeholder = "e.g. 2";
+            dovetailInput.removeAttribute("required");
+            dovetailInput.pattern = "\\d?";
+            dovetailInput.placeholder = "e.g. 3"
+
+            var radioButtons = document.getElementsByName(currentTab.id + "-dovetail-position");
+            for (var i = 0; i < radioButtons.length; i++) {
+              radioButtons[i].removeAttribute("required");
+            };
+          }
+
+          //quotation validation
+          else if (currentName == "quotation") {
+
+            var radioSelfButtons = document.getElementsByName(currentTab.id + "-self");
+            for (var i = 0; i < radioSelfButtons.length; i++) {
+              radioSelfButtons[i].removeAttribute("required");
+            };
+          }
+
+          // mechanical transformation validation
+          else if (currentName == "mechanicaltransformation") {
+
+            var radioSelfButtons = document.getElementsByName(currentTab.id + "-self");
+            for (var i = 0; i < radioSelfButtons.length; i++) {
+              radioSelfButtons[i].removeAttribute("required");
+            };
+          }
+
+          // non mechanical transformation validation
+          else if (currentName == "nonmechanicaltransformation") {
+
+            var radioExtentButtons = document.getElementsByName(currentTab.id + "-extent");
+            var radioActivityButtons = document.getElementsByName(currentTab.id + "-activity");
+            var radioSelfButtons = document.getElementsByName(currentTab.id + "-self");
+
+            for (var i = 0; i < radioExtentButtons.length; i++) {
+              radioExtentButtons[i].removeAttribute("required");
+              if (radioExtentButtons[i].value == "not changed") {
+                radioExtentButtons[i].checked = "true";
+              }
+            };
+
+            for (var i = 0; i < radioActivityButtons.length; i++) {
+              radioActivityButtons[i].removeAttribute("required");
+              if (radioActivityButtons[i].value == "not changed") {
+                radioActivityButtons[i].checked = "true";
+              }
+            };
+
+            for (var i = 0; i < radioSelfButtons.length; i++) {
+              radioSelfButtons[i].removeAttribute("required");
+              if (radioSelfButtons[i].value == "none") {
+                radioSelfButtons[i].checked = "true";
+              }
+            };
+          };
+        };
+
+        // sets the current relationship tab inputs to required
+        function setRequiredRelationship(){
+          var activeRelationshipInputs = $(".relationship .tab-content .active input");
+          for (var i = 0; i < activeRelationshipInputs.length; i++) {
+            if (activeRelationshipInputs[i].type != "checkbox") {
+              activeRelationshipInputs[i].required = "true";
+            };
+          };
+        };
+
+        // sets the current model tab inputs to required
+        function setRequiredModel(){
+          var activeModelInputs = $(".model .tab-content .active input");
+          for (var i = 0; i < activeModelInputs.length; i++) {
+            if (activeModelInputs[i].type != "checkbox") {
+              activeModelInputs[i].required = "true";
+            };
+          };
+        };
+        // sets the current derivative tab inputs to required
+        function setRequiredDerivative(){
+          var activeDerivativeInputs = $(".derivative .tab-content .active input");
+          for (var i = 0; i < activeDerivativeInputs.length; i++) {
+            if (activeDerivativeInputs[i].type != "checkbox") {
+              activeDerivativeInputs[i].required = "true";
+            };
+          };
+        };
+
+        // resets all required relationship flags to unrequired
+        function clearRequiredRelationship(){
+          var allRelationshipInputs = $(".relationship .tab-content input");
+          for (var i = 0; i < allRelationshipInputs.length; i++) {
+            allRelationshipInputs[i].removeAttribute("required");
+          };
+        };
+
+        // resets all required flags to unrequired
+        function clearRequiredModel(){
+          var allModelInputs = $(".model .tab-content input");
+          for (var i = 0; i < allModelInputs.length; i++) {
+            allModelInputs[i].removeAttribute("required");
+          };
+        };
+
+        // resets all required derivative flags to unrequired
+        function clearRequiredDerivative(){
+          var allDerivativeInputs = $(".derivative .tab-content input");
+          for (var i = 0; i < allDerivativeInputs.length; i++) {
+            allDerivativeInputs[i].removeAttribute("required");
+          };
+        };
 
         $(document).ready(function(){
 
@@ -414,6 +656,20 @@
             if (id2.length > 0)
                 $("#derivative-selected-tab").val(id2.replace("derivative-", ""));
 
+            // validating the initial relationship tab
+            var initialActiveRelationshipArr = $(".relationship .tab-content").find(".active");
+            var initialActiveRelationship = initialActiveRelationshipArr[0];
+            validateTab(initialActiveRelationship);
+
+            // validating the initial model tab
+            var initialActiveModelArr = $(".model .tab-content").find(".active");
+            var initialActiveModel = initialActiveModelArr[0];
+            validateTab(initialActiveModel);
+
+            // validating the initial derivative tab
+            var initialActiveDerivativeArr = $(".derivative .tab-content").find(".active");
+            var initialActiveDerivative = initialActiveDerivativeArr[0];
+            validateTab(initialActiveDerivative);
 
             $(".nav-tabs a").click(function(){
                 $(this).tab('show');
@@ -422,23 +678,48 @@
             $(".nav-pills a").click(function(){
                 $(this).tab('show');
             });
-
+            // updating the current tab works!
             $(".relationship .nav-tabs a").on('shown.bs.tab', function(event){
                 var x = $(event.target).text();         // active tab
                 var selected = x.replace(/\s+/g, '-').toLowerCase();
                 $("#relationship-selected-tab").val(selected);
-                console.log($("#relationship-selected-tab"));
+                var relationshipActiveTabs = $(".relationship .tab-content").find(".active");
+
+                console.log("switched to relationship: ");
+                console.log(relationshipActiveTabs[0].id);
+
+                clearRequiredRelationship();
+                setRequiredRelationship();
+                validateTab(relationshipActiveTabs[0]);
             });
 
             $(".model .nav-pills a").on('shown.bs.tab', function(event){
-                var x1 = $(event.target).text();         // active model tab
+                var x1 = $(event.target).text();
                 var selected1 = x1.replace(/\s+/g, '-').toLowerCase();
+                modelActiveTabs = $(".model .tab-content").find(".active");
+
+                console.log("switched to model:")
+                console.log(modelActiveTabs[0].id);
+
+                clearRequiredModel();
+                setRequiredModel();
+                validateTab(modelActiveTabs[0]);
+
                 $("#model-selected-tab").val(selected1);
             });
 
             $(".derivative .nav-pills a").on('shown.bs.tab', function(event){
                 var x2 = $(event.target).text();         // active serivative tab
                 var selected2 = x2.replace(/\s+/g, '-').toLowerCase();
+                var derivativeActiveTabs = $(".derivative .tab-content").find(".active");
+
+                console.log("switched to derivative:");
+                console.log(derivativeActiveTabs[0].id);
+
+                clearRequiredDerivative();
+                setRequiredDerivative();
+                validateTab(derivativeActiveTabs[0]);
+
                 $("#derivative-selected-tab").val(selected2);
             });
 
