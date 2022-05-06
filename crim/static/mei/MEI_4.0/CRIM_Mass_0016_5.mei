@@ -5,10 +5,11 @@
    <meiHead xml:id="m-2">
       <fileDesc xml:id="m-3">
          <titleStmt xml:id="m-10-ts">
-            <title xml:id="m-10">Missa Mente tota: Agnus Dei</title><respStmt><persName auth="VIAF" auth.uri="http://viaf.org/viaf/14959955" role="composer">Adrian Willaert</persName><persName role="editor">Vincent Besson</persName><persName role="editor">Marco Gurrieri</persName><persName role="editor">Richard Freedman</persName></respStmt></titleStmt>
+            <title xml:id="m-10">Missa Mente tota: Agnus Dei</title><composer xml:id="m-11">Adrian Willaert</composer>
+         <respStmt><persName role="composer" auth="VIAF" auth.uri="http://viaf.org/viaf/14959955">Adrian Willaert</persName><persName role="editor">Vincent Besson</persName><persName role="editor">Marco Gurrieri</persName><persName role="editor">Richard Freedman</persName></respStmt></titleStmt>
          <pubStmt><publisher>
       Citations: The Renaissance Imitation Mass Project
-  </publisher><distributor>Centre d'Études Supérieures de la Renaissance </distributor><distributor> Haverford College</distributor><date isodate="2020-11-04" /><availability>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</availability></pubStmt></fileDesc>
+  </publisher><distributor>Centre d'Études Supérieures de la Renaissance </distributor><distributor> Haverford College</distributor><date isodate="2022-05-05" /><availability>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</availability></pubStmt></fileDesc>
       <encodingDesc xml:id="m-16">
          <appInfo xml:id="m-17">
             <application isodate="2017-7-11T17:22:06Z" version="8410" xml:id="sibelius">
@@ -17,7 +18,7 @@
             <application type="plugin" version="2.1.0" xml:id="sibmei">
                <name xml:id="m-21">Sibelius to MEI Exporter (2.1.0)</name>
             </application>
-            <application version="v1.0_beta" xml:id="app_2020286193146019">
+            <application version="v1.0_beta" xml:id="app_2022125113109686">
                <name>mei30To40.xsl</name>
             </application>
          <application version="1.0.0">
@@ -29,37 +30,31 @@
       <body xml:id="m-23">
          <mdiv xml:id="section">
             <score xml:id="m-25">
-               <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" optimize="false" text.name="Plantin MT Std" xml:id="m-26">
+               <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-26">
                   <staffGrp xml:id="m-27">
                      <staffGrp n="1" symbol="bracket" xml:id="m-46">
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Discantus]" lines="5" n="1" xml:id="m-28">
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="1" xml:id="m-28" label="[Discantus]">
                            <label>[Discantus]</label>
-                           
                            <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-30" />
                         </staffDef>
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[ContratenorPrimus]" lines="5" n="2" xml:id="m-31">
-                           <label>[ContratenorPrimus]</label>
-                           
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="2" xml:id="m-31" label="Contratenor [Primus]">
+                           <label>Contratenor [Primus]</label>
                            <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-33" />
                         </staffDef>
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="ContratenorSecundus" lines="5" n="3" xml:id="m-34">
-                           <label>ContratenorSecundus</label>
-                           
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="3" xml:id="m-34" label="[Contratenor Secundus]">
+                           <label>[Contratenor Secundus]</label>
                            <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-36" />
                         </staffDef>
-                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="4" xml:id="m-37">
-                           <label>Tenor</label>
-                           
+                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="4" xml:id="m-37" label="[Tenor]">
+                           <label>[Tenor]</label>
                            <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-39" />
                         </staffDef>
-                        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Vagans" lines="5" n="5" xml:id="m-40">
-                           <label>Vagans</label>
-                           
+                        <staffDef clef.line="4" clef.shape="F" key.sig="1f" lines="5" n="5" xml:id="m-40" label="[Vagans]">
+                           <label>[Vagans]</label>
                            <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-42" />
                         </staffDef>
-                        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Bassus" lines="5" n="6" xml:id="m-43">
-                           <label>Bassus</label>
-                           
+                        <staffDef clef.line="4" clef.shape="F" key.sig="1f" lines="5" n="6" xml:id="m-43" label="[Bassus]">
+                           <label>[Bassus]</label>
                            <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-45" />
                         </staffDef>
                      </staffGrp>
@@ -3689,7 +3684,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-2391" />
+                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-2391" />
                   <measure n="59" right="dbl" xml:id="m-2364">
                      <staff n="1" xml:id="m-2365">
                         <layer n="1" xml:id="m-2366">
@@ -3730,7 +3725,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-2415" />
+                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-2415" />
                   <measure n="60" xml:id="m-2392">
                      <line dur.ppq="1288" layer="1" staff="1" tstamp="1" tstamp2="0m+3.5156" type="bracket" vo="4.8mm" xml:id="m-2396" />
                      <staff n="1" xml:id="m-2394">
@@ -5344,7 +5339,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-3440" />
+                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-3440" />
                   <measure n="94" right="dbl" xml:id="m-3413">
                      <staff n="1" xml:id="m-3414">
                         <layer n="1" xml:id="m-3415">
@@ -5385,12 +5380,12 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="3" meter.unit="1" optimize="false" xml:id="m-3468" />
+                  <scoreDef meter.count="3" meter.unit="1" xml:id="m-3468" />
                   <measure n="95" xml:id="m-3441">
                      <tie endid="#m-3486" startid="#m-3457" xml:id="m-3458" />
                      <staff n="1" xml:id="m-3442">
                         <layer n="1" xml:id="m-3443">
-                           <mRest dur="breve" xml:id="m-3444" />
+                           <mRest xml:id="m-3444" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-3445">
@@ -5420,7 +5415,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3459">
                         <layer n="1" xml:id="m-3460">
-                           <mRest dur="breve" xml:id="m-3461" />
+                           <mRest xml:id="m-3461" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3462">
@@ -5434,7 +5429,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3465">
                         <layer n="1" xml:id="m-3466">
-                           <mRest dur="breve" xml:id="m-3467" />
+                           <mRest xml:id="m-3467" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5442,7 +5437,7 @@
                      <line dur.ppq="1332" layer="1" staff="5" tstamp="2" tstamp2="0m+3.3008" type="bracket" vo="5.55mm" xml:id="m-3499" />
                      <staff n="1" xml:id="m-3470">
                         <layer n="1" xml:id="m-3471">
-                           <mRest dur="breve" xml:id="m-3472" />
+                           <mRest xml:id="m-3472" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-3473">
@@ -5477,7 +5472,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3493">
                         <layer n="1" xml:id="m-3494">
-                           <mRest dur="breve" xml:id="m-3495" />
+                           <mRest xml:id="m-3495" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3496">
@@ -5498,7 +5493,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3507">
                         <layer n="1" xml:id="m-3508">
-                           <mRest dur="breve" xml:id="m-3509" />
+                           <mRest xml:id="m-3509" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5546,7 +5541,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3535">
                         <layer n="1" xml:id="m-3536">
-                           <mRest dur="breve" xml:id="m-3537" />
+                           <mRest xml:id="m-3537" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3538">
@@ -5560,7 +5555,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3545">
                         <layer n="1" xml:id="m-3546">
-                           <mRest dur="breve" xml:id="m-3547" />
+                           <mRest xml:id="m-3547" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5607,7 +5602,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3575">
                         <layer n="1" xml:id="m-3576">
-                           <mRest dur="breve" xml:id="m-3577" />
+                           <mRest xml:id="m-3577" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3578">
@@ -5623,7 +5618,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3585">
                         <layer n="1" xml:id="m-3586">
-                           <mRest dur="breve" xml:id="m-3587" />
+                           <mRest xml:id="m-3587" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5664,7 +5659,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3609">
                         <layer n="1" xml:id="m-3610">
-                           <mRest dur="breve" xml:id="m-3611" />
+                           <mRest xml:id="m-3611" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3612">
@@ -5678,7 +5673,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3615">
                         <layer n="1" xml:id="m-3616">
-                           <mRest dur="breve" xml:id="m-3617" />
+                           <mRest xml:id="m-3617" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5719,7 +5714,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3640">
                         <layer n="1" xml:id="m-3641">
-                           <mRest dur="breve" xml:id="m-3642" />
+                           <mRest xml:id="m-3642" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3643">
@@ -5733,7 +5728,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3650">
                         <layer n="1" xml:id="m-3651">
-                           <mRest dur="breve" xml:id="m-3652" />
+                           <mRest xml:id="m-3652" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5774,7 +5769,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3677">
                         <layer n="1" xml:id="m-3678">
-                           <mRest dur="breve" xml:id="m-3679" />
+                           <mRest xml:id="m-3679" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3680">
@@ -5790,7 +5785,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3687">
                         <layer n="1" xml:id="m-3688">
-                           <mRest dur="breve" xml:id="m-3689" />
+                           <mRest xml:id="m-3689" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5823,7 +5818,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3710">
                         <layer n="1" xml:id="m-3711">
-                           <mRest dur="breve" xml:id="m-3712" />
+                           <mRest xml:id="m-3712" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3713">
@@ -5844,7 +5839,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3723">
                         <layer n="1" xml:id="m-3724">
-                           <mRest dur="breve" xml:id="m-3725" />
+                           <mRest xml:id="m-3725" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5884,7 +5879,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3747">
                         <layer n="1" xml:id="m-3748">
-                           <mRest dur="breve" xml:id="m-3749" />
+                           <mRest xml:id="m-3749" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3750">
@@ -5899,7 +5894,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3757">
                         <layer n="1" xml:id="m-3758">
-                           <mRest dur="breve" xml:id="m-3759" />
+                           <mRest xml:id="m-3759" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5934,7 +5929,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3779">
                         <layer n="1" xml:id="m-3780">
-                           <mRest dur="breve" xml:id="m-3781" />
+                           <mRest xml:id="m-3781" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3782">
@@ -5946,7 +5941,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3787">
                         <layer n="1" xml:id="m-3788">
-                           <mRest dur="breve" xml:id="m-3789" />
+                           <mRest xml:id="m-3789" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -5990,7 +5985,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3813">
                         <layer n="1" xml:id="m-3814">
-                           <mRest dur="breve" xml:id="m-3815" />
+                           <mRest xml:id="m-3815" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3816">
@@ -6011,7 +6006,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3823">
                         <layer n="1" xml:id="m-3824">
-                           <mRest dur="breve" xml:id="m-3825" />
+                           <mRest xml:id="m-3825" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -6046,7 +6041,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3846">
                         <layer n="1" xml:id="m-3847">
-                           <mRest dur="breve" xml:id="m-3848" />
+                           <mRest xml:id="m-3848" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3849">
@@ -6060,7 +6055,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3855">
                         <layer n="1" xml:id="m-3856">
-                           <mRest dur="breve" xml:id="m-3857" />
+                           <mRest xml:id="m-3857" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -6105,7 +6100,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3891">
                         <layer n="1" xml:id="m-3892">
-                           <mRest dur="breve" xml:id="m-3893" />
+                           <mRest xml:id="m-3893" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3894">
@@ -6119,7 +6114,7 @@
                      </staff>
                      <staff n="6" xml:id="m-3901">
                         <layer n="1" xml:id="m-3902">
-                           <mRest dur="breve" xml:id="m-3903" />
+                           <mRest xml:id="m-3903" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -6157,7 +6152,7 @@
                      </staff>
                      <staff n="4" xml:id="m-3920">
                         <layer n="1" xml:id="m-3921">
-                           <mRest dur="breve" xml:id="m-3922" />
+                           <mRest xml:id="m-3922" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3923">
@@ -6220,12 +6215,12 @@
                      </staff>
                      <staff n="4" xml:id="m-3963">
                         <layer n="1" xml:id="m-3964">
-                           <mRest dur="breve" xml:id="m-3965" />
+                           <mRest xml:id="m-3965" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-3966">
                         <layer n="1" xml:id="m-3967">
-                           <mRest dur="breve" xml:id="m-3968" />
+                           <mRest xml:id="m-3968" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="6" xml:id="m-3969">
@@ -6294,7 +6289,7 @@
                      </staff>
                      <staff n="5" xml:id="m-4010">
                         <layer n="1" xml:id="m-4011">
-                           <mRest dur="breve" xml:id="m-4012" />
+                           <mRest xml:id="m-4012" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="6" xml:id="m-4013">
@@ -6322,12 +6317,12 @@
                      </staff>
                      <staff n="2" xml:id="m-4027">
                         <layer n="1" xml:id="m-4028">
-                           <mRest dur="breve" xml:id="m-4029" />
+                           <mRest xml:id="m-4029" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4030">
                         <layer n="1" xml:id="m-4031">
-                           <mRest dur="breve" xml:id="m-4032" />
+                           <mRest xml:id="m-4032" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="4" xml:id="m-4033">
@@ -6380,12 +6375,12 @@
                      </staff>
                      <staff n="2" xml:id="m-4064">
                         <layer n="1" xml:id="m-4065">
-                           <mRest dur="breve" xml:id="m-4066" />
+                           <mRest xml:id="m-4066" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4067">
                         <layer n="1" xml:id="m-4068">
-                           <mRest dur="breve" xml:id="m-4069" />
+                           <mRest xml:id="m-4069" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="4" xml:id="m-4070">
@@ -6424,12 +6419,12 @@
                   <measure n="113" xml:id="m-4088">
                      <staff n="1" xml:id="m-4089">
                         <layer n="1" xml:id="m-4090">
-                           <mRest dur="breve" xml:id="m-4091" />
+                           <mRest xml:id="m-4091" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4092">
                         <layer n="1" xml:id="m-4093">
-                           <mRest dur="breve" xml:id="m-4094" />
+                           <mRest xml:id="m-4094" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4095">
@@ -6473,12 +6468,12 @@
                      <line dur.ppq="1286" layer="1" staff="3" tstamp="2" tstamp2="0m+3.2559" type="bracket" vo="4.8mm" xml:id="m-4124" />
                      <staff n="1" xml:id="m-4115">
                         <layer n="1" xml:id="m-4116">
-                           <mRest dur="breve" xml:id="m-4117" />
+                           <mRest xml:id="m-4117" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4118">
                         <layer n="1" xml:id="m-4119">
-                           <mRest dur="breve" xml:id="m-4120" />
+                           <mRest xml:id="m-4120" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4121">
@@ -6533,12 +6528,12 @@
                   <measure n="115" xml:id="m-4157">
                      <staff n="1" xml:id="m-4158">
                         <layer n="1" xml:id="m-4159">
-                           <mRest dur="breve" xml:id="m-4160" />
+                           <mRest xml:id="m-4160" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4161">
                         <layer n="1" xml:id="m-4162">
-                           <mRest dur="breve" xml:id="m-4163" />
+                           <mRest xml:id="m-4163" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4164">
@@ -6583,12 +6578,12 @@
                      <line dur.ppq="1321" layer="1" staff="6" tstamp="1" tstamp2="0m+2.29" type="bracket" vo="4.8mm" xml:id="m-4215" />
                      <staff n="1" xml:id="m-4187">
                         <layer n="1" xml:id="m-4188">
-                           <mRest dur="breve" xml:id="m-4189" />
+                           <mRest xml:id="m-4189" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4190">
                         <layer n="1" xml:id="m-4191">
-                           <mRest dur="breve" xml:id="m-4192" />
+                           <mRest xml:id="m-4192" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4193">
@@ -6629,12 +6624,12 @@
                   <measure n="117" xml:id="m-4219">
                      <staff n="1" xml:id="m-4220">
                         <layer n="1" xml:id="m-4221">
-                           <mRest dur="breve" xml:id="m-4222" />
+                           <mRest xml:id="m-4222" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4223">
                         <layer n="1" xml:id="m-4224">
-                           <mRest dur="breve" xml:id="m-4225" />
+                           <mRest xml:id="m-4225" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-4226">
@@ -6672,7 +6667,7 @@
                      <line dur.ppq="1303" layer="1" staff="6" tstamp="1" tstamp2="0m+2.2725" type="bracket" vo="4.8mm" xml:id="m-4273" />
                      <staff n="1" xml:id="m-4248">
                         <layer n="1" xml:id="m-4249">
-                           <mRest dur="breve" xml:id="m-4250" />
+                           <mRest xml:id="m-4250" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4251">
@@ -6692,7 +6687,7 @@
                      </staff>
                      <staff n="3" xml:id="m-4256">
                         <layer n="1" xml:id="m-4257">
-                           <mRest dur="breve" xml:id="m-4258" />
+                           <mRest xml:id="m-4258" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="4" xml:id="m-4259">
@@ -6726,7 +6721,7 @@
                   <measure n="119" xml:id="m-4281">
                      <staff n="1" xml:id="m-4282">
                         <layer n="1" xml:id="m-4283">
-                           <mRest dur="breve" xml:id="m-4284" />
+                           <mRest xml:id="m-4284" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="2" xml:id="m-4285">
@@ -7123,12 +7118,12 @@
                      </staff>
                      <staff n="5" xml:id="m-4529">
                         <layer n="1" xml:id="m-4530">
-                           <mRest dur="breve" xml:id="m-4531" />
+                           <mRest xml:id="m-4531" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="6" xml:id="m-4532">
                         <layer n="1" xml:id="m-4533">
-                           <mRest dur="breve" xml:id="m-4534" />
+                           <mRest xml:id="m-4534" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7184,7 +7179,7 @@
                      </staff>
                      <staff n="6" xml:id="m-4571">
                         <layer n="1" xml:id="m-4572">
-                           <mRest dur="breve" xml:id="m-4573" />
+                           <mRest xml:id="m-4573" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7227,7 +7222,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4599">
                         <layer n="1" xml:id="m-4600">
-                           <mRest dur="breve" xml:id="m-4601" />
+                           <mRest xml:id="m-4601" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4602">
@@ -7245,7 +7240,7 @@
                      </staff>
                      <staff n="6" xml:id="m-4609">
                         <layer n="1" xml:id="m-4610">
-                           <mRest dur="breve" xml:id="m-4611" />
+                           <mRest xml:id="m-4611" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7280,7 +7275,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4634">
                         <layer n="1" xml:id="m-4635">
-                           <mRest dur="breve" xml:id="m-4636" />
+                           <mRest xml:id="m-4636" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4637">
@@ -7294,7 +7289,7 @@
                      </staff>
                      <staff n="6" xml:id="m-4643">
                         <layer n="1" xml:id="m-4644">
-                           <mRest dur="breve" xml:id="m-4645" />
+                           <mRest xml:id="m-4645" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7345,7 +7340,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4674">
                         <layer n="1" xml:id="m-4675">
-                           <mRest dur="breve" xml:id="m-4676" />
+                           <mRest xml:id="m-4676" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4677">
@@ -7361,7 +7356,7 @@
                      </staff>
                      <staff n="6" xml:id="m-4687">
                         <layer n="1" xml:id="m-4688">
-                           <mRest dur="breve" xml:id="m-4689" />
+                           <mRest xml:id="m-4689" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7400,7 +7395,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4713">
                         <layer n="1" xml:id="m-4714">
-                           <mRest dur="breve" xml:id="m-4715" />
+                           <mRest xml:id="m-4715" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4716">
@@ -7424,7 +7419,7 @@
                      </staff>
                      <staff n="6" xml:id="m-4727">
                         <layer n="1" xml:id="m-4728">
-                           <mRest dur="breve" xml:id="m-4729" />
+                           <mRest xml:id="m-4729" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7464,7 +7459,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4750">
                         <layer n="1" xml:id="m-4751">
-                           <mRest dur="breve" xml:id="m-4752" />
+                           <mRest xml:id="m-4752" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4753">
@@ -7480,7 +7475,7 @@
                      </staff>
                      <staff n="6" xml:id="m-4759">
                         <layer n="1" xml:id="m-4760">
-                           <mRest dur="breve" xml:id="m-4761" />
+                           <mRest xml:id="m-4761" dur="breve 1" />
                         </layer>
                      </staff>
                   </measure>
@@ -7535,7 +7530,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4794">
                         <layer n="1" xml:id="m-4795">
-                           <mRest dur="breve" xml:id="m-4796" />
+                           <mRest xml:id="m-4796" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4797">
@@ -7607,7 +7602,7 @@
                      </staff>
                      <staff n="4" xml:id="m-4826">
                         <layer n="1" xml:id="m-4827">
-                           <mRest dur="breve" xml:id="m-4828" />
+                           <mRest xml:id="m-4828" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="5" xml:id="m-4829">
@@ -8231,7 +8226,7 @@
                      </staff>
                      <staff n="3" xml:id="m-5224">
                         <layer n="1" xml:id="m-5225">
-                           <mRest dur="breve" xml:id="m-5226" />
+                           <mRest xml:id="m-5226" dur="breve 1" />
                         </layer>
                      </staff>
                      <staff n="4" xml:id="m-5227">
@@ -8482,7 +8477,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-5408" />
+                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-5408" />
                   <measure n="145" right="end" xml:id="m-5384">
                      <staff n="1" xml:id="m-5385">
                         <layer n="1" xml:id="m-5386">
