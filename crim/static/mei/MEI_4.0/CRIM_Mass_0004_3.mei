@@ -6,10 +6,10 @@
       <fileDesc xml:id="m-3">
          <titleStmt xml:id="m-10-ts">
             <title xml:id="m-10">Missa Virginis Mariae: Credo</title><composer xml:id="m-11">Pierre Clereau</composer>
-         <respStmt><persName role="composer" auth="VIAF" auth.uri="http://viaf.org/viaf/19864891">Pierre Clereau</persName><persName role="editor">Vincent Besson</persName><persName role="editor">Marco Gurrieri</persName><persName role="editor">Richard Freedman</persName></respStmt></titleStmt>
+         <respStmt><persName auth="VIAF" auth.uri="http://viaf.org/viaf/19864891" role="composer">Pierre Clereau</persName><persName role="editor">Vincent Besson</persName><persName role="editor">Marco Gurrieri</persName><persName role="editor">Richard Freedman</persName></respStmt></titleStmt>
          <pubStmt><publisher>
       Citations: The Renaissance Imitation Mass Project
-  </publisher><distributor>Centre d'Études Supérieures de la Renaissance </distributor><distributor> Haverford College</distributor><date isodate="2022-05-05" /><availability>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</availability></pubStmt></fileDesc>
+  </publisher><distributor>Centre d'Études Supérieures de la Renaissance </distributor><distributor> Haverford College</distributor><date isodate="2020-11-04" /><availability>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</availability></pubStmt></fileDesc>
       <encodingDesc xml:id="m-18">
          <appInfo xml:id="m-19">
             <application isodate="2017-5-30T14:56:07Z" version="8410" xml:id="sibelius">
@@ -18,7 +18,7 @@
             <application type="plugin" version="2.1.0" xml:id="sibmei">
                <name xml:id="m-23">Sibelius to MEI Exporter (2.1.0)</name>
             </application>
-            <application version="v1.0_beta" xml:id="app_2022125113520938">
+            <application version="v1.0_beta" xml:id="app_2020286192928809">
                <name>mei30To40.xsl</name>
             </application>
          <application version="1.0.0">
@@ -30,23 +30,27 @@
       <body xml:id="m-25">
          <mdiv xml:id="section">
             <score xml:id="m-27">
-               <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-28">
+               <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" optimize="false" text.name="Plantin MT Std" xml:id="m-28">
                   <staffGrp xml:id="m-29">
                      <staffGrp n="1" symbol="bracket" xml:id="m-42">
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="1" xml:id="m-30" label="[Superius]">
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Superius]" lines="5" n="1" xml:id="m-30">
                            <label>[Superius]</label>
+                           
                            <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32" />
                         </staffDef>
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="2" xml:id="m-33" label="[Contratenor]">
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Contratenor]" lines="5" n="2" xml:id="m-33">
                            <label>[Contratenor]</label>
+                           
                            <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-35" />
                         </staffDef>
-                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="3" xml:id="m-36" label="[Tenor]">
+                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[Tenor]" lines="5" n="3" xml:id="m-36">
                            <label>[Tenor]</label>
+                           
                            <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38" />
                         </staffDef>
-                        <staffDef clef.line="4" clef.shape="F" key.sig="1f" lines="5" n="4" xml:id="m-39" label="[Bassus]">
-                           <label>[Bassus]</label>
+                        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Basse" lines="5" n="4" xml:id="m-39">
+                           <label>Basse</label>
+                           
                            <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41" />
                         </staffDef>
                      </staffGrp>
@@ -4773,7 +4777,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-2975" />
+                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-2975" />
                   <measure n="81" right="dbl" xml:id="m-2945">
                      <staff n="1" xml:id="m-2947">
                         <layer n="1" xml:id="m-2948">
@@ -4812,7 +4816,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-2999" />
+                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-2999" />
                   <measure n="82" xml:id="m-2976">
                      <staff n="1" xml:id="m-2977">
                         <layer n="1" xml:id="m-2978">
@@ -5793,7 +5797,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-3599" />
+                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-3599" />
                   <measure n="99" right="dbl" xml:id="m-3580">
                      <staff n="1" xml:id="m-3581">
                         <layer n="1" xml:id="m-3582">
@@ -5828,7 +5832,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-3615" />
+                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-3615" />
                   <measure n="100" xml:id="m-3600">
                      <staff n="1" xml:id="m-3601">
                         <layer n="1" xml:id="m-3602">
@@ -6540,7 +6544,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="10" meter.unit="2" xml:id="m-4072" />
+                  <scoreDef meter.count="10" meter.unit="2" optimize="false" xml:id="m-4072" />
                   <measure n="117" right="dbl" xml:id="m-4052">
                      <staff n="1" xml:id="m-4054">
                         <layer n="1" xml:id="m-4055">
@@ -6574,7 +6578,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-4089" />
+                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-4089" />
                   <measure n="118" xml:id="m-4073">
                      <staff n="1" xml:id="m-4074">
                         <layer n="1" xml:id="m-4075">
@@ -8623,7 +8627,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="10" meter.unit="2" xml:id="m-5371" />
+                  <scoreDef meter.count="10" meter.unit="2" optimize="false" xml:id="m-5371" />
                   <measure n="159" right="dbl" xml:id="m-5341">
                      <staff n="1" xml:id="m-5342">
                         <layer n="1" xml:id="m-5343">
@@ -8666,7 +8670,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-5406" />
+                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-5406" />
                   <measure n="160" xml:id="m-5372">
                      <staff n="1" xml:id="m-5373">
                         <layer n="1" xml:id="m-5374">
@@ -10981,7 +10985,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="3" meter.unit="1" xml:id="m-6813" />
+                  <scoreDef meter.count="3" meter.unit="1" optimize="false" xml:id="m-6813" />
                   <measure n="196" xml:id="m-6753">
                      <staff n="1" xml:id="m-6754">
                         <layer n="1" xml:id="m-6755">
@@ -11550,7 +11554,7 @@
                      </staff>
                      <staff n="4" xml:id="m-7100">
                         <layer n="1" xml:id="m-7101">
-                           <mRest xml:id="m-7102" dur="breve 1" />
+                           <mRest dur="breve" xml:id="m-7102" />
                         </layer>
                      </staff>
                   </measure>
@@ -11577,7 +11581,7 @@
                      </staff>
                      <staff n="2" xml:id="m-7122">
                         <layer n="1" xml:id="m-7123">
-                           <mRest xml:id="m-7124" dur="breve 1" />
+                           <mRest dur="breve" xml:id="m-7124" />
                         </layer>
                      </staff>
                      <staff n="3" xml:id="m-7125">
@@ -11757,7 +11761,7 @@
                      </staff>
                      <staff n="4" xml:id="m-7223">
                         <layer n="1" xml:id="m-7224">
-                           <mRest xml:id="m-7225" dur="breve 1" />
+                           <mRest dur="breve" xml:id="m-7225" />
                         </layer>
                      </staff>
                   </measure>
@@ -11997,7 +12001,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-7416" />
+                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-7416" />
                   <measure n="213" xml:id="m-7359">
                      <staff n="1" xml:id="m-7360">
                         <layer n="1" xml:id="m-7361">
@@ -13549,7 +13553,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="10" meter.unit="2" xml:id="m-8378" />
+                  <scoreDef meter.count="10" meter.unit="2" optimize="false" xml:id="m-8378" />
                   <measure n="243" right="end" xml:id="m-8348">
                      <staff n="1" xml:id="m-8349">
                         <layer n="1" xml:id="m-8350">

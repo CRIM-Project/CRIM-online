@@ -6,10 +6,10 @@
       <fileDesc xml:id="m-3">
          <titleStmt xml:id="m-10-ts">
             <title xml:id="m-10">Missa Vidi speciosam: Gloria</title><composer xml:id="m-11">Mathieu Sohier</composer>
-         <respStmt><persName role="composer" auth="VIAF" auth.uri="http://viaf.org/viaf/32271712">Mathieu Sohier</persName><persName role="editor">Vincent Besson</persName><persName role="editor">Marco Gurrieri</persName><persName role="editor">Richard Freedman</persName></respStmt></titleStmt>
+         <respStmt><persName auth="VIAF" auth.uri="http://viaf.org/viaf/32271712" role="composer">Mathieu Sohier</persName><persName role="editor">Vincent Besson</persName><persName role="editor">Marco Gurrieri</persName><persName role="editor">Richard Freedman</persName></respStmt></titleStmt>
          <pubStmt><publisher>
       Citations: The Renaissance Imitation Mass Project
-  </publisher><distributor>Centre d'Études Supérieures de la Renaissance </distributor><distributor> Haverford College</distributor><date isodate="2022-05-05" /><availability>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</availability></pubStmt></fileDesc>
+  </publisher><distributor>Centre d'Études Supérieures de la Renaissance </distributor><distributor> Haverford College</distributor><date isodate="2020-11-04" /><availability>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</availability></pubStmt></fileDesc>
       <encodingDesc xml:id="m-18">
          <appInfo xml:id="m-19">
             <application isodate="2017-5-29T12:03:40Z" version="8410" xml:id="sibelius">
@@ -18,7 +18,7 @@
             <application type="plugin" version="2.0.4" xml:id="sibmei">
                <name xml:id="m-23">Sibelius to MEI Exporter (2.0.4)</name>
             </application>
-            <application version="v1.0_beta" xml:id="app_2022125113649766">
+            <application version="v1.0_beta" xml:id="app_2020286193155502">
                <name>mei30To40.xsl</name>
             </application>
          <application version="1.0.0">
@@ -30,30 +30,30 @@
       <body xml:id="m-25">
          <mdiv xml:id="section">
             <score xml:id="m-27">
-               <scoreDef lyric.name="Opus Text Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-28">
+               <scoreDef lyric.name="Opus Text Std" meter.count="4" meter.unit="2" music.name="Opus Std" optimize="false" text.name="Plantin MT Std" xml:id="m-28">
                   <staffGrp xml:id="m-29">
                      <staffGrp n="1" symbol="bracket" xml:id="m-45">
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="1" xml:id="m-30" label="[Superius]">
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Superius]" lines="5" n="1" xml:id="m-30">
                            <label>[Superius]</label>
                            
                            <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32" />
                         </staffDef>
-                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="2" xml:id="m-33" label="[Contratenor]">
+                        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Contratenor]" lines="5" n="2" xml:id="m-33">
                            <label>[Contratenor]</label>
                            
                            <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-35" />
                         </staffDef>
-                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="3" xml:id="m-36" label="I. Tenor">
-                           <label>I. Tenor</label>
+                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="I.Tenor" lines="5" n="3" xml:id="m-36">
+                           <label>I.Tenor</label>
                            
                            <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38" />
                         </staffDef>
-                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="4" xml:id="m-39" label="[II. Tenor]">
-                           <label>[II. Tenor]</label>
+                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[II.Tenor]" lines="5" n="4" xml:id="m-39">
+                           <label>[II.Tenor]</label>
                            
                            <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41" />
                         </staffDef>
-                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" lines="5" n="5" xml:id="m-42" label="[Bassus]">
+                        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[Bassus]" lines="5" n="5" xml:id="m-42">
                            <label>[Bassus]</label>
                            
                            <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-44" />
@@ -114,6 +114,7 @@
                         <layer n="1" xml:id="m-96">
                            <note dur="2" dur.ppq="512" oct="4" pname="d" pnum="50" stem.dir="down" xml:id="m-97" />
                            <note dur="2" dur.ppq="512" oct="4" pname="c" pnum="48" stem.dir="down" xml:id="m-98">
+                              <verse n="1" xml:id="m-101" />
                               <verse n="1" xml:id="m-103">
                                  <syl con="d" wordpos="i" xml:id="m-104">ter</syl>
                               </verse>
@@ -1829,6 +1830,7 @@
                         <layer n="1" xml:id="m-1144">
                            <note dur="2" dur.ppq="512" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-1145" />
                            <note dur="2" dur.ppq="512" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-1146">
+                              <verse n="1" xml:id="m-1150" />
                               <verse n="1" xml:id="m-1195">
                                  <syl con="d" wordpos="i" xml:id="m-1196">tu</syl>
                               </verse>
@@ -4054,7 +4056,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-2555" />
+                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-2555" />
                   <measure n="60" right="dbl" xml:id="m-2526">
                      <staff n="1" xml:id="m-2527">
                         <layer n="1" xml:id="m-2528">
@@ -4097,7 +4099,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="4" meter.unit="2" xml:id="m-2574" />
+                  <scoreDef meter.count="4" meter.unit="2" optimize="false" xml:id="m-2574" />
                   <measure n="61" xml:id="m-2556">
                      <staff n="1" xml:id="m-2557">
                         <layer n="1" xml:id="m-2558">
@@ -8028,7 +8030,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef meter.count="8" meter.unit="2" xml:id="m-5000" />
+                  <scoreDef meter.count="8" meter.unit="2" optimize="false" xml:id="m-5000" />
                   <measure n="122" right="end" xml:id="m-4971">
                      <staff n="1" xml:id="m-4972">
                         <layer n="1" xml:id="m-4973">
