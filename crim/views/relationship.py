@@ -117,10 +117,10 @@ class RelationshipListHTMLRenderer(CustomHTMLRenderer):
 # Deprecated class
 class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
+        model_raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
         data['model_observation']['mei'] = model_raw_mei
 
-        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
+        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
         data['derivative_observation']['mei'] = derivative_raw_mei
 
         template_names = ['relationship/relationship_old_detail.html']
@@ -130,10 +130,10 @@ class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['model_observation']['piece']['piece_id'] + '.mei').read()
+        model_raw_mei = staticfiles_storage.open('mei/MEI_4.0/' + data['model_observation']['piece']['piece_id'] + '.mei').read()
         data['model_observation']['mei'] = model_raw_mei.decode()
 
-        derivative_raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['derivative_observation']['piece']['piece_id'] + '.mei').read()
+        derivative_raw_mei = staticfiles_storage.open('mei/MEI_4.0/' + data['derivative_observation']['piece']['piece_id'] + '.mei').read()
         data['derivative_observation']['mei'] = derivative_raw_mei.decode()
 
         template_names = ['relationship/relationship_detail.html']

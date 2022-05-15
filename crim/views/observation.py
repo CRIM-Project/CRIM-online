@@ -81,7 +81,7 @@ class ObservationListHTMLRenderer(CustomHTMLRenderer):
 # Deprecated class
 class ObservationOldDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['piece']['piece_id'] + '.mei')).read()
+        raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['piece']['piece_id'] + '.mei')).read()
         data['mei'] = raw_mei
 
         template_names = ['observation/observation_old_detail.html']
@@ -91,7 +91,7 @@ class ObservationOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class ObservationDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['piece']['piece_id'] + '.mei').read()
+        raw_mei = staticfiles_storage.open('mei/MEI_4.0/' + data['piece']['piece_id'] + '.mei').read()
         data['mei'] = raw_mei.decode()
 
         template_names = ['observation/observation_detail.html']
