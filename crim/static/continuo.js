@@ -27320,12 +27320,14 @@ var Pagination = function (_Backbone$View) {
     }, {
         key: 'events',
         get: function get() {
-            return {
-                "click .cnt-pagination-next": function clickCntPaginationNext(e) {
-                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:next");
+          return {
+            "click .cnt-pagination-next": function clickCntPaginationNext(e) {
+                    const container = this.$el.closest(".cnt-container").parent().attr("id")
+                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:next", container);
                 },
                 "click .cnt-pagination-prev": function clickCntPaginationPrev(e) {
-                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:prev");
+                    const container = this.$el.closest(".cnt-container").parent().attr("id")
+                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:prev", container);
                 }
             };
         }
@@ -27985,11 +27987,16 @@ var Continuo = function (_Backbone$View) {
             this.selectedElements = [];
             this.highlightedElements = [];
             this.listenTo(_backboneEvents2.default, 'addFile', this.addFile);
-            this.listenTo(_backboneEvents2.default, 'component:pagination:next', function () {
-                _this2.renderPage(_this2.page + 1);
+            this.listenTo(_backboneEvents2.default, 'component:pagination:next', function (container) {
+                console.log('h')
+                if (_this2.$el.attr('id') === container) {
+                  _this2.renderPage(_this2.page + 1);
+                }
             });
-            this.listenTo(_backboneEvents2.default, 'component:pagination:prev', function () {
+            this.listenTo(_backboneEvents2.default, 'component:pagination:prev', function (container) {
+              if (_this2.$el.attr('id') === container) {
                 _this2.renderPage(_this2.page - 1);
+              }
             });
         }
     }, {
@@ -28189,6 +28196,8 @@ var Continuo = function (_Backbone$View) {
     }, {
         key: 'renderPage',
         value: function renderPage(page) {
+            const meidata = this.MEIdata.attributes.string
+            this.vrvToolkit.loadData(meidata)
             if (page > 0 && page <= this.vrvToolkit.getPageCount()) {
                 this.page = page;
                 var svg = this.vrvToolkit.renderPage(page);
