@@ -4,7 +4,7 @@ from crim.models.mass import CRIMMass
 from crim.models.person import CRIMPerson
 from crim.models.piece import CRIMPiece
 from crim.models.role import CRIMRoleType, CRIMRole
-from crim.serializers.relationship import CJRelationshipDetailSerializer
+from crim.serializers.relationship import CJRelationshipDetailSerializer, CJRelationshipListSerializer
 from rest_framework import serializers
 
 ANALYST = 'Analyst'
@@ -132,7 +132,7 @@ class CRIMPersonDetailSerializer(serializers.HyperlinkedModelSerializer):
     pieces_analyzed = CRIMPiecePersonSerializer(many=True, read_only=True)
     role_types = CRIMRoleTypePersonSerializer(many=True, read_only=True)
     roles = CRIMRolePersonSerializer(many=True, read_only=True)
-    relationships = CJRelationshipDetailSerializer(many=True, read_only=True)
+    relationships = CJRelationshipListSerializer(many=True, read_only=True)
 
     class Meta:
         model = CRIMPerson
