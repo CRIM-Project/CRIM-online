@@ -105,4 +105,62 @@
     </table>
   {% endif %}
 
+  <!-- TODO: Update this to function in a manner more conducive to how you like -->
+  {% if content.relationships %}
+    <h2>Relationships ({{ content.relationships|length }})</h2>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          <th>Model</th>
+          <th>Derivative</th>
+          <th>Relationship type</th>
+          <th>Show details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for relationship in content.relationships %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
+            <td>
+              <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.url|htmlsite }}">
+                &lt;{{ relationship.model_observation.id }}&gt;
+              </a>
+              <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.piece.url|htmlsite }}">
+                {{ relationship.model_observation.piece.full_title }}
+              </a>
+            </td>
+            <td>
+              <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.url|htmlsite }}">
+                &lt;{{ relationship.derivative_observation.id }}&gt;
+              </a>
+              <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.derivative_observation.piece.url|htmlsite }}">
+                {{ relationship.derivative_observation.piece.full_title }}
+              </a>
+            </td>
+            <td>
+              {% if relationship.relationship_type %}
+                {{ relationship.relationship_type|capitalize }}
+              {% else %}
+                None
+              {% endif %}
+            </td>
+            <td>
+              <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
+            </td>
+          </tr>
+          <!--
+          <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
+            <td colspan="6" class="expansion">
+              {% include "relationship/relationship_expanded.html" %}
+            </td>
+          </tr>
+           -->
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
 {% endblock %}
