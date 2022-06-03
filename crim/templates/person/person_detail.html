@@ -95,7 +95,8 @@
         {% endfor %}
         {% for piece in content.pieces_analyzed %}
           <tr>
-            <td><a href="{{ piece.url|htmlsite }}">{{ piece.full_title }}</a></td>
+            <td><a href="{{ piece.url|htmlsite }}">{{ piece.piece_id }}</a></td>
+            <td>{{ piece.full_title }}</td>
             <td><a href="{{ piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
             <td><a href="/people/?role=analyst">Analyst</a></td>
             <td>{{ piece.date }}</td>
