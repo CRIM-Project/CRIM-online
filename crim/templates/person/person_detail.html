@@ -112,10 +112,9 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th>#</th>
-          <th>ID</th>
-          <th>Model</th>
-          <th>Derivative</th>
+          <th><a href="?rel_order_by=pk">ID</a></th>
+          <th><a href="?rel_order_by=model_observation__piece__piece_id">Model</a></th>
+          <th><a href="?rel_order_by=derivative_observation__piece__piece_id">Derivative</a></th>
           <th>Relationship type</th>
           <th>Show details</th>
         </tr>
@@ -123,7 +122,6 @@
       <tbody>
         {% for relationship in content.relationships %}
           <tr>
-            <td>{{ forloop.counter }}</td>
             <td><a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.url|htmlsite }}">&lt;R{{ relationship.id }}&gt;</a></td>
             <td>
               <a {% if not relationship.curated %}class="uncurated"{% endif %} href="{{ relationship.model_observation.url|htmlsite }}">
@@ -152,16 +150,29 @@
               <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
             </td>
           </tr>
-          <!--
           <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
             <td colspan="6" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
           </tr>
-           -->
         {% endfor %}
       </tbody>
     </table>
+
+    <script type="text/javascript">
+      // This script expands and hides relationship details
+      $('.relationship-info').hide();
+      $('.relationship-info-expand').on({
+        'click': function(event) {
+          event.preventDefault();
+          tgt = "#" + $(this).attr('target');
+          $(tgt).toggle();
+          tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+          $(this).text(tag);
+          return false;
+        }
+      })
+    </script>  
   {% endif %}
 
 {% endblock %}
