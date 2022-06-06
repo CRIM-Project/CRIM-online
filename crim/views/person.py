@@ -80,7 +80,14 @@ class PersonDetail(generics.RetrieveAPIView):
         PersonDetailHTMLRenderer,
         JSONRenderer,
     )
-    queryset = CRIMPerson.objects.all()
+
+    def get_queryset(self):
+        queryset = CRIMPerson.objects.all()
+        order_by = self.request.GET.get('order_by', 'pk')
+        queryset.prefetch_related().order_by(order_by)
+
+        return queryset
+
 
     def get_object(self):
         url_arg = self.kwargs['person_id']
