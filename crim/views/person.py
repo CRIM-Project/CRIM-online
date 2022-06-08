@@ -83,7 +83,7 @@ class PersonDetail(generics.RetrieveAPIView):
     )
 
     def get_object(self):
-        rel_order = self.request.GET.get('rel_order_by', 'pk')
+        rel_order = self.request.GET.get('rel_order', 'pk')
         url_arg = self.kwargs['person_id']
         person = CRIMPerson.objects.filter(person_id=url_arg).prefetch_related('roles',
                 Prefetch('relationships', queryset=CJRelationship.objects.order_by(rel_order).select_related(
