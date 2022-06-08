@@ -113,10 +113,10 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          {% sortable_header "ID" "rel_order" "pk" True %}
-          {% sortable_header "Model" "rel_order" "model_observation__piece__piece_id" %}
-          {% sortable_header "Derivative" "rel_order" "derivative_observation__piece__piece_id" %}
-          
+          <th>{% sortable_header "ID" "rel_order" "pk" True %}</th>
+          <th>{% sortable_header "Model" "rel_order" "model_observation__piece__piece_id" %}</th>
+          <th>{% sortable_header "Derivative" "rel_order" "derivative_observation__piece__piece_id" %}</th>
+
           <th>Relationship type</th>
           <th>Show details</th>
         </tr>
