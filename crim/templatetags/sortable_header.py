@@ -3,14 +3,15 @@ from django.utils.safestring import mark_safe
 
 register  = template.Library()
 
+UP_ARROW = '&#9650;'
+DN_ARROW = '&#9660;'
+
 @register.simple_tag(takes_context=True)
 def sortable_header(context, title, param, value, default = False):
     request = context['request']
     qparam = request.GET.get(param, '')
-    output = f'<th><a href="?{param}={value}">{title}</a></th>'
     if (default and qparam == '') or (qparam == value):
-        output = f'<th><a href="?{param}=-{value}">{title} &#9660;</a></th>'
+        title, value = f'{title} {UP_ARROW}', f'-{value}'
     elif qparam == f'-{value}':
-        output = f'<th><a href="?{param}={value}">{title} &#9650;</a></th>'
-    return mark_safe(output)
-
+        title = f'{title} {DN_ARROW}'
+    return mark_safe(f'<a href="?{param}={value}">{title}</a>')
