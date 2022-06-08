@@ -1,5 +1,5 @@
 #from django.core.exceptions import DoesNotExist
-from django.db.models import Min
+from django.db.models import Min, Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
@@ -7,6 +7,7 @@ from rest_framework.renderers import JSONRenderer
 
 from crim.models.person import CRIMPerson
 from crim.models.role import CRIMRoleType
+from crim.models.relationship import CJRelationship
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.person import CRIMPersonListSerializer, CRIMPersonDetailSerializer
 
@@ -82,9 +83,10 @@ class PersonDetail(generics.RetrieveAPIView):
     )
 
     def get_queryset(self):
-        queryset = CRIMPerson.objects.all()
         order_by = self.request.GET.get('order_by', 'pk')
-        queryset.prefetch_related().order_by(order_by)
+        queryset = CRIMPerson.objects.prefetch_related('roles',
+            Prefetch('relationships', queryset=CJRelationship.objects.order_by(order_by))
+            )
 
         return queryset
 
