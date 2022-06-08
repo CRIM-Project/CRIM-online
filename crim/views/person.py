@@ -82,20 +82,32 @@ class PersonDetail(generics.RetrieveAPIView):
         JSONRenderer,
     )
 
-    def get_queryset(self):
-        order_by = self.request.GET.get('order_by', 'pk')
-        queryset = CRIMPerson.objects.prefetch_related('roles',
-            Prefetch('relationships', queryset=CJRelationship.objects.order_by(order_by))
-            )
-
-        return queryset
-
-
     def get_object(self):
+        rel_order = self.request.GET.get('rel_order', 'pk')
         url_arg = self.kwargs['person_id']
-        person = CRIMPerson.objects.filter(person_id=url_arg)
+        person = CRIMPerson.objects.filter(person_id=url_arg).prefetch_related('roles',
+                Prefetch('relationships', queryset=CJRelationship.objects.order_by(rel_order).select_related(
+                    'observer',
+                    'model_observation',
+                    'model_observation__piece',
+                    'model_observation__piece__mass',
+                    'derivative_observation',
+                    'derivative_observation__piece',
+                    'derivative_observation__piece__mass',
+                )
+            ))
         if not person.exists():
-            person = CRIMPerson.objects.filter(name__iexact=url_arg)
+            person = CRIMPerson.objects.filter(name__iexact=url_arg).prefetch_related('roles',
+                Prefetch('relationships', queryset=CJRelationship.objects.order_by(rel_order).select_related(
+                    'observer',
+                    'model_observation',
+                    'model_observation__piece',
+                    'model_observation__piece__mass',
+                    'derivative_observation',
+                    'derivative_observation__piece',
+                    'derivative_observation__piece__mass',
+                )
+            ))
 
         obj = get_object_or_404(person)
         self.check_object_permissions(self.request, obj)
