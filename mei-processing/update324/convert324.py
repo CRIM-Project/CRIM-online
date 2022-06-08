@@ -10,4 +10,5 @@ def convert(mei_loc, mei_filename, mei_garage_endpoint=MEI_GARAGE_ENDPOINT):
     r = requests.post(mei_garage_endpoint, files={mei_filename: f})
     if r.status_code != 200:
       raise
+    r.encoding = "utf-8"
     return r.text
