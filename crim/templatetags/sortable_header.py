@@ -7,10 +7,9 @@ register  = template.Library()
 def sortable_header(context, title, param, value, default = False):
     request = context['request']
     qparam = request.GET.get(param, '')
-    output = f'<th><a href="?{param}={value}">{title}</a></th>'
     if (default and qparam == '') or (qparam == value):
-        output = f'<th><a href="?{param}=-{value}">{title} &#9660;</a></th>'
+        title, value = f'{title} &#9660;', f'-{value}'
     elif qparam == f'-{value}':
-        output = f'<th><a href="?{param}={value}">{title} &#9650;</a></th>'
-    return mark_safe(output)
+        title = f'{title} &#9650;'
+    return mark_safe(f'<a href="?{param}={value}">{title}</a>')
 
