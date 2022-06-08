@@ -3,7 +3,7 @@ import argparse
 from os import listdir
 import os.path
 
-MEI_LOC = '../../crim/static/mei/MEI_3.1/'
+MEI_LOC = '../../crim/static/mei/MEI_3.0/'
 MEI_OUT = 'output/'
 
 if __name__ == '__main__':
