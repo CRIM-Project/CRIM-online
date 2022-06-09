@@ -6,6 +6,7 @@
 {% load shortendate %}
 {% load newlinereplace %}
 {% load format_role_types %}
+{% load sortable_header %}
 
 {% block title %}
   <title>CRIM | {{ content.name }}</title>
@@ -112,9 +113,10 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th><a href="?rel_order_by=pk">ID</a></th>
-          <th><a href="?rel_order_by=model_observation__piece__piece_id">Model</a></th>
-          <th><a href="?rel_order_by=derivative_observation__piece__piece_id">Derivative</a></th>
+          <th>{% sortable_header "ID" "rel_order" "pk" True %}</th>
+          <th>{% sortable_header "Model" "rel_order" "model_observation__piece__piece_id" %}</th>
+          <th>{% sortable_header "Derivative" "rel_order" "derivative_observation__piece__piece_id" %}</th>
+
           <th>Relationship type</th>
           <th>Show details</th>
         </tr>
