@@ -43,8 +43,6 @@ def generate_observation_data(request, prefix=''):
         observation_data['details'] = post_data('details')
     if post_data('remarks'):
         observation_data['remarks'] = post_data('remarks')
-    if post_data('curated'):
-        observation_data['curated'] = post_data('curated')
 
     return observation_data
 
@@ -250,28 +248,26 @@ class ObservationOldDetailData(generics.RetrieveUpdateAPIView):
         return obj
 
     def put(self, request, *args, **kwargs):
-        curr_user = request.user
-        if not curr_user.is_authenticated or not curr_user.profile.person:
+        if request.user.is_staff:
+            instance = self.get_object()
+            observation_data = generate_observation_data(request)
+            for k, v in observation_data.items():
+                setattr(instance, k, v)
+
+            instance.save()
+
+            serialized = CRIMObservationDetailSerializer(instance, data=request.data, context={'request': request})
+            # serialized = self.get_serializer(instance)
+            if serialized.is_valid():
+                if request.user.is_staff:
+                    serialized.validated_data['curated'] = True
+            else:
+                raise ValidationError(serialized.errors)
+            self.perform_update(serialized)
+
+            return Response(serialized.data)
+        else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-        # Deny users the ability to update models they do not own
-        if not curr_user.is_superuser and (curr_user.profile.person.id != request.data.get('id_observer')):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-        instance = self.get_object()
-        observation_data = generate_observation_data(request)
-        for k, v in observation_data.items():
-            setattr(instance, k, v)
-
-        instance.save()
-
-        serialized = CRIMObservationDetailSerializer(instance, data=request.data, context={'request': request})
-        # serialized = self.get_serializer(instance)
-        if not serialized.is_valid():
-            raise ValidationError(serialized.errors)
-        self.perform_update(serialized)
-
-        return Response(serialized.data)
 
 class ObservationDetailData(generics.RetrieveUpdateAPIView):
     model = CJObservation
@@ -288,28 +284,26 @@ class ObservationDetailData(generics.RetrieveUpdateAPIView):
         return obj
 
     def put(self, request, *args, **kwargs):
-        curr_user = request.user
-        if not curr_user.is_authenticated or not curr_user.profile.person:
+        if request.user.is_staff:
+            instance = self.get_object()
+            observation_data = generate_observation_data(request)
+            for k, v in observation_data.items():
+                setattr(instance, k, v)
+
+            instance.save()
+
+            serialized = CRIMObservationDetailSerializer(instance, data=request.data, context={'request': request})
+            # serialized = self.get_serializer(instance)
+            if serialized.is_valid():
+                if request.user.is_staff:
+                    serialized.validated_data['curated'] = True
+            else:
+                raise ValidationError(serialized.errors)
+            self.perform_update(serialized)
+
+            return Response(serialized.data)
+        else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-        # Deny users the ability to update models they do not own
-        if not curr_user.is_superuser and (curr_user.profile.person.id != request.data.get('id_observer')):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-        instance = self.get_object()
-        observation_data = generate_observation_data(request)
-        for k, v in observation_data.items():
-            setattr(instance, k, v)
-
-        instance.save()
-
-        serialized = CRIMObservationDetailSerializer(instance, data=request.data, context={'request': request})
-        # serialized = self.get_serializer(instance)
-        if not serialized.is_valid():
-            raise ValidationError(serialized.errors)
-        self.perform_update(serialized)
-
-        return Response(serialized.data)
 
 
 class ObservationCreateData(generics.CreateAPIView):
