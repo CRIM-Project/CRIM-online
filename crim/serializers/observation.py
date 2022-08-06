@@ -27,6 +27,7 @@ class CRIMPersonObservationSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'name',
+            'id',
         )
 
 
