@@ -50,6 +50,14 @@ def edit_relationship(request, id):
             # TODO: Return to the form with a validation error
 
     current_def = relationship.definition
+    if None == current_def:
+        return render(request, 'relationship/error.html',
+                      context = {   'form': form,
+                                    'back_url': f'/relationships/{ relationship.id }/',
+                                    'relationship': relationship,
+                                },
+                    )
+
     singular_voice_fields = current_def.voice_fields['singular']
     plural_voice_fields = current_def.voice_fields['plural']
     singular_voice_fields_hyphens = [x.replace(' ', '-') for x in singular_voice_fields]
@@ -81,6 +89,15 @@ def copy_relationship(request, id):
             # TODO: Return to the form with a validation error
 
     current_def = relationship.definition
+    if None == current_def:
+        return render(request, 'relationship/error.html',
+                      context = {   'form': form,
+                                    'back_url': f'/relationships/{ relationship.id }/',
+                                    'copy': True,
+                                    'relationship': relationship,
+                                },
+                    )
+    
     singular_voice_fields = current_def.voice_fields['singular']
     plural_voice_fields = current_def.voice_fields['plural']
     singular_voice_fields_hyphens = [x.replace(' ', '-') for x in singular_voice_fields]
@@ -123,6 +140,14 @@ def edit_observation(request, id):
             # TODO: Return to the form with a validation error
 
     current_def = relationship.definition
+    if None == current_def:
+        return render(request, 'relationship/error.html',
+                      context = {   'form': form,
+                                    'back_url': f'/observations/{ observation.id }/',
+                                    'relationship': relationship,
+                                },
+                    )
+
     singular_voice_fields = current_def.voice_fields['singular']
     plural_voice_fields = current_def.voice_fields['plural']
     singular_voice_fields_hyphens = [x.replace(' ', '-') for x in singular_voice_fields]
@@ -172,6 +197,15 @@ def copy_observation(request, id):
             # TODO: Return to the form with a validation error
 
     current_def = relationship.definition
+    if None == current_def:
+        return render(request, 'relationship/error.html',
+                      context = {   'form': form,
+                                    'back_url': f'/observations/{ observation.id }/',
+                                    'copy': True,
+                                    'relationship': relationship,
+                                },
+                    )
+
     singular_voice_fields = current_def.voice_fields['singular']
     plural_voice_fields = current_def.voice_fields['plural']
     singular_voice_fields_hyphens = [x.replace(' ', '-') for x in singular_voice_fields]
