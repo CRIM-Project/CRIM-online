@@ -11,6 +11,11 @@ from crim.models.piece import CRIMPiece
 
 from crim.common import get_current_definition
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 
 def get_relationship(request):
     form = RelationshipForm(initial={"definition": get_current_definition()})
@@ -166,7 +171,7 @@ def edit_observation(request, id):
                           },
                  )
 
-def __create_relationship(observation):
+def __create_relationship(observation, kind):
     relationship_data = {}
     relationship_data['observer'] = observation.observer
 
@@ -174,18 +179,25 @@ def __create_relationship(observation):
     derivs = list(observation.observations_as_derivative.all())
     relationship_data['model_observation'] = CJObservation()
     relationship_data['derivative_observation'] = CJObservation()
-    if len(models) > 0:
+    if kind == 'model':
         relationship_data['model_observation'] = observation
-    if len(derivs) > 0:
+    elif kind == 'derivative':
         relationship_data['derivative_observation'] = observation
+    else:
+        if len(models) > 0:
+            relationship_data['model_observation'] = observation
+        if len(derivs) > 0:
+            relationship_data['derivative_observation'] = observation
 
     relationship_data['definition'] = observation.definition
 
     return CJRelationship(**relationship_data)
 
 def copy_observation(request, id):
+    kind = request.GET.get('type')
+    logger.debug(f'KIND: {kind}')
     observation = get_object_or_404(CJObservation, id = id)
-    relationship = __create_relationship(observation)
+    relationship = __create_relationship(observation, kind)
 
     form = RelationshipForm(initial={"definition": relationship.definition}, instance = relationship)
 

@@ -8,6 +8,7 @@
 {% load firstitem %}
 {% load people %}
 {% load is_owner %}
+{% load observation_type %}
 
 {% block title %}
   <title>
@@ -21,6 +22,29 @@
 
 {% block wrap %}
   <hgroup class="page-title">
+
+    <!-- COPY MODAL -->
+    <div class="modal hide fade" id="copy_modal">
+      <!-- FIXME: Correct this so it does the right thing and shows the right options -->
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal">×</button>
+        <h3>Duplicate this Observation as</h3>
+      </div>
+      <form id="copy-modal-form" >
+        <div class="modal-body" >
+          <input name="observation-type" id="observation-type" type="hidden" value="{{ content|observation_type }}" required >
+          <input class="form-check-input" type="radio" name="observation-type" id="observation-type-model" value="model" {% if content.relationships_as_model|length %}checked{% endif %} >
+          <label class="form-check-label" for="observation-type-model">Model</label>
+          <input class="form-check-input" type="radio" name="observation-type" id="observation-type-deriv" value="derivative" {% if content.relationships_as_derivative|length %}checked{% endif %} >
+          <label class="form-check-label" for="observation-type-deriv">Derivative</label>
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-primary" type="submit" name="copy_modal_submit" id="copy_modal_submit" value="Duplicate" >
+          <input class="btn btn-cancel" type="button" name="copy_modal_close" id="copy_modal_close" value="Close" data-dismiss="modal" >
+        </div>
+      </form>
+    </div>      
+
     <h1>
       {% if content.curated %}Observation{% else %}Uncurated observation{% endif %} <small>&lt;{{ content.id }}&gt;</small>
       <!-- {{ content.observer }} -->
@@ -29,7 +53,7 @@
       <small><a href="/observations/{{ content.id }}/edit/" >[Edit this observation]</a></small>
       {% endif %}
       <br />
-      <small><a href="/observations/{{ content.id }}/copy/" >[Duplicate this observation]</a></small>
+      <small><a href="#copy_modal" data-toggle="modal" >[Duplicate this observation]</a></small>
     </h1>
     <h2>Observer: <a href="{{ content.observer.url|htmlsite }}">{{ content.observer.name }}</a></h2>
     {% for relationship in content.relationships_as_model %}
@@ -118,6 +142,31 @@
     document.addEventListener("DOMContentLoaded", (event) => {
       setScore('score_container', 'observation_score', 'score_nav', mei, '{{content.ema}}')
     });
+
+    // make checkboxes true false value
+    $("input:radio").change(function () {
+      const elem = $(this);
+      elem.parent().find('input:hidden').val(elem.val());
+    });
+
+    $(document).ready(function() {
+      $('#copy_modal').modal({ keyboard: true, backdrop: true, show: false });
+    });
+
+    
+    const modal_form = document.getElementById('copy-modal-form');
+    modal_form.addEventListener('submit', copyModalSubmit);
+    const input_observation_type = document.getElementById('observation-type');
+    
+    async function copyModalSubmit(event) {
+      event.preventDefault();
+
+      const type = input_observation_type.value;
+
+      const url = `/observations/{{ content.id }}/copy/?type=${type}`;
+
+      window.location.assign(url);
+    }
 
   </script>
 

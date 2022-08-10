@@ -25,6 +25,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+
 def generate_relationship_data(request):
     def post_data(v):
         return request.data.get(v)
