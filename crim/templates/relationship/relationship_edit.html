@@ -79,9 +79,9 @@
           {% for type in relationship_definition %}
             <!-- {{ type.name }} == {{ relationship.relationship_type }} -->
             {% if type.name == relationship.relationship_type %}
-              <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#relationship-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relationship-{{ type.name|slugify }}">{{ type.name.capitalize }}</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
             {% endif %}
           {% endfor %}
         </ul>
@@ -93,7 +93,7 @@
           {% for type in relationship_definition %}
             {% with rel_details=relationship|get_rel_details:type.name %}
               <!-- {{ rel_details }} {{ rel_details|obj_type }} {{ type.name }} -->
-              <div class="tab-pane container fade {% if type.name == relationship.relationship_type %}show active{% endif %}" id="relationship-{{ type.name|slugify }}">
+                <div class="tab-pane container fade {% if type.name == relationship.relationship_type %}show active{% endif %}" id="relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >
                 <div class="relationship-{{ type.name|slugify }}"></div>
                 {% for subtype in type.subtypes %}
                   {% with detail_value=rel_details|lookup:subtype.name %}
@@ -689,8 +689,6 @@
                 const [ kind, [ dataKey, tabClass ] ] = entry;
                 const activeTabs = $(`.${kind} .tab-content`).find('.active');
                 if (activeTabs.length > 0) {
-                    // Set the value for the active tab
-                    $(`#${kind}-selected-tab`).val(activeTabs.data(dataKey));
                     // Validate the initial active tab
                     validateTab(activeTabs[0]);
                 }
@@ -914,12 +912,13 @@
                 "X-CSRFToken": massagedData['csrfmiddlewaretoken']
               },
               success: function(response){
-                console.log(stringData);
                 console.log(response);
-                alert("Data was succesfully captured");
+                const id = response.id;
+                const url = `/relationships/${id}/`;
+                console.log(`Data was succesfully captured: ${id}`);
+                window.location.assign(url);
               },
               error: function(response){
-                console.log(stringData);
                 console.log(response);
                 if (response.status == 401) {
                   alert('You do not have permission to complete the requested operation');

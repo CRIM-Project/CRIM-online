@@ -70,13 +70,13 @@
               {% for subtype in type.subtypes %}
                 {% if subtype.form == "boolean" %}
                   <div class="form-check">
-                    <input class="form-check-input" type='checkbox' name="relationship-{{ type.name|concat_str:subtype.name }}" value='true' id="relationship-{{ type.name|concat_str:subtype.name }}">
-                    <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
-                    <label class='form-check-label' for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
+                    <input class="form-check-input" type='checkbox' name="relationship-{{ type.name|concat_str:subtype.name }}" value="true" id="relationship-{{ type.name|concat_str:subtype.name }}">
+                    <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="false">
+                    <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                   </div>
 
                 {% elif subtype.form == "radio" %}
-                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
+                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="null">
                   {{ subtype.name.capitalize }}:
                   <div id="relationship-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
                     {% for option in subtype.options %}

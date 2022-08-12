@@ -25,6 +25,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+
 def generate_relationship_data(request):
     def post_data(v):
         return request.data.get(v)
@@ -67,9 +68,9 @@ def generate_relationship_data(request):
                 return Response({'serialized': serialized_derivative, 'content': derivative_observation})
 
     # Wait to save observations till now, which is when we know that the entire POST will succeed
-    if not post_data('model_observation_id') and post_data('model_piece'):
+    if serialized_model != None:
         serialized_model.save()
-    if not post_data('derivative_observation_id') and post_data('derivative_piece'):
+    if serialized_derivative != None:
         serialized_derivative.save()
 
     if post_data('model_observation_id') or post_data('model_piece'):
