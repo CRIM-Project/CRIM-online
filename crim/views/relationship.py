@@ -358,7 +358,7 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         # Deny users the ability to update models they do not own
-        if not curr_user.is_superuser and (curr_user.profile.person.id != request.data.get('id_observer')):
+        if not curr_user.is_superuser and (curr_user.profile.person.person_id != request.data.get('observer')):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         instance = self.get_object()

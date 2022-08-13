@@ -42,7 +42,7 @@ def edit_relationship(request, id):
     
     curr_user = request.user
     # Deny users access to editing models they do not own
-    if not curr_user.is_superuser and (curr_user.profile.person.id != relationship.observer_id):
+    if not curr_user.is_superuser and (curr_user.profile.person.person_id != relationship.observer_id):
         return HttpResponseRedirect(f"/relationships/{id}/")
 
     form = RelationshipForm(initial={"definition": relationship.definition}, instance = relationship)
@@ -134,6 +134,11 @@ def __get_relationship(observation):
 def edit_observation(request, id):
     observation = get_object_or_404(CJObservation, id = id)
     relationship = __get_relationship(observation)
+
+    curr_user = request.user
+    # Deny users access to editing models they do not own
+    if not curr_user.is_superuser and (curr_user.profile.person.person_id != relationship.observer_id):
+        return HttpResponseRedirect(f"/relationships/{id}/")
 
     form = RelationshipForm(initial={"definition": relationship.definition}, instance = relationship)
 
