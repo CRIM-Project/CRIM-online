@@ -38,11 +38,6 @@
         </div>
       <br /><br />
       <form id="form" method="post" >
-      <!--
-        {{ relationship }}
-        {{ relationship.model_observation }}
-        {{ relationship.derivative_observation }}
-      -->
       {% csrf_token %}
 
       {% if not copy %}
@@ -77,7 +72,6 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
           {% for type in relationship_definition %}
-            <!-- {{ type.name }} == {{ relationship.relationship_type }} -->
             {% if type.name == relationship.relationship_type %}
                 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
             {% else %}
@@ -92,12 +86,10 @@
           <p></p>
           {% for type in relationship_definition %}
             {% with rel_details=relationship|get_rel_details:type.name %}
-              <!-- {{ rel_details }} {{ rel_details|obj_type }} {{ type.name }} -->
                 <div class="tab-pane container fade {% if type.name == relationship.relationship_type %}show active{% endif %}" id="relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >
                 <div class="relationship-{{ type.name|slugify }}"></div>
                 {% for subtype in type.subtypes %}
                   {% with detail_value=rel_details|lookup:subtype.name %}
-                    <!-- {{ detail_value }} {{ detail_value|obj_type }} -->
                     {% if subtype.form == "boolean" %}
                       <div class="form-check">
                         {% if detail_value %}
@@ -198,7 +190,6 @@
                       <div class="model-{{ type.name|slugify }}"></div>
                       {% for subtype in type.subtypes %}
                         {% with detail_value=obs_details|lookup:subtype.name %}
-                          <!-- {{ detail_value }} {{ detail_value|obj_type }} -->
                           {% if subtype.form == "boolean" %}
                             <div class="form-check">
                               {% if detail_value %}
@@ -396,6 +387,7 @@
         <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab" value="{{ relationship.relationship_type }}" >
         <input type="hidden" id="model-selected-tab" name="model-selected-tab" value="{{ relationship.model_observation.musical_type }}" >
         <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab" value="{{ relationship.derivative_observation.musical_type }}" >
+        <p><br></p>
         <input class="btn btn-primary" type="submit" name="Submit" value="Submit" >
         <input class="btn btn-cancel" type="button" name="Cancel" value="Cancel" id="cancel" >
 
@@ -609,7 +601,7 @@
 
 
             } else if (currentName == "quotation") {
-                //quotation validation
+                // quotation validation
                 var radioSelfButtons = document.getElementsByName(currentTab.id + "-self");
                 for (var i = 0; i < radioSelfButtons.length; i++) {
                     radioSelfButtons[i].removeAttribute("required");
@@ -676,7 +668,7 @@
         $(document).ready(function() {
 
             // Set a place for Verovio
-            let ver = null
+            let ver = null;
 
             $('#id_model_observation').select2();
             $('#id_derivative_observation').select2();
@@ -711,12 +703,12 @@
                 });
             });
 
-            $(".nav-tabs a").click(function() { $(this).tab('show'); });
-            $(".nav-pills a").click(function() { $(this).tab('show'); });
+            $('.nav-tabs a').click(function() { $(this).tab('show'); });
+            $('.nav-pills a').click(function() { $(this).tab('show'); });
 
             $('#collapseModelContinuo').on('show.bs.collapse', function () {
-                $('#buttonModelContinuo').text("Hide music notation")
-                $("#collapseDerivativeContinuo").collapse('hide')
+                $('#buttonModelContinuo').text('Hide music notation');
+                $('#collapseDerivativeContinuo').collapse('hide');
                 MEIurl = $("#model-piece option:selected").data('piece-url')
                 // MEIurl = MEIurl.replace('https://crim', 'https://dev.crim')
                 if (!ver) {
@@ -772,12 +764,12 @@
         });
 
         $("#derivative-piece").on('change', function() {
-              // clear EMA
-              $("#emaDerivative").text("")
-              $("#emaDerivative-data").val("")
-              // Hide music
-              $("#collapseDerivativeContinuo").collapse('hide')
-            })
+            // clear EMA
+            $("#emaDerivative").text("")
+            $("#emaDerivative-data").val("")
+            // Hide music
+            $("#collapseDerivativeContinuo").collapse('hide')
+        });
         
         // Add the cancel button action to take the user back to the details page
         $('#cancel').on('click', function() {
@@ -787,152 +779,153 @@
 
         // GET ALL FORM INPUT AS JSON
         const form = document.getElementById("form");
-        form.addEventListener("submit", handleFormSubmit)
+        form.addEventListener("submit", handleFormSubmit);
 
         async function handleFormSubmit(event) {
-          event.preventDefault();
-          const form = event.currentTarget;
-          {% if not copy %}
-          const url = '/data/relationships/{{ relationship.id }}/';
-          {% else %}
-          const url = '/data/relationships/new/';
-          {% endif %}
+            event.preventDefault();
+            const form = event.currentTarget;
+            {% if not copy %}
+            const url = '/data/relationships/{{ relationship.id }}/';
+            {% else %}
+            const url = '/data/relationships/new/';
+            {% endif %}
 
-          const rawFormData = new FormData(form);
-          const strippedFormData = Object.fromEntries(rawFormData.entries());
+            const rawFormData = new FormData(form);
+            const strippedFormData = Object.fromEntries(rawFormData.entries());
 
-          function valueToPrimitive(value) {
-            switch (value) {
-              case 'null': return null;
-              case 'true': return true;
-              case 'false': return false;
+            function valueToPrimitive(value) {
+                switch (value) {
+                    case 'null': return null;
+                    case 'true': return true;
+                    case 'false': return false;
 
-              default: break;
+                    default: break;
+                }
+                return value;
             }
-            return value;
-          }
 
-          function simplifyFormData(data, objectType, MRType) {
-            let simplifiedData = {};
-            for (let key of Object.keys(data)) {
-              // Include only if this key is the right object (for example,
-              // a relationship) and is of the right musical or relationship
-              // type (for example, fuga).
-              if (key.startsWith(objectType + '-' + MRType) && !key.includes('selected-tab') && !key.includes('remarks')) {
-                // Remove "relationship-" and "fuga-" (for example) from the
-                // key actually added to the jsonfield.
-                let keyName = key.replace((objectType + '-' + MRType + '-'), '');
-                // Now if it's a voice field, we need to do special handling
-                // to make sure that we have it encoded as an integer or list
-                // instead of a string.
-                const singularVoiceFields = JSON.parse(document.getElementById('singular-voice-fields').textContent);
-                const pluralVoiceFields = JSON.parse(document.getElementById('plural-voice-fields').textContent);
-                if (singularVoiceFields.includes(keyName)) {
-                  simplifiedData[keyName.replaceAll('-', ' ')] = parseInt(data[key], 10);
-                } else if (pluralVoiceFields.includes(keyName)) {
-                  simplifiedData[keyName.replaceAll('-', ' ')] = (data[key].split(',')).map(n => parseInt(n, 10));
-                } else if (keyName.includes('[]')) {
-                  // For checkboxes, use JavaScript to get the values of everything
-                  // in the list and add it to an array.
-                  console.log(key);
-                  let checkboxes = document.getElementsByName(key);
-                  let listOfValues = [];
-                  for (var i=0, len=checkboxes.length; i<len; i++) {
-                    if (checkboxes[i].checked) {
-                      listOfValues.push(checkboxes[i].value);
+            function simplifyFormData(data, objectType, type) {
+                let simplifiedData = {};
+                for (let key of Object.keys(data)) {
+                    type = type.replaceAll(' ', '-');
+                    // Include only if this key is the right object (for example,
+                    // a relationship) and is of the right musical or relationship
+                    // type (for example, fuga).
+                    if (key.startsWith(objectType + '-' + type) && !key.includes('selected-tab') && !key.includes('remarks')) {
+                        // Remove "relationship-" and "fuga-" (for example) from the
+                        // key actually added to the jsonfield.
+                        let keyName = key.replace((objectType + '-' + type + '-'), '');
+                        // Now if it's a voice field, we need to do special handling
+                        // to make sure that we have it encoded as an integer or list
+                        // instead of a string.
+                        const singularVoiceFields = JSON.parse(document.getElementById('singular-voice-fields').textContent);
+                        const pluralVoiceFields = JSON.parse(document.getElementById('plural-voice-fields').textContent);
+                        if (singularVoiceFields.includes(keyName)) {
+                            simplifiedData[keyName.replaceAll('-', ' ')] = parseInt(data[key], 10);
+                        } else if (pluralVoiceFields.includes(keyName)) {
+                            simplifiedData[keyName.replaceAll('-', ' ')] = (data[key].split(',')).map(n => parseInt(n, 10));
+                        } else if (keyName.includes('[]')) {
+                            // For checkboxes, use JavaScript to get the values of everything
+                            // in the list and add it to an array.
+                            console.log(key);
+                            let checkboxes = document.getElementsByName(key);
+                            let listOfValues = [];
+                            for (var i=0, len=checkboxes.length; i<len; i++) {
+                                if (checkboxes[i].checked) {
+                                    listOfValues.push(checkboxes[i].value);
+                                }
+                            }
+                            simplifiedData[keyName.replaceAll('-', ' ').replaceAll('[]', '')] = listOfValues;
+                        } else {
+                            // If the value is `null`, `true`, or `false` save that value instead of a string
+                            simplifiedData[keyName.replaceAll('-', ' ')] = valueToPrimitive(data[key]);
+                        }
                     }
-                  }
-                  simplifiedData[keyName.replaceAll('-', ' ').replaceAll('[]', '')] = listOfValues;
-                } else {
-                  // If it's null, true, or false, save that value instead of a string
-                  simplifiedData[keyName.replaceAll('-', ' ')] = valueToPrimitive(data[key]);
                 }
-              }
+                return simplifiedData;
             }
-            return simplifiedData;
-          }
 
-          function getMassagedData(formData) {
-            let massagedData = {};
+            function getMassagedData(formData) {
+                let massagedData = {};
 
-            massagedData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
-            massagedData['observer'] = formData['observer'];
-            massagedData['model_observation'] = formData['model_observation'];
-            massagedData['derivative_observation'] = formData['derivative_observation'];
+                massagedData['csrfmiddlewaretoken'] = formData['csrfmiddlewaretoken'];
+                massagedData['observer'] = formData['observer'];
+                massagedData['model_observation'] = formData['model_observation'];
+                massagedData['derivative_observation'] = formData['derivative_observation'];
 
-            {% if not copy %}
-            massagedData['model_observation_id'] = formData['model-observation-id'];
-            {% endif %}
-            massagedData['model_definition'] = formData['definition'];
-            massagedData['model_piece'] = formData['model-piece'];
-            massagedData['model_ema'] = formData['model-ema'];
-            massagedData['model_musical_type'] = formData['model-selected-tab'].replaceAll('-', ' ');
-            massagedData['model_details'] = simplifyFormData(formData, 'model', formData['model-selected-tab']);
-            massagedData['model_remarks'] = formData['model-remarks'];
-            massagedData['model_curated'] = valueToPrimitive(formData['model-curated']);
+                {% if not copy %}
+                massagedData['model_observation_id'] = formData['model-observation-id'];
+                {% endif %}
+                massagedData['model_definition'] = formData['definition'];
+                massagedData['model_piece'] = formData['model-piece'];
+                massagedData['model_ema'] = formData['model-ema'];
+                massagedData['model_musical_type'] = formData['model-selected-tab'];
+                massagedData['model_details'] = simplifyFormData(formData, 'model', formData['model-selected-tab']);
+                massagedData['model_remarks'] = formData['model-remarks'];
+                massagedData['model_curated'] = valueToPrimitive(formData['model-curated']);
 
-            {% if not copy %}
-            massagedData['derivative_observation_id'] = formData['derivative-observation-id'];
-            {% endif %}
-            massagedData['derivative_definition'] = formData['definition'];
-            massagedData['derivative_piece'] = formData['derivative-piece'];
-            massagedData['derivative_ema'] = formData['derivative-ema'];
-            massagedData['derivative_musical_type'] = formData['derivative-selected-tab'].replaceAll('-', ' ');
-            massagedData['derivative_details'] = simplifyFormData(formData, 'derivative', formData['derivative-selected-tab']);
-            massagedData['derivative_remarks'] = formData['derivative-remarks'];
-            massagedData['derivative_curated'] = valueToPrimitive(formData['derivative-curated']);
-            
-            massagedData['definition'] = formData['definition'];
-            massagedData['relationship_type'] = formData['relationship-selected-tab'].replace('relationship-','').replaceAll('-', ' ');
-            massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
-            massagedData['remarks'] = formData['relationship-remarks'];
-            massagedData['curated'] = valueToPrimitive(formData['relationship-curated']);
+                {% if not copy %}
+                massagedData['derivative_observation_id'] = formData['derivative-observation-id'];
+                {% endif %}
+                massagedData['derivative_definition'] = formData['definition'];
+                massagedData['derivative_piece'] = formData['derivative-piece'];
+                massagedData['derivative_ema'] = formData['derivative-ema'];
+                massagedData['derivative_musical_type'] = formData['derivative-selected-tab'];
+                massagedData['derivative_details'] = simplifyFormData(formData, 'derivative', formData['derivative-selected-tab']);
+                massagedData['derivative_remarks'] = formData['derivative-remarks'];
+                massagedData['derivative_curated'] = valueToPrimitive(formData['derivative-curated']);
 
-            return massagedData;
-          }
+                massagedData['definition'] = formData['definition'];
+                massagedData['relationship_type'] = formData['relationship-selected-tab'];
+                massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
+                massagedData['remarks'] = formData['relationship-remarks'];
+                massagedData['curated'] = valueToPrimitive(formData['relationship-curated']);
 
-          // Ajax request for model
+                return massagedData;
+            }
 
-          try {
-            const massagedData = getMassagedData(strippedFormData);
-            const stringData = JSON.stringify(massagedData);
+            // Ajax request for model
 
-            $.ajax({
-              {% if not copy %}
-              type:'PATCH',
-              {% else %}
-              type:'POST',
-              {% endif %}
-              url: url,
-              data: stringData,
-              contentType: "application/json",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "X-CSRFToken": massagedData['csrfmiddlewaretoken']
-              },
-              success: function(response){
-                console.log(response);
-                const id = response.id;
-                const url = `/relationships/${id}/`;
-                console.log(`Data was succesfully captured: ${id}`);
-                window.location.assign(url);
-              },
-              error: function(response){
-                console.log(response);
-                if (response.status == 401) {
-                  alert('You do not have permission to complete the requested operation');
-                } else {
-                  alert("Error with input data, please check again");
-                }
-              },
-            });
-          } catch (error) {
-            console.log(getMassagedData(strippedFormData));
-            console.error(error);
-          }
+            try {
+                const massagedData = getMassagedData(strippedFormData);
+                const stringData = JSON.stringify(massagedData);
+
+                $.ajax({
+                    {% if not copy %}
+                    type:'PATCH',
+                    {% else %}
+                    type:'POST',
+                    {% endif %}
+                    url: url,
+                    data: stringData,
+                    contentType: "application/json",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-CSRFToken": massagedData['csrfmiddlewaretoken']
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        const id = response.id;
+                        const url = `/relationships/${id}/`;
+                        console.log(`Data was succesfully captured: ${id}`);
+                        // alert(`Data was succesfully captured: ${id}`);
+                        window.location.assign(url);
+                    },
+                    error: function(response){
+                        console.log(response);
+                        if (response.status == 401) {
+                            alert('You do not have permission to complete the requested operation');
+                        } else {
+                            alert("Error with input data, please check again");
+                        }
+                    },
+                });
+            } catch (error) {
+                console.log(getMassagedData(strippedFormData));
+                console.error(error);
+            }
         }
-
     </script>
 
   </body>

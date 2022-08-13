@@ -1,3 +1,6 @@
+{% load crispy_forms_tags %}
+{% load concat_str %}
+
 <html>
   <head>
   <!-- Required meta tags -->
@@ -24,12 +27,9 @@
   </style>
   </head>
   <body>
-    {% load crispy_forms_tags %}
-    {% load concat_str %}
-
     <div class="shadow-none p-4 mt-4 mb-4 bg-light">
       <div class="text-center">
-        <h1>Create a relationship instance</h1>
+        <h1>Create a Relationship instance</h1>
       </div>
       <form id="form">
       {% csrf_token %}
@@ -37,8 +37,7 @@
       <input type="hidden" name="definition" id="definition" value="{{ current_definition_id }}">
 
       <div class="row-sm">
-        {% comment %}"If the user does not have an associated PersonID, log the username at least,
-          but alert the user"{% endcomment %}
+        {% comment %}"If the user does not have an associated PersonID, log the username at least, but alert the user"{% endcomment %}
         <input type="hidden" name="observer" id="id_observer" value="{% if user.profile.person.person_id %}{{ user.profile.person.person_id }}{% else %}{{ user }}{% endif %}">
         {% if not user.profile.person.person_id %}
           <p>
@@ -74,7 +73,6 @@
                     <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="false">
                     <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                   </div>
-
                 {% elif subtype.form == "radio" %}
                   <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="null">
                   {{ subtype.name.capitalize }}:
@@ -86,7 +84,6 @@
                       </div>
                     {% endfor %}
                   </div>
-
                 {% endif %}
               {% endfor %}
             </div>
@@ -149,7 +146,6 @@
                           <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
                           <label class='form-check-label' for="model-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                         </div>
-
                       {% elif subtype.form == "text" %}
                         <div class="form-group row">
                           <label for="model-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
@@ -157,7 +153,6 @@
                             <input class="form-control form-control-sm" id="model-{{ type.name|concat_str:subtype.name }}" name="model-{{ type.name|concat_str:subtype.name }}" pattern="[0-9]{1}">
                           </div>
                         </div>
-
                       {% elif subtype.form == "radio" %}
                         <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
                         {{ subtype.name.capitalize }}:
@@ -169,7 +164,6 @@
                             </div>
                           {% endfor %}
                         </div>
-
                       {% elif subtype.form == "checkbox" %}
                         {{ subtype.name.capitalize }}:
                         <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
@@ -196,15 +190,6 @@
           <div class="text-left">
             <h4>II. Derivative observation</h4>
           </div>
-          <!-- <br>
-          <p><i>Select an existing observation as derivative observation</i></p>
-          <div class="row-sm">
-            {{form.derivative_observation|as_crispy_field}}
-          </div>
-          <p></p>
-          <p><b>OR</b></p>
-          <p><i>Create a new observation as derivative observation</i></p>
-          <p></p> -->
 
           <div class="shadow-none p-5 mb-5 text-secondary bg-white rounded" name="derivative-observation-form" id="derivative-observation-form">
             <div class="derivative">
@@ -217,7 +202,7 @@
               </div>
               <div class="mb-5" id="derivative-continuo">
                 <p><strong>Music reference (EMA):</strong> <em id="emaDerivative"></em></p>
-                <input name="derivative-ema" type='hidden' value='' id="emaDerivativeData">
+                <input name="derivative-ema" type="hidden" value="" id="emaDerivativeData">
                 <p>
                   <button id="buttonDerivativeContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDerivativeContinuo" aria-expanded="false" aria-controls="collapseDerivativeContinuo">
                     Choose music notation
@@ -525,7 +510,7 @@
                 for (var i = 0; i < radioSelfButtons.length; i++) {
                     radioSelfButtons[i].removeAttribute("required");
                 }
-                
+
 
             } else if (currentName == "nonmechanicaltransformation") {
                 // non mechanical transformation validation
@@ -620,8 +605,8 @@
             $('.nav-pills a').click(function() { $(this).tab('show'); });
 
             $('#collapseModelContinuo').on('show.bs.collapse', function () {
-                $("#buttonModelContinuo").text("Hide music notation")
-                $("#collapseDerivativeContinuo").collapse('hide')
+                $('#buttonModelContinuo').text('Hide music notation');
+                $('#collapseDerivativeContinuo').collapse('hide');
                 MEIurl = $("#model-piece option:selected").data('piece-url')
                 // MEIurl = MEIurl.replace('https://crim', 'https://dev.crim')
                 if (!ver) {
@@ -795,14 +780,20 @@
                         "X-CSRFToken": massagedData['csrfmiddlewaretoken']
                     },
                     success: function(response) {
-                        console.log(stringData);
                         console.log(response);
-                        alert("Data was succesfully captured");
+                        const id = response.id;
+                        // const url = `/relationships/${id}/`;
+                        console.log(`Data was succesfully captured: ${id}`);
+                        alert(`Data was succesfully captured: ${id}`);
+                        // window.location.assign(url);
                     },
                     error: function(response) {
-                        console.log(stringData);
                         console.log(response);
-                        alert("Error with input data, please check again");
+                        if (response.status == 401) {
+                            alert('You do not have permission to complete the requested operation');
+                        } else {
+                            alert("Error with input data, please check again");
+                        }
                     },
                 });
             } catch (error) {
