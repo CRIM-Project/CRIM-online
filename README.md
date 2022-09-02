@@ -9,4 +9,4 @@ This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 Int
 
 Developers include:
 
-Micah Walter Nicholas DiPasquale Oleh Shostak Adam Portier Andrew Janco
+Micah Walter, Nicholas DiPasquale, Oleh Shostak, Adam Portier, Andrew Janco
