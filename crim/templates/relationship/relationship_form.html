@@ -782,10 +782,10 @@
                     success: function(response) {
                         console.log(response);
                         const id = response.id;
-                        // const url = `/relationships/${id}/`;
+                        const url = `/relationships/${id}/`;
                         console.log(`Data was succesfully captured: ${id}`);
-                        alert(`Data was succesfully captured: ${id}`);
-                        // window.location.assign(url);
+                        // alert(`Data was succesfully captured: ${id}`);
+                        window.location.assign(url);
                     },
                     error: function(response) {
                         console.log(response);
