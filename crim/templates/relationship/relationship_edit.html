@@ -125,17 +125,6 @@
         <br />
         <label for="relationship-remarks">Remarks for relationship:</label><br>
         <textarea name="relationship-remarks" cols="50" rows="3">{{ relationship.remarks }}</textarea>
-        <br /><br />
-
-        <div class="form-check">
-          {% if relationship.curated %}
-            <input class="form-check-input" type="checkbox" name="relationship-curated" value="true" id="relationship-curated" checked="true" >
-          {% else %}
-            <input class="form-check-input" type="checkbox" name="relationship-curated" value="true" id="relationship-curated" >
-          {% endif %}
-          <input name="relationship-curated" type="hidden" value="{{ relationship.curated|lower }}">
-          <label class="form-check-label" for="relationship-curated">Curated Relationship</label>
-        </div>
       </div>
 
       <p><br></p>
@@ -246,17 +235,6 @@
               <br />
               <label for="model-remarks">Remarks for model:</label><br>
               <textarea name="model-remarks" cols="50" rows="3">{{ relationship.model_observation.remarks }}</textarea>
-              <br /><br />
-
-              <div class="form-check">
-                {% if relationship.model_observation.curated %}
-                  <input class="form-check-input" type="checkbox" name="model-curated" value="true" id="model-curated" checked="true" >
-                {% else %}
-                  <input class="form-check-input" type="checkbox" name="model-curated" value="true" id="model-curated" >
-                {% endif %}
-                <input name="model-curated" type="hidden" value="{{ relationship.model_observation.curated|lower }}">
-                <label class="form-check-label" for="model-curated">Curated Model Observation</label>
-              </div>
             </div>
           </div>
         </fieldset>
@@ -369,17 +347,6 @@
               <br />
               <label for="derivative-remarks">Remarks for derivative:</label><br>
               <textarea name="derivative-remarks" cols="50" rows="3">{{ relationship.derivative_observation.remarks }}</textarea>
-              <br /><br />
-
-              <div class="form-check">
-                {% if relationship.derivative_observation.curated %}
-                  <input class="form-check-input" type="checkbox" name="derivative-curated" value="true" id="derivative-curated" checked="true" >
-                {% else %}
-                  <input class="form-check-input" type="checkbox" name="derivative-curated" value="true" id="derivative-curated" >
-                {% endif %}
-                <input name="derivative-curated" type="hidden" value="{{ relationship.derivative_observation.curated|lower }}">
-                <label class="form-check-label" for="derivative-curated">Curated Derivative Observation</label>
-              </div>
             </div>
           </div>
         </fieldset>
@@ -387,10 +354,23 @@
         <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab" value="{{ relationship.relationship_type }}" >
         <input type="hidden" id="model-selected-tab" name="model-selected-tab" value="{{ relationship.model_observation.musical_type }}" >
         <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab" value="{{ relationship.derivative_observation.musical_type }}" >
+        <br /><br />
+
+        <input name="model-curated" id="model-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <input name="derivative-curated" id="derivative-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <div class="form-check" >
+          {% if relationship.curated %}
+            <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" checked="true" >
+          {% else %}
+            <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" >
+          {% endif %}
+          <input name="relationship-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+          <label class="form-check-label" for="relationship-curated-check">Curated Relationship</label>
+        </div>
         <p><br></p>
+        
         <input class="btn btn-primary" type="submit" name="Submit" value="Submit" >
         <input class="btn btn-cancel" type="button" name="Cancel" value="Cancel" id="cancel" >
-
       </form>
     </div>
 
@@ -410,12 +390,6 @@
     {{ plural_voice_fields|json_script:"plural-voice-fields" }}
 
     <script>
-
-        // make checkboxes true false value
-        $("input:checkbox").change(function () {
-            $(this).parent().find('input:hidden').val($(this).is(':checked'));
-        });
-
         // Setup Continuo
         function setContinuo(el, ver, opts, MEIurl, emaEl) {
             let target = document.querySelector(el)
@@ -666,6 +640,15 @@
         }
 
         $(document).ready(function() {
+            // make checkboxes true false value
+            $('input:checkbox').change(function () {
+                $(this).parent().find('input:hidden').val($(this).is(':checked'));
+            });
+            // fix the curated values of the the models to the relationship
+            $('#relationship-curated-check').change(function() {
+                $('#model-curated').val($(this).is(':checked'));
+                $('#derivative-curated').val($(this).is(':checked'));
+            });
 
             // Set a place for Verovio
             let ver = null;
