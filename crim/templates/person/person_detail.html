@@ -152,10 +152,10 @@
               {% endif %}
             </td>
             <td>
-              <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
+              <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" data-target="curated-relationship-info-{{ forloop.counter }}">Expand</a>
             </td>
           </tr>
-          <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
+          <tr id="curated-relationship-info-{{ forloop.counter }}" class="relationship-info">
             <td colspan="6" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
@@ -174,6 +174,7 @@
 
           <th>Relationship type</th>
           <th>Show details</th>
+          <th>Publish</th>
         </tr>
       </thead>
       <tbody>
@@ -204,10 +205,13 @@
               {% endif %}
             </td>
             <td>
-              <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" target="relationship-info-{{ forloop.counter }}">Expand</a>
+              <a href="#" class="relationship-info-expand {% if not relationship.curated %}uncurated{% endif %}" data-target="uncurated-relationship-info-{{ forloop.counter }}">Expand</a>
+            </td>
+            <td>
+              <div class="btn btn-lg publish-button" data-relid="{{ relationship.id }}" >Publish</div>
             </td>
           </tr>
-          <tr id="relationship-info-{{ forloop.counter }}" class="relationship-info">
+          <tr id="uncurated-relationship-info-{{ forloop.counter }}" class="relationship-info">
             <td colspan="6" class="expansion">
               {% include "relationship/relationship_expanded.html" %}
             </td>
@@ -217,18 +221,65 @@
     </table>
 
     <script type="text/javascript">
-      // This script expands and hides relationship details
-      $('.relationship-info').hide();
-      $('.relationship-info-expand').on({
+    // This script expands and hides relationship details
+    $('.relationship-info').hide();
+    $('.relationship-info-expand').on({
         'click': function(event) {
-          event.preventDefault();
-          tgt = "#" + $(this).attr('target');
-          $(tgt).toggle();
-          tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
-          $(this).text(tag);
+            event.preventDefault();
+            tgt = "#" + $(this).data('target');
+            $(tgt).toggle();
+            tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+            $(this).text(tag);
+            return false;
+        }
+    });
+    $('.publish-button').on({
+        'click': function(event) {
+            event.preventDefault();
+
+            const csrf_token = '{{ csrf_token }}';
+            console.debug(`CSRF Token: ${csrf_token}`);
+            const rel_id = $(this).data('relid');
+            console.debug(`Relationship Identifier: ${rel_id}`);
+            const url = `/data/relationships/${rel_id}/publish/`;
+            
+            $.ajax({
+                type:'PATCH',
+                url: url,
+                data: JSON.stringify({
+                    'csrfmiddlewaretoken': csrf_token,
+                    'curated': true
+                }),
+                contentType: 'application/json',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRFToken": csrf_token,
+                },
+                success: function(response) {
+                    console.log(response);
+                    const id = response.id;
+                    console.log(`Item '${id}' was succesfully published`);
+                    // TODO[ND]: Move the HTML from this table to the other
+                    // rather than reload the page for a better user
+                    // experience be sure to pay attention to the current
+                    // table sort when moving the table row from one table
+                    // to the other.
+                    window.location.reload();
+                },
+                error: function(response){
+                    console.log(response);
+                    if (response.status == 401) {
+                        alert('You do not have permission to complete the requested operation');
+                    } else {
+                        alert(`Failed to publish relationship R${rel_id}`);
+                    }
+                },
+            });
+
           return false;
         }
-      })
+    });
     </script>  
   {% endif %}
 
