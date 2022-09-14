@@ -62,7 +62,7 @@ from crim.views.voice import VoiceListData, VoiceDetailData
 from crim.views.user import UserProfileData
 from crim.views import forum as forum_views
 
-from crim.views.relationship_form import get_relationship, edit_relationship, copy_relationship, edit_observation, copy_observation
+from crim.views.relationship_form import get_relationship
 
 admin.autodiscover()
 
@@ -162,10 +162,6 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
 
         path('relationships/new/', get_relationship, name='relationship-form'),
-        re_path(r'^relationships/(?P<id>[0-9]+)/edit/$', edit_relationship, name='relationship-form'),
-        re_path(r'^relationships/(?P<id>[0-9]+)/copy/$', copy_relationship, name='relationship-form'),
-        re_path(r'^observations/(?P<id>[0-9]+)/edit/$', edit_observation, name='relationship-form'),
-        re_path(r'^observations/(?P<id>[0-9]+)/copy/$', copy_observation, name='relationship-form'),
         # path('observations/new/', get_observation, name='observation-form'),
 
         re_path('about', include('django.contrib.flatpages.urls')),
