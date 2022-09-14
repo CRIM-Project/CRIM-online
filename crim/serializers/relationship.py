@@ -41,6 +41,7 @@ class CRIMPersonRelationshipSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'name',
+            'id',
         )
 
 

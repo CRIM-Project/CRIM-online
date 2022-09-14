@@ -1,5 +1,6 @@
 {% load crispy_forms_tags %}
 {% load concat_str %}
+{% load dict_lookup %}
 
 <html>
   <head>
@@ -29,13 +30,27 @@
   <body>
     <div class="shadow-none p-4 mt-4 mb-4 bg-light">
       <div class="text-center">
-        <h1>Create a Relationship instance</h1>
-      </div>
-      <form id="form">
+        {% if not copy %}
+        <h1>Edit Relationship &lt;R{{relationship.id}}&gt;</h1>
+        {% else %}
+        <h1>Copy Relationship {% if relationship.id %}&lt;R{{relationship.id}}&gt;{% endif %}</h1>
+        {% endif %}
+        </div>
+      <br /><br />
+      <form id="form" method="post" >
       {% csrf_token %}
+
+      {% if not copy %}
+      <input type="hidden" name="relationship_id" id="relationship_id" value="{{ relationship.id }}" >
+      <input type="hidden" name="model-observation-id" id="model-observation-id" value="{{ relationship.model_observation.id }}" >
+      <input type="hidden" name="derivative-observation-id" id="derivative-observation-id" value="{{ relationship.derivative_observation.id }}" >
+      {% endif %}
 
       <input type="hidden" name="definition" id="definition" value="{{ current_definition_id }}">
 
+      {% if not copy %}
+      <input type="hidden" name="observer" id="id_observer" value="{{ relationship.observer.person_id }}">
+      {% else %}
       <div class="row-sm">
         {% comment %}"If the user does not have an associated PersonID, log the username at least, but alert the user"{% endcomment %}
         <input type="hidden" name="observer" id="id_observer" value="{% if user.profile.person.person_id %}{{ user.profile.person.person_id }}{% else %}{{ user }}{% endif %}">
@@ -51,11 +66,17 @@
           <p>You may also simply need to <a href="/accounts/login/">log in</a>.</p>
         {% endif %}
       </div>
+      {% endif %}
+
       <div class="relationship">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
           {% for type in relationship_definition %}
-              <li class="nav-item"><a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="tab" href="#relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
+            {% if type.name == relationship.relationship_type %}
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
 
@@ -64,33 +85,46 @@
         <div class="tab-content">
           <p></p>
           {% for type in relationship_definition %}
-            <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >
-              <div class="relationship-{{ type.name|slugify }}"></div>
-              {% for subtype in type.subtypes %}
-                {% if subtype.form == "boolean" %}
-                  <div class="form-check">
-                    <input class="form-check-input" type='checkbox' name="relationship-{{ type.name|concat_str:subtype.name }}" value="true" id="relationship-{{ type.name|concat_str:subtype.name }}">
-                    <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="false">
-                    <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
-                  </div>
-                {% elif subtype.form == "radio" %}
-                  <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="null">
-                  {{ subtype.name.capitalize }}:
-                  <div id="relationship-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                    {% for option in subtype.options %}
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="relationship-{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="relationship-{{ type.name|concat_str:subtype.name }}">
-                        <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+            {% with rel_details=relationship|get_rel_details:type.name %}
+                <div class="tab-pane container fade {% if type.name == relationship.relationship_type %}show active{% endif %}" id="relationship-{{ type.name|slugify }}" data-rel-type="{{ type.name }}" >
+                <div class="relationship-{{ type.name|slugify }}"></div>
+                {% for subtype in type.subtypes %}
+                  {% with detail_value=rel_details|lookup:subtype.name %}
+                    {% if subtype.form == "boolean" %}
+                      <div class="form-check">
+                        {% if detail_value %}
+                          <input class="form-check-input" type="checkbox" name="relationship-{{ type.name|concat_str:subtype.name }}" value="true" id="relationship-{{ type.name|concat_str:subtype.name }}" checked="true" >
+                        {% else %}
+                          <input class="form-check-input" type="checkbox" name="relationship-{{ type.name|concat_str:subtype.name }}" value="true" id="relationship-{{ type.name|concat_str:subtype.name }}" >
+                        {% endif %}
+                        <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="{{ detail_value|lower }}">
+                        <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                       </div>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
+                    {% elif subtype.form == "radio" %}
+                      <input name="relationship-{{ type.name|concat_str:subtype.name }}" type="hidden" value="{{ detail_value }}">
+                      {{ subtype.name.capitalize }}:
+                      <div id="relationship-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                        {% for option in subtype.options %}
+                          <div class="form-check form-check-inline">
+                            {% if detail_value == option %}
+                              <input class="form-check-input" type="radio" name="relationship-{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="relationship-{{ type.name|concat_str:subtype.name }}" checked="true" >
+                            {% else %}
+                              <input class="form-check-input" type="radio" name="relationship-{{ type.name|concat_str:subtype.name }}" value="{{ option }}" id="relationship-{{ type.name|concat_str:subtype.name }}">
+                            {% endif %}
+                            <label class="form-check-label" for="relationship-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  {% endwith %}
+                {% endfor %}
+              </div>
+            {% endwith %}
           {% endfor %}
-          <label for="relationship-remarks">Remarks for relationship:</label><br>
-          <textarea name="relationship-remarks" cols="50" rows="3"></textarea>
         </div>
+        <br />
+        <label for="relationship-remarks">Remarks for relationship:</label><br>
+        <textarea name="relationship-remarks" cols="50" rows="3">{{ relationship.remarks }}</textarea>
       </div>
 
       <p><br></p>
@@ -105,13 +139,17 @@
               <div class="mb-5">
                 <select name="model-piece" id="model-piece">
                   {% for piece in all_pieces %}
-                    <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    {% if piece.piece_id == relationship.model_observation.piece.piece_id %}
+                      <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}" selected="true" >[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    {% else %}
+                      <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    {% endif %}
                   {% endfor %}
                 </select>
               </div>
               <div class="mb-5" id="model-continuo">
-                <p><strong>Music reference (EMA): </strong><em id="emaModel"></em></p>
-                <input name="model-ema" type='hidden' value='' id="emaModelData">
+                <p><strong>Music reference (EMA): </strong><em id="emaModel">{{relationship.model_observation.ema}}</em></p>
+                <input name="model-ema" type="hidden" value="{{relationship.model_observation.ema}}" id="emaModelData">
                 <p>
                   <button id="buttonModelContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseModelContinuo" aria-expanded="false" aria-controls="collapseModelContinuo">
                     Choose music notation
@@ -129,58 +167,74 @@
               <!-- Nav pills -->
               <ul class="nav nav-pills">
                 {% for type in observation_definition %}
-                    <li class="nav-item"><a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="tab" href="#model-{{ type.name|slugify }}" data-obs-type="{{ type.name }}">{{ type.name.capitalize }}</a></li>
+                  <li class="nav-item"><a class="nav-link {% if type.name == relationship.model_observation.musical_type %}active{% endif %}" data-toggle="tab" href="#model-{{ type.name|slugify }}" data-obs-type="{{ type.name }}" >{{ type.name.capitalize }}</a></li>
                 {% endfor %}
               </ul>
 
               <!-- Tab panes -->
               <div class="tab-content">
                 {% for type in observation_definition %}
-                  <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="model-{{ type.name|slugify }}" data-obs-type="{{ type.name }}" >
-                    <div class="model-{{ type.name|slugify }}"></div>
-                    {% for subtype in type.subtypes %}
-
-                      {% if subtype.form == "boolean" %}
-                        <div class="form-check">
-                          <input class="form-check-input" type='checkbox' name="model-{{ type.name|concat_str:subtype.name }}" value='true' id="model-{{ type.name|concat_str:subtype.name }}">
-                          <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
-                          <label class='form-check-label' for="model-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
-                        </div>
-                      {% elif subtype.form == "text" %}
-                        <div class="form-group row">
-                          <label for="model-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
-                          <div class="col-sm">
-                            <input class="form-control form-control-sm" id="model-{{ type.name|concat_str:subtype.name }}" name="model-{{ type.name|concat_str:subtype.name }}" pattern="[0-9]{1}">
-                          </div>
-                        </div>
-                      {% elif subtype.form == "radio" %}
-                        <input name="model-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
-                        {{ subtype.name.capitalize }}:
-                        <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in subtype.options %}
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="model-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="model-{{ type.name|concat_str:subtype.name }}">
-                              <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                  {% with obs_details=relationship.model_observation|get_obs_details:type.name %}
+                    <div class="tab-pane container fade {% if type.name == relationship.model_observation.musical_type %}show active{% endif %}" id="model-{{ type.name|slugify }}">
+                      <div class="model-{{ type.name|slugify }}"></div>
+                      {% for subtype in type.subtypes %}
+                        {% with detail_value=obs_details|lookup:subtype.name %}
+                          {% if subtype.form == "boolean" %}
+                            <div class="form-check">
+                              {% if detail_value %}
+                                <input class="form-check-input" type="checkbox" name="model-{{ type.name|concat_str:subtype.name }}" value="true" id="model-{{ type.name|concat_str:subtype.name }}" checked="true" >
+                              {% else %}
+                                <input class="form-check-input" type="checkbox" name="model-{{ type.name|concat_str:subtype.name }}" value="true" id="model-{{ type.name|concat_str:subtype.name }}" >
+                              {% endif %}
+                              <input name="model-{{ type.name|concat_str:subtype.name }}" type="hidden" value="{{ detail_value|lower }}" >
+                              <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                             </div>
-                          {% endfor %}
-                        </div>
-                      {% elif subtype.form == "checkbox" %}
-                        {{ subtype.name.capitalize }}:
-                        <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in subtype.options %}
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type='checkbox' name="model-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="model-{{ type.name|concat_str:subtype.name|concat_str:option }}">
-                              <label class='form-check-label' for="model-{{ type.name|concat_str:subtype.name|concat_str:option }}">{{ option.capitalize }}</label>
+                          {% elif subtype.form == "text" %}
+                            <div class="form-group row">
+                              <label for="model-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
+                              <div class="col-sm">
+                                <input class="form-control form-control-sm" id="model-{{ type.name|concat_str:subtype.name }}" name="model-{{ type.name|concat_str:subtype.name }}" pattern="[0-9]{1}" value="{{ detail_value|rel_formatter }}" >
+                              </div>
                             </div>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
-                    {% endfor %}
-                  </div>
+                          {% elif subtype.form == "radio" %}
+                            <input name="model-{{ type.name|concat_str:subtype.name }}" type="hidden" value="{{ detail_value }}" >
+                            {{ subtype.name.capitalize }}:
+                            <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                              {% for option in subtype.options %}
+                                <div class="form-check form-check-inline">
+                                  {% if detail_value == option %}
+                                    <input class="form-check-input" type="radio" name="model-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="model-{{ type.name|concat_str:subtype.name }}" checked="true" >
+                                  {% else %}
+                                    <input class="form-check-input" type="radio" name="model-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="model-{{ type.name|concat_str:subtype.name }}">
+                                  {% endif %}
+                                  <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          {% elif subtype.form == "checkbox" %}
+                            {{ subtype.name.capitalize }}:
+                            <div id="model-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                              {% for option in subtype.options %}
+                                <div class="form-check form-check-inline">
+                                  {% if detail_value == option %}
+                                    <input class="form-check-input" type="checkbox" name="model-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="model-{{ type.name|concat_str:subtype.name|concat_str:option }}" checked="true" >
+                                  {% else %}
+                                    <input class="form-check-input" type="checkbox" name="model-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="model-{{ type.name|concat_str:subtype.name|concat_str:option }}">
+                                  {% endif %}
+                                  <label class="form-check-label" for="model-{{ type.name|concat_str:subtype.name|concat_str:option }}">{{ option.capitalize }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                        {% endwith %}
+                      {% endfor %}
+                    </div>
+                  {% endwith %}
                 {% endfor %}
               </div>
+              <br />
               <label for="model-remarks">Remarks for model:</label><br>
-              <textarea name="model-remarks" cols="50" rows="3"></textarea>
+              <textarea name="model-remarks" cols="50" rows="3">{{ relationship.model_observation.remarks }}</textarea>
             </div>
           </div>
         </fieldset>
@@ -196,13 +250,17 @@
               <div class="mb-5">
                 <select name="derivative-piece" id="derivative-piece">
                   {% for piece in all_pieces %}
-                    <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    {% if piece.piece_id == relationship.derivative_observation.piece.piece_id %}
+                      <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}" selected="true" >[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    {% else %}
+                      <option value="{{ piece.piece_id }}" data-piece-url="{{ piece.mei_links }}">[{{ piece.piece_id }}] {{ piece.title }}</option>
+                    {% endif %}
                   {% endfor %}
                 </select>
               </div>
               <div class="mb-5" id="derivative-continuo">
-                <p><strong>Music reference (EMA):</strong> <em id="emaDerivative"></em></p>
-                <input name="derivative-ema" type="hidden" value="" id="emaDerivativeData">
+                <p><strong>Music reference (EMA):</strong> <em id="emaDerivative">{{relationship.derivative_observation.ema}}</em></p>
+                <input name="derivative-ema" type="hidden" value="{{relationship.derivative_observation.ema}}" id="emaDerivativeData">
                 <p>
                   <button id="buttonDerivativeContinuo" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDerivativeContinuo" aria-expanded="false" aria-controls="collapseDerivativeContinuo">
                     Choose music notation
@@ -220,73 +278,99 @@
               <!-- Nav pills -->
               <ul class="nav nav-pills">
                 {% for type in observation_definition %}
-                  <li class="nav-item"><a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="pill" href="#derivative-{{ type.name|slugify }}" data-obs-type="{{ type.name }}">{{ type.name.capitalize }}</a></li>
+                  <li class="nav-item"><a class="nav-link {% if type.name == relationship.derivative_observation.musical_type %}active{% endif %}" data-toggle="pill" href="#derivative-{{ type.name|slugify }}" data-obs-type="{{ type.name }}">{{ type.name.capitalize }}</a></li>
                 {% endfor %}
               </ul>
 
               <!-- Tab panes -->
               <div class="tab-content">
                 {% for type in observation_definition %}
-                  <div class="tab-pane container fade {% if forloop.first %}show active{% endif %}" id="derivative-{{ type.name|slugify }}" data-obs-type="{{ type.name }}" >
-                    <div class="derivative-{{ type.name|slugify }}"></div>
-                    {% for subtype in type.subtypes %}
-
-                      {% if subtype.form == "boolean" %}
-                        <div class="form-check">
-                          <input class="form-check-input" type='checkbox' name="derivative-{{ type.name|concat_str:subtype.name }}" value='true' id="derivative-{{ type.name|concat_str:subtype.name }}">
-                          <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='false'>
-                          <label class='form-check-label' for="derivative-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
-                        </div>
-
-                      {% elif subtype.form == "text" %}
-                        <div class="form-group row">
-                          <label for="derivative-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
-                          <div class="col-sm">
-                            <input class="form-control form-control-sm" id="derivative-{{ type.name|concat_str:subtype.name }}" name="derivative-{{ type.name|concat_str:subtype.name }}">
-                          </div>
-                        </div>
-
-                      {% elif subtype.form == "radio" %}
-                        <input name="derivative-{{ type.name|concat_str:subtype.name }}" type='hidden' value='null'>
-                        {{ subtype.name.capitalize }}:
-                        <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in subtype.options %}
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="derivative-{{ type.name|concat_str:subtype.name }}">
-                              <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                  {% with obs_details=relationship.derivative_observation|get_obs_details:type.name %}
+                    <div class="tab-pane container fade {% if type.name == relationship.derivative_observation.musical_type %}show active{% endif %}" id="derivative-{{ type.name|slugify }}">
+                      <div class="derivative-{{ type.name|slugify }}"></div>
+                      {% for subtype in type.subtypes %}
+                        {% with detail_value=obs_details|lookup:subtype.name %}
+                          <!-- {{ detail_value }} {{ detail_value|obj_type }} -->
+                          {% if subtype.form == "boolean" %}
+                            <div class="form-check">
+                              {% if detail_value %}
+                                <input class="form-check-input" type="checkbox" name="derivative-{{ type.name|concat_str:subtype.name }}" value="true" id="derivative-{{ type.name|concat_str:subtype.name }}" checked="true" >
+                              {% else %}
+                                <input class="form-check-input" type="checkbox" name="derivative-{{ type.name|concat_str:subtype.name }}" value="true" id="derivative-{{ type.name|concat_str:subtype.name }}" >
+                              {% endif %}
+                              <input name="derivative-{{ type.name|concat_str:subtype.name }}" type="hidden" value="{{ detail_value }}" >
+                              <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name }}">{{ subtype.name.capitalize }}</label>
                             </div>
-                          {% endfor %}
-                        </div>
-
-                      {% elif subtype.form == "checkbox" %}
-                        {{ subtype.name.capitalize }}:
-                        <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
-                          {% for option in subtype.options %}
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type='checkbox' name="derivative-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}">
-                              <label class='form-check-label' for="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}">{{ option.capitalize }}</label>
+                          {% elif subtype.form == "text" %}
+                            <div class="form-group row">
+                              <label for="derivative-{{ type.name|concat_str:subtype.name }}" class="col-sm col-form-label"> {{ subtype.name.capitalize }} </label>
+                              <div class="col-sm">
+                                <input class="form-control form-control-sm" id="derivative-{{ type.name|concat_str:subtype.name }}" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{ detail_value|rel_formatter }}" >
+                              </div>
                             </div>
-                          {% endfor %}
-                        </div>
-
-                      {% endif %}
-
-                    {% endfor %}
+                          {% elif subtype.form == "radio" %}
+                            <input name="derivative-{{ type.name|concat_str:subtype.name }}" type="hidden" value="{{ detail_value }}" >
+                            {{ subtype.name.capitalize }}:
+                            <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                              {% for option in subtype.options %}
+                                <div class="form-check form-check-inline">
+                                  {% if detail_value == option %}
+                                    <input class="form-check-input" type="radio" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="derivative-{{ type.name|concat_str:subtype.name }}" checked="true" >
+                                  {% else %}
+                                    <input class="form-check-input" type="radio" name="derivative-{{ type.name|concat_str:subtype.name }}" value="{{option}}" id="derivative-{{ type.name|concat_str:subtype.name }}">
+                                  {% endif %}
+                                  <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name }}">{{ option.capitalize }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          {% elif subtype.form == "checkbox" %}
+                            {{ subtype.name.capitalize }}:
+                            <div id="derivative-{{ type.name|concat_str:subtype.name }}" style="margin-left:50px;">
+                              {% for option in subtype.options %}
+                                <div class="form-check form-check-inline">
+                                  {% if detail_value == option %}
+                                    <input class="form-check-input" type="checkbox" name="derivative-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}" checked="true" >
+                                  {% else %}
+                                    <input class="form-check-input" type="checkbox" name="derivative-{{ type.name|concat_str:subtype.name }}[]" value="{{ option }}" id="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}">
+                                  {% endif %}
+                                  <label class="form-check-label" for="derivative-{{ type.name|concat_str:subtype.name|concat_str:option }}">{{ option.capitalize }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                        {% endwith %}
+                      {% endfor %}
                     </div>
+                  {% endwith %}
                 {% endfor %}
               </div>
+              <br />
               <label for="derivative-remarks">Remarks for derivative:</label><br>
-              <textarea name="derivative-remarks" cols="50" rows="3"></textarea>
+              <textarea name="derivative-remarks" cols="50" rows="3">{{ relationship.derivative_observation.remarks }}</textarea>
             </div>
           </div>
         </fieldset>
 
-        <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab">
-        <input type="hidden" id="model-selected-tab" name="model-selected-tab">
-        <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab">
-        <p><br></p>
-        <input class="btn btn-primary" type="submit" name="Submit" value="Submit">
+        <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab" value="{{ relationship.relationship_type }}" >
+        <input type="hidden" id="model-selected-tab" name="model-selected-tab" value="{{ relationship.model_observation.musical_type }}" >
+        <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab" value="{{ relationship.derivative_observation.musical_type }}" >
+        <br /><br />
 
+        <input name="model-curated" id="model-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <input name="derivative-curated" id="derivative-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <div class="form-check" >
+          {% if relationship.curated %}
+            <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" checked="true" >
+          {% else %}
+            <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" >
+          {% endif %}
+          <input name="relationship-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+          <label class="form-check-label" for="relationship-curated-check">Curated Relationship</label>
+        </div>
+        <p><br></p>
+        
+        <input class="btn btn-primary" type="submit" name="Submit" value="Submit" >
+        <input class="btn btn-cancel" type="button" name="Cancel" value="Cancel" id="cancel" >
       </form>
     </div>
 
@@ -306,12 +390,6 @@
     {{ plural_voice_fields|json_script:"plural-voice-fields" }}
 
     <script>
-
-        // make checkboxes true false value
-        $("input:checkbox").change(function () {
-            $(this).parent().find('input:hidden').val($(this).is(':checked'));
-        });
-
         // Setup Continuo
         function setContinuo(el, ver, opts, MEIurl, emaEl) {
             let target = document.querySelector(el)
@@ -562,6 +640,15 @@
         }
 
         $(document).ready(function() {
+            // make checkboxes true false value
+            $('input:checkbox').change(function () {
+                $(this).parent().find('input:hidden').val($(this).is(':checked'));
+            });
+            // fix the curated values of the the models to the relationship
+            $('#relationship-curated-check').change(function() {
+                $('#model-curated').val($(this).is(':checked'));
+                $('#derivative-curated').val($(this).is(':checked'));
+            });
 
             // Set a place for Verovio
             let ver = null;
@@ -577,8 +664,6 @@
                 const [ kind, [ dataKey, tabClass ] ] = entry;
                 const activeTabs = $(`.${kind} .tab-content`).find('.active');
                 if (activeTabs.length > 0) {
-                    // Set the value for the active tab
-                    $(`#${kind}-selected-tab`).val(activeTabs.data(dataKey));
                     // Validate the initial active tab
                     validateTab(activeTabs[0]);
                 }
@@ -668,6 +753,12 @@
             // Hide music
             $("#collapseDerivativeContinuo").collapse('hide')
         });
+        
+        // Add the cancel button action to take the user back to the details page
+        $('#cancel').on('click', function() {
+          const url = '{{ back_url }}';
+          window.location.href = url;
+        });
 
         // GET ALL FORM INPUT AS JSON
         const form = document.getElementById("form");
@@ -676,7 +767,11 @@
         async function handleFormSubmit(event) {
             event.preventDefault();
             const form = event.currentTarget;
+            {% if not copy %}
+            const url = '/data/relationships/{{ relationship.id }}/';
+            {% else %}
             const url = '/data/relationships/new/';
+            {% endif %}
 
             const rawFormData = new FormData(form);
             const strippedFormData = Object.fromEntries(rawFormData.entries());
@@ -691,7 +786,7 @@
                 }
                 return value;
             }
-            
+
             function simplifyFormData(data, objectType, type) {
                 let simplifiedData = {};
                 for (let key of Object.keys(data)) {
@@ -741,24 +836,33 @@
                 massagedData['model_observation'] = formData['model_observation'];
                 massagedData['derivative_observation'] = formData['derivative_observation'];
 
+                {% if not copy %}
+                massagedData['model_observation_id'] = formData['model-observation-id'];
+                {% endif %}
                 massagedData['model_definition'] = formData['definition'];
                 massagedData['model_piece'] = formData['model-piece'];
                 massagedData['model_ema'] = formData['model-ema'];
                 massagedData['model_musical_type'] = formData['model-selected-tab'];
                 massagedData['model_details'] = simplifyFormData(formData, 'model', formData['model-selected-tab']);
                 massagedData['model_remarks'] = formData['model-remarks'];
+                massagedData['model_curated'] = valueToPrimitive(formData['model-curated']);
 
+                {% if not copy %}
+                massagedData['derivative_observation_id'] = formData['derivative-observation-id'];
+                {% endif %}
                 massagedData['derivative_definition'] = formData['definition'];
                 massagedData['derivative_piece'] = formData['derivative-piece'];
                 massagedData['derivative_ema'] = formData['derivative-ema'];
                 massagedData['derivative_musical_type'] = formData['derivative-selected-tab'];
                 massagedData['derivative_details'] = simplifyFormData(formData, 'derivative', formData['derivative-selected-tab']);
                 massagedData['derivative_remarks'] = formData['derivative-remarks'];
+                massagedData['derivative_curated'] = valueToPrimitive(formData['derivative-curated']);
 
                 massagedData['definition'] = formData['definition'];
                 massagedData['relationship_type'] = formData['relationship-selected-tab'];
                 massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
                 massagedData['remarks'] = formData['relationship-remarks'];
+                massagedData['curated'] = valueToPrimitive(formData['relationship-curated']);
 
                 return massagedData;
             }
@@ -770,7 +874,11 @@
                 const stringData = JSON.stringify(massagedData);
 
                 $.ajax({
-                    type: 'POST',
+                    {% if not copy %}
+                    type:'PATCH',
+                    {% else %}
+                    type:'POST',
+                    {% endif %}
                     url: url,
                     data: stringData,
                     contentType: "application/json",
@@ -787,7 +895,7 @@
                         // alert(`Data was succesfully captured: ${id}`);
                         window.location.assign(url);
                     },
-                    error: function(response) {
+                    error: function(response){
                         console.log(response);
                         if (response.status == 401) {
                             alert('You do not have permission to complete the requested operation');
