@@ -284,6 +284,19 @@
         <input type="hidden" id="relationship-selected-tab" name="relationship-selected-tab">
         <input type="hidden" id="model-selected-tab" name="model-selected-tab">
         <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab">
+        <br /><br />
+
+        <input name="model-curated" id="model-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <input name="derivative-curated" id="derivative-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <div class="form-check" >
+          {% if relationship.curated %}
+            <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" checked="true" >
+          {% else %}
+            <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" >
+          {% endif %}
+          <input name="relationship-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+          <label class="form-check-label" for="relationship-curated-check">Curated Relationship</label>
+        </div>
         <p><br></p>
         <input class="btn btn-primary" type="submit" name="Submit" value="Submit">
 
@@ -306,12 +319,6 @@
     {{ plural_voice_fields|json_script:"plural-voice-fields" }}
 
     <script>
-
-        // make checkboxes true false value
-        $("input:checkbox").change(function () {
-            $(this).parent().find('input:hidden').val($(this).is(':checked'));
-        });
-
         // Setup Continuo
         function setContinuo(el, ver, opts, MEIurl, emaEl) {
             let target = document.querySelector(el)
@@ -562,6 +569,15 @@
         }
 
         $(document).ready(function() {
+            // make checkboxes true false value
+            $('input:checkbox').change(function () {
+                $(this).parent().find('input:hidden').val($(this).is(':checked'));
+            });
+            // fix the curated values of the the models to the relationship
+            $('#relationship-curated-check').change(function() {
+                $('#model-curated').val($(this).is(':checked'));
+                $('#derivative-curated').val($(this).is(':checked'));
+            });
 
             // Set a place for Verovio
             let ver = null;
@@ -747,6 +763,7 @@
                 massagedData['model_musical_type'] = formData['model-selected-tab'];
                 massagedData['model_details'] = simplifyFormData(formData, 'model', formData['model-selected-tab']);
                 massagedData['model_remarks'] = formData['model-remarks'];
+                massagedData['model_curated'] = valueToPrimitive(formData['model-curated']);
 
                 massagedData['derivative_definition'] = formData['definition'];
                 massagedData['derivative_piece'] = formData['derivative-piece'];
@@ -754,11 +771,13 @@
                 massagedData['derivative_musical_type'] = formData['derivative-selected-tab'];
                 massagedData['derivative_details'] = simplifyFormData(formData, 'derivative', formData['derivative-selected-tab']);
                 massagedData['derivative_remarks'] = formData['derivative-remarks'];
+                massagedData['derivative_curated'] = valueToPrimitive(formData['derivative-curated']);
 
                 massagedData['definition'] = formData['definition'];
                 massagedData['relationship_type'] = formData['relationship-selected-tab'];
                 massagedData['details'] = simplifyFormData(formData, 'relationship', formData['relationship-selected-tab']);
                 massagedData['remarks'] = formData['relationship-remarks'];
+                massagedData['curated'] = valueToPrimitive(formData['relationship-curated']);
 
                 return massagedData;
             }

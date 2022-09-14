@@ -786,7 +786,7 @@
                 }
                 return value;
             }
-
+            
             function simplifyFormData(data, objectType, type) {
                 let simplifiedData = {};
                 for (let key of Object.keys(data)) {
@@ -874,11 +874,7 @@
                 const stringData = JSON.stringify(massagedData);
 
                 $.ajax({
-                    {% if not copy %}
-                    type:'PATCH',
-                    {% else %}
-                    type:'POST',
-                    {% endif %}
+                    type: {% if not copy %}'PATCH'{% else %}'POST'{% endif %},
                     url: url,
                     data: stringData,
                     contentType: "application/json",
@@ -895,7 +891,7 @@
                         // alert(`Data was succesfully captured: ${id}`);
                         window.location.assign(url);
                     },
-                    error: function(response){
+                    error: function(response) {
                         console.log(response);
                         if (response.status == 401) {
                             alert('You do not have permission to complete the requested operation');
