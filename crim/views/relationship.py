@@ -1,7 +1,7 @@
-from django.core.cache import caches
-from django.shortcuts import get_object_or_404
 from django.contrib.staticfiles.storage import staticfiles_storage
-
+from django.core.cache import caches
+from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
@@ -344,6 +344,7 @@ class RelationshipOldDetailData(generics.RetrieveUpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     model = CJRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -404,3 +405,46 @@ class RelationshipCreateData(generics.CreateAPIView):
 
         serialized.save()
         return Response(serialized.data, status=status.HTTP_201_CREATED)
+
+
+class RelationshipPublishData(generics.UpdateAPIView):
+    model = CJRelationship
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = CJRelationshipDetailSerializer
+    lookup_field = 'id'
+    renderer_classes = (JSONRenderer,)
+    queryset = CJRelationship.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        def post_data(name):
+            return request.data.get(name)
+        def curate_observation(observation, is_curated):
+            observation.curated = is_curated
+            observation.save()
+
+        curr_user = request.user
+        if not curr_user.is_authenticated or not curr_user.profile.person:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Deny users the ability to update models they do not own
+        if not curr_user.is_superuser and (curr_user.profile.person.person_id != request.data.get('observer')):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        instance = self.get_object()
+        
+        is_curated = post_data('curated')
+
+        curate_observation(instance.model_observation, is_curated)
+        curate_observation(instance.derivative_observation, is_curated)
+
+        instance.curated = is_curated
+        instance.save()
+
+        serialized = CJRelationshipDetailSerializer(instance, context={'request': request})
+
+        response_headers = {
+            'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers': 'origin, content-type, accept',
+        }
+        return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
