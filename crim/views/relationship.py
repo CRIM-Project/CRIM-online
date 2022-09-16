@@ -426,12 +426,12 @@ class RelationshipPublishData(generics.UpdateAPIView):
         if not curr_user.is_authenticated or not curr_user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        # Deny users the ability to update models they do not own
-        if not curr_user.is_superuser and (curr_user.profile.person.person_id != request.data.get('observer')):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-
         instance = self.get_object()
         
+        # Deny users the ability to update models they do not own
+        if not curr_user.is_superuser and (curr_user.profile.person.person_id != instance.observer.person_id):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
         is_curated = post_data('curated')
 
         curate_observation(instance.model_observation, is_curated)
