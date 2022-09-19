@@ -53,7 +53,7 @@ from crim.views.piece import PieceListData, ModelListData, PieceDetailData, Piec
 from crim.views.observation import ObservationOldListData, ObservationOldListBriefData, ObservationOldDetailData
 from crim.views.observation import ObservationListData, ObservationListBriefData, ObservationDetailData, ObservationCreateData
 from crim.views.relationship import RelationshipOldListData, RelationshipOldListBriefData, RelationshipOldDetailData
-from crim.views.relationship import RelationshipListData, RelationshipListBriefData, RelationshipDetailData, RelationshipCreateData
+from crim.views.relationship import RelationshipListData, RelationshipListBriefData, RelationshipDetailData, RelationshipCreateData, RelationshipPublishData
 from crim.views.role import RoleListData, RoleDetailData
 from crim.views.roletype import RoleTypeListData, RoleTypeDetailData
 from crim.views.source import SourceListData, SourceDetailData
@@ -62,7 +62,7 @@ from crim.views.voice import VoiceListData, VoiceDetailData
 from crim.views.user import UserProfileData
 from crim.views import forum as forum_views
 
-from crim.views.relationship_form import get_relationship
+from crim.views.relationship_form import get_relationship, edit_relationship, copy_relationship, edit_observation, copy_observation
 
 admin.autodiscover()
 
@@ -148,6 +148,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/relationships-old/$', RelationshipOldListData.as_view(), name='cjrelationship-list-data'),
         re_path(r'^data/relationships/brief/$', RelationshipListBriefData.as_view(), name='cjrelationship-list-brief-data'),
         re_path(r'^data/relationships/(?P<id>[0-9]+)/$', RelationshipDetailData.as_view(), name='cjrelationship-detail-data'),
+        re_path(r'^data/relationships/(?P<id>[0-9]+)/publish/$', RelationshipPublishData.as_view(), name='cjrelationship-publish-data'),
         re_path(r'^data/relationships/new/$', RelationshipCreateData.as_view(), name='cjrelationship-new-data'),
         re_path(r'^data/roles/$', RoleListData.as_view(), name='crimrole-list-data'),
         re_path(r'^data/roles/(?P<id>[0-9]+)/$', RoleDetailData.as_view(), name='crimrole-detail-data'),
@@ -162,6 +163,10 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^data/voices/(?P<voice_id>[-_A-Za-z0-9\(\)]+)/$', VoiceDetailData.as_view(), name='crimvoice-detail-data'),
 
         path('relationships/new/', get_relationship, name='relationship-form'),
+        re_path(r'^relationships/(?P<id>[0-9]+)/edit/$', edit_relationship, name='relationship-form'),
+        re_path(r'^relationships/(?P<id>[0-9]+)/copy/$', copy_relationship, name='relationship-form'),
+        re_path(r'^observations/(?P<id>[0-9]+)/edit/$', edit_observation, name='relationship-form'),
+        re_path(r'^observations/(?P<id>[0-9]+)/copy/$', copy_observation, name='relationship-form'),
         # path('observations/new/', get_observation, name='observation-form'),
 
         re_path('about', include('django.contrib.flatpages.urls')),

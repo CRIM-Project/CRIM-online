@@ -1,6 +1,6 @@
 #from django.core.exceptions import DoesNotExist
 from django.db.models import Min, Prefetch
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer
@@ -29,10 +29,9 @@ class PersonListHTMLRenderer(CustomHTMLRenderer):
         if renderer_context['request'].GET.get('role') and CRIMRoleType.objects.filter(role_type_id=renderer_context['request'].GET.get('role')):
             data['filter_role_type'] = CRIMRoleType.objects.get(role_type_id=renderer_context['request'].GET.get('role'))
 
-        template_names = ['person/person_list.html']
-        template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        request = renderer_context['request']
+        context = self.get_template_context({'content': data, 'request': request}, renderer_context)
+        return render(request, 'person/person_list.html', context)
 
 
 class PersonDetailHTMLRenderer(CustomHTMLRenderer):
@@ -45,10 +44,9 @@ class PersonDetailHTMLRenderer(CustomHTMLRenderer):
                 data['has_works'] = True
                 break
 
-        template_names = ['person/person_detail.html']
-        template = self.resolve_template(template_names)
-        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        request = renderer_context['request']
+        context = self.get_template_context({'content': data, 'request': request}, renderer_context)
+        return render(request, 'person/person_detail.html', context)
 
 
 class PersonList(generics.ListAPIView):

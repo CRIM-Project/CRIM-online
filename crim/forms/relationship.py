@@ -1,7 +1,6 @@
 from django import forms
 #from splitjson.widgets import SplitJSONWidget
 from crim.models.relationship import CJRelationship
-from crim.models.definition import CRIMDefinition
 from crim.models.observation import CJObservation
 
 from crim.common import *
