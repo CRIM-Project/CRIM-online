@@ -286,15 +286,15 @@
         <input type="hidden" id="derivative-selected-tab" name="derivative-selected-tab">
         <br /><br />
 
-        <input name="model-curated" id="model-curated" type="hidden" value="{{ relationship.curated|lower }}" >
-        <input name="derivative-curated" id="derivative-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+        <input name="model-curated" id="model-curated" type="hidden" value="false" >
+        <input name="derivative-curated" id="derivative-curated" type="hidden" value="false" >
         <div class="form-check" >
           {% if relationship.curated %}
             <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" checked="true" >
           {% else %}
             <input class="form-check-input" type="checkbox" name="relationship-curated" id="relationship-curated-check" >
           {% endif %}
-          <input name="relationship-curated" type="hidden" value="{{ relationship.curated|lower }}" >
+          <input name="relationship-curated" type="hidden" value="false" >
           <label class="form-check-label" for="relationship-curated-check">Curated Relationship</label>
         </div>
         <p><br></p>
