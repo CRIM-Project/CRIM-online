@@ -3,6 +3,9 @@
 {% load shorten %}
 {% load static %}
 {% load get_string %}
+{% load sortable_header %}
+
+
 
 {% block title %}
   <title>CRIM | Observations</title>
@@ -23,9 +26,9 @@
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th><a href="?order_by=pk">ID</a></th>
-            <th><a href="?order_by=observer__name_sort">Observer</a></th>
-            <th><a href="?order_by=piece__piece_id">Piece</a></th>
+            <th>{% sortable_header "ID" "order_by" "pk" True %}</th>
+            <th>{% sortable_header "Observer" "order_by" "observer__name_sort" %}</th>
+            <th>{% sortable_header "Piece" "order_by" "piece__piece_id" %}</th>
             <th>Observation type</th>
             <th>Show details</th>
           </tr>

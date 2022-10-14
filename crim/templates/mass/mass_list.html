@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load markdown %}
 {% load shorten %}
+{% load sortable_header %}
+
+
 
 {% block title %}
   <title>CRIM | Masses</title>
@@ -21,11 +24,11 @@
       <table class="table table-white table-bordered table-hover">
         <thead>
           <tr>
-            <th><a href="?order_by=mass_id">Mass ID</a></th>
-            <th><a href="?order_by=title">Title</a></th>
-            <th><a href="?order_by=composer__name_sort">Composer</a></th>
-            <th><a href="?order_by=max_number_of_voices">Voices</a></th>
-            <th><a href="?order_by=date_sort">Date</a></th>
+            <th>{% sortable_header "Mass ID" "order_by" "mass_id" True %}</th>
+            <th>{% sortable_header "Title" "order_by" "title" %}</th>
+            <th>{% sortable_header "Composer" "order_by" "composer__name_sort" %}</th>
+            <th>{% sortable_header "Voices" "order_by" "max_number_of_voices" %}</th>
+            <th>{% sortable_header "Date" "order_by" "date_sort" %}</th>
           </tr>
         </thead>
         <tbody>
