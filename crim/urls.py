@@ -35,7 +35,7 @@ from crim.views.observation import ObservationOldList, ObservationOldDetail
 from crim.views.observation import ObservationList, ObservationDetail
 from crim.views.relationship import RelationshipOldList, RelationshipOldDetail
 from crim.views.relationship import RelationshipList, RelationshipDetail
-from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithSources, PieceWithRelationships, PieceWithDiscussions
+from crim.views.piece import PieceList, ModelList, PieceDetail, PieceWithSources, PieceWithRelationships, PieceWithObservations, PieceWithDiscussions
 from crim.views.roletype import RoleTypeList
 from crim.views.search import search
 from crim.views.source import SourceList, SourceDetail
@@ -106,6 +106,7 @@ if 'django.contrib.admin' in settings.INSTALLED_APPS:
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/$', PieceDetail.as_view(), name='crimpiece-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/sources/$', PieceWithSources.as_view(), name='crimpiece-sources-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/relationships/$', PieceWithRelationships.as_view(), name='crimpiece-relationships-detail'),
+        re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/observations/$', PieceWithObservations.as_view(), name='crimpiece-observations-detail'),
         re_path(r'^pieces/(?P<piece_id>[-_A-Za-z0-9]+)/discussions/$', PieceWithDiscussions.as_view(), name='crimpiece-discussions-detail'),
         re_path(r'^relationships-old/$', cache_page(600)(RelationshipOldList.as_view()), name='crimrelationship-list'),
         re_path(r'^relationships-old/(?P<id>[0-9]+)/$', RelationshipOldDetail.as_view(), name='crimrelationship-detail'),

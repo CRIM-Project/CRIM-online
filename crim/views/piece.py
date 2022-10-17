@@ -1,6 +1,6 @@
 from django.core.cache import caches
 from django.db.models import Count, F, Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
@@ -8,7 +8,7 @@ from rest_framework.renderers import JSONRenderer
 
 from crim.helpers.common import cache_values_to_string
 from crim.renderers.custom_html_renderer import CustomHTMLRenderer
-from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceScoreSerializer, CRIMPieceWithSourcesSerializer, CRIMPieceWithRelationshipsSerializer, CRIMPieceWithRelationshipsDataSerializer, CRIMPieceWithDiscussionsSerializer
+from crim.serializers.piece import CRIMPieceListSerializer, CRIMPieceDetailSerializer, CRIMPieceScoreSerializer, CRIMPieceWithSourcesSerializer, CRIMPieceWithRelationshipsSerializer, CRIMPieceWithObservationsSerializer, CRIMPieceWithRelationshipsDataSerializer, CRIMPieceWithDiscussionsSerializer
 from crim.models.forum import CRIMForumPost
 from crim.models.genre import CRIMGenre
 from crim.models.piece import CRIMPiece
@@ -31,18 +31,16 @@ class AllPieceListHTMLRenderer(CustomHTMLRenderer):
         if renderer_context['request'].GET.get('genre') and CRIMGenre.objects.filter(genre_id=renderer_context['request'].GET.get('genre')):
             data['filter_genre'] = CRIMGenre.objects.get(genre_id=renderer_context['request'].GET.get('genre'))
 
-        template_names = ['piece/all_piece_list.html']
-        template = self.resolve_template(template_names)
+        request = renderer_context['request']
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        return render(request, 'piece/all_piece_list.html', context)
 
 
 class ModelListHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        template_names = ['piece/model_list.html']
-        template = self.resolve_template(template_names)
+        request = renderer_context['request']
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        return render(request, 'piece/model_list.html', context)
 
 
 class PieceDetailHTMLRenderer(CustomHTMLRenderer):
@@ -53,10 +51,9 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
 
         raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['piece_id'] + '.mei')).read()
         data['mei'] = raw_mei
-        template_names = ['piece/piece_detail.html']
-        template = self.resolve_template(template_names)
+        request = renderer_context['request']
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        return render(request, 'piece/piece_detail.html', context)
 
 
 class PieceWithSourcesHTMLRenderer(PieceDetailHTMLRenderer):
@@ -66,10 +63,9 @@ class PieceWithSourcesHTMLRenderer(PieceDetailHTMLRenderer):
         all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
         data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
-        template_names = ['piece/piece_detail.html']
-        template = self.resolve_template(template_names)
+        request = renderer_context['request']
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        return render(request, 'piece/piece_detail.html', context)
 
 
 class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
@@ -79,11 +75,20 @@ class PieceWithRelationshipsHTMLRenderer(PieceDetailHTMLRenderer):
         all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
         data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
-        template_names = ['piece/piece_detail.html']
-        template = self.resolve_template(template_names)
+        request = renderer_context['request']
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        return render(request, 'piece/piece_detail.html', context)
 
+class PieceWithObservationsHTMLRenderer(PieceDetailHTMLRenderer):
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        data['show_observations'] = True
+        # Sort roles alphabetically by role type, including mass roles
+        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+
+        request = renderer_context['request']
+        context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
+        return render(request, 'piece/piece_detail.html', context)
 
 class PieceWithDiscussionsHTMLRenderer(PieceDetailHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
@@ -100,10 +105,9 @@ class PieceWithDiscussionsHTMLRenderer(PieceDetailHTMLRenderer):
         all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
         data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
-        template_names = ['piece/piece_detail.html']
-        template = self.resolve_template(template_names)
+        request = renderer_context['request']
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
-        return template.render(context)
+        return render(request, 'piece/piece_detail.html', context)
 
 
 class PieceList(generics.ListAPIView):
@@ -223,6 +227,30 @@ class PieceWithRelationships(generics.RetrieveAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
+class PieceWithObservations(generics.RetrieveAPIView):
+    model = CRIMPiece
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = CRIMPieceWithObservationsSerializer
+    renderer_classes = (
+        PieceWithObservationsHTMLRenderer,
+        JSONRenderer,
+    )
+    queryset = CRIMPiece.objects.all()
+
+    def get_object(self):
+        url_arg = self.kwargs['piece_id']
+        piece = CRIMPiece.objects.filter(piece_id=url_arg).prefetch_related(
+            'roles_as_piece__role_type',
+            'roles_as_piece__person',
+            'mass__roles_as_mass__role_type',
+            'mass__roles_as_mass__person',
+        )
+        if not piece.exists():
+            piece = CRIMPiece.objects.filter(title__iexact=url_arg)
+
+        obj = get_object_or_404(piece)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 class PieceWithDiscussions(generics.RetrieveAPIView):
     model = CRIMPiece

@@ -1,0 +1,69 @@
+{% load static %}
+{% load sortable_header %}
+
+
+
+{% if content.observations %}
+  <h2>Observations</h2>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th><a href="?order_by=pk">ID</a></th>
+        <th><a href="?order_by=observer__name_sort">Observer</a></th>
+        <th><a href="?order_by=piece__piece_id">Piece</a></th>
+        <th>Observation type</th>
+        <th>Show details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for observation in content.observations %}
+        <tr>
+          <td><a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.url|htmlsite }}">&lt;{{ observation.id }}&gt;</a></td>
+          <td><a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.observer.url|htmlsite }}">{{ observation.observer.name }}</a></td>
+          <td>
+            <a {% if not observation.curated %}class="uncurated"{% endif %} href="{{ observation.piece.url|htmlsite }}">
+              [{{ observation.piece.piece_id }}]
+              {{ observation.piece.full_title }}
+            </a>
+          </td>
+          <td>
+            {% if observation.musical_type %}
+              {{ observation.musical_type|capitalize }}
+            {% else %}
+              None
+            {% endif %}
+          </td>
+          <td>
+            {% if observation.details %}
+              <a href="#" class="observation-info-expand {% if not observation.curated %}uncurated{% endif %}" target="observation-info-{{ forloop.counter }}">Expand</a>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr id="observation-info-{{ forloop.counter }}" class="observation-info">
+          <td colspan="5" class="expansion">
+            {% include "observation/observation_expanded.html" %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script type="text/javascript">
+    // This script expands and hides observation details
+    $('.observation-info').hide();
+    $('.observation-info-expand').on({
+      'click': function(event) {
+        event.preventDefault();
+        tgt = "#" + $(this).attr('target');
+        $(tgt).toggle();
+        tag = $(this).text() == "Expand" ? "Collapse" : "Expand";
+        $(this).text(tag);
+        return false;
+      }
+    })
+  </script>
+{% else %}
+  <h3>No observations for this piece.</h3>
+{% endif %}
