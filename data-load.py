@@ -17,14 +17,14 @@ import sys
 #   os.system(f'python3 ./manage.py loaddata {file}')
 
 if __name__ == '__main__':
-  # if len(sys.argv) < 2:
-  #   print("usage: data-load.py <path>")
-  #   sys.exit(-1)
+  if len(sys.argv) < 2:
+    print("usage: data-load.py <path>")
+    sys.exit(-1)
 
-  # path = sys.argv[1]
+  # path = 'crim/fixtures/data-2022-fresh'
+  path = sys.argv[1]
   # iterate(path, load_data)
 
-  path = 'crim/fixtures/data-2022-fresh'
   items = [ 'genre.json',
             'mass.json',
             'piece.json',
