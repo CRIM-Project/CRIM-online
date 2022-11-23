@@ -4,6 +4,9 @@ from django.utils.safestring import mark_safe
 
 from crim.common import get_current_definition, print_voice
 from crim.models.definition import CRIMDefinition
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @register.filter(name='expand', needs_autoescape=True)
@@ -64,8 +67,11 @@ def expand(obs_or_rel, kind, autoescape=True):
                         subtype_value = details.get(subtype_name)
                         subtype_value_html = ''
                         if subtype_name in plural_voice_fields:
-                            for e in subtype_value:
-                                subtype_value_html += '<br>' + print_voice(piece_id, e)
+                            if subtype_value is None:
+                                subtype_value_html += '<br> -'
+                            else:
+                                for e in subtype_value:
+                                    subtype_value_html += '<br>' + print_voice(piece_id, e)
                         elif subtype_name in singular_voice_fields:
                             subtype_value_html = print_voice(piece_id, subtype_value)
                         elif isinstance(subtype_value, list):

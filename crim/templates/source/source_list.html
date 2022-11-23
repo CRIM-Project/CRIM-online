@@ -2,6 +2,9 @@
 {% load markdown %}
 {% load shorten %}
 {% load static %}
+{% load sortable_header %}
+
+
 
 {% block title %}
   <title>CRIM | Sources</title>
@@ -22,10 +25,10 @@
       <table class="table table-white table-bordered table-hover">
         <thead>
           <tr>
-            <th><a href="?order_by=document_id">Document ID</a></th>
-            <th><a href="?order_by=title">Title</a></th>
-            <th><a href="?order_by=publisher__name_sort">Publisher</a></th>
-            <th><a href="?order_by=date_sort">Date</a></th>
+            <th>{% sortable_header "Document ID" "order_by" "document_id" True %}</th>
+            <th>{% sortable_header "Title" "order_by" "title" %}</th>
+            <th>{% sortable_header "Publisher" "order_by" "publisher__name_sort" %}</th>
+            <th>{% sortable_header "Date" "order_by" "date_sort" %}</th>
           </tr>
         </thead>
         <tbody>
