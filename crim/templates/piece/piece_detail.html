@@ -65,11 +65,6 @@
       {% if content.show_relationships %}
         {% include "piece/relationships.html" %}
       {% endif %}
-
-      {% if content.show_observations %}
-        {% include "piece/observations.html" %}
-      {% endif %}
-
     </div>
     <div class="span3">
       <div class="well span12">
@@ -89,12 +84,6 @@
           <h3>Relationships</h3>
         {% else %}
           <h3><a href="{{ content.url|htmlsite }}relationships/">Relationships</a></h3>
-        {% endif %}
-        
-        {% if content.show_observations %}
-          <h3>Observations</h3>
-        {% else %}
-          <h3><a href="{{ content.url|htmlsite }}observations/" >Observations</a></h3>
         {% endif %}
 
         {% if content.show_discussions %}
