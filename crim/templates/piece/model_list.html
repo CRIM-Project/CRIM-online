@@ -2,9 +2,6 @@
 {% load markdown %}
 {% load shorten %}
 {% load static %}
-{% load sortable_header %}
-
-
 
 {% block title %}
 <title>CRIM | Models</title>
@@ -25,12 +22,12 @@
     <table class="table table-white table-bordered table-hover">
       <thead>
         <tr>
-          <th>{% sortable_header "Piece ID" "order_by" "piece_id" True %}</th>
-          <th>{% sortable_header "Title" "order_by" "full_title" %}</th>
-          <th>{% sortable_header "Composer" "order_by" "composer__name_sort" %}</th>
-          <th>{% sortable_header "Genre" "order_by" "genre" %}</th>
-          <th>{% sortable_header "Voices" "order_by" "number_of_voices" %}</th>
-          <th>{% sortable_header "Date" "order_by" "date_sort" %}</th>
+          <th><a href="?order_by=piece_id">Piece ID</a></th>
+          <th><a href="?order_by=full_title">Title</a></th>
+          <th><a href="?order_by=composer__name_sort">Composer</a></th>
+          <th><a href="?order_by=genre">Genre</a></th>
+          <th><a href="?order_by=number_of_voices">Voices</a></th>
+          <th><a href="?order_by=date_sort">Date</a></th>
         </tr>
       </thead>
       <tbody>
