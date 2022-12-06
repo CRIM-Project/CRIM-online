@@ -3,10 +3,6 @@
 
 SITE_ID = 2
 
-ALLOWED_HOSTS = (
-    '127.0.0.1',
-)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -39,14 +35,16 @@ SOLR_SERVER = 'http://localhost:8983/solr/crim'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-ALLOWED_HOSTS = [
-    "crimproject.com",
-    "127.0.0.1"
-]
 CORS_ALLOWED_ORIGINS = [
-    "https://crimproject.com",
+    "https://crimproject.org",
+    "http://127.0.0.1:8000"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://crimproject.org",
     "http://127.0.0.1:8000"
 ]
 

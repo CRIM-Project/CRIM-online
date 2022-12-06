@@ -28034,7 +28034,8 @@ var Continuo = function (_Backbone$View) {
 
             if (this.paginate) {
                 this.page = 1;
-                var svg = vrvToolkit.renderPage(1);
+                // var svg = vrvToolkit.renderPage(1);
+                var svg = vrvToolkit.renderToSVG(1);
                 var ext_svg = (0, _verovioExt2.default)(svg);
                 container.append(ext_svg);
             } else {
@@ -28049,7 +28050,8 @@ var Continuo = function (_Backbone$View) {
                     })[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                         var page = _step.value;
 
-                        var _svg = vrvToolkit.renderPage(page + 1);
+                        // var _svg = vrvToolkit.renderPage(page + 1);
+                        var _svg = vrvToolkit.renderToSVG(page + 1);
 
                         var _ext_svg = (0, _verovioExt2.default)(_svg);
                         container.append(_ext_svg);
@@ -28200,7 +28202,8 @@ var Continuo = function (_Backbone$View) {
             this.vrvToolkit.loadData(meidata)
             if (page > 0 && page <= this.vrvToolkit.getPageCount()) {
                 this.page = page;
-                var svg = this.vrvToolkit.renderPage(page);
+                // var svg = this.vrvToolkit.renderPage(page);
+                var svg = this.vrvToolkit.renderToSVG(page);
                 var ext_svg = (0, _verovioExt2.default)(svg);
                 this.$el.find(".cnt-container > svg").replaceWith(ext_svg);
 

@@ -624,7 +624,8 @@
                 $('#buttonModelContinuo').text('Hide music notation');
                 $('#collapseDerivativeContinuo').collapse('hide');
                 MEIurl = $("#model-piece option:selected").data('piece-url')
-                // MEIurl = MEIurl.replace('https://crim', 'https://dev.crim')
+                // XXX: Use this line for local development only
+                // MEIurl = MEIurl.replace('https://crimproject.org/mei/', 'http://127.0.0.1:8000/static/mei/MEI_4.0/')
                 if (!ver) {
                     console.log('Loading Verovio for the first time...')
                     $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
@@ -655,7 +656,8 @@
                 $("#buttonDerivativeContinuo").text("Hide music notation")
                 $("#collapseDerivativeContinuo").collapse('hide')
                 MEIurl = $("#derivative-piece option:selected").data('piece-url')
-                // MEIurl = MEIurl.replace('https://crim', 'https://dev.crim')
+                // XXX: Use this line for local development only
+                // MEIurl = MEIurl.replace('https://crimproject.org/mei/', 'http://127.0.0.1:8000/static/mei/MEI_4.0/')
                 if (!ver) {
                     console.log('Loading Verovio for the first time...')
                     $.getScript( "https://www.verovio.org/javascript/latest/verovio-toolkit.js", function( data, textStatus, jqxhr ) {
