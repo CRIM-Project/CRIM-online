@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
+<mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
   <fileDesc xml:id="m-3">
    <titleStmt xml:id="m-10-ts">
@@ -30,11 +30,52 @@
     <publisher>
      Citations: The Renaissance Imitation Mass Project
     </publisher>
-    <distributor/>
-    <date isodate="2022-05-06"/>
-    <availability/>
+    <distributor>
+     Centre d'Études Supérieures de la Renaissance
+    </distributor>
+    <distributor>
+     Haverford College
+    </distributor>
+    <distributor>
+     Vincent Besson
+    </distributor>
+    <distributor>
+     María Elena Cuenca Rodríguez
+    </distributor>
+    <date isodate="2023-02-06"/>
+    <availability>
+     This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
+    </availability>
    </pubStmt>
   </fileDesc>
+  <manifestationList xml:id="manifestationList">
+   <manifestation>
+    <identifier type="RISM"/>
+    <titleStmt>
+     <title>
+      Missa Super flumina Babylonis
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/9901501">
+       Nicolas Du Chemin
+      </persName>
+     </publisher>
+     <date isodate="1566"/>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+      </corpName>
+      <settlement/>
+     </repository>
+     <identifier type="shelfmark">
+      RISM A/I, G 4870
+     </identifier>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
   <encodingDesc xml:id="m-21">
    <appInfo xml:id="m-22">
     <application isodate="2021-6-10T08:04:52Z" version="20200900" xml:id="sibelius">
@@ -47,7 +88,7 @@
       Sibelius to MEI Exporter (2.1.0)
      </name>
     </application>
-    <application version="v1.0_beta" xml:id="app_202212620495534">
+    <application version="v1.0_beta" xml:id="app_202337221258346">
      <name>
       mei30To40.xsl
      </name>
@@ -69,27 +110,27 @@
      <scoreDef lyric.name="Times New Roman" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Times New Roman" xml:id="m-31">
       <staffGrp xml:id="m-32">
        <staffGrp n="1" symbol="bracket" xml:id="m-51">
-        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Superius 1Âº" lines="5" n="1" xml:id="m-33">
+        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Superius 1º" lines="5" n="1" xml:id="m-33">
          <label>
-          Superius 1Âº
+          Superius 1º
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Superius 2Âº" lines="5" n="2" xml:id="m-36">
+        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Superius 2º" lines="5" n="2" xml:id="m-36">
          <label>
-          Superius 2Âº
+          Superius 2º
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Altus 1Âº" lines="5" n="3" xml:id="m-39">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Altus 1º" lines="5" n="3" xml:id="m-39">
          <label>
-          Altus 1Âº
+          Altus 1º
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Altus 2Âº" lines="5" n="4" xml:id="m-42">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Altus 2º" lines="5" n="4" xml:id="m-42">
          <label>
-          Altus 2Âº
+          Altus 2º
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-44"/>
         </staffDef>
@@ -99,9 +140,9 @@
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-47"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Bassus 1Âº" lines="5" n="6" xml:id="m-48">
+        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Bassus 1º" lines="5" n="6" xml:id="m-48">
          <label>
-          Bassus 1Âº
+          Bassus 1º
          </label>
          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-50"/>
         </staffDef>

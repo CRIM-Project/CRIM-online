@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
+<mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
   <fileDesc xml:id="m-3">
    <titleStmt xml:id="m-10-ts">
@@ -36,12 +36,45 @@
     <distributor>
      Haverford College
     </distributor>
-    <date isodate="2022-05-06"/>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
+  <manifestationList xml:id="manifestationList">
+   <manifestation>
+    <identifier type="RISM">
+     CENSUS MunBS 46
+    </identifier>
+    <titleStmt>
+     <title>
+      Missa Benedicta es
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/52821616 | http://viaf.org/viaf/27888913">
+       Peter Steidl | Jean Pollet
+      </persName>
+     </publisher>
+     <date isodate="c. 1565 (1555-1575)"/>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+       Bayerische Staatsbibliothek
+      </corpName>
+      <settlement>
+       München
+      </settlement>
+     </repository>
+     <identifier type="shelfmark">
+      Mus.ms. 46
+     </identifier>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
   <encodingDesc xml:id="m-18">
    <appInfo xml:id="m-19">
     <application isodate="2020-6-12T16:00:41Z" version="19900" xml:id="sibelius">
@@ -54,7 +87,7 @@
       Sibelius to MEI Exporter (2.3.0)
      </name>
     </application>
-    <application version="v1.0_beta" xml:id="app_2022126204348604">
+    <application version="v1.0_beta" xml:id="app_202337220601479">
      <name>
       mei30To40.xsl
      </name>
@@ -21090,7 +21123,7 @@
        </staff>
        <staff n="4" xml:id="m-10604">
         <layer n="1" xml:id="m-10605">
-         <mRest dots="1" dur="breve" xml:id="m-10606"/>
+         <mRest dur="breve 1" xml:id="m-10606"/>
         </layer>
        </staff>
        <staff n="5" xml:id="m-10607">
@@ -21197,7 +21230,7 @@
        </staff>
        <staff n="4" xml:id="m-10650">
         <layer n="1" xml:id="m-10651">
-         <mRest dots="1" dur="breve" xml:id="m-10652"/>
+         <mRest dur="breve 1" xml:id="m-10652"/>
         </layer>
        </staff>
        <staff n="5" xml:id="m-10653">
@@ -21227,7 +21260,7 @@
        </staff>
        <staff n="6" xml:id="m-10662">
         <layer n="1" xml:id="m-10663">
-         <mRest dots="1" dur="breve" xml:id="m-10664"/>
+         <mRest dur="breve 1" xml:id="m-10664"/>
         </layer>
        </staff>
       </measure>
@@ -21349,7 +21382,7 @@
        </staff>
        <staff n="6" xml:id="m-10721">
         <layer n="1" xml:id="m-10722">
-         <mRest dots="1" dur="breve" xml:id="m-10723"/>
+         <mRest dur="breve 1" xml:id="m-10723"/>
         </layer>
        </staff>
       </measure>
@@ -21481,7 +21514,7 @@
        </staff>
        <staff n="2" xml:id="m-10788">
         <layer n="1" xml:id="m-10789">
-         <mRest dots="1" dur="breve" xml:id="m-10790"/>
+         <mRest dur="breve 1" xml:id="m-10790"/>
         </layer>
        </staff>
        <staff n="3" xml:id="m-10791">

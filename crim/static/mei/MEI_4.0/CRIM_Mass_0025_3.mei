@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
+<mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
   <fileDesc xml:id="m-3">
    <titleStmt xml:id="m-10-ts">
@@ -30,11 +30,52 @@
     <publisher>
      Citations: The Renaissance Imitation Mass Project
     </publisher>
-    <distributor/>
-    <date isodate="2022-05-06"/>
-    <availability/>
+    <distributor>
+     Centre d'Études Supérieures de la Renaissance
+    </distributor>
+    <distributor>
+     Haverford College
+    </distributor>
+    <distributor>
+     Vincent Besson
+    </distributor>
+    <distributor>
+     María Elena Cuenca Rodríguez
+    </distributor>
+    <date isodate="2023-02-06"/>
+    <availability>
+     This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
+    </availability>
    </pubStmt>
   </fileDesc>
+  <manifestationList xml:id="manifestationList">
+   <manifestation>
+    <identifier type="RISM"/>
+    <titleStmt>
+     <title>
+      Missa Sancta et immaculata virginitas
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/9901501">
+       Nicolas Du Chemin
+      </persName>
+     </publisher>
+     <date isodate="1566"/>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+      </corpName>
+      <settlement/>
+     </repository>
+     <identifier type="shelfmark">
+      RISM A/I, G 4870
+     </identifier>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
   <encodingDesc xml:id="m-21">
    <appInfo xml:id="m-22">
     <application isodate="2021-5-25T15:13:03Z" version="19900" xml:id="sibelius">
@@ -47,7 +88,7 @@
       Sibelius to MEI Exporter (2.3.0)
      </name>
     </application>
-    <application version="v1.0_beta" xml:id="app_2022126204849144">
+    <application version="v1.0_beta" xml:id="app_202337221144962">
      <name>
       mei30To40.xsl
      </name>
@@ -69,15 +110,15 @@
      <scoreDef lyric.name="Times New Roman" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Times New Roman" xml:id="m-33">
       <staffGrp xml:id="m-34">
        <staffGrp n="1" symbol="bracket" xml:id="m-50">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Superius 1Âº" lines="5" n="1" xml:id="m-35">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Superius 1º" lines="5" n="1" xml:id="m-35">
          <label>
-          Superius 1Âº
+          Superius 1º
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-37"/>
         </staffDef>
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Superius 2Âº" lines="5" n="2" xml:id="m-38">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Superius 2º" lines="5" n="2" xml:id="m-38">
          <label>
-          Superius 2Âº
+          Superius 2º
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-40"/>
         </staffDef>
