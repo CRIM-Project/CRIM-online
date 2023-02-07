@@ -1,0 +1,12 @@
+name: crim_test
+on: [push] # activates the workflow on Push
+jobs:
+  test_crim_app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: pip install flake8
+      - run: pip install -r dev_requirements.txt # install dependencies from the Deveopment Requirements
+      - run: python manage.py test # run Python test
+      - run: flake8 . # run flake8 test
