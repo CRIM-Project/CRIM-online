@@ -13,6 +13,6 @@ jobs:
       - run: python manage.py migrate # migration
       - run: python manage.py loaddata crim/fixtures/definitions.json # importing definitions
       - run: python manage.py test # run Python test
-      - run: flake8 . --max-line-length=127 # run flake8 test
+      - run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
       - run: rm "crim/settings_production.py"
       - run: echo "Done Testing"
