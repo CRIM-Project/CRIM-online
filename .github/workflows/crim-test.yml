@@ -8,11 +8,11 @@ jobs:
       - uses: actions/setup-python@v3
       - run: pip install flake8
       - run: pip install -r dev_requirements.txt # install dependencies from the Deveopment Requirements
-      - run: cp "crim/test_settings_production.py" "crim/settings_production.py"
+      - run: cp "crim/test_settings_production.py" "crim/settings_production.py" # copy the Production Settings file
       - run: python manage.py makemigrations # making migrations
-      - run: python manage.py migrate # migration
+      - run: python manage.py migrate # migrating
       - run: python manage.py loaddata crim/fixtures/definitions.json # importing definitions
       - run: python manage.py test # run Python test
       - run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
-      - run: rm "crim/settings_production.py"
-      - run: echo "Done Testing"
+      - run: rm "crim/settings_production.py" # removing the copy of Production Settings
+      - run: echo "Done Testing" # echoing
