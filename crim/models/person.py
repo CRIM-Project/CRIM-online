@@ -33,7 +33,7 @@ class CRIMPerson(models.Model):
     remarks = models.TextField('remarks (supports Markdown)', blank=True)
 
     def sorted_name(self):
-        return self.name_sort
+        return "hello"
     sorted_name.short_description = 'name'
     sorted_name.admin_order_field = 'name_sort'
 
