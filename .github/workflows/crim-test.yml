@@ -2,17 +2,64 @@ name: crim_test
 on: [push] # activates the workflow on Push
 jobs:
   test_crim_app:
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - run: pip install flake8
-      - run: pip install -r dev_requirements.txt # install dependencies from the Deveopment Requirements
-      - run: cp "crim/test_settings_production.py" "crim/settings_production.py" # copy the Production Settings file
-      - run: python manage.py makemigrations # making migrations
-      - run: python manage.py migrate # migrating
-      - run: python manage.py loaddata crim/fixtures/definitions.json # importing definitions
-      - run: python manage.py test # run Python test
-      - run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
+      - name: Checkout Code
+        uses: actions/checkout@v3
+  
+      - name: Set up Python
+        uses: actions/setup-python@v3
+
+      - name: Install dependencies
+        run: |
+          pip install flake8
+          pip install -r dev_requirements.txt # install dependencies from the Deveopment Requirements
+          cp "crim/test_settings_production.py" "crim/settings_production.py" # copy the Production Settings file
+
+      - name: Make Migrations
+        run: |
+          python manage.py makemigrations # making migrations
+          python manage.py migrate # migrating
+
+      - name: Import Definitions 
+        run: python manage.py loaddata crim/fixtures/definitions.json # importing definitions
+
+      - name: Testing Models
+        run: python manage.py test crim.tests.test_models
+
+      - name: Testing Views
+        run: python manage.py test crim.tests.test_views
+
+      - name: Testing API
+        run: python manage.py test crim.tests.test_API_views
+
+      - name: Reloading Data for Functional Testing
+        run: |
+          python manage.py flush
+          python manage.py makemigrations
+          python manage.py migrate 
+          python manage.py loaddata crim/fixtures/data-2022-fresh/genre.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/mass.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/piece.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/part.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/phrase.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/voice.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/treatise.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/source.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/person.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/roletype.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/role.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/definition.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/observation.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/relationship.json
+
+      - name: Functional Testing
+        run: python manage.py test crim.tests.test_functional
+
+      - name: Flake8 Testing
+        run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
+
       - run: rm "crim/settings_production.py" # removing the copy of Production Settings
       - run: echo "Done Testing" # echoing
