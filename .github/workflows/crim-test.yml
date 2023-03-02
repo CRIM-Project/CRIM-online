@@ -37,7 +37,7 @@ jobs:
 
       - name: Reloading Data for Functional Testing
         run: |
-          python manage.py flush
+          python manage.py flush --no-input
           python manage.py makemigrations
           python manage.py migrate 
           python manage.py loaddata crim/fixtures/data-2022-fresh/genre.json
