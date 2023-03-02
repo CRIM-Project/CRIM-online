@@ -35,11 +35,15 @@ jobs:
       - name: Testing API
         run: python manage.py test crim.tests.test_API_views
 
-      - name: Reloading Data for Functional Testing
+      - name: Clearing Data for Functional Testing
         run: |
           python manage.py flush --no-input
           python manage.py makemigrations
           python manage.py migrate 
+
+      - name: Loading Data for Functional Testing
+        run: |
+          python manage.py loaddata crim/fixtures/definitions.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/genre.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/mass.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/piece.json
@@ -61,5 +65,8 @@ jobs:
       - name: Flake8 Testing
         run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
 
-      - run: rm "crim/settings_production.py" # removing the copy of Production Settings
-      - run: echo "Done Testing" # echoing
+      - name: Remove the Settings file copy
+        run: rm "crim/settings_production.py" # removing the copy of Production Settings
+
+      - name: Done Testing
+        run: echo "Done Testing" # echoing
