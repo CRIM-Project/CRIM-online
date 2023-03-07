@@ -65,7 +65,7 @@ jobs:
           sleep 10
       
       - name: Functional Testing
-          python manage.py test crim.tests.test_functional
+        run: python manage.py test crim.tests.test_functional
 
       - name: Flake8 Testing
         run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
