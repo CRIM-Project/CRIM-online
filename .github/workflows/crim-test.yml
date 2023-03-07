@@ -45,9 +45,9 @@ jobs:
         run: |
           python manage.py loaddata crim/fixtures/data-2022-fresh/definition.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/genre.json
+          python manage.py loaddata crim/fixtures/data-2022-fresh/person.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/mass.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/piece.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/person.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/part.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/phrase.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/voice.json
