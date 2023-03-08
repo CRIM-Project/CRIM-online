@@ -5,7 +5,6 @@ from playwright.sync_api import sync_playwright
 from django.urls import reverse
 from rest_framework import status
 import requests
-import logging
 
 class VisitorTestCase(StaticLiveServerTestCase):
     @classmethod
@@ -22,7 +21,6 @@ class VisitorTestCase(StaticLiveServerTestCase):
         cls.playwright.stop()
 
     def test_landing_page(self):
-        logger = logging.getLogger(__name__)
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000")
         self.assertTrue("CRIM" in page.content())

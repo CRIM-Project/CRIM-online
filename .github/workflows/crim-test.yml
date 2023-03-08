@@ -38,6 +38,7 @@ jobs:
 
       - name: Clearing Data for Functional Testing
         run: |
+          python manage.py dumpdata flatpages > crim/fixtures/data-2022-fresh/flatpages_fixture.json
           python manage.py flush --no-input
           python manage.py makemigrations
           python manage.py migrate 
@@ -68,8 +69,10 @@ jobs:
       - name: Flake8 Testing
         run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
 
-      - name: Remove the Settings file copy
-        run: rm "crim/settings_production.py" # removing the copy of Production Settings
+      - name: Remove the Settings file copy and the Fixtures file
+        run: |
+          rm "crim/settings_production.py" # removing the copy of Production Settings
+          rm "crim/fixtures/data-2022-fresh/flatpages_fixture.json" # removing the Fixtures file
 
       - name: Done Testing
         run: echo "Done Testing" # echoing
