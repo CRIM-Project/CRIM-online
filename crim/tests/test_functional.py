@@ -1,3 +1,33 @@
+"""
+This is the test_functional.py file for CRIM project.
+
+This file is part of the Django Testing part of the CRIM application.
+The testing component consists of several parts testing all the models,
+views, API views, and their respective methods in order to ensure the
+proper functionality of the applicaiton. Whenever an engineer implements
+any major changes to the CRIM project, they should run the test suite locally
+to ensure that the application architecture is maintained and all core methods
+return desired results.
+
+This specific module constitues the Functional Testing for the CRIM application.
+Functional Testing mainly focuses on making sure every aspect of the web application
+functions as expected by its users. Within this file, three types of users are 
+outlined: Visitor, User, Admin. For each of the users, most likely and overarching 
+scenarios have been desinged. These scenarios reflect the users' expected behaviors,
+and mainly the pages they could visit and the actions they could perform.
+
+@author: Oleh Shostak '24
+@version: 1.0
+@created: 3/7/23
+
+To-do's:
+
+-> User: authentication, adding and editing Observations and Relationships
+-> Admin: authentication, adding and editing Observations and Relationships, 
+    including other people's data
+
+"""
+
 import os
 import random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
