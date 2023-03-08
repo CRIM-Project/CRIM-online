@@ -25,8 +25,6 @@ class VisitorTestCase(StaticLiveServerTestCase):
         logger = logging.getLogger(__name__)
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000")
-        print("\n \n \n CONTENT \n \n \n")
-        print(page.content())
         self.assertTrue("CRIM" in page.content())
         page.close()
 
@@ -93,7 +91,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
     def test_checkout_masses(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000")
+        page.goto("http://127.0.0.1:8000/")
         page.click('a:text("Documents")')
         self.assertTrue(page.locator('.dropdown-menu').filter(has_text="Masses").is_visible())
 
@@ -160,6 +158,8 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_model_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
         random_model_id = random_model_row.get_by_role("link").nth(0).inner_text()
         
+        print("MODELS CONTENT \n \n")
+        print(page.content())
         # check downloads: PDF
         with page.expect_download() as download_info:
             random_model_row.get_by_role("link").nth(0).click()
@@ -344,6 +344,11 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # navigate to Observations
         page.click('a:text("Observations")')
+
+        print("MODELS CONTENT \n \n")
+        print(page.content())
+
+
         self.assertFalse(page.get_by_role("heading", name="Observations").count() == 0)
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
@@ -475,7 +480,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
     def test_checkout_forum(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000")
+        page.goto("http://127.0.0.1:8000/")
 
         # navigate to Forum
         page.click('a:text("Forum")')
@@ -530,6 +535,6 @@ class AdminTestCase(StaticLiveServerTestCase):
 
     def test_landing_page(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000")
+        page.goto("http://127.0.0.1:8000/")
         self.assertTrue("CRIM" in page.content())
         page.close()
