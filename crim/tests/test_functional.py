@@ -24,7 +24,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
     def test_landing_page(self):
         logger = logging.getLogger(__name__)
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
         print("\n \n \n CONTENT \n \n \n")
         print(page.content())
         self.assertTrue("CRIM" in page.content())
@@ -32,7 +32,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
     def test_checkout_about_pages(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
         page.click('a:text("About")')
         self.assertTrue(page.locator('.dropdown-menu').filter(has_text="Code").is_visible())
 
@@ -93,7 +93,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
     def test_checkout_masses(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
         page.click('a:text("Documents")')
         self.assertTrue(page.locator('.dropdown-menu').filter(has_text="Masses").is_visible())
 
@@ -338,7 +338,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
     def test_checkout_observations(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
         page.click('a:text("Analysis")')
         self.assertTrue(page.locator('.dropdown-menu').filter(has_text="Observations").is_visible())
 
@@ -475,7 +475,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
     def test_checkout_forum(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
 
         # navigate to Forum
         page.click('a:text("Forum")')
@@ -510,7 +510,7 @@ class UserTestCase(StaticLiveServerTestCase):
 
     def test_landing_page(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
         self.assertTrue("CRIM" in page.content())
         page.close()
 
@@ -530,6 +530,6 @@ class AdminTestCase(StaticLiveServerTestCase):
 
     def test_landing_page(self):
         page = self.browser.new_page()
-        page.goto("http://127.0.0.1:8000/")
+        page.goto("http://127.0.0.1:8000")
         self.assertTrue("CRIM" in page.content())
         page.close()
