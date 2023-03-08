@@ -59,13 +59,10 @@ jobs:
           python manage.py loaddata crim/fixtures/data-2022-fresh/observation.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/relationship.json
 
-      - name: Running Server
+      - name: Running Server and FT
         run: |
           python manage.py runserver &
-          sleep 10
-      
-      - name: Functional Testing
-        run: python manage.py test crim.tests.test_functional
+          python manage.py test crim.tests.test_functional
 
       - name: Flake8 Testing
         run: flake8 . --exit-zero --max-line-length=127 # run flake8 test
