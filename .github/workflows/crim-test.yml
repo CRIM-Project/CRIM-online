@@ -44,6 +44,7 @@ jobs:
 
       - name: Loading Data for Functional Testing
         run: |
+          python manage.py loaddata crim/fixtures/data-2022-fresh/flatpages_fixture.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/definition.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/genre.json
           python manage.py loaddata crim/fixtures/data-2022-fresh/person.json
