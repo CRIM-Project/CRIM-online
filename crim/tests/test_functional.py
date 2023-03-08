@@ -25,8 +25,8 @@ class VisitorTestCase(StaticLiveServerTestCase):
         logger = logging.getLogger(__name__)
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/")
-        logger.warning("CONTENT")
-        logger.warning(page.content())
+        print("\n \n \n CONTENT \n \n \n")
+        print(page.content())
         self.assertTrue("CRIM" in page.content())
         page.close()
 
