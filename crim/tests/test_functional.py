@@ -342,11 +342,6 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # navigate to Observations
         page.click('a:text("Observations")')
-
-        print("OBSERVATIONS CONTENT \n \n")
-        print(page.content())
-
-
         self.assertFalse(page.get_by_role("heading", name="Observations").count() == 0)
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
@@ -366,9 +361,10 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # back to Observations:
         page.go_back()
 
-        # navigate to Composer
+        # navigate to Observer
         random_observer_name = random_observation_row.get_by_role("link").nth(1).inner_text()
         random_observation_row.get_by_role("link").nth(1).click()
+        page.wait_for_selector("table")
         self.assertTrue(random_observer_name in page.content())
         self.assertTrue(page.locator("table").count() > 0)
 
