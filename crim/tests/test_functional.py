@@ -158,8 +158,6 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_model_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
         random_model_id = random_model_row.get_by_role("link").nth(0).inner_text()
         
-        print("MODELS CONTENT \n \n")
-        print(page.content())
         # check downloads: PDF
         with page.expect_download() as download_info:
             random_model_row.get_by_role("link").nth(0).click()
@@ -345,7 +343,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # navigate to Observations
         page.click('a:text("Observations")')
 
-        print("MODELS CONTENT \n \n")
+        print("OBSERVATIONS CONTENT \n \n")
         print(page.content())
 
 
