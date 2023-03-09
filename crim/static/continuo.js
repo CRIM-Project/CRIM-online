@@ -27320,12 +27320,14 @@ var Pagination = function (_Backbone$View) {
     }, {
         key: 'events',
         get: function get() {
-            return {
-                "click .cnt-pagination-next": function clickCntPaginationNext(e) {
-                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:next");
+          return {
+            "click .cnt-pagination-next": function clickCntPaginationNext(e) {
+                    const container = this.$el.closest(".cnt-container").parent().attr("id")
+                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:next", container);
                 },
                 "click .cnt-pagination-prev": function clickCntPaginationPrev(e) {
-                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:prev");
+                    const container = this.$el.closest(".cnt-container").parent().attr("id")
+                    e.preventDefault();_backboneEvents2.default.trigger("component:pagination:prev", container);
                 }
             };
         }
@@ -27985,11 +27987,16 @@ var Continuo = function (_Backbone$View) {
             this.selectedElements = [];
             this.highlightedElements = [];
             this.listenTo(_backboneEvents2.default, 'addFile', this.addFile);
-            this.listenTo(_backboneEvents2.default, 'component:pagination:next', function () {
-                _this2.renderPage(_this2.page + 1);
+            this.listenTo(_backboneEvents2.default, 'component:pagination:next', function (container) {
+                console.log('h')
+                if (_this2.$el.attr('id') === container) {
+                  _this2.renderPage(_this2.page + 1);
+                }
             });
-            this.listenTo(_backboneEvents2.default, 'component:pagination:prev', function () {
+            this.listenTo(_backboneEvents2.default, 'component:pagination:prev', function (container) {
+              if (_this2.$el.attr('id') === container) {
                 _this2.renderPage(_this2.page - 1);
+              }
             });
         }
     }, {
@@ -28027,7 +28034,8 @@ var Continuo = function (_Backbone$View) {
 
             if (this.paginate) {
                 this.page = 1;
-                var svg = vrvToolkit.renderPage(1);
+                // var svg = vrvToolkit.renderPage(1);
+                var svg = vrvToolkit.renderToSVG(1);
                 var ext_svg = (0, _verovioExt2.default)(svg);
                 container.append(ext_svg);
             } else {
@@ -28042,7 +28050,8 @@ var Continuo = function (_Backbone$View) {
                     })[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                         var page = _step.value;
 
-                        var _svg = vrvToolkit.renderPage(page + 1);
+                        // var _svg = vrvToolkit.renderPage(page + 1);
+                        var _svg = vrvToolkit.renderToSVG(page + 1);
 
                         var _ext_svg = (0, _verovioExt2.default)(_svg);
                         container.append(_ext_svg);
@@ -28189,9 +28198,12 @@ var Continuo = function (_Backbone$View) {
     }, {
         key: 'renderPage',
         value: function renderPage(page) {
+            const meidata = this.MEIdata.attributes.string
+            this.vrvToolkit.loadData(meidata)
             if (page > 0 && page <= this.vrvToolkit.getPageCount()) {
                 this.page = page;
-                var svg = this.vrvToolkit.renderPage(page);
+                // var svg = this.vrvToolkit.renderPage(page);
+                var svg = this.vrvToolkit.renderToSVG(page);
                 var ext_svg = (0, _verovioExt2.default)(svg);
                 this.$el.find(".cnt-container > svg").replaceWith(ext_svg);
 

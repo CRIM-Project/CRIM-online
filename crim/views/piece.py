@@ -51,7 +51,7 @@ class PieceDetailHTMLRenderer(CustomHTMLRenderer):
         all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
         data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
 
-        raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['piece_id'] + '.mei')).read()
+        raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['piece_id'] + '.mei')).read()
         data['mei'] = raw_mei
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)

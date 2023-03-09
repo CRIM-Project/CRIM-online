@@ -135,7 +135,8 @@ def apply_metadata(mei, metadata):
   staffDefs = root.findall(f'{MEINS}music//{MEINS}staffDef')
   for staffDef in staffDefs:
     label = staffDef.find(f'{MEINS}label').text
-    staffDef.set('label', label)
+    if label:
+      staffDef.set('label', label)
 
   # set mdiv's id to "movement"
   mdiv_el = root.find(f'{MEINS}music//{MEINS}mdiv')
@@ -187,7 +188,7 @@ def apply_metadata(mei, metadata):
   head_el.remove(head_el.find(f'{MEINS}workList'))
 
   # XPointers to work-level metadata
-  encodingDesc_pos = head_el.getchildren().index(head_el.find(f'{MEINS}encodingDesc'))
+  encodingDesc_pos = [c for c in head_el].index(head_el.find(f'{MEINS}encodingDesc'))
   head_el.insert(
     encodingDesc_pos + 1,
     ET.Element(f'{XINS}include', {
@@ -318,9 +319,15 @@ with open(METADATA_MASSES, newline='') as csvfile:
       mass_doc = updated_masses[mass_name]
     updated_masses[mass_name] = add_mass_metadata(mass_doc, row)
     # If this is the last row about this mass, write out.
-    next_row = list(metadata)[i+1]
-    next_mass_name = "_".join(next_row[0].split('_')[0:3])
-    if (not next_mass_name == mass_name):      
+    done = False
+    if len(list(metadata)) == i+1:
+      done = True
+    else:
+      next_row = list(metadata)[i+1]
+      next_mass_name = "_".join(next_row[0].split('_')[0:3])
+      if not next_mass_name == mass_name:
+        done = True  
+    if done:      
       with open(os.path.join(MEI_LOC, mass_name+'.mei'), 'w') as mass:
         mass.write(MEIDECLS)
         mass.write(ET.tostring(mass_doc, encoding='unicode'))

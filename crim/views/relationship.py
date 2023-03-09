@@ -1,7 +1,7 @@
-from django.core.cache import caches
-from django.shortcuts import get_object_or_404
 from django.contrib.staticfiles.storage import staticfiles_storage
-
+from django.core.cache import caches
+from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
@@ -17,12 +17,16 @@ from crim.renderers.custom_html_renderer import CustomHTMLRenderer
 from crim.serializers.observation import CJObservationDetailSerializer, CJObservationListSerializer
 from crim.serializers.relationship import CRIMRelationshipDetailSerializer, CRIMRelationshipListSerializer, CRIMRelationshipBriefSerializer
 from crim.serializers.relationship import CJRelationshipDetailSerializer, CJRelationshipListSerializer, CJRelationshipBriefSerializer
-from crim.views.observation import create_observation_from_request
+from crim.views.observation import create_observation_from_request, generate_observation_data
 
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def generate_relationship_data(request, model_observation_id=None, derivative_observation_id=None):
+
+def generate_relationship_data(request):
     def post_data(v):
         return request.data.get(v)
 
@@ -31,40 +35,42 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
     # If observation IDs are provided, use those; otherwise, we will
     # need fields preceded with `model_mt_` fields. If neither of these is
     # provided, we may be dealing with an update and not a new relationship.
+    model_observation, serialized_model = None, None
     if post_data('model_observation_id'):
         model_observation = CJObservation.objects.get(id=post_data('model_observation_id'))
+        serialized_model = CJObservationDetailSerializer(model_observation, data=generate_observation_data(request, 'model'), context={'request': request})
+        if not serialized_model.is_valid():
+            return Response({'serialized': serialized_model, 'content': model_observation})
     elif post_data('model_piece'):
         model_observation_or_response = create_observation_from_request(request, 'model')
         if isinstance(model_observation_or_response, Response):
-            return response
+            return model_observation_or_response
         else:
             model_observation = model_observation_or_response
-            serialized_model = CJObservationDetailSerializer(model_observation, data=request.data, context={'request': request})
-            if serialized_model.is_valid():
-                if request.user.is_staff:
-                    serialized_model.validated_data['curated'] = True
-            else:
+            serialized_model = CJObservationDetailSerializer(model_observation, data=generate_observation_data(request, 'model'), context={'request': request})
+            if not serialized_model.is_valid():
                 return Response({'serialized': serialized_model, 'content': model_observation})
 
+    derivative_observation, serialized_derivative = None, None
     if post_data('derivative_observation_id'):
         derivative_observation = CJObservation.objects.get(id=post_data('derivative_observation_id'))
+        serialized_derivative = CJObservationDetailSerializer(derivative_observation, data=generate_observation_data(request, 'derivative'), context={'request': request})
+        if not serialized_derivative.is_valid():
+            return Response({'serialized': serialized_derivative, 'content': derivative_observation})
     elif post_data('derivative_piece'):
         derivative_observation_or_response = create_observation_from_request(request, 'derivative')
         if isinstance(derivative_observation_or_response, Response):
-            return response
+            return derivative_observation_or_response
         else:
             derivative_observation = derivative_observation_or_response
-            serialized_derivative = CJObservationDetailSerializer(derivative_observation, data=request.data, context={'request': request})
-            if serialized_derivative.is_valid():
-                if request.user.is_staff:
-                    serialized_derivative.validated_data['curated'] = True
-            else:
+            serialized_derivative = CJObservationDetailSerializer(derivative_observation, data=generate_observation_data(request, 'derivative'), context={'request': request})
+            if not serialized_derivative.is_valid():
                 return Response({'serialized': serialized_derivative, 'content': derivative_observation})
 
     # Wait to save observations till now, which is when we know that the entire POST will succeed
-    if not post_data('model_observation_id') and post_data('model_piece'):
+    if serialized_model != None:
         serialized_model.save()
-    if not post_data('derivative_observation_id') and post_data('derivative_piece'):
+    if serialized_derivative != None:
         serialized_derivative.save()
 
     if post_data('model_observation_id') or post_data('model_piece'):
@@ -79,6 +85,8 @@ def generate_relationship_data(request, model_observation_id=None, derivative_ob
         relationship_data['details'] = post_data('details')
     if post_data('remarks'):
         relationship_data['remarks'] = post_data('remarks')
+    if post_data('curated'):
+        relationship_data['curated'] = post_data('curated')
 
     return relationship_data
 
@@ -117,10 +125,10 @@ class RelationshipListHTMLRenderer(CustomHTMLRenderer):
 # Deprecated class
 class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
+        model_raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['model_observation']['piece']['piece_id'] + '.mei')).read()
         data['model_observation']['mei'] = model_raw_mei
 
-        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_3.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
+        derivative_raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['derivative_observation']['piece']['piece_id'] + '.mei')).read()
         data['derivative_observation']['mei'] = derivative_raw_mei
 
         template_names = ['relationship/relationship_old_detail.html']
@@ -130,10 +138,10 @@ class RelationshipOldDetailHTMLRenderer(CustomHTMLRenderer):
 
 class RelationshipDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        model_raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['model_observation']['piece']['piece_id'] + '.mei').read()
+        model_raw_mei = staticfiles_storage.open('mei/MEI_4.0/' + data['model_observation']['piece']['piece_id'] + '.mei').read()
         data['model_observation']['mei'] = model_raw_mei.decode()
 
-        derivative_raw_mei = staticfiles_storage.open('mei/MEI_3.0/' + data['derivative_observation']['piece']['piece_id'] + '.mei').read()
+        derivative_raw_mei = staticfiles_storage.open('mei/MEI_4.0/' + data['derivative_observation']['piece']['piece_id'] + '.mei').read()
         data['derivative_observation']['mei'] = derivative_raw_mei.decode()
 
         template_names = ['relationship/relationship_detail.html']
@@ -320,10 +328,7 @@ class RelationshipOldDetailData(generics.RetrieveUpdateAPIView):
 
             serialized = CRIMRelationshipDetailSerializer(instance, data=request.data, context={'request': request})
             # serialized = self.get_serializer(instance)
-            if serialized.is_valid():
-                if request.user.is_staff:
-                    serialized.validated_data['curated'] = True
-            else:
+            if not serialized.is_valid():
                 raise ValidationError(serialized.errors)
             self.perform_update(serialized)
 
@@ -339,6 +344,7 @@ class RelationshipOldDetailData(generics.RetrieveUpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+
 class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     model = CJRelationship
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -348,31 +354,32 @@ class RelationshipDetailData(generics.RetrieveUpdateAPIView):
     queryset = CJRelationship.objects.all()
 
     def update(self, request, *args, **kwargs):
-        if request.user.is_staff:
-            instance = self.get_object()
-            relationship_data = generate_relationship_data(request)
-            for k, v in relationship_data.items():
-                setattr(instance, k, v)
-
-            instance.save()
-
-            serialized = CJRelationshipDetailSerializer(instance, data=request.data, context={'request': request})
-            # serialized = self.get_serializer(instance)
-            if serialized.is_valid():
-                if request.user.is_staff:
-                    serialized.validated_data['curated'] = True
-            else:
-                raise ValidationError(serialized.errors)
-            self.perform_update(serialized)
-
-            response_headers = {
-                'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Headers': 'origin, content-type, accept',
-            }
-            return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
-        else:
+        curr_user = request.user
+        if not curr_user.is_authenticated or not curr_user.profile.person:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # Deny users the ability to update models they do not own
+        if not curr_user.is_superuser and (curr_user.profile.person.person_id != request.data.get('observer')):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        instance = self.get_object()
+        relationship_data = generate_relationship_data(request)
+        for k, v in relationship_data.items():
+            setattr(instance, k, v)
+
+        instance.save()
+
+        serialized = CJRelationshipDetailSerializer(instance, data=request.data, context={'request': request})
+        if not serialized.is_valid():
+            raise ValidationError(serialized.errors)
+        self.perform_update(serialized)
+
+        response_headers = {
+            'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers': 'origin, content-type, accept',
+        }
+        return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -393,11 +400,51 @@ class RelationshipCreateData(generics.CreateAPIView):
         relationship = relationship_or_response
         serialized = CJRelationshipDetailSerializer(relationship, data=request.data, context={'request': request})
 
-        if serialized.is_valid():
-            if request.user.is_staff:
-                serialized.validated_data['curated'] = True
-        else:
+        if not serialized.is_valid():
             return Response({'serialized': serialized, 'content': relationship})
 
         serialized.save()
         return Response(serialized.data, status=status.HTTP_201_CREATED)
+
+
+class RelationshipPublishData(generics.UpdateAPIView):
+    model = CJRelationship
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = CJRelationshipDetailSerializer
+    lookup_field = 'id'
+    renderer_classes = (JSONRenderer,)
+    queryset = CJRelationship.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        def post_data(name):
+            return request.data.get(name)
+        def curate_observation(observation, is_curated):
+            observation.curated = is_curated
+            observation.save()
+
+        curr_user = request.user
+        if not curr_user.is_authenticated or not curr_user.profile.person:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        instance = self.get_object()
+        
+        # Deny users the ability to update models they do not own
+        if not curr_user.is_superuser and (curr_user.profile.person.person_id != instance.observer.person_id):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        is_curated = post_data('curated')
+
+        curate_observation(instance.model_observation, is_curated)
+        curate_observation(instance.derivative_observation, is_curated)
+
+        instance.curated = is_curated
+        instance.save()
+
+        serialized = CJRelationshipDetailSerializer(instance, context={'request': request})
+
+        response_headers = {
+            'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers': 'origin, content-type, accept',
+        }
+        return Response(serialized.data, headers=response_headers, status=status.HTTP_200_OK)
