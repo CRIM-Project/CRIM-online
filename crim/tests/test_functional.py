@@ -371,6 +371,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # navigate to Observations
         page.click('a:text("Observations")')
         self.assertFalse(page.get_by_role("heading", name="Observations").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -416,6 +417,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # check if table is present
         self.assertFalse(page.get_by_role("heading", name="Relationships").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
