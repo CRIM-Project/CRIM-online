@@ -54,21 +54,11 @@ CACHES = {
             'MAX_ENTRIES': 600000,
         },
         'TIMEOUT': None,
-    },
-    # 'highlights': {
-    #     'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-    #     'LOCATION': '/Users/jchthys/crim-cache-highlights',
-    #     'OPTIONS': {
-    #         'MAX_ENTRIES': 12000,
-    #     },
-    #     'TIMEOUT': None,
-    # },
+    }
 }
 
 INTERNAL_IPS = [
-    # ...
     '127.0.0.1',
-    # ...
 ]
 
 ADMIN_EMAIL = 'changeme'
