@@ -89,7 +89,23 @@
               <li><a href="/people/">People</a></li>
               <li><a href="/observations/">Observations</a></li>
               <li><a href="/relationships/">Relationships</a></li>
-              <li><a href="/relationships/new/" target="_blank">New relationship form</a></li>
+
+
+
+                <div class="row-sm">
+        <input type="hidden" name="observer" id="id_observer" value="{% if user.profile.person.person_id %}{{ user.profile.person.person_id }}{% else %}{{ user }}{% endif %}">
+        {% if user.profile.person.person_id %}
+                  <li><a href="/relationships/new/" target="_blank">New relationship form</a></li>
+        {% endif %}
+      </div>
+
+
+
+
+
+
+
+      </div>
               </ul>
             </li>
             <li class="top-level"><a href="/forum/">Forum</a></li>
