@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
+<mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
   <fileDesc xml:id="m-3">
    <titleStmt xml:id="m-10-ts">
@@ -36,12 +36,45 @@
     <distributor>
      Haverford College
     </distributor>
-    <date isodate="2022-05-06"/>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
+  <manifestationList xml:id="manifestationList">
+   <manifestation>
+    <identifier type="RISM">
+     RISM A I, S 2821
+    </identifier>
+    <titleStmt>
+     <title>
+      Missa Quare fremuerunt gentes
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/9901501">
+       Nicolas Du Chemin
+      </persName>
+     </publisher>
+     <date isodate="1556"/>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+       Bibliothèque nationale de France
+      </corpName>
+      <settlement>
+       Paris
+      </settlement>
+     </repository>
+     <identifier type="shelfmark">
+      RES VM1-3
+     </identifier>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
   <encodingDesc xml:id="m-16">
    <appInfo xml:id="m-17">
     <application isodate="2017-6-10T20:44:23Z" version="8410" xml:id="sibelius">
@@ -54,7 +87,7 @@
       Sibelius to MEI Exporter (2.1.0)
      </name>
     </application>
-    <application version="v1.0_beta" xml:id="app_2022126204426089">
+    <application version="v1.0_beta" xml:id="app_20233722064826">
      <name>
       mei30To40.xsl
      </name>

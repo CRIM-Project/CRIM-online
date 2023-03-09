@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
+<mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
   <fileDesc xml:id="m-3">
    <titleStmt xml:id="m-10-ts">
@@ -28,14 +28,45 @@
      Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     Bibliothèque nationale de France
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2022-05-06"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
-     Paris
+     This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
+  <manifestationList xml:id="manifestationList">
+   <manifestation>
+    <identifier type="RISM"/>
+    <titleStmt>
+     <title>
+      Missa super Ite rime dolenti
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/34860935">
+       Adam Berg
+      </persName>
+     </publisher>
+     <date isodate="1574"/>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+      </corpName>
+      <settlement/>
+     </repository>
+     <identifier type="shelfmark">
+      RISM A I, L 873
+     </identifier>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
   <encodingDesc xml:id="m-16">
    <appInfo xml:id="m-17">
     <application isodate="2019-9-18T10:33:57Z" version="19200" xml:id="sibelius">
@@ -48,7 +79,7 @@
       Sibelius to MEI Exporter (2.1.0)
      </name>
     </application>
-    <application version="v1.0_beta" xml:id="app_2022126204822068">
+    <application version="v1.0_beta" xml:id="app_20233722111129">
      <name>
       mei30To40.xsl
      </name>
@@ -520,7 +551,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-237">
           <verse n="1" xml:id="m-291">
            <syl con="d" wordpos="m" xml:id="m-292">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -552,7 +583,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="f" pnum="53" stem.dir="down" xml:id="m-243">
           <verse n="1" xml:id="m-308">
            <syl con="d" wordpos="m" xml:id="m-309">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -686,7 +717,7 @@
          <note dots="1" dur="2" dur.ppq="768" oct="4" pname="c" pnum="48" stem.dir="down" xml:id="m-322">
           <verse n="1" xml:id="m-328">
            <syl con="u" wordpos="t" xml:id="m-329">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -760,7 +791,7 @@
          <note dur="2" dur.ppq="512" oct="3" pname="a" pnum="45" stem.dir="up" xml:id="m-356">
           <verse n="1" xml:id="m-362">
            <syl wordpos="t" xml:id="m-363">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -792,7 +823,7 @@
          <note dur="2" dur.ppq="512" oct="3" pname="f" pnum="53" stem.dir="down" xml:id="m-366">
           <verse n="1" xml:id="m-372">
            <syl wordpos="t" xml:id="m-373">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -833,7 +864,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-380">
           <verse n="1" xml:id="m-384">
            <syl wordpos="t" xml:id="m-385">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -915,7 +946,7 @@
          <note dots="1" dur="2" dur.ppq="768" oct="3" pname="f" pnum="53" stem.dir="down" xml:id="m-420">
           <verse n="1" xml:id="m-432">
            <syl wordpos="t" xml:id="m-433">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -958,7 +989,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="d" pnum="50" stem.dir="down" xml:id="m-443">
           <verse n="1" xml:id="m-449">
            <syl wordpos="t" xml:id="m-450">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -990,7 +1021,7 @@
          <note dur="2" dur.ppq="512" oct="3" pname="b" pnum="47" stem.dir="down" xml:id="m-453">
           <verse n="1" xml:id="m-459">
            <syl wordpos="t" xml:id="m-460">
-            nÃ¦
+            næ
            </syl>
           </verse>
          </note>
@@ -3206,7 +3237,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="b" pnum="71" stem.dir="down" xml:id="m-1512">
           <verse n="1" xml:id="m-1593">
            <syl con="d" wordpos="i" xml:id="m-1594">
-            cÅ
+            cœ
            </syl>
           </verse>
          </note>
@@ -3217,7 +3248,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="c" pnum="48" stem.dir="down" xml:id="m-1515">
           <verse n="1" xml:id="m-1560">
            <syl con="d" wordpos="i" xml:id="m-1561">
-            cÅ
+            cœ
            </syl>
           </verse>
          </note>
@@ -3237,7 +3268,7 @@
          <note dur="2" dur.ppq="512" oct="3" pname="a" pnum="45" stem.dir="up" xml:id="m-1521">
           <verse n="1" xml:id="m-1524">
            <syl con="d" wordpos="i" xml:id="m-1525">
-            cÅ
+            cœ
            </syl>
           </verse>
          </note>
@@ -3269,7 +3300,7 @@
          <note dur="2" dur.ppq="512" oct="4" pname="c" pnum="48" stem.dir="down" xml:id="m-1533">
           <verse n="1" xml:id="m-1618">
            <syl con="d" wordpos="i" xml:id="m-1619">
-            cÅ
+            cœ
            </syl>
           </verse>
          </note>
@@ -3301,7 +3332,7 @@
          <note dur="2" dur.ppq="512" oct="3" pname="g" pnum="55" stem.dir="down" xml:id="m-1542">
           <verse n="1" xml:id="m-1628">
            <syl con="d" wordpos="i" xml:id="m-1629">
-            cÅ
+            cœ
            </syl>
           </verse>
          </note>
