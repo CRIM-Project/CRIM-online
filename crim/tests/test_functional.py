@@ -126,6 +126,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # navigate to Masses
         page.click('a:text("Masses")')
         self.assertFalse(page.get_by_role("heading", name="Masses").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -179,6 +180,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/models")
         self.assertFalse(page.get_by_role("heading", name="Models").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -223,6 +225,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertTrue(random_model_genre_name in page.content())
 
         # check table contents
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -235,6 +238,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # checkout pieces
         page.goto("http://127.0.0.1:8000/pieces")
         self.assertFalse(page.get_by_role("heading", name="Pieces (all)").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -276,6 +280,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_genre_name = random_row.get_by_role("link").nth(4).inner_text()
         random_row.get_by_role("link").nth(4).click()
         self.assertTrue(random_genre_name in page.content())
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
 
         # back to Pieces
@@ -283,6 +288,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # check out the list of genres
         page.click('a:text("list of genres")')
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
 
         # conclude test
@@ -292,6 +298,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/sources")
         self.assertFalse(page.get_by_role("heading", name="Sources").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -309,6 +316,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # check source CRIM page:
         souce_id = random_row.get_by_role("link").nth(1).inner_text()
         random_row.get_by_role("link").nth(1).click()
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(souce_id in page.content())
 
@@ -330,6 +338,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # check table
         self.assertFalse(page.get_by_role("heading", name="People").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -339,6 +348,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # checkout random Person
         random_person_id = random_row.get_by_role("link").nth(0).inner_text()
         random_row.get_by_role("link").nth(0).click()
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(random_person_id in page.content())
 
@@ -348,6 +358,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         # checkout people with the same role (if any)
         if random_row.get_by_role("link").count() > 1:
             random_row.get_by_role("link").nth(1).click()
+            page.wait_for_selector("table")
             self.assertTrue(page.locator("table").count() > 0)
             self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -356,6 +367,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # check out the list of role types
         page.click('a:text("list of role types")')
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
@@ -395,6 +407,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_observation_row.get_by_role("link").nth(1).click()
         page.wait_for_selector("table")
         self.assertTrue(random_observer_name in page.content())
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
 
         # back to Observations
@@ -449,6 +462,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_observer_name = random_relationship_row.get_by_role("link").nth(1).inner_text()
         random_relationship_row.get_by_role("link").nth(1).click()
         self.assertTrue(random_observer_name in page.content())
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
 
         # back to Relationships
@@ -511,6 +525,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # check table
         self.assertFalse(page.get_by_role("heading", name="Forum").count() == 0)
+        page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
 
         # try to navigate to new discussion:
