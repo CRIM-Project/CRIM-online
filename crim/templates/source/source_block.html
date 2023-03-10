@@ -28,14 +28,18 @@
           {{ source.title }}
         </td>
         <td>
+          {{source.publisher.name}}
         {% for roles in source.roles %}
             {{roles.person.name}}
-
+          {% endfor %}
         </td>
         <td>
+          {{source.date}}
+          {% for roles in source.roles %}
             {{roles.date}}
+          {% endfor %}
         </td>
-            {% endfor %}
+
       {% endfor %}
     </tbody>
   </table>
