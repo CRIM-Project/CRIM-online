@@ -28,9 +28,9 @@
           {{ source.title }}
         </td>
         <td>
-          {{source.publisher.name}}
+          <a href = "{{source.publisher.url|htmlsite}}">{{source.publisher.name}}</a>
         {% for roles in source.roles %}
-            {{roles.person.name}}
+            <a href = "{{roles.person.url|htmlsite}}">{{roles.person.name}}</a>
           {% endfor %}
         </td>
         <td>
