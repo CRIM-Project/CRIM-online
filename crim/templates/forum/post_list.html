@@ -9,9 +9,11 @@
 {% block wrap %}
 <div id="forum-list">
 <h1>Forum</h1>
+  {% if user.profile.person.person_id %}
 <p>
   <a href="{% url 'forum-create-post' %}"><button type="button" class="btn btn-primary">New discussion</button></a>
 </p>
+  {% endif %}
 <table class="table table-white table-bordered table-hover">
   <thead>
     <tr>

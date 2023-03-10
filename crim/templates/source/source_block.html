@@ -28,11 +28,14 @@
           {{ source.title }}
         </td>
         <td>
-          <a href="{{ source.publisher.url|htmlsite }}">{{ source.publisher.name }}</a>
+        {% for roles in source.roles %}
+            {{roles.person.name}}
+
         </td>
         <td>
-          {{ source.date }}
+            {{roles.date}}
         </td>
+            {% endfor %}
       {% endfor %}
     </tbody>
   </table>
