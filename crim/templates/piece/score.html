@@ -1,29 +1,39 @@
 {% load static %}
 
 <div id="score_container">
-  <div id="piece-header" class="row-fluid">
-    <div class="span9"><h2>Score</h2></div>
-    <div class="span3">
-      <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="score_nav">
-        <a href="#" class="btn btn-primary disabled score_prev">&lt;</a>
-        <a href="#" class="btn btn-primary score_start">start</a>
-        <a href="#" class="btn btn-primary score_next">&gt;</a>
+  {% if not content.mei %}
+    <div id="piece-header" class="row-fluid">
+      <div class="span9"><h2>Score</h2></div>
+      <div class="span3"></div>
+    </div>
+    <div>
+      <p>No score found for this piece.</p>
+    </div>
+  {% else %}
+    <div id="piece-header" class="row-fluid">
+      <div class="span9"><h2>Score</h2></div>
+      <div class="span3">
+        <div class="btn-group pull-right" role="group" aria-label="Score control button group" id="score_nav">
+          <a href="#" class="btn btn-primary disabled score_prev">&lt;</a>
+          <a href="#" class="btn btn-primary score_start">start</a>
+          <a href="#" class="btn btn-primary score_next">&gt;</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div id="piece_score">Loading score…</div>
-  </div>
-  <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
-  <script src="{% static 'js/score.js' %}"></script>
-  <script>
-    const mei = `
-      {% autoescape off %}
-        {{ content.mei }}
-      {% endautoescape %}
-    `
-    document.addEventListener("DOMContentLoaded", (event) => {
-      setScore('score_container', 'piece_score', 'score_nav', mei)
-    });
-  </script>
+    <div>
+      <div id="piece_score">Loading score…</div>
+    </div>
+    <script src="{% static 'js/verovio/verovio-toolkit.js' %}" defer></script>
+    <script src="{% static 'js/score.js' %}"></script>
+    <script>
+      const mei = `
+        {% autoescape off %}
+          {{ content.mei }}
+        {% endautoescape %}
+      `
+      document.addEventListener("DOMContentLoaded", (event) => {
+        setScore('score_container', 'piece_score', 'score_nav', mei)
+      });
+    </script>
+  {% endif %}
 </div>
