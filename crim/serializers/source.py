@@ -126,7 +126,7 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -165,4 +165,4 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
