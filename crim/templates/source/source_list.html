@@ -39,7 +39,7 @@
                 {% endfor %}
                 <a href="{{ document.url|htmlsite }}">[{{ document.document_id }}]</a></td>
               <td>{{ document.title }}</td>
-              <td><a href="document.publisher.url|htmlsite">{{ document.publisher.name }}</a></td>
+              <td><a href="{{document.publisher.url|htmlsite}}">{{document.publisher.name }}</a></td>
               <td>{{ document.date }}</td>
             </tr>
           {% endfor %}

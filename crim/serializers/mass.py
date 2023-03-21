@@ -95,11 +95,7 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
         view_name='crimsource-detail-data',
         lookup_field='document_id',
     )
-    roles = CRIMRoleMassSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_source',
-    )
+    publisher = CRIMPersonMassSerializer(read_only=True)
     external_links = serializers.SerializerMethodField()
 
     class Meta:
@@ -108,7 +104,8 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'document_id',
             'title',
-            'roles',
+            'publisher',
+            'date',
             'external_links',
         )
 
