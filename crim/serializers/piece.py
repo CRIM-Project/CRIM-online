@@ -97,10 +97,10 @@ class CRIMMassMovementPieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMMassPieceSerializer(serializers.HyperlinkedModelSerializer):
@@ -169,7 +169,7 @@ class CRIMSourcePieceSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMPieceSummarySerializer(serializers.HyperlinkedModelSerializer):
@@ -325,10 +325,10 @@ class CRIMPieceListSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -374,10 +374,10 @@ class CRIMPieceDetailSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceScoreSerializer(serializers.HyperlinkedModelSerializer):
@@ -408,10 +408,10 @@ class CRIMPieceScoreSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceWithSourcesSerializer(serializers.HyperlinkedModelSerializer):
@@ -457,10 +457,10 @@ class CRIMPieceWithSourcesSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerializer):
@@ -501,10 +501,10 @@ class CRIMPieceWithRelationshipsSerializer(serializers.HyperlinkedModelSerialize
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceWithRelationshipsDataSerializer(serializers.HyperlinkedModelSerializer):
@@ -545,10 +545,10 @@ class CRIMPieceWithRelationshipsDataSerializer(serializers.HyperlinkedModelSeria
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceWithDiscussionsSerializer(serializers.HyperlinkedModelSerializer):
@@ -594,7 +594,7 @@ class CRIMPieceWithDiscussionsSerializer(serializers.HyperlinkedModelSerializer)
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []

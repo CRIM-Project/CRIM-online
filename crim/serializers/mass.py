@@ -84,10 +84,10 @@ class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
@@ -110,7 +110,7 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):
