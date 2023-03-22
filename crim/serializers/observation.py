@@ -79,10 +79,10 @@ class CRIMPieceObservationSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMPieceObservationSummarySerializer(serializers.HyperlinkedModelSerializer):
