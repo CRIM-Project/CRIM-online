@@ -84,10 +84,10 @@ class CRIMPieceMassSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pdf_links(self, obj):
-        return obj.pdf_links.split('\n')
+        return obj.pdf_links.split('\n') if obj.pdf_links else []
 
     def get_mei_links(self, obj):
-        return obj.mei_links.split('\n')
+        return obj.mei_links.split('\n') if obj.mei_links else []
 
 
 class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
@@ -95,11 +95,7 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
         view_name='crimsource-detail-data',
         lookup_field='document_id',
     )
-    roles = CRIMRoleMassSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_source',
-    )
+    publisher = CRIMPersonMassSerializer(read_only=True)
     external_links = serializers.SerializerMethodField()
 
     class Meta:
@@ -108,12 +104,13 @@ class CRIMSourceMassSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'document_id',
             'title',
-            'roles',
+            'publisher',
+            'date',
             'external_links',
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMMassListSerializer(serializers.HyperlinkedModelSerializer):

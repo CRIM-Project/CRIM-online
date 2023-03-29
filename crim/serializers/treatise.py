@@ -65,7 +65,7 @@ class CRIMSourceTreatiseSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
@@ -87,7 +87,7 @@ class CRIMTreatiseListSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -117,4 +117,4 @@ class CRIMTreatiseDetailSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []

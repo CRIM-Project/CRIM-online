@@ -50,8 +50,8 @@
                 <td><a href="{{ mass.url|htmlsite }}">[{{ mass.mass_id }}]</a></td>
                 <td><a href="/masses/">Mass</a></td>
                 <td>{{ mass.title }}</td>
-                <td>{{ mass.roles|people:"composer"|safe }}</td>
-                <td>{{ mass.roles|earliest_date:"composer" }}</td>
+                <td><a href="{{ mass.composer.url|htmlsite }}">{{ mass.composer.name }}</a></td>
+                <td>{{ mass.date }}</td>
               </tr>
             {% endfor %}
             {% for piece in content.piece_contents %}
@@ -60,9 +60,8 @@
                 <td><a href="{{ piece.url|htmlsite }}">[{{ piece.piece_id }}]</a></td>
                 <td><a href="{{ piece.genre.url|htmlsite }}">{{ piece.genre.name }}</a></td>
                 <td>{{ piece.title }}</td>
-                <td>{{ piece.roles|people:"composer"|safe }}</td>
-                <td>{% if piece.roles|earliest_date:"composer" %}{{ piece.roles|earliest_date:"composer" }}{% elif piece.mass.roles|earliest_date:"composer" %}{{ piece.mass.roles|earliest_date:"composer" }}{% else %}-{% endif %}</td>
-                <td>{{ piece.remarks|markdown|shorten|safe }}</td>
+                <td><a href="{{ piece.composer.url|htmlsite }}">{{ piece.composer.name }}</a></td>
+                <td>{{ piece.date }}</td>
               </tr>
               {% endif %}
             {% endfor %}
@@ -71,9 +70,8 @@
                 <td>{{ treatise.document_id }}</td>
                 <td><a href="/treatises/">Treatise</a></td>
                 <td><a href="{{ treatise.url|htmlsite }}">[{{ treatise.title }}]</a></td>
-                <td>{{ treatise.roles|people:"author"|htmlsite|safe }}</td>
-                <td>{{ treatise.roles|earliest_date:"author" }}</td>
-                <td>{{ treatise.remarks|markdown|shorten|safe }}</td>
+                <td><a href="{{ treatise.author.url|htmlsite }}">{{ treatise.author.name }}</a></td>
+                <td>{{ treatise.date }}</td>
               </tr>
             {% endfor %}
           </tbody>

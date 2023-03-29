@@ -58,11 +58,7 @@ class CRIMRoleSourceSerializer(serializers.HyperlinkedModelSerializer):
 
 class CRIMMassSourceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimmass-detail-data', lookup_field='mass_id')
-    roles = CRIMRoleSourceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_mass',
-    )
+    composer = CRIMPersonSourceSerializer(read_only=True)
 
     class Meta:
         model = CRIMMass
@@ -71,19 +67,16 @@ class CRIMMassSourceSerializer(serializers.HyperlinkedModelSerializer):
             'mass_id',
             'title',
             'genre',
-            'roles',
+            'composer',
+            'date',
             'remarks',
         )
 
 
 class CRIMPieceSourceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimpiece-detail-data', lookup_field='piece_id')
+    composer = CRIMPersonSourceSerializer(read_only=True)
     genre = CRIMGenreSourceSerializer(read_only=True)
-    roles = CRIMRoleSourceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_piece',
-    )
 
     class Meta:
         model = CRIMPiece
@@ -92,18 +85,15 @@ class CRIMPieceSourceSerializer(serializers.HyperlinkedModelSerializer):
             'piece_id',
             'title',
             'genre',
-            'roles',
+            'composer',
+            'date',
             'remarks',
         )
 
 
 class CRIMTreatiseSourceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='crimtreatise-detail-data', lookup_field='document_id')
-    roles = CRIMRoleSourceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_treatise',
-    )
+    author = CRIMPersonSourceSerializer(read_only=True)
 
     class Meta:
         model = CRIMTreatise
@@ -111,26 +101,8 @@ class CRIMTreatiseSourceSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'document_id',
             'title',
-            'roles',
-            'remarks',
-        )
-
-
-class CRIMSourceSourceSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='crimsource-detail-data', lookup_field='document_id')
-    roles = CRIMRoleSourceSerializer(
-        many=True,
-        read_only=True,
-        source='roles_as_source',
-    )
-
-    class Meta:
-        model = CRIMSource
-        fields = (
-            'url',
-            'document_id',
-            'title',
-            'roles',
+            'author',
+            'date',
             'remarks',
         )
 
@@ -154,7 +126,7 @@ class CRIMSourceListSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []
 
 
 class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -193,4 +165,4 @@ class CRIMSourceDetailSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_external_links(self, obj):
-        return obj.external_links.split('\n')
+        return obj.external_links.split('\n') if obj.external_links else []

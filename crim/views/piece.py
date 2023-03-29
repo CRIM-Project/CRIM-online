@@ -48,11 +48,16 @@ class ModelListHTMLRenderer(CustomHTMLRenderer):
 class PieceDetailHTMLRenderer(CustomHTMLRenderer):
     def render(self, data, accepted_media_type=None, renderer_context=None):
         # Sort roles alphabetically by role type, including mass roles
-        all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
-        data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
-
-        raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['piece_id'] + '.mei')).read()
-        data['mei'] = raw_mei
+        try:
+            all_roles = data['mass']['roles'] + data['roles'] if data['mass'] else data['roles']
+            data['roles'] = sorted(all_roles, key=lambda x: x['role_type']['name'] if x['role_type'] else 'Z')
+            try:
+                raw_mei = open(os.path.join('crim/static/mei/MEI_4.0', data['piece_id'] + '.mei')).read()
+                data['mei'] = raw_mei
+            except FileNotFoundError:
+                data['mei'] = None
+        except KeyError:
+            data['piece_id'] = ''
         template_names = ['piece/piece_detail.html']
         template = self.resolve_template(template_names)
         context = self.get_template_context({'content': data, 'request': renderer_context['request']}, renderer_context)
