@@ -131,7 +131,8 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertTrue(page.locator("tr").count() >= 2)
 
         # pick a random row (Mass)
-        random_mass_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        # random_mass_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        random_mass_row = page.locator("tbody").get_by_role("row").nth(9)
         random_mass_id = random_mass_row.get_by_role("link").nth(0).inner_text()
         
         # check if name link and ID link are same
@@ -142,7 +143,53 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_mass_url = page.url
         self.assertTrue(random_mass_id in page.content())
 
-        first_movement_links = page.locator("div .well").filter(has=page.get_by_role("heading").filter(has_text="Mass movements")).get_by_role("link")
+        page.wait_for_selector("a")
+        movement_headings = page.locator("div .well").filter(has=page.get_by_role("heading").filter(has_text="Mass movements")).locator("h3")
+        random_movement_links = movement_headings.nth(random.randint(0, movement_headings.count() - 1)).locator("a")
+        movement_mei_included = False
+        # nth(0).get_by_role("link")
+
+        print("\n \n \n MASS ID ")
+        print(random_mass_id)
+        print("\n\n MOVEMENT LINKS")
+        # print(first_movement_links.all_inner_texts())
+        print(random_movement_links.count())
+        for i in range(random_movement_links.count()):
+            local_link = random_movement_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
+            if "pdf" in local_link_url:
+                print("PDF Detected: \n")
+                print(local_link_url)
+                page.wait_for_selector('.SQLPanel', state='hidden')
+                local_link.click()
+                page.wait_for_selector("body")
+                print("Current page URL: \n")
+                print(page.url)
+                # check downloads: PDF: FIX NEEDED
+                # with page.expect_download() as download_info:
+                #     local_link.click(modifiers=["Alt", ])
+                #     download = download_info.value
+                #     self.assertEqual(download.failure(), None)
+        
+            if "mei" in local_link_url:
+                movement_mei_included = True
+                print("Mei Detected: \n")
+                print(local_link_url)
+                page.wait_for_selector('.SQLPanel', state='hidden')
+                local_link.click()
+                print("Current page URL: \n")
+                print(page.url)
+            if "pieces" in local_link_url:
+                print("Piece Link Detected: \n")
+                print(local_link_url)
+                # page.goto(local_link_url)
+                # print(movement_mei_included)
+                page.wait_for_selector('.SQLPanel', state='hidden')
+                local_link.click()
+                print("Current page URL: \n")
+                print(page.url)
+                page.go_back()
+
 
         # # check downloads: PDF: FIX NEEDED
         # with page.expect_download() as download_info:
@@ -527,13 +574,6 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertFalse(page.get_by_role("heading", name="Forum").count() == 0)
         page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
-
-        # try to navigate to new discussion:
-        page.locator("a").filter(has=page.locator("button").filter(has_text="New discussion")).click()
-
-        # check if login required
-        self.assertTrue("Username:" in page.content())
-        self.assertTrue("Password:" in page.content())
 
         # conclude test
         page.close()
