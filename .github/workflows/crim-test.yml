@@ -44,21 +44,21 @@ jobs:
 
       - name: Loading Data for Functional Testing
         run: |
-          python manage.py loaddata crim/fixtures/data-2022-fresh/definition.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/genre.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/person.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/mass.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/piece.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/part.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/phrase.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/voice.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/treatise.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/source.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/roletype.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/role.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/observation.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/relationship.json
-          python manage.py loaddata crim/fixtures/data-2022-fresh/flatpages.json
+          python manage.py loaddata crim/fixtures/data-2023-04/definition.json
+          python manage.py loaddata crim/fixtures/data-2023-04/genre.json
+          python manage.py loaddata crim/fixtures/data-2023-04/person.json
+          python manage.py loaddata crim/fixtures/data-2023-04/mass.json
+          python manage.py loaddata crim/fixtures/data-2023-04/piece.json
+          python manage.py loaddata crim/fixtures/data-2023-04/part.json
+          python manage.py loaddata crim/fixtures/data-2023-04/phrase.json
+          python manage.py loaddata crim/fixtures/data-2023-04/voice.json
+          python manage.py loaddata crim/fixtures/data-2023-04/treatise.json
+          python manage.py loaddata crim/fixtures/data-2023-04/source.json
+          python manage.py loaddata crim/fixtures/data-2023-04/roletype.json
+          python manage.py loaddata crim/fixtures/data-2023-04/role.json
+          python manage.py loaddata crim/fixtures/data-2023-04/observation.json
+          python manage.py loaddata crim/fixtures/data-2023-04/relationship.json
+          python manage.py loaddata crim/fixtures/data-2023-04/flatpages.json
 
       - name: Running Server and FT
         run: |
