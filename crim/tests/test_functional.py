@@ -43,12 +43,19 @@ class VisitorTestCase(StaticLiveServerTestCase):
         super().setUpClass()
         cls.playwright = sync_playwright().start()
         cls.browser = cls.playwright.chromium.launch()
+        cls.trace = False
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
         cls.browser.close()
         cls.playwright.stop()
+
+    def c_print(self, string_input):
+        if self.trace:
+            print(string_input)
+        else: 
+            pass
 
     def test_landing_page(self):
         page = self.browser.new_page()
@@ -160,7 +167,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
                 movement_mei_included = True
 
                 # just in case there is an unregistered missing MEI mass movement
-                print("\n Downloading MEI for Mass Movement: \n" + local_link_url + "\n")
+                self.c_print("\n Downloading MEI for Mass Movement: \n" + local_link_url + "\n")
 
                 # test MEI file download:
                 with page.expect_download() as download_info:
@@ -173,7 +180,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif local_link_url.endswith(".pdf"):
                 
                 # just in case there is an unregistered missing PDF mass movement
-                print("\n Downloading PDF for Mass Movement: \n" + local_link_url + "\n")
+                self.c_print("\n Downloading PDF for Mass Movement: \n" + local_link_url + "\n")
 
                 # test PDF file download:
                 with page.expect_download() as download_info:
@@ -238,7 +245,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
                 model_mei_included = True
 
                 # just in case there is an unregistered missing MEI model
-                print("\n Downloading MEI for Model: \n" + local_link_url + "\n")
+                self.c_print("\n Downloading MEI for Model: \n" + local_link_url + "\n")
 
                 # test MEI file download:
                 with page.expect_download() as download_info:
@@ -251,7 +258,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif local_link_url.endswith(".pdf"):
                 
                 # just in case there is an unregistered missing PDF model
-                print("\n Downloading PDF for Model: \n" + local_link_url + "\n")
+                self.c_print("\n Downloading PDF for Model: \n" + local_link_url + "\n")
 
                 # test PDF file download:
                 with page.expect_download() as download_info:
@@ -264,7 +271,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif "piece" in local_link_url:
 
                 # just for tracking purposes
-                print("\n Working with Model: \n" + local_link_url + "\n")
+                self.c_print("\n Working with Model: \n" + local_link_url + "\n")
 
                 page.wait_for_selector("a")
                 page.goto(local_link_url)
@@ -345,7 +352,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
                 piece_mei_included = True
 
                 # just in case there is an unregistered missing MEI Piece
-                print("\n Downloading MEI for Piece: \n" + local_link_url + "\n")
+                self.c_print("\n Downloading MEI for Piece: \n" + local_link_url + "\n")
 
                 # test MEI file download:
                 with page.expect_download() as download_info:
@@ -358,7 +365,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif local_link_url.endswith(".pdf"):
                 
                 # just in case there is an unregistered missing PDF piece
-                print("\n Downloading PDF for Piece: \n" + local_link_url + "\n")
+                self.c_print("\n Downloading PDF for Piece: \n" + local_link_url + "\n")
 
                 # test PDF file download:
                 with page.expect_download() as download_info:
@@ -371,7 +378,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif "piece" in local_link_url:
 
                 # just for tracking purposes
-                print("\n Working with Piece: \n" + local_link_url + "\n")
+                self.c_print("\n Working with Piece: \n" + local_link_url + "\n")
 
                 page.wait_for_selector("a")
                 page.goto(local_link_url)
@@ -458,7 +465,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
                 random_source_id = local_link.inner_text()
 
                 # just for tracking purposes
-                print("\n Working with Source: \n" + local_link_url + "\n")
+                self.c_print("\n Working with Source: \n" + local_link_url + "\n")
 
                 page.wait_for_selector("a")
                 page.goto(local_link_url)
@@ -493,7 +500,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif ("crim" not in local_link_url) and ("sources" not in local_link_url) and ("people" not in local_link_url):
 
                 # just for tracking purposes
-                print("\n Tracking external source: \n" + local_link_url + "\n")
+                self.c_print("\n Tracking external source: \n" + local_link_url + "\n")
                 
                 # checkout if page is up:
                 response = page.goto(local_link_url)
@@ -635,7 +642,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
             elif "piece" in local_link_url:
 
                 # just for tracking purposes
-                print("\n Working with Observation Model: \n" + local_link_url + "\n")
+                self.c_print("\n Working with Observation Model: \n" + local_link_url + "\n")
 
                 # navigate
                 page.wait_for_selector("a")
@@ -745,7 +752,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
                 local_piece_name = local_link.inner_text()
 
                 # just for tracking purposes
-                print("\n Working with Relationship Piece: \n" + local_link_url + "\n")
+                self.c_print("\n Working with Relationship Piece: \n" + local_link_url + "\n")
 
                 # navigate
                 page.wait_for_selector("a")
