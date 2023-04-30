@@ -17,8 +17,8 @@ scenarios have been desinged. These scenarios reflect the users' expected behavi
 and mainly the pages they could visit and the actions they could perform.
 
 @author: Oleh Shostak '24
-@version: 1.0
-@created: 3/7/23
+@version: 2.0
+@created: 4/30/23
 
 To-do's:
 
@@ -131,8 +131,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertTrue(page.locator("tr").count() >= 2)
 
         # pick a random row (Mass)
-        # random_mass_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
-        random_mass_row = page.locator("tbody").get_by_role("row").nth(9)
+        random_mass_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
         random_mass_id = random_mass_row.get_by_role("link").nth(0).inner_text()
         
         # check if name link and ID link are same
@@ -143,75 +142,64 @@ class VisitorTestCase(StaticLiveServerTestCase):
         random_mass_url = page.url
         self.assertTrue(random_mass_id in page.content())
 
+        # get random movement
         page.wait_for_selector("a")
         movement_headings = page.locator("div .well").filter(has=page.get_by_role("heading").filter(has_text="Mass movements")).locator("h3")
         random_movement_links = movement_headings.nth(random.randint(0, movement_headings.count() - 1)).locator("a")
         movement_mei_included = False
-        # nth(0).get_by_role("link")
 
-        print("\n \n \n MASS ID ")
-        print(random_mass_id)
-        print("\n\n MOVEMENT LINKS")
-        # print(first_movement_links.all_inner_texts())
-        print(random_movement_links.count())
+        # iterate over the links for a random movement
         for i in range(random_movement_links.count()):
+
+            # storing the link
             local_link = random_movement_links.nth(i)
             local_link_url = local_link.get_attribute("href")
-            if "pdf" in local_link_url:
-                print("PDF Detected: \n")
-                print(local_link_url)
-                page.wait_for_selector('.SQLPanel', state='hidden')
-                local_link.click()
-                page.wait_for_selector("body")
-                print("Current page URL: \n")
-                print(page.url)
-                # check downloads: PDF: FIX NEEDED
-                # with page.expect_download() as download_info:
-                #     local_link.click(modifiers=["Alt", ])
-                #     download = download_info.value
-                #     self.assertEqual(download.failure(), None)
-        
-            if "mei" in local_link_url:
+
+            # MEI link:
+            if local_link_url.endswith(".mei"):
                 movement_mei_included = True
-                print("Mei Detected: \n")
-                print(local_link_url)
-                page.wait_for_selector('.SQLPanel', state='hidden')
-                local_link.click()
-                print("Current page URL: \n")
-                print(page.url)
-            if "pieces" in local_link_url:
-                print("Piece Link Detected: \n")
-                print(local_link_url)
-                # page.goto(local_link_url)
-                # print(movement_mei_included)
-                page.wait_for_selector('.SQLPanel', state='hidden')
-                local_link.click()
-                print("Current page URL: \n")
-                print(page.url)
+
+                # just in case there is an unregistered missing MEI mass movement
+                print("\n Downloading MEI for Mass Movement: \n" + local_link_url + "\n")
+
+                # test MEI file download:
+                with page.expect_download() as download_info:
+                    local_link.click()
+                download = download_info.value
+                self.assertTrue(download.suggested_filename.endswith('.mei'))
+                download.delete()
+            
+            # PDF link:
+            elif local_link_url.endswith(".pdf"):
+                
+                # just in case there is an unregistered missing PDF mass movement
+                print("\n Downloading PDF for Mass Movement: \n" + local_link_url + "\n")
+
+                # test PDF file download:
+                with page.expect_download() as download_info:
+                    local_link.click(modifiers=["Alt"])
+                download = download_info.value
+                self.assertTrue(download.suggested_filename.endswith('.pdf'))
+                download.delete()
+
+            # Piece link:  
+            elif "piece" in local_link_url:
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+
+                # if there is an MEI file, we should see the score:
+                if movement_mei_included:
+                    page.wait_for_selector("svg")
+
+                    # check if SVG is visible
+                    self.assertTrue(page.locator("svg").first.is_visible())
+                    self.assertTrue(page.locator("#piece_score").is_visible())
+
+                # go back
                 page.go_back()
-
-
-        # # check downloads: PDF: FIX NEEDED
-        # with page.expect_download() as download_info:
-        #     first_movement_links.nth(0).click()
-        #     download = download_info.value
-        #     self.assertEqual(download.failure(), None)
-        
-        # # check downloads: MEI: FIX NEEDED
-        # with page.expect_download() as download_info:
-        #     first_movement_links.nth(1).click()
-        #     download = download_info.value
-        # #     self.assertEqual(download.failure(), None)
-
-        # # navigate to the First Movement: configure to click()
-        # page.goto(first_movement_links.nth(2).get_attribute("href"))
-        # page.wait_for_selector("svg")
-        # self.assertTrue(page.locator("svg").first.is_visible())
-        # self.assertTrue(page.locator("#piece_score").is_visible())
 
         # back to Masses
         page.go_back()
-        # page.go_back()
 
         # navigate to first Composer
         if random_mass_row.get_by_role("link").count() > 2:
@@ -224,6 +212,8 @@ class VisitorTestCase(StaticLiveServerTestCase):
         page.close()
 
     def test_checkout_models(self):
+
+        # nagigating to and checking out the Models table
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/models")
         self.assertFalse(page.get_by_role("heading", name="Models").count() == 0)
@@ -233,48 +223,97 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # pick a random row (Model)
         random_model_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
-        random_model_id = random_model_row.get_by_role("link").nth(0).inner_text()
-        
-        # check downloads: PDF
-        with page.expect_download() as download_info:
-            random_model_row.get_by_role("link").nth(0).click()
-            download = download_info.value
-            self.assertEqual(download.failure(), None)
+        random_model_links = random_model_row.get_by_role("link")
+        model_mei_included = False
 
-        # check downloads: MEI
-        with page.expect_download() as download_info:
-            random_model_row.get_by_role("link").nth(1).click()
-            download = download_info.value
-            self.assertEqual(download.failure(), None)
+        # iterating over the Model links
+        for i in range(random_model_links.count()):
+            
+            # storing the link
+            local_link = random_model_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
+            
+            # MEI link:
+            if local_link_url.endswith(".mei"):
+                model_mei_included = True
 
-        # navigate to Model by ID
-        random_model_row.get_by_role("link").nth(2).click()
-        page.wait_for_selector("svg")
+                # just in case there is an unregistered missing MEI model
+                print("\n Downloading MEI for Model: \n" + local_link_url + "\n")
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").first.is_visible())
-        self.assertTrue(page.locator("#piece_score").is_visible())
+                # test MEI file download:
+                with page.expect_download() as download_info:
+                    local_link.click()
+                download = download_info.value
+                self.assertTrue(download.suggested_filename.endswith('.mei'))
+                download.delete()
 
-        # back to Models
-        page.go_back()
+            # PDF link:
+            elif local_link_url.endswith(".pdf"):
+                
+                # just in case there is an unregistered missing PDF model
+                print("\n Downloading PDF for Model: \n" + local_link_url + "\n")
 
-        # navigate to Composer
-        random_model_composer_name = random_model_row.get_by_role("link").nth(3).inner_text()
-        random_model_row.get_by_role("link").nth(3).click()
-        self.assertTrue(random_model_composer_name in page.content())
+                # test PDF file download:
+                with page.expect_download() as download_info:
+                    local_link.click(modifiers=["Alt"])
+                download = download_info.value
+                self.assertTrue(download.suggested_filename.endswith('.pdf'))
+                download.delete()
 
-        # back to Models
-        page.go_back()
+            # Piece link:  
+            elif "piece" in local_link_url:
 
-        # navigate to Genre
-        random_model_genre_name = random_model_row.get_by_role("link").nth(4).inner_text()
-        random_model_row.get_by_role("link").nth(4).click()
-        self.assertTrue(random_model_genre_name in page.content())
+                # just for tracking purposes
+                print("\n Working with Model: \n" + local_link_url + "\n")
 
-        # check table contents
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
-        self.assertTrue(page.locator("tr").count() >= 2)
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+
+                # if there is an MEI file, we should see the score:
+                if model_mei_included:
+                    page.wait_for_selector("svg")
+
+                    # check if SVG is visible
+                    self.assertTrue(page.locator("svg").first.is_visible())
+                    self.assertTrue(page.locator("#piece_score").is_visible())
+
+                # go back
+                page.go_back()
+
+            # People link
+            elif "people" in local_link_url:
+                
+                # record composer name:
+                random_model_composer_name = local_link.inner_text()
+
+                # navigate to link
+                page.goto(local_link_url)
+
+                # check if composer name is present
+                self.assertTrue(random_model_composer_name in page.content())
+                
+                # back to models
+                page.go_back()
+
+            # Genre link
+            elif "genre" in local_link_url:
+
+                # record genre name
+                random_model_genre_name = local_link.inner_text()
+
+                # navigate to the genre page
+                page.goto(local_link_url)
+
+                # cehck for genre name
+                self.assertTrue(random_model_genre_name in page.content())
+
+                # check table contents
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
+
+                # back to Models
+                page.go_back()
 
         # conclude test
         page.close()
@@ -282,7 +321,7 @@ class VisitorTestCase(StaticLiveServerTestCase):
     def test_checkout_pieces(self):
         page = self.browser.new_page()
 
-        # checkout pieces
+        # navigate to and checkout the Pieces table
         page.goto("http://127.0.0.1:8000/pieces")
         self.assertFalse(page.get_by_role("heading", name="Pieces (all)").count() == 0)
         page.wait_for_selector("table")
@@ -290,48 +329,98 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertTrue(page.locator("tr").count() >= 2)
 
         # pick a random row (Piece)
-        random_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        random_piece_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        random_piece_links = random_piece_row.get_by_role("link")
+        piece_mei_included = False
 
-        # check downloads: PDF
-        with page.expect_download() as download_info:
-            random_row.get_by_role("link").nth(0).click()
-            download = download_info.value
-            self.assertEqual(download.failure(), None)
+        # iterating over the Piece links
+        for i in range(random_piece_links.count()):
+            
+            # storing the link
+            local_link = random_piece_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
+            
+            # MEI link:
+            if local_link_url.endswith(".mei"):
+                piece_mei_included = True
 
-        # check downloads: MEI
-        with page.expect_download() as download_info:
-            random_row.get_by_role("link").nth(1).click()
-            download = download_info.value
-            self.assertEqual(download.failure(), None)
+                # just in case there is an unregistered missing MEI Piece
+                print("\n Downloading MEI for Piece: \n" + local_link_url + "\n")
 
-        # navigate to Model by ID
-        random_row.get_by_role("link").nth(2).click()
-        page.wait_for_selector("svg")
+                # test MEI file download:
+                with page.expect_download() as download_info:
+                    local_link.click()
+                download = download_info.value
+                self.assertTrue(download.suggested_filename.endswith('.mei'))
+                download.delete()
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").first.is_visible())
-        self.assertTrue(page.locator("#piece_score").is_visible())
+            # PDF link:
+            elif local_link_url.endswith(".pdf"):
+                
+                # just in case there is an unregistered missing PDF piece
+                print("\n Downloading PDF for Piece: \n" + local_link_url + "\n")
 
-        # back to Pieces
-        page.go_back()
+                # test PDF file download:
+                with page.expect_download() as download_info:
+                    local_link.click(modifiers=["Alt"])
+                download = download_info.value
+                self.assertTrue(download.suggested_filename.endswith('.pdf'))
+                download.delete()
 
-        # check out random Composer
-        random_composer_name = random_row.get_by_role("link").nth(3).inner_text()
-        random_row.get_by_role("link").nth(3).click()
-        self.assertTrue(random_composer_name in page.content())
+            # Piece link:  
+            elif "piece" in local_link_url:
 
-        # back to Pieces
-        page.go_back()
+                # just for tracking purposes
+                print("\n Working with Piece: \n" + local_link_url + "\n")
 
-        # check out random Genre
-        random_genre_name = random_row.get_by_role("link").nth(4).inner_text()
-        random_row.get_by_role("link").nth(4).click()
-        self.assertTrue(random_genre_name in page.content())
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
 
-        # back to Pieces
-        page.go_back()
+                # if there is an MEI file, we should see the score:
+                if piece_mei_included:
+                    page.wait_for_selector("svg")
+
+                    # check if SVG is visible
+                    self.assertTrue(page.locator("svg").first.is_visible())
+                    self.assertTrue(page.locator("#piece_score").is_visible())
+
+                # go back
+                page.go_back()
+
+            # People link
+            elif "people" in local_link_url:
+                
+                # record composer name:
+                random_piece_composer_name = local_link.inner_text()
+
+                # navigate to link
+                page.goto(local_link_url)
+
+                # check if composer name is present
+                self.assertTrue(random_piece_composer_name in page.content())
+                
+                # back to Pieces
+                page.go_back()
+
+            # Genre link
+            elif "genre" in local_link_url:
+
+                # record genre name
+                random_piece_genre_name = local_link.inner_text()
+
+                # navigate to the genre page
+                page.goto(local_link_url)
+
+                # cehck for genre name
+                self.assertTrue(random_piece_genre_name in page.content())
+
+                # check table contents
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
+
+                # back to Pieces
+                page.go_back()
 
         # check out the list of genres
         page.click('a:text("list of genres")')
@@ -342,6 +431,8 @@ class VisitorTestCase(StaticLiveServerTestCase):
         page.close()
 
     def test_checkout_sources(self):
+
+        # navigate and checkout the sources table
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/sources")
         self.assertFalse(page.get_by_role("heading", name="Sources").count() == 0)
@@ -349,79 +440,139 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
-        # pick a random row (Piece)
-        random_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        # pick a random row (Source)
+        random_source_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        random_source_links = random_source_row.locator("a")
 
-        # checking source link: FIX NEEDED
-        # random_row.get_by_role("link").nth(1).click()
-        # with sync_playwright() as p:
-        #     source_page = self.browser.new_page()
-        #     response = page.goto(random_row.get_by_role("link").nth(1).get_attribute("href"))
-        #     print(response.status)
-        #     page.close()
+        # iterating over the Source links
+        for i in range(random_source_links.count()):
+            
+            # storing the link
+            local_link = random_source_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
+            
+            # CRIM Sources link
+            if "sources" in local_link_url:
 
-        # check source CRIM page:
-        souce_id = random_row.get_by_role("link").nth(1).inner_text()
-        random_row.get_by_role("link").nth(1).click()
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
-        self.assertTrue(souce_id in page.content())
+                # store source ID
+                random_source_id = local_link.inner_text()
 
-        # back to sources
-        page.go_back()
+                # just for tracking purposes
+                print("\n Working with Source: \n" + local_link_url + "\n")
 
-        # check source author page: FIX NEEDED
-        # souce_author = random_row.get_by_role("link").nth(2).inner_text()
-        # random_row.get_by_role("link").nth(2).click()
-        # self.assertTrue(page.locator("table").count() > 0)
-        # self.assertTrue(souce_author in page.content())
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+
+                # check for source ID
+                self.assertTrue(random_source_id in page.content())
+
+                # check table contents
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
+
+                # back to Pieces
+                page.go_back()
+
+            # People link
+            elif "people" in local_link_url:
+                
+                # record author name:
+                random_source_author = local_link.inner_text()
+
+                # navigate to link
+                page.goto(local_link_url)
+
+                # check if author's name is present
+                self.assertTrue(random_source_author in page.content())
+                
+                # back to Pieces
+                page.go_back()
+            
+            # EXTERNAL link: optional
+            elif ("crim" not in local_link_url) and ("sources" not in local_link_url) and ("people" not in local_link_url):
+
+                # just for tracking purposes
+                print("\n Tracking external source: \n" + local_link_url + "\n")
+                
+                # checkout if page is up:
+                response = page.goto(local_link_url)
+                page.wait_for_selector("a")
+                self.assertEqual(response.status, 200)
+
+                # back to Sources:
+                page.go_back()
 
         # conclude test
         page.close()
 
     def test_checkout_people(self):
+
+        # navigate to and checkout the People table
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/people")
-
-        # check table
         self.assertFalse(page.get_by_role("heading", name="People").count() == 0)
         page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
         self.assertTrue(page.locator("tr").count() >= 2)
 
         # pick a random row (Person)
-        random_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        random_person_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
+        random_person_links = random_person_row.locator("a")
 
-        # checkout random Person
-        random_person_id = random_row.get_by_role("link").nth(0).inner_text()
-        random_row.get_by_role("link").nth(0).click()
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
-        self.assertTrue(random_person_id in page.content())
+        # iterating over the Person links
+        for i in range(random_person_links.count()):
+            
+            # storing the link
+            local_link = random_person_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
+            
+            # Person link
+            if "Person" in local_link_url:
+                
+                # record person ID:
+                random_person_ID = local_link.inner_text()
 
-        # back to People
-        page.go_back()
+                # navigate to link
+                page.goto(local_link_url)
 
-        # checkout people with the same role (if any)
-        if random_row.get_by_role("link").count() > 1:
-            random_row.get_by_role("link").nth(1).click()
-            page.wait_for_selector("table")
-            self.assertTrue(page.locator("table").count() > 0)
-            self.assertTrue(page.locator("tr").count() >= 2)
+                # check if ID is present
+                self.assertTrue(random_person_ID in page.content())
 
-        # back to People
-        page.go_back()
+                # check table contents
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
 
-        # check out the list of role types
-        page.click('a:text("list of role types")')
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
-        self.assertTrue(page.locator("tr").count() >= 2)
+                # back to People
+                page.go_back()
+            
+            # Role link
+            elif "role" in local_link_url:
 
-        # conclude the test
+                # record person ID:
+                random_person_role = local_link.inner_text()
+    
+                # navigate: 
+                local_link.click()
+
+                # check if role is present
+                self.assertTrue(random_person_role in page.content())
+
+                # check table contents
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
+
+                # back to People
+                page.go_back()
+
+        # conclude test
         page.close()
 
     def test_checkout_observations(self):
+
+        # navigating to and checking out the observations table:
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000")
         page.click('a:text("Analysis")')
@@ -436,46 +587,80 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # pick a random row (Observation)
         random_observation_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
-        random_observation_id = random_observation_row.get_by_role("link").nth(0).inner_text()
+        random_observation_links = random_observation_row.locator("a")
 
-        # navigate to Observation by ID
-        random_observation_row.get_by_role("link").nth(0).click()
-        page.wait_for_selector("svg")
+        # iterating over the Observation links
+        for i in range(random_observation_links.count()):
+            
+            # storing the link
+            local_link = random_observation_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
+            
+            # Observations link:
+            if "observations" in local_link_url:
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").first.is_visible())
-        self.assertTrue(page.locator("#observation_score").is_visible())
+                # navigate
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+                
+                # check if SVG is visible
+                page.wait_for_selector("svg")
+                self.assertTrue(page.locator("svg").first.is_visible())
+                self.assertTrue(page.locator("#observation_score").is_visible())
 
-        # back to Observations:
-        page.go_back()
+                # back to Observations:
+                page.go_back()
+            
+            # People link
+            elif "people" in local_link_url:
+                
+                # record composer name:
+                random_observer_name = local_link.inner_text()
 
-        # navigate to Observer
-        random_observer_name = random_observation_row.get_by_role("link").nth(1).inner_text()
-        random_observation_row.get_by_role("link").nth(1).click()
-        page.wait_for_selector("table")
-        self.assertTrue(random_observer_name in page.content())
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
+                # navigate to link
+                page.goto(local_link_url)
 
-        # back to Observations
-        page.go_back()
+                # check if composer name is present
+                self.assertTrue(random_observer_name in page.content())
 
-        # navigate to Observation by ID
-        random_observation_row.get_by_role("link").nth(2).click()
-        page.wait_for_selector("svg")
+                # check if there's at least one table:
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
+                
+                # back to Relationships
+                page.go_back()
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").first.is_visible())
-        self.assertTrue(page.locator("#piece_score").is_visible())
+            # Piece link:  
+            elif "piece" in local_link_url:
+
+                # just for tracking purposes
+                print("\n Working with Observation Model: \n" + local_link_url + "\n")
+
+                # navigate
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+                
+                # check if SVG is visible
+                page.wait_for_selector("svg")
+                self.assertTrue(page.locator("svg").first.is_visible())
+                self.assertTrue(page.locator("#piece_score").is_visible())
+
+                # go back
+                page.go_back()
+
+            # expander link:
+            elif "#" in local_link_url:
+                pass
 
         # conclude test
         page.close()
 
     def test_checkout_relationships(self):
+
+        # navigate to and checkout the relationships table:
         page = self.browser.new_page()
         page.goto("http://127.0.0.1:8000/relationships")
-
-        # check if table is present
         self.assertFalse(page.get_by_role("heading", name="Relationships").count() == 0)
         page.wait_for_selector("table")
         self.assertTrue(page.locator("table").count() > 0)
@@ -483,83 +668,104 @@ class VisitorTestCase(StaticLiveServerTestCase):
 
         # pick a random row (Relationship)
         random_relationship_row = page.locator("tbody").get_by_role("row").nth(random.randint(0, page.locator("tbody").get_by_role("row").count() - 1))
-        random_relationship_id = random_relationship_row.get_by_role("link").nth(0).inner_text()
+        random_relationship_links = random_relationship_row.locator("a")
 
-        # navigate to Relationship by ID
-        random_relationship_row.get_by_role("link").nth(0).click()
-        page.wait_for_selector("svg")
+        # iterating over the Relationship links
+        for i in range(random_relationship_links.count()):
+            
+            # storing the link
+            local_link = random_relationship_links.nth(i)
+            local_link_url = local_link.get_attribute("href")
 
-        # check model score and scale
-        self.assertTrue(page.locator("svg").nth(0).is_visible())
-        self.assertTrue(page.locator("svg").nth(1).is_visible())
+            # Relationship link:
+            if "relationships" in local_link_url:
 
-        # check Derivative score and scale
-        self.assertTrue(page.locator("svg").nth(2).is_visible())
-        self.assertTrue(page.locator("svg").nth(3).is_visible())
+                # navigate
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+                
+                # check if SVG is visible
+                page.wait_for_selector("svg")
 
-        # check for text contents:
-        self.assertTrue("Model" in page.content())
-        self.assertTrue("Derivative" in page.content())
-        self.assertTrue("Observer" in page.content())
+                # check Model score and scale
+                self.assertTrue(page.locator("svg").nth(0).is_visible())
+                self.assertTrue(page.locator("svg").nth(1).is_visible())
 
-        # back to Relationships 
-        page.go_back()
+                # check Derivative score and scale
+                self.assertTrue(page.locator("svg").nth(2).is_visible())
+                self.assertTrue(page.locator("svg").nth(3).is_visible())
 
-        # navigate to random Observer
-        random_observer_name = random_relationship_row.get_by_role("link").nth(1).inner_text()
-        random_relationship_row.get_by_role("link").nth(1).click()
-        self.assertTrue(random_observer_name in page.content())
-        page.wait_for_selector("table")
-        self.assertTrue(page.locator("table").count() > 0)
+                # check for text contents:
+                self.assertTrue("Model" in page.content())
+                self.assertTrue("Derivative" in page.content())
+                self.assertTrue("Observer" in page.content())
 
-        # back to Relationships
-        page.go_back()
+                # back to Relationships:
+                page.go_back()
+            
+            # People link
+            elif "people" in local_link_url:
+                
+                # record composer name:
+                random_observer_name = local_link.inner_text()
 
-        # navigate to Model observation
-        random_relationship_row.get_by_role("link").nth(2).click()
-        page.wait_for_selector("svg")
+                # navigate to link
+                page.goto(local_link_url)
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").nth(0).is_visible())
-        self.assertTrue(page.locator("svg").nth(1).is_visible())
-        self.assertTrue(page.locator("#observation_score").is_visible())
+                # check if composer name is present
+                self.assertTrue(random_observer_name in page.content())
 
-        # back to Relationships
-        page.go_back()
+                # check if there's at least one table:
+                page.wait_for_selector("table")
+                self.assertTrue(page.locator("table").count() > 0)
+                self.assertTrue(page.locator("tr").count() >= 2)
+                
+                # back to Relationships
+                page.go_back()
 
-        # navigate to Model Piece
-        random_relationship_row.get_by_role("link").nth(3).click()
-        page.wait_for_selector("svg")
+            # Observation link:
+            elif "observations" in local_link_url:
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").nth(0).is_visible())
-        self.assertTrue(page.locator("svg").nth(1).is_visible())
-        self.assertTrue(page.locator("#piece_score").is_visible())
+                # navigate
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+                
+                # check if SVG is visible
+                page.wait_for_selector("svg")
+                self.assertTrue(page.locator("svg").first.is_visible())
+                self.assertTrue(page.locator("#observation_score").is_visible())
 
-        # back to Relationships
-        page.go_back()
+                # back to Relationships:
+                page.go_back()
 
-        # navigate to Derivative observation
-        random_relationship_row.get_by_role("link").nth(4).click()
-        page.wait_for_selector("svg")
+            # Piece link:  
+            elif "piece" in local_link_url:
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").nth(0).is_visible())
-        self.assertTrue(page.locator("svg").nth(1).is_visible())
-        self.assertTrue(page.locator("#observation_score").is_visible())
+                # record piece name:
+                local_piece_name = local_link.inner_text()
 
-        # back to Relationships
-        page.go_back()
+                # just for tracking purposes
+                print("\n Working with Relationship Piece: \n" + local_link_url + "\n")
 
-        # navigate to Derivative Piece
-        random_relationship_row.get_by_role("link").nth(5).click()
-        page.wait_for_selector("svg")
+                # navigate
+                page.wait_for_selector("a")
+                page.goto(local_link_url)
+                
+                # check if SVG is visible
+                page.wait_for_selector("svg")
+                self.assertTrue(page.locator("svg").first.is_visible())
+                self.assertTrue(page.locator("#piece_score").is_visible())
 
-        # check if SVG is visible
-        self.assertTrue(page.locator("svg").nth(0).is_visible())
-        self.assertTrue(page.locator("svg").nth(1).is_visible())
-        self.assertTrue(page.locator("#piece_score").is_visible())
+                # check if piece name is present:
+                self.assertTrue(local_piece_name in page.content())
 
+                # go back
+                page.go_back()
+
+            # expander link:
+            elif "#" in local_link_url:
+                pass
+            
         # conclude test
         page.close()
 
