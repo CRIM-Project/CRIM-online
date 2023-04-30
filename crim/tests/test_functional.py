@@ -86,9 +86,9 @@ class VisitorTestCase(StaticLiveServerTestCase):
         self.assertTrue(len(page.locator("#home-page").text_content()) > 0)
         page.go_back()
 
-        # checkout the Introduction section
+        # checkout the CRIM Intervals section
         page.click('a:text("About")')
-        page.click('a:text("Introduction")')
+        page.click('a:text("CRIM Intervals")')
         self.assertTrue(len(page.locator("#home-page").text_content()) > 0)
         page.go_back()
 
