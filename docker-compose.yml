@@ -16,7 +16,7 @@ services:
       - db
     volumes:
       - ./fixtures:/app/crim/data
-    command: /app/entrypoint.sh
+    command: /app/scripts/entrypoint.sh
     networks:
       - crim_network
 

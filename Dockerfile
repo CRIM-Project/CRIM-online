@@ -6,8 +6,8 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY requirements.txt /app/
-COPY /scripts/entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+COPY /scripts/entrypoint.sh /app/scripts/entrypoint.sh
+RUN chmod +x /app/scripts/entrypoint.sh
 
 COPY . /app/
 
