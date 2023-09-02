@@ -1,0 +1,29 @@
+version : '3'
+services:
+  db:
+    image: keinos/sqlite3:3.42.0
+    volumes:
+      - sqlite_data:/var/lib/sqlite3/data/
+    networks:
+      - crim_network
+    ports:
+      - "8191:8191"
+  django_app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./fixtures:/app/crim/data
+    command: /app/entrypoint.sh
+    networks:
+      - crim_network
+
+volumes:
+  sqlite_data:
+  fixtures:
+
+networks:
+  crim_network:
+    
