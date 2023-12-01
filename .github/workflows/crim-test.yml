@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install flake8
-          pip install -r test_requirements.txt # install dependencies from the Deveopment Requirements
+          pip install -r requirements.txt # install dependencies from the Requirements file
           playwright install # install playwright browsers
           cp "crim/test_settings_production.py" "crim/settings_production.py" # copy the Production Settings file
 
