@@ -3,17 +3,13 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
-   <titleStmt xml:id="m-10-ts">
-    <title xml:id="m-10">
+  <fileDesc>
+   <titleStmt>
+    <title>
      Missa Vidi speciosam: Credo
     </title>
-    <composer xml:id="m-11">
-     Mathieu Sohier
-    </composer>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/32271712" role="composer">
-      Mathieu Sohier
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -28,28 +24,58 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Marco Gurrieri
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2024-07-28"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <manifestationList xml:id="manifestationList">
+  <encodingDesc>
+   <appInfo>
+    <application>
+     <name>
+      MEI Soup Updater 2024
+     </name>
+    </application>
+   </appInfo>
+  </encodingDesc>
+  <workList>
+   <work>
+    <title>
+     Missa Vidi speciosam: Credo
+    </title>
+    <composer>
+    </composer>
+    <classification>
+     <termList>
+      <term>
+       Credo
+      </term>
+     </termList>
+    </classification>
+   </work>
+  </workList>
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM">
-     RISM A I, S 3839
-    </identifier>
     <titleStmt>
      <title>
-      Missa Vidi speciosam
+      Missa cum quinque vocibus, ad imitationem moduli Vidi speciosam, condita . Nunc primùm in lucem edita. Autore D. Mathaeo Sohier, quondam pueris symphoniacis Ecclesiae Parisiensis, praefecto.
      </title>
     </titleStmt>
     <pubStmt>
@@ -58,49 +84,26 @@
        Nicolas Du Chemin
       </persName>
      </publisher>
-     <date isodate="1556"/>
+     <date>
+      1556
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
        Bibliothèque nationale de France
       </corpName>
-      <settlement>
+      <settlement/>
+      <identifier>
+       RES VM1-13
+      </identifier>
+      <geogName>
        Paris
-      </settlement>
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-      RES VM1-13
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
-  <encodingDesc xml:id="m-18">
-   <appInfo xml:id="m-19">
-    <application isodate="2017-5-29T12:03:15Z" version="8410" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-21">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.0.4" xml:id="sibmei">
-     <name xml:id="m-23">
-      Sibelius to MEI Exporter (2.0.4)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337221454503">
-     <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
-     </name>
-    </application>
-   </appInfo>
-  </encodingDesc>
-  <xi:include href="CRIM_Mass_0002.mei" xpointer="workList"/>
-  <xi:include href="CRIM_Mass_0002.mei" xpointer="manifestationList"/>
  </meiHead>
  <music xml:id="m-24">
   <body xml:id="m-25">
@@ -109,31 +112,41 @@
      <scoreDef lyric.name="Opus Text Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-45">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Superius]" lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Superius]
+         " lines="5" n="1" xml:id="m-30">
          <label>
           [Superius]
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Contratenor]" lines="5" n="2" xml:id="m-33">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Contratenor]
+         " lines="5" n="2" xml:id="m-33">
          <label>
           [Contratenor]
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="I. Tenor" lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          I. Tenor
+         " lines="5" n="3" xml:id="m-36">
          <label>
           I. Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[II. Tenor]" lines="5" n="4" xml:id="m-39">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          [II. Tenor]
+         " lines="5" n="4" xml:id="m-39">
          <label>
           [II. Tenor]
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[Bassus]" lines="5" n="5" xml:id="m-42">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Bassus]
+         " lines="5" n="5" xml:id="m-42">
          <label>
           [Bassus]
          </label>
@@ -6503,7 +6516,6 @@
        <staff n="5" xml:id="m-3220">
         <layer n="1" xml:id="m-3221">
          <note dur="long" dur.ppq="4096" oct="3" pname="g" pnum="43" stem.dir="up" xml:id="m-3222">
-          <verse n="1" xml:id="m-3223"/>
          </note>
         </layer>
        </staff>

@@ -3,17 +3,17 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
+  <fileDesc>
    <titleStmt>
     <title>
      Praeter rerum
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/100226284" role="composer">
-      Josquin Des Prés
+      Des Prez, Josquin
      </persName>
      <persName role="editor">
-      Sabine Cassola
+      Sabina Cassola
      </persName>
      <persName role="editor">
       Michael Winter
@@ -25,53 +25,41 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Sabina Cassola
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2024-07-28"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-18">
-   <appInfo xml:id="m-19">
-    <application isodate="2022-7-3T14:27:27Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-21">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-23">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337221117676">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList xml:id="m-5">
-   <work xml:id="m-6">
-    <title xml:id="m-8">
+  <workList>
+   <work>
+    <title>
      Praeter rerum
     </title>
     <composer>
-     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/100226284" role="composer">
-      Josquin Des Prés
-     </persName>
+     Des Prez, Josquin
     </composer>
     <classification>
      <termList>
@@ -82,36 +70,36 @@
     </classification>
    </work>
   </workList>
-  <manifestationList xml:id="manifestationList">
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM">
-     RISM B 1, 1520/4
-    </identifier>
     <titleStmt>
      <title>
-      Praeter rerum
+      Liber selectarum cantionum quas vulgo mutetas appellant
      </title>
     </titleStmt>
     <pubStmt>
      <publisher>
       <persName auth="VIAF" auth.uri="https://viaf.org/viaf/164942784">
-       Urlich Wirsung
-      </persName>
-      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/38913200">
-       Sigmund Grimm
+       Marcus Wirsung
       </persName>
      </publisher>
      <date>
-      RISM B 1, 1549-2/9
+      1520
      </date>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName/>
+      <corpName>
+       Österreichische Nationalbibliothek
+      </corpName>
       <settlement/>
+      <identifier>
+       Musiksammlung   Signatur: SA.80.E.4
+      </identifier>
+      <geogName>
+       Wien
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -123,37 +111,49 @@
      <scoreDef lyric.name="Palatino" meter.count="3" meter.unit="1" music.name="Helsinki Std" text.name="Palatino" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-48">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="[Discantus]" lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Discantus]
+         " lines="5" n="1" xml:id="m-30">
          <label>
           [Discantus]
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[Altus I]" lines="5" n="2" xml:id="m-33">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Altus I]
+         " lines="5" n="2" xml:id="m-33">
          <label>
           [Altus I]
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[Altus II]" lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Altus II]
+         " lines="5" n="3" xml:id="m-36">
          <label>
           [Altus II]
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="[Tenor]" lines="5" n="4" xml:id="m-39">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          [Tenor]
+         " lines="5" n="4" xml:id="m-39">
          <label>
           [Tenor]
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="[Bassus I]" lines="5" n="5" xml:id="m-42">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
+          [Bassus I]
+         " lines="5" n="5" xml:id="m-42">
          <label>
           [Bassus I]
          </label>
          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-44"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="[Bassus II]" lines="5" n="6" xml:id="m-45">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
+          [Bassus II]
+         " lines="5" n="6" xml:id="m-45">
          <label>
           [Bassus II]
          </label>
@@ -3544,7 +3544,6 @@
             ma
            </syl>
           </verse>
-          <verse n="1" xml:id="m-1963"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="b" pnum="70" stem.dir="down" xml:id="m-1954">
           <accid accid.ges="f" xml:id="m-1955"/>
@@ -6066,7 +6065,6 @@
             Vir
            </syl>
           </verse>
-          <verse n="1" xml:id="m-3343"/>
          </note>
         </layer>
        </staff>
@@ -13140,35 +13138,30 @@
         <layer n="1" xml:id="m-7055">
          <note dur="long" dur.ppq="4096" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-7056">
           <accid accid.ges="f" xml:id="m-7057"/>
-          <verse n="1" xml:id="m-7058"/>
          </note>
         </layer>
        </staff>
        <staff n="3" xml:id="m-7060">
         <layer n="1" xml:id="m-7061">
          <note dur="long" dur.ppq="4096" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-7062">
-          <verse n="1" xml:id="m-7063"/>
          </note>
         </layer>
        </staff>
        <staff n="4" xml:id="m-7065">
         <layer n="1" xml:id="m-7066">
          <note dur="long" dur.ppq="4096" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-7067">
-          <verse n="1" xml:id="m-7068"/>
          </note>
         </layer>
        </staff>
        <staff n="5" xml:id="m-7070">
         <layer n="1" xml:id="m-7071">
          <note dur="long" dur.ppq="4096" oct="3" pname="d" pnum="50" stem.dir="down" xml:id="m-7072">
-          <verse n="1" xml:id="m-7073"/>
          </note>
         </layer>
        </staff>
        <staff n="6" xml:id="m-7075">
         <layer n="1" xml:id="m-7076">
          <note dur="long" dur.ppq="4096" oct="2" pname="g" pnum="43" stem.dir="up" xml:id="m-7077">
-          <verse n="1" xml:id="m-7078"/>
          </note>
         </layer>
        </staff>

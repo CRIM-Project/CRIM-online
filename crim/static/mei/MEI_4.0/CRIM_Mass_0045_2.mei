@@ -3,14 +3,13 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
-   <titleStmt xml:id="m-10-ts">
-    <title xml:id="m-10">
+  <fileDesc>
+   <titleStmt>
+    <title>
      MIssa Ultimi mieie sospiri: Gloria
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/100187002" role="composer">
-      Annibale Padovano
      </persName>
      <persName role="editor">
       Pyrros Bachimas
@@ -25,26 +24,61 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Pyrros Bachimos
+     </persName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Michael Winter
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2024-07-28"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <manifestationList xml:id="manifestationList">
+  <encodingDesc>
+   <appInfo>
+    <application>
+     <name>
+      MEI Soup Updater 2024
+     </name>
+    </application>
+   </appInfo>
+  </encodingDesc>
+  <workList>
+   <work>
+    <title>
+     MIssa Ultimi mieie sospiri: Gloria
+    </title>
+    <composer>
+    </composer>
+    <classification>
+     <termList>
+      <term>
+       Gloria
+      </term>
+     </termList>
+    </classification>
+   </work>
+  </workList>
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM"/>
     <titleStmt>
      <title>
-      MIssa Ultimi mieie sospiri
+      Missarum quinque vocum nunc primum in lucem aeditarum, liber primus
      </title>
     </titleStmt>
     <pubStmt>
@@ -53,46 +87,23 @@
        Antonio Gardano
       </persName>
      </publisher>
-     <date isodate="1573"/>
+     <date>
+      1573
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
       </corpName>
       <settlement/>
+      <identifier>
+      </identifier>
+      <geogName>
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-      RISM A/I A 1248
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
-  <encodingDesc xml:id="m-16">
-   <appInfo xml:id="m-17">
-    <application isodate="2022-7-3T13:54:06Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-19">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-21">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337221527892">
-     <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
-     </name>
-    </application>
-   </appInfo>
-  </encodingDesc>
-  <xi:include href="CRIM_Mass_0045.mei" xpointer="workList"/>
-  <xi:include href="CRIM_Mass_0045.mei" xpointer="manifestationList"/>
  </meiHead>
  <music xml:id="m-22">
   <body xml:id="m-23">
@@ -101,31 +112,41 @@
      <scoreDef lyric.name="Times New Roman" meter.count="4" meter.unit="2" music.name="Helsinki Std" text.name="Times New Roman" xml:id="m-26">
       <staffGrp xml:id="m-27">
        <staffGrp n="1" symbol="bracket" xml:id="m-43">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Cantus" lines="5" n="1" xml:id="m-28">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          Cantus
+         " lines="5" n="1" xml:id="m-28">
          <label>
           Cantus
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-30"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Altus" lines="5" n="2" xml:id="m-31">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Altus
+         " lines="5" n="2" xml:id="m-31">
          <label>
           Altus
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-33"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Quintus" lines="5" n="3" xml:id="m-34">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Quintus
+         " lines="5" n="3" xml:id="m-34">
          <label>
           Quintus
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-36"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="4" xml:id="m-37">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Tenor
+         " lines="5" n="4" xml:id="m-37">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-39"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Bassus" lines="5" n="5" xml:id="m-40">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
+          Bassus
+         " lines="5" n="5" xml:id="m-40">
          <label>
           Bassus
          </label>
@@ -219,7 +240,6 @@
        <staff n="2" xml:id="m-88">
         <layer n="1" xml:id="m-89">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-90">
-          <verse n="1" xml:id="m-94"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-91">
           <verse n="1" xml:id="m-96">
@@ -483,7 +503,6 @@
        <staff n="1" xml:id="m-222">
         <layer n="1" xml:id="m-223">
          <note dots="1" dur="1" dur.ppq="1536" oct="5" pname="c" pnum="72" stem.dir="down" xml:id="m-224">
-          <verse n="1" xml:id="m-227"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-225">
           <verse n="1" xml:id="m-263">
@@ -512,7 +531,6 @@
        <staff n="3" xml:id="m-240">
         <layer n="1" xml:id="m-241">
          <note dots="1" dur="1" dur.ppq="1536" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-242">
-          <verse n="1" xml:id="m-245"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="d" pnum="38" stem.dir="up" xml:id="m-243">
           <verse n="1" xml:id="m-279">
@@ -892,7 +910,6 @@
        <staff n="2" xml:id="m-423">
         <layer n="1" xml:id="m-424">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="e" pnum="52" stem.dir="down" xml:id="m-425">
-          <verse n="1" xml:id="m-428"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="f" pnum="53" stem.dir="down" xml:id="m-426">
           <verse n="1" xml:id="m-600">
@@ -1093,7 +1110,6 @@
        <staff n="4" xml:id="m-522">
         <layer n="1" xml:id="m-523">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="e" pnum="40" stem.dir="up" xml:id="m-524">
-          <verse n="1" xml:id="m-529"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-525">
           <verse n="1" xml:id="m-623">
@@ -1366,7 +1382,6 @@
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-671"/>
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-672"/>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="e" pnum="51" stem.dir="down" xml:id="m-673">
-          <verse n="1" xml:id="m-678"/>
           <supplied reason="edit" xml:id="m-30c0ae60-3b60-410a-a1d7-dca68c43cc04">
            <accid accid="f" func="edit" place="above" xml:id="m-674"/>
           </supplied>
@@ -1391,7 +1406,6 @@
        <staff n="5" xml:id="m-683">
         <layer n="1" xml:id="m-684">
          <note dur="1" dur.ppq="1024" oct="2" pname="g" pnum="43" stem.dir="up" xml:id="m-685">
-          <verse n="1" xml:id="m-687"/>
          </note>
          <rest dur="1" dur.ppq="1024" xml:id="m-686"/>
         </layer>
@@ -1422,7 +1436,6 @@
        <staff n="2" xml:id="m-695">
         <layer n="1" xml:id="m-696">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="g" pnum="55" stem.dir="down" xml:id="m-697">
-          <verse n="1" xml:id="m-702"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="f" pnum="53" stem.dir="down" xml:id="m-698">
           <verse n="1" xml:id="m-743">
@@ -1585,7 +1598,6 @@
        <staff n="1" xml:id="m-784">
         <layer n="1" xml:id="m-785">
          <note dur="2" dur.ppq="512" oct="4" pname="d" pnum="62" stem.dir="up" xml:id="m-786">
-          <verse n="1" xml:id="m-789"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-787">
           <verse n="1" xml:id="m-834">
@@ -1954,7 +1966,6 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="c" pnum="36" stem.dir="up" xml:id="m-954">
-          <verse n="1" xml:id="m-967"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="d" pnum="38" stem.dir="up" xml:id="m-955">
           <verse n="1" xml:id="m-969">
@@ -2182,7 +2193,6 @@
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-1063"/>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="f" pnum="42" stem.dir="up" xml:id="m-1064">
           <accid accid="s" xml:id="m-1065"/>
-          <verse n="1" xml:id="m-1067"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-1066">
           <verse n="1" xml:id="m-1143">
@@ -2696,7 +2706,6 @@
        <staff n="4" xml:id="m-1313">
         <layer n="1" xml:id="m-1314">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-1315">
-          <verse n="1" xml:id="m-1320"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-1316">
           <verse n="1" xml:id="m-1322">
@@ -3005,7 +3014,6 @@
        <staff n="4" xml:id="m-1469">
         <layer n="1" xml:id="m-1470">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-1471">
-          <verse n="1" xml:id="m-1474"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-1472">
           <verse n="1" xml:id="m-1521">
@@ -3287,7 +3295,6 @@
        <staff n="3" xml:id="m-1608">
         <layer n="1" xml:id="m-1609">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-1610">
-          <verse n="1" xml:id="m-1613"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-1611">
           <verse n="1" xml:id="m-1615">
@@ -3374,7 +3381,6 @@
        <staff n="2" xml:id="m-1650">
         <layer n="1" xml:id="m-1651">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-1652">
-          <verse n="1" xml:id="m-1658"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="e" pnum="51" stem.dir="down" xml:id="m-1654">
           <accid accid="f" xml:id="m-1655"/>
@@ -3799,7 +3805,6 @@
        <staff n="2" xml:id="m-1857">
         <layer n="1" xml:id="m-1858">
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-1859">
-          <verse n="1" xml:id="m-1863"/>
          </note>
          <rest dur="2" dur.ppq="512" xml:id="m-1860"/>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-1861">
@@ -3824,7 +3829,6 @@
           <accid accid.ges="f" xml:id="m-1869"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-1870">
-          <verse n="1" xml:id="m-1877"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-1871">
           <accid accid.ges="f" xml:id="m-1872"/>
@@ -4314,7 +4318,6 @@
        <staff n="1" xml:id="m-2105">
         <layer n="1" xml:id="m-2106">
          <note dur="1" dur.ppq="1024" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-2107">
-          <verse n="1" xml:id="m-2109"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-2108">
           <verse n="1" xml:id="m-2227">
@@ -4360,7 +4363,6 @@
        <staff n="4" xml:id="m-2131">
         <layer n="1" xml:id="m-2132">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-2133">
-          <verse n="1" xml:id="m-2138"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-2134">
           <verse n="1" xml:id="m-2261">
@@ -4422,7 +4424,6 @@
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-2163"/>
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="e" pnum="52" stem.dir="down" xml:id="m-2164"/>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="f" pnum="53" stem.dir="down" xml:id="m-2165">
-          <verse n="1" xml:id="m-2166"/>
          </note>
         </layer>
        </staff>
@@ -4443,7 +4444,6 @@
         <layer n="1" xml:id="m-2178">
          <note dur="2" dur.ppq="512" oct="2" pname="b" pnum="46" stem.dir="up" xml:id="m-2179">
           <accid accid.ges="f" xml:id="m-2180"/>
-          <verse n="1" xml:id="m-2184"/>
          </note>
          <note dur="2" dur.ppq="512" oct="2" pname="g" pnum="43" stem.dir="up" xml:id="m-2181">
           <verse n="1" xml:id="m-2186">
@@ -4625,7 +4625,6 @@
        <staff n="1" xml:id="m-2279">
         <layer n="1" xml:id="m-2280">
          <note dur="breve" dur.ppq="2048" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-2281">
-          <verse n="1" xml:id="m-2282"/>
          </note>
         </layer>
        </staff>
@@ -4670,7 +4669,6 @@
        <staff n="4" xml:id="m-2302">
         <layer n="1" xml:id="m-2303">
          <note dur="breve" dur.ppq="2048" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-2304">
-          <verse n="1" xml:id="m-2305"/>
          </note>
         </layer>
        </staff>
@@ -4754,7 +4752,6 @@
        <staff n="5" xml:id="m-2343">
         <layer n="1" xml:id="m-2344">
          <note dur="2" dur.ppq="512" oct="3" pname="d" pnum="50" stem.dir="down" xml:id="m-2345">
-          <verse n="1" xml:id="m-2351"/>
          </note>
          <note dur="2" dur.ppq="512" oct="2" pname="b" pnum="46" stem.dir="up" xml:id="m-2346">
           <accid accid.ges="f" xml:id="m-2347"/>
@@ -5289,7 +5286,6 @@
        <staff n="1" xml:id="m-2620">
         <layer n="1" xml:id="m-2621">
          <note dur="1" dur.ppq="1024" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-2622">
-          <verse n="1" xml:id="m-2624"/>
          </note>
          <rest dur="1" dur.ppq="1024" xml:id="m-2623"/>
         </layer>
@@ -5298,7 +5294,6 @@
         <layer n="1" xml:id="m-2627">
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-2628">
           <accid accid.ges="f" xml:id="m-2629"/>
-          <verse n="1" xml:id="m-2631"/>
          </note>
          <rest dur="1" dur.ppq="1024" xml:id="m-2630"/>
         </layer>
@@ -5662,7 +5657,6 @@
        <staff n="3" xml:id="m-2796">
         <layer n="1" xml:id="m-2797">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-2798">
-          <verse n="1" xml:id="m-2802"/>
          </note>
          <note dots="1" dur="2" dur.ppq="768" oct="4" oct.ges="3" pname="e" pnum="52" stem.dir="down" xml:id="m-2799">
           <verse n="1" xml:id="m-2804">
@@ -6171,7 +6165,6 @@
        <staff n="1" xml:id="m-3035">
         <layer n="1" xml:id="m-3036">
          <note dur="1" dur.ppq="1024" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-3037">
-          <verse n="1" xml:id="m-3040"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="b" pnum="70" stem.dir="down" xml:id="m-3038">
           <accid accid.ges="f" xml:id="m-3039"/>
@@ -6290,7 +6283,6 @@
        <staff n="2" xml:id="m-3082">
         <layer n="1" xml:id="m-3083">
          <note dur="breve" dur.ppq="2048" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-3084">
-          <verse n="1" xml:id="m-3085"/>
          </note>
         </layer>
        </staff>
@@ -6539,7 +6531,6 @@
         <layer n="1" xml:id="m-3222">
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-3223">
           <accid accid.ges="f" xml:id="m-3224"/>
-          <verse n="1" xml:id="m-3226"/>
          </note>
          <rest dur="1" dur.ppq="1024" xml:id="m-3225"/>
         </layer>
@@ -6690,7 +6681,6 @@
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-3302"/>
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-3303"/>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-3304">
-          <verse n="1" xml:id="m-3307"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-3305">
           <verse n="1" xml:id="m-3347">
@@ -6803,7 +6793,6 @@
        <staff n="1" xml:id="m-3360">
         <layer n="1" xml:id="m-3361">
          <note dur="1" dur.ppq="1024" oct="4" pname="d" pnum="62" stem.dir="up" xml:id="m-3362">
-          <verse n="1" xml:id="m-3364"/>
          </note>
          <rest dur="1" dur.ppq="1024" xml:id="m-3363"/>
         </layer>
@@ -6885,7 +6874,6 @@
        <staff n="3" xml:id="m-3407">
         <layer n="1" xml:id="m-3408">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-3409">
-          <verse n="1" xml:id="m-3416"/>
          </note>
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="c" pnum="36" stem.dir="up" xml:id="m-3410">
           <verse n="1" xml:id="m-3500">
@@ -7046,7 +7034,6 @@
          </note>
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-3485"/>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-3486">
-          <verse n="1" xml:id="m-3493"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="g" pnum="55" stem.dir="down" xml:id="m-3487">
           <verse n="1" xml:id="m-3539">
@@ -7258,7 +7245,6 @@
        <staff n="4" xml:id="m-3601">
         <layer n="1" xml:id="m-3602">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-3603">
-          <verse n="1" xml:id="m-3606"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-3604">
           <verse n="1" xml:id="m-3608">
@@ -8310,7 +8296,6 @@
        <staff n="4" xml:id="m-4132">
         <layer n="1" xml:id="m-4133">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-4134">
-          <verse n="1" xml:id="m-4140"/>
          </note>
          <note dots="1" dur="2" dur.ppq="768" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-4135">
           <verse n="1" xml:id="m-4213">
@@ -8495,7 +8480,6 @@
        <staff n="3" xml:id="m-4228">
         <layer n="1" xml:id="m-4229">
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-4230">
-          <verse n="1" xml:id="m-4232"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-4231">
           <verse n="1" xml:id="m-4288">
@@ -8525,7 +8509,6 @@
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-4238"/>
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-4239">
           <accid accid.ges="f" xml:id="m-4240"/>
-          <verse n="1" xml:id="m-4249"/>
          </note>
         </layer>
        </staff>
@@ -9528,7 +9511,6 @@
        <staff n="2" xml:id="m-4755">
         <layer n="1" xml:id="m-4756">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-4757">
-          <verse n="1" xml:id="m-4761"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-4758">
           <verse n="1" xml:id="m-4800">
@@ -10055,7 +10037,6 @@
        <staff n="1" xml:id="m-5024">
         <layer n="1" xml:id="m-5025">
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-5026">
-          <verse n="1" xml:id="m-5030"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-5027">
           <verse n="1" xml:id="m-5068">
@@ -10239,7 +10220,6 @@
        <staff n="1" xml:id="m-5115">
         <layer n="1" xml:id="m-5116">
          <note dur="1" dur.ppq="1024" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-5117">
-          <verse n="1" xml:id="m-5119"/>
          </note>
          <rest dur="1" dur.ppq="1024" xml:id="m-5118"/>
         </layer>
@@ -10379,7 +10359,6 @@
        <staff n="2" xml:id="m-5181">
         <layer n="1" xml:id="m-5182">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="e" pnum="52" stem.dir="down" xml:id="m-5183">
-          <verse n="1" xml:id="m-5186"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-5184">
           <verse n="1" xml:id="m-5231">
@@ -10800,7 +10779,6 @@
        <staff n="1" xml:id="m-5386">
         <layer n="1" xml:id="m-5387">
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-5388">
-          <verse n="1" xml:id="m-5392"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-5389">
           <verse n="1" xml:id="m-5430">
@@ -11339,7 +11317,6 @@
           </verse>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-5617">
-          <verse n="1" xml:id="m-5630"/>
          </note>
         </layer>
        </staff>
@@ -11555,7 +11532,6 @@
        <staff n="2" xml:id="m-5756">
         <layer n="1" xml:id="m-5757">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="f" pnum="53" stem.dir="down" xml:id="m-5758">
-          <verse n="1" xml:id="m-5761"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="e" pnum="52" stem.dir="down" xml:id="m-5759">
           <verse n="1" xml:id="m-5763">
@@ -11712,7 +11688,6 @@
        <staff n="5" xml:id="m-5838">
         <layer n="1" xml:id="m-5839">
          <note dur="2" dur.ppq="512" oct="3" pname="g" pnum="55" stem.dir="down" xml:id="m-5840">
-          <verse n="1" xml:id="m-5843"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" pname="f" pnum="53" stem.dir="down" xml:id="m-5841">
           <verse n="1" xml:id="m-5845">
@@ -11919,7 +11894,6 @@
           <accid accid.ges="f" xml:id="m-5942"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-5943">
-          <verse n="1" xml:id="m-5948"/>
          </note>
         </layer>
        </staff>
@@ -12202,7 +12176,6 @@
        <staff n="4" xml:id="m-6086">
         <layer n="1" xml:id="m-6087">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-6088">
-          <verse n="1" xml:id="m-6093"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-6089">
           <accid accid.ges="f" xml:id="m-6090"/>
@@ -12329,7 +12302,6 @@
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-6150"/>
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-6151">
-          <verse n="1" xml:id="m-6157"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-6152">
           <verse n="1" xml:id="m-6159">
@@ -12373,7 +12345,6 @@
           <accid accid.ges="f" xml:id="m-6178"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-6179">
-          <verse n="1" xml:id="m-6180"/>
          </note>
         </layer>
        </staff>
@@ -14305,7 +14276,6 @@
        <staff n="1" xml:id="m-7116">
         <layer n="1" xml:id="m-7117">
          <note dur="1" dur.ppq="1024" oct="5" pname="c" pnum="72" stem.dir="down" xml:id="m-7118">
-          <verse n="1" xml:id="m-7122"/>
          </note>
          <rest dur="2" dur.ppq="512" xml:id="m-7119"/>
          <note dur="2" dur.ppq="512" oct="5" pname="c" pnum="72" stem.dir="down" xml:id="m-7120">
@@ -14364,7 +14334,6 @@
        <staff n="4" xml:id="m-7143">
         <layer n="1" xml:id="m-7144">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-7145">
-          <verse n="1" xml:id="m-7149"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-7146">
           <verse n="1" xml:id="m-7201">
@@ -14392,7 +14361,6 @@
        <staff n="5" xml:id="m-7151">
         <layer n="1" xml:id="m-7152">
          <note dur="2" dur.ppq="512" oct="3" pname="f" pnum="53" stem.dir="down" xml:id="m-7153">
-          <verse n="1" xml:id="m-7157"/>
          </note>
          <note dur="2" dur.ppq="512" oct="2" pname="f" pnum="41" stem.dir="up" xml:id="m-7154">
           <verse n="1" xml:id="m-7216">
@@ -14426,7 +14394,6 @@
          <note dur="4" dur.ppq="256" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-7164"/>
          <note dur="2" dur.ppq="512" oct="4" pname="b" pnum="70" stem.dir="down" xml:id="m-7165">
           <accid accid.ges="f" xml:id="m-7166"/>
-          <verse n="1" xml:id="m-7171"/>
          </note>
         </layer>
        </staff>
@@ -14641,7 +14608,6 @@
           <accid accid.ges="f" xml:id="m-7298"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-7299">
-          <verse n="1" xml:id="m-7302"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-7300">
           <verse n="1" xml:id="m-7349">
@@ -15231,7 +15197,6 @@
           <accid accid.ges="f" xml:id="m-7582"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-7583">
-          <verse n="1" xml:id="m-7591"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-7584">
           <verse n="1" xml:id="m-7593">
@@ -15440,7 +15405,6 @@
        <staff n="4" xml:id="m-7688">
         <layer n="1" xml:id="m-7689">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-7690">
-          <verse n="1" xml:id="m-7698"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-7691">
           <accid accid.ges="f" xml:id="m-7692"/>
@@ -15821,7 +15785,6 @@
           </note>
          </beam>
          <note dur="2" dur.ppq="512" oct="3" pname="d" pnum="50" stem.dir="down" xml:id="m-7880">
-          <verse n="1" xml:id="m-7883"/>
          </note>
          <note dur="2" dur.ppq="512" oct="3" pname="d" pnum="50" stem.dir="down" xml:id="m-7881">
           <verse n="1" xml:id="m-7944">
@@ -15838,7 +15801,6 @@
        <staff n="1" xml:id="m-7886">
         <layer n="1" xml:id="m-7887">
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-7888">
-          <verse n="1" xml:id="m-7896"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-7889">
           <verse n="1" xml:id="m-7960">
@@ -15883,7 +15845,6 @@
        <staff n="3" xml:id="m-7911">
         <layer n="1" xml:id="m-7912">
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-7913">
-          <verse n="1" xml:id="m-7916"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="d" pnum="38" stem.dir="up" xml:id="m-7914">
           <verse n="1" xml:id="m-7918">
@@ -16553,7 +16514,6 @@
          </note>
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-8244"/>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-8245">
-          <verse n="1" xml:id="m-8252"/>
          </note>
         </layer>
        </staff>
@@ -16583,7 +16543,6 @@
        <staff n="1" xml:id="m-8264">
         <layer n="1" xml:id="m-8265">
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-8266">
-          <verse n="1" xml:id="m-8273"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="d" pnum="62" stem.dir="up" xml:id="m-8267">
           <verse n="1" xml:id="m-8320">
@@ -16608,7 +16567,6 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="e" pnum="52" stem.dir="down" xml:id="m-8278">
-          <verse n="1" xml:id="m-8283"/>
          </note>
         </layer>
        </staff>
@@ -17184,7 +17142,6 @@
        <staff n="1" xml:id="m-8561">
         <layer n="1" xml:id="m-8562">
          <note dur="long" dur.ppq="4096" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-8563">
-          <verse n="1" xml:id="m-8564"/>
          </note>
         </layer>
        </staff>

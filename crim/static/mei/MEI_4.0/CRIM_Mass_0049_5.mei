@@ -3,17 +3,13 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
-   <titleStmt xml:id="m-10-ts">
-    <title xml:id="m-10">
+  <fileDesc>
+   <titleStmt>
+    <title>
      Missa Domine dominus noster: Agnus dei
     </title>
-    <composer xml:id="m-11">
-     Leonhard Lechner
-    </composer>
     <respStmt>
      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/179223888" role="composer">
-      Leonhard Lechner
      </persName>
      <persName role="editor">
       Franz Körndle
@@ -34,26 +30,67 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Franz Körndle
+     </persName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Kévin Roger
+     </persName>
+     <persName>
+      Simon Popp
+     </persName>
+     <persName>
+      Jonathan Stroh
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2024-07-28"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <manifestationList xml:id="manifestationList">
+  <encodingDesc>
+   <appInfo>
+    <application>
+     <name>
+      MEI Soup Updater 2024
+     </name>
+    </application>
+   </appInfo>
+  </encodingDesc>
+  <workList>
+   <work>
+    <title>
+     Missa Domine dominus noster: Agnus dei
+    </title>
+    <composer>
+    </composer>
+    <classification>
+     <termList>
+      <term>
+       Agnus Dei
+      </term>
+     </termList>
+    </classification>
+   </work>
+  </workList>
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM"/>
     <titleStmt>
      <title>
-      Missa Domine dominus noster
+      Liber missarum sex et quinque vocum . . Lechner
      </title>
     </titleStmt>
     <pubStmt>
@@ -62,46 +99,25 @@
        Katharina Gerlach
       </persName>
      </publisher>
-     <date isodate="1584"/>
+     <date>
+      1584
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
+       KBR
       </corpName>
       <settlement/>
+      <identifier>
+      </identifier>
+      <geogName>
+       Brussels
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-      RISM A 1, L 1298
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
-  <encodingDesc xml:id="m-18">
-   <appInfo xml:id="m-19">
-    <application isodate="2022-5-2T20:52:37Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-21">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-23">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337220737895">
-     <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
-     </name>
-    </application>
-   </appInfo>
-  </encodingDesc>
-  <xi:include href="CRIM_Mass_0049.mei" xpointer="workList"/>
-  <xi:include href="CRIM_Mass_0049.mei" xpointer="manifestationList"/>
  </meiHead>
  <music xml:id="m-24">
   <body xml:id="m-25">
@@ -110,37 +126,49 @@
      <scoreDef lyric.name="Times New Roman" meter.count="4" meter.unit="2" music.name="Helsinki Std" text.name="Times New Roman" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-48">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Cantus" lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          Cantus
+         " lines="5" n="1" xml:id="m-30">
          <label>
           Cantus
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Sexta vox" lines="5" n="2" xml:id="m-33">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          Sexta vox
+         " lines="5" n="2" xml:id="m-33">
          <label>
           Sexta vox
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Altus" lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Altus
+         " lines="5" n="3" xml:id="m-36">
          <label>
           Altus
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="4" xml:id="m-39">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Tenor
+         " lines="5" n="4" xml:id="m-39">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Quinta vox" lines="5" n="5" xml:id="m-42">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Quinta vox
+         " lines="5" n="5" xml:id="m-42">
          <label>
           Quinta vox
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-44"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Bassus" lines="5" n="6" xml:id="m-45">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
+          Bassus
+         " lines="5" n="6" xml:id="m-45">
          <label>
           Bassus
          </label>
@@ -2322,42 +2350,36 @@
         <layer n="1" xml:id="m-1101">
          <note dur="long" dur.ppq="4096" oct="4" pname="b" pnum="71" stem.dir="down" xml:id="m-1102">
           <accid accid="n" xml:id="m-1103"/>
-          <verse n="1" xml:id="m-1104"/>
          </note>
         </layer>
        </staff>
        <staff n="2" xml:id="m-1106">
         <layer n="1" xml:id="m-1107">
          <note dur="long" dur.ppq="4096" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-1108">
-          <verse n="1" xml:id="m-1109"/>
          </note>
         </layer>
        </staff>
        <staff n="3" xml:id="m-1111">
         <layer n="1" xml:id="m-1112">
          <note dur="long" dur.ppq="4096" oct="3" oct.ges="2" pname="d" pnum="38" stem.dir="up" xml:id="m-1113">
-          <verse n="1" xml:id="m-1114"/>
          </note>
         </layer>
        </staff>
        <staff n="4" xml:id="m-1116">
         <layer n="1" xml:id="m-1117">
          <note dur="long" dur.ppq="4096" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-1118">
-          <verse n="1" xml:id="m-1119"/>
          </note>
         </layer>
        </staff>
        <staff n="5" xml:id="m-1121">
         <layer n="1" xml:id="m-1122">
          <note dur="long" dur.ppq="4096" oct="3" oct.ges="2" pname="d" pnum="38" stem.dir="up" xml:id="m-1123">
-          <verse n="1" xml:id="m-1124"/>
          </note>
         </layer>
        </staff>
        <staff n="6" xml:id="m-1126">
         <layer n="1" xml:id="m-1127">
          <note dur="long" dur.ppq="4096" oct="2" pname="g" pnum="43" stem.dir="up" xml:id="m-1128">
-          <verse n="1" xml:id="m-1129"/>
          </note>
         </layer>
        </staff>

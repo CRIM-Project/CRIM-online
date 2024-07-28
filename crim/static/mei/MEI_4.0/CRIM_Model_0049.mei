@@ -3,17 +3,20 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
+  <fileDesc>
    <titleStmt>
     <title>
      Entre vous filles
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/59349417" role="composer">
-      Jacob Clemens non Papa
+      Clemens non Papa, Jacobus
      </persName>
      <persName role="editor">
       Franz Körndle
+     </persName>
+     <persName role="editor">
+      Jonathan Stroh
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -22,62 +25,44 @@
       Kévin Roger
      </persName>
      <persName role="editor">
-      Simon Popp
-     </persName>
-     <persName role="editor">
-      Jonathan Stroh
+      Richard Freedman
      </persName>
     </respStmt>
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2022-06-12"/>
+    <date isodate="2024-07-28"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-18">
-   <appInfo xml:id="m-19">
-    <application isodate="2022-5-3T06:39:41Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-21">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-23">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_2022163222814627">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList xml:id="m-5">
-   <work xml:id="m-6">
-    <title xml:id="m-8">
+  <workList>
+   <work>
+    <title>
      Entre vous filles
     </title>
     <composer>
-     <persName auth="VIAF" auth.uri="https://viaf.org/viaf/59349417" role="composer">
-      Jacob Clemens non Papa
-     </persName>
+     Clemens non Papa, Jacobus
     </composer>
     <classification>
      <termList>
@@ -88,14 +73,11 @@
     </classification>
    </work>
   </workList>
-  <manifestationList xml:id="manifestationList">
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM">
-     RISM B 1, 1549-2/9
-    </identifier>
     <titleStmt>
      <title>
-      Entre vous filles
+      Unziesme livre contenant vingt et neuf chansons amoureuses
      </title>
     </titleStmt>
     <pubStmt>
@@ -104,15 +86,23 @@
        Tielman Susato
       </persName>
      </publisher>
-     <date isodate="1549"/>
+     <date>
+      1549
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName/>
+      <corpName>
+       Österreichische Nationalbibliothek
+      </corpName>
       <settlement/>
+      <identifier>
+       SA.76.F.44/1-4
+      </identifier>
+      <geogName>
+       Wien
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -124,25 +114,33 @@
      <scoreDef lyric.name="Palatino" meter.count="4" meter.unit="2" music.name="Helsinki Std" text.name="Palatino" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-42">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Superius" lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
+          Superius
+         " lines="5" n="1" xml:id="m-30">
          <label>
           Superius
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Contratenor" lines="5" n="2" xml:id="m-33">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Contratenor
+         " lines="5" n="2" xml:id="m-33">
          <label>
           Contratenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
+          Tenor
+         " lines="5" n="3" xml:id="m-36">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Bassus" lines="5" n="4" xml:id="m-39">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
+          Bassus
+         " lines="5" n="4" xml:id="m-39">
          <label>
           Bassus
          </label>
@@ -3799,7 +3797,6 @@
        <staff n="1" xml:id="m-1759">
         <layer n="1" xml:id="m-1760">
          <note dur="long" dur.ppq="4096" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-1761">
-          <verse n="1" xml:id="m-1762"/>
          </note>
         </layer>
        </staff>
