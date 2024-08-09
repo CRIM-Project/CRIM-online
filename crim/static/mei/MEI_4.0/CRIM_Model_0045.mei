@@ -3,48 +3,78 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc>
+  <fileDesc xml:id="m-3">
    <titleStmt>
     <title>
      Io mi son giovenetta
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/66730159" role="composer">
-      Ferrabosco, Domenico
+      Domenico Ferrabosco
      </persName>
      <persName role="editor">
+      Brian Russell
+     </persName>
+     <persName role="editor">
+      Kévn Roger
+     </persName>
+     <persName role="editor">
+      Richard Freedman
+     </persName>
+     <persName role="editor">
+      Vincent Besson
      </persName>
     </respStmt>
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <persName>
-     </persName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2022-06-12"/>
     <availability>
+     This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2022-4-26T21:03:51Z" version="20200900" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.1.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_202216322281924">
      <name>
-      MEI Soup Updater 2024
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
+  <workList xml:id="m-5">
+   <work xml:id="m-6">
+    <title xml:id="m-8">
      Io mi son giovenetta
     </title>
     <composer>
-     Ferrabosco, Domenico
+     <persName auth="VIAF" auth.uri="https://viaf.org/viaf/66730159" role="composer">
+      Domenico Ferrabosco
+     </persName>
     </composer>
     <classification>
      <termList>
@@ -55,11 +85,14 @@
     </classification>
    </work>
   </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM">
+     RISM B 1, 1542/17
+    </identifier>
     <titleStmt>
      <title>
-      Il primo libro d'i madrigali a misura di breve
+      Io mi son giovenetta
      </title>
     </titleStmt>
     <pubStmt>
@@ -68,20 +101,15 @@
        Antonio Gardano
       </persName>
      </publisher>
-     <date>
-      1543
-     </date>
+     <date isodate="1542"/>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName>
-      </corpName>
+      <corpName/>
       <settlement/>
-      <identifier>
-      </identifier>
-      <geogName>
-      </geogName>
      </repository>
+     <identifier type="shelfmark">
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -93,33 +121,25 @@
      <scoreDef lyric.name="Times New Roman" meter.count="4" meter.unit="4" music.name="Helsinki Std" text.name="Times New Roman" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-42">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
-          Canto
-         " lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Canto" lines="5" n="1" xml:id="m-30">
          <label>
           Canto
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
-          Alto
-         " lines="5" n="2" xml:id="m-33">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Alto" lines="5" n="2" xml:id="m-33">
          <label>
           Alto
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
-          Tenor
-         " lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="3" xml:id="m-36">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
-          Basso
-         " lines="5" n="4" xml:id="m-39">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Basso" lines="5" n="4" xml:id="m-39">
          <label>
           Basso
          </label>
@@ -294,6 +314,7 @@
        <staff n="3" xml:id="m-116">
         <layer n="1" xml:id="m-117">
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="g" pnum="55" stem.dir="down" xml:id="m-118">
+          <verse n="1" xml:id="m-120"/>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-119">
           <verse n="1" xml:id="m-188">
@@ -834,6 +855,7 @@
        <staff n="2" xml:id="m-378">
         <layer n="1" xml:id="m-379">
          <note dur="4" dur.ppq="256" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-380">
+          <verse n="1" xml:id="m-383"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-381">
           <verse n="1" xml:id="m-426">
@@ -1548,6 +1570,7 @@
          <note dur="8" dur.ppq="128" oct="5" pname="c" pnum="72" stem.dir="down" xml:id="m-707"/>
          <note dur="4" dur.ppq="256" oct="4" pname="b" pnum="70" stem.dir="down" xml:id="m-708">
           <accid accid.ges="f" xml:id="m-709"/>
+          <verse n="1" xml:id="m-716"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-710">
           <verse n="1" xml:id="m-788">
@@ -1789,6 +1812,7 @@
        <staff n="1" xml:id="m-841">
         <layer n="1" xml:id="m-842">
          <note dur="2" dur.ppq="512" oct="5" pname="d" pnum="74" stem.dir="down" xml:id="m-843">
+          <verse n="1" xml:id="m-846"/>
          </note>
          <note dur="2" dur.ppq="512" oct="5" pname="f" pnum="77" stem.dir="down" xml:id="m-844">
           <verse n="1" xml:id="m-848">
@@ -1834,6 +1858,7 @@
        <staff n="1" xml:id="m-867">
         <layer n="1" xml:id="m-868">
          <note dur="4" dur.ppq="256" oct="5" pname="f" pnum="77" stem.dir="down" xml:id="m-869">
+          <verse n="1" xml:id="m-873"/>
          </note>
          <note dur="4" dur.ppq="256" oct="5" pname="f" pnum="77" stem.dir="down" xml:id="m-870">
           <verse n="1" xml:id="m-875">
@@ -2007,6 +2032,7 @@
        <staff n="3" xml:id="m-951">
         <layer n="1" xml:id="m-952">
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="g" pnum="55" stem.dir="down" xml:id="m-953">
+          <verse n="1" xml:id="m-957"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="g" pnum="55" stem.dir="down" xml:id="m-954">
           <verse n="1" xml:id="m-959">
@@ -2819,6 +2845,7 @@
          <beam xml:id="m-1327">
           <note dur="8" dur.ppq="128" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-1326"/>
           <note dur="8" dur.ppq="128" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-1328">
+           <verse n="1" xml:id="m-1332"/>
           </note>
          </beam>
          <note dur="2" dur.ppq="512" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-1329">
@@ -2884,6 +2911,7 @@
          <beam xml:id="m-1354">
           <note dur="8" dur.ppq="128" oct="3" pname="f" pnum="53" stem.dir="down" xml:id="m-1353"/>
           <note dur="8" dur.ppq="128" oct="3" pname="g" pnum="55" stem.dir="down" xml:id="m-1355">
+           <verse n="1" xml:id="m-1361"/>
           </note>
          </beam>
          <note dur="4" dur.ppq="256" oct="3" pname="a" pnum="57" stem.dir="down" xml:id="m-1356">
@@ -3315,6 +3343,7 @@
        <staff n="1" xml:id="m-1567">
         <layer n="1" xml:id="m-1568">
          <note dur="2" dur.ppq="512" oct="5" pname="e" pnum="76" stem.dir="down" xml:id="m-1569">
+          <verse n="1" xml:id="m-1571"/>
          </note>
          <note dur="2" dur.ppq="512" oct="5" pname="f" pnum="77" stem.dir="down" xml:id="m-1570">
           <verse n="1" xml:id="m-1573">
@@ -3442,6 +3471,7 @@
           </note>
          </beam>
          <note dur="2" dur.ppq="512" oct="5" pname="c" pnum="73" stem.dir="down" xml:id="m-1631">
+          <verse n="1" xml:id="m-1633"/>
           <supplied reason="edit" xml:id="m-8bbb2756-66f2-41c8-9606-9603adbb4765">
            <accid accid="s" func="edit" place="above" xml:id="m-1632"/>
           </supplied>
@@ -3451,6 +3481,7 @@
        <staff n="2" xml:id="m-1635">
         <layer n="1" xml:id="m-1636">
          <note dur="1" dur.ppq="1024" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-1637">
+          <verse n="1" xml:id="m-1638"/>
          </note>
         </layer>
        </staff>
@@ -4988,6 +5019,7 @@
        <staff n="1" xml:id="m-2358">
         <layer n="1" xml:id="m-2359">
          <note dur="4" dur.ppq="256" oct="5" pname="c" pnum="72" stem.dir="down" xml:id="m-2360">
+          <verse n="1" xml:id="m-2364"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="b" pnum="70" stem.dir="down" xml:id="m-2361">
           <accid accid.ges="f" xml:id="m-2362"/>

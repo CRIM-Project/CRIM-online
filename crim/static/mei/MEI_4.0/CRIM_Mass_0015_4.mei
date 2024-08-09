@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mei meiversion="3.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xlink="http://www.w3.org/1999/xlink">
  <meiHead xml:id="m-2">
-  <fileDesc>
-   <titleStmt>
-    <title>
+  <fileDesc xml:id="m-3">
+   <titleStmt xml:id="m-4">
+    <title xml:id="m-10">
      Missa Benedicta es: Sanctus
     </title>
+    <composer xml:id="m-11">
+     Giovanni Pierluigi da Palestrina
+    </composer>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/92280854" role="composer">
+      Giovanni Pierluigi da Palestrina
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -22,89 +26,77 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
-     <persName>
-      Vincent Besson
-     </persName>
-     <persName>
-      Marco Gurrieri
-     </persName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
-     <name>
-      MEI Soup Updater 2024
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2023-7-20T08:00:08Z" version="20221200" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.1.0)
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
-     Missa Benedicta es: Sanctus
-    </title>
-    <composer>
-    </composer>
-    <classification>
-     <termList>
-      <term>
-       Sanctus
-      </term>
-     </termList>
-    </classification>
-   </work>
-  </workList>
-  <manifestationList>
-   <manifestation>
-    <titleStmt>
-     <title>
-      D-Mbs Mus. MS 46 [4 Masses, 1 Requiem Mass]
+  <workDesc xml:id="m-5">
+   <work xml:id="m-6">
+    <titleStmt xml:id="m-7">
+     <title xml:id="m-8">
+      Missa Benedicta es - Sanctus
      </title>
     </titleStmt>
-    <pubStmt>
-     <publisher>
-      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/52821616">
-       Peter Steidl
-      </persName>
-      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/27888913">
-       Jean Pollet
-      </persName>
-     </publisher>
-     <date>
-      c. 1565 (1555-1575)
-     </date>
-    </pubStmt>
-    <physLoc>
-     <repository>
-      <corpName>
-       Bayerische Staatsbibliothek
-      </corpName>
-      <settlement/>
-      <identifier>
-       Mus.ms. 46
-      </identifier>
-      <geogName>
-       München
-      </geogName>
-     </repository>
-    </physLoc>
-   </manifestation>
-  </manifestationList>
+    <incip xml:id="m-4020af2a-5a2c-4555-a6a8-2cac08fb1742">
+     <score xml:id="m-88922eb0-6e50-4dc0-84b0-e3ba9e70a149">
+      <scoreDef lyric.name="Plantin MT Std" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-4c7e8f97-a492-40bb-836b-00fbfa67edd6">
+       <staffGrp xml:id="m-314fd949-28b8-4eeb-9872-84380f8e715f">
+        <staffGrp n="1" symbol="bracket" xml:id="m-19368348-1921-4df4-aab3-3d9d06c5f7e6">
+         <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Discantus" lines="5" n="1" xml:id="m-cc08cc1d-4b4f-4781-9434-842f77d6fa45">
+          <!-- voice.female.soprano.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-7b030131-e4e6-40c0-b756-123036e63172"/>
+         </staffDef>
+         <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Contratenor [1]" lines="5" n="2" xml:id="m-b6b708dc-58b7-461f-8b3e-9056d4dff739">
+          <!-- voice.male.tenor.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-3685f9ae-3fea-417e-ba32-4d922d2845a2"/>
+         </staffDef>
+         <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Contratenor [2]" lines="5" n="3" xml:id="m-8bc2554b-6fe7-46f4-8848-12eb612288a9">
+          <!-- voice.male.tenor.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-127124a6-8542-42d0-a96b-510e985dbaee"/>
+         </staffDef>
+         <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Tenor" lines="5" n="4" xml:id="m-920930ea-c68c-44a9-b8da-add7602bb1be">
+          <!-- voice.male.tenor.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-c9e25cdc-f96b-45eb-b0c3-81141b0dd49d"/>
+         </staffDef>
+         <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Bassus [1]" lines="5" n="5" xml:id="m-a4831ec9-f2c4-4eb6-8ae3-0fd43fad473c">
+          <!-- voice.male.bass.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-e44caafe-3215-41a5-adfd-4c21a996c4da"/>
+         </staffDef>
+         <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Bassus [2]" lines="5" n="6" xml:id="m-8939640e-634c-4a28-8493-b4df5cf1d339">
+          <!-- voice.male.bass.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-376dd25e-fab0-4411-8279-f7eff6d942ff"/>
+         </staffDef>
+        </staffGrp>
+       </staffGrp>
+      </scoreDef>
+     </score>
+    </incip>
+   </work>
+  </workDesc>
  </meiHead>
  <music xml:id="m-24">
   <body xml:id="m-25">
@@ -6216,6 +6208,7 @@
        <staff n="2" xml:id="m-3484">
         <layer n="1" xml:id="m-3485">
          <note dur="breve" dur.ges="2048p" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-3486">
+          <verse n="1" xml:id="m-3492"/>
           <verse n="1" xml:id="m-3494">
            <syl wordpos="i" xml:id="m-3495">
             sis,
@@ -7280,6 +7273,7 @@
           </verse>
          </note>
          <note dots="1" dur="1" dur.ges="1536p" oct="3" pname="c" pnum="48" stem.dir="up" xml:id="m-4037">
+          <verse n="1" xml:id="m-4041"/>
           <verse n="1" xml:id="m-4091">
            <syl con="d" wordpos="i" xml:id="m-4092">
             san
@@ -11913,6 +11907,7 @@
        <staff n="1" xml:id="m-6526">
         <layer n="1" xml:id="m-6527">
          <note dur="breve" dur.ges="2048p" oct="4" pname="a" pnum="69" stem.dir="up" xml:id="m-6528">
+          <verse n="1" xml:id="m-6529"/>
          </note>
         </layer>
        </staff>

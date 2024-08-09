@@ -3,14 +3,14 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc>
+  <fileDesc xml:id="m-3">
    <titleStmt>
     <title>
      Benedicta es
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/80697607" role="composer">
-      Pieton, Loyset
+      Loyset Pieton
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -22,38 +22,53 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2017-6-1T09:44:03Z" version="8410" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.1.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_20233722132901">
      <name>
-      MEI Soup Updater 2024
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
+  <workList xml:id="m-5">
+   <work xml:id="m-6">
+    <title xml:id="m-8">
      Benedicta es
     </title>
     <composer>
-     Pieton, Loyset
+     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/80697607" role="composer">
+      Loyset Pieton
+     </persName>
     </composer>
     <classification>
      <termList>
@@ -64,11 +79,14 @@
     </classification>
    </work>
   </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM">
+     RISM B, 1539-03
+    </identifier>
     <titleStmt>
      <title>
-      Primus Liber cum sex vocibus. Cum gratia et privilegio Mottetti del frutto a sei voci
+      Benedicta es
      </title>
     </titleStmt>
     <pubStmt>
@@ -77,23 +95,20 @@
        Antonio Gardano
       </persName>
      </publisher>
-     <date>
-      1539
-     </date>
+     <date isodate="1539"/>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
        Bayerische Staatsbibliothek
       </corpName>
-      <settlement/>
-      <identifier>
-       4 Mus.pr. 2427
-      </identifier>
-      <geogName>
+      <settlement>
        München
-      </geogName>
+      </settlement>
      </repository>
+     <identifier type="shelfmark">
+      4 Mus.pr. 2427
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -105,49 +120,37 @@
      <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-48">
-        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="
-          Cantus
-         " lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Cantus " lines="5" n="1" xml:id="m-30">
          <label>
           Cantus
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Altus
-         " lines="5" n="2" xml:id="m-33">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Altus" lines="5" n="2" xml:id="m-33">
          <label>
           Altus
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Quinta pars
-         " lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Quinta pars" lines="5" n="3" xml:id="m-36">
          <label>
           Quinta pars
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Tenor
-         " lines="5" n="4" xml:id="m-39">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Tenor" lines="5" n="4" xml:id="m-39">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="
-          Sexta pars
-         " lines="5" n="5" xml:id="m-42">
+        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Sexta pars" lines="5" n="5" xml:id="m-42">
          <label>
           Sexta pars
          </label>
          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-44"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="
-          Bassus
-         " lines="5" n="6" xml:id="m-45">
+        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Bassus" lines="5" n="6" xml:id="m-45">
          <label>
           Bassus
          </label>
@@ -5103,6 +5106,7 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="4" pname="c" pnum="48" stem.dir="down" xml:id="m-2486">
+          <verse n="1" xml:id="m-2492"/>
           <verse n="1" xml:id="m-2584">
            <syl con="d" wordpos="i" xml:id="m-2585">
             il
@@ -6665,6 +6669,7 @@
           </verse>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="f" pnum="53" stem.dir="down" xml:id="m-3242">
+          <verse n="1" xml:id="m-3248"/>
          </note>
          <note dur="4" dur.ppq="256" oct="4" pname="e" pnum="52" stem.dir="down" xml:id="m-3243"/>
         </layer>
@@ -8364,6 +8369,7 @@
         <layer n="1" xml:id="m-4050">
          <rest dur="2" dur.ppq="512" xml:id="m-4051"/>
          <note dur="1" dur.ppq="1024" oct="5" pname="c" pnum="72" stem.dir="down" xml:id="m-4052">
+          <verse n="1" xml:id="m-4054"/>
           <verse n="1" xml:id="m-4056">
            <syl con="d" wordpos="i" xml:id="m-4057">
             san
@@ -9637,6 +9643,7 @@
             ti
            </syl>
           </verse>
+          <verse n="1" xml:id="m-4678"/>
           <supplied reason="edit" xml:id="m-e23976a5-975b-420e-8657-65b045432aeb">
            <accid accid="s" func="edit" place="above" xml:id="m-4673"/>
           </supplied>
@@ -10425,6 +10432,7 @@
        <staff n="3" xml:id="m-5068">
         <layer n="1" xml:id="m-5069">
          <note dur="long" dur.ppq="4096" oct="3" pname="b" pnum="47" stem.dir="down" xml:id="m-5070">
+          <verse n="1" xml:id="m-5075"/>
           <verse n="1" xml:id="m-5077">
            <syl wordpos="i" xml:id="m-5078">
             a.

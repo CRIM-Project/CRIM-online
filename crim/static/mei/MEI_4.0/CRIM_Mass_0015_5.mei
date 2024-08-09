@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mei meiversion="3.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xlink="http://www.w3.org/1999/xlink">
  <meiHead xml:id="m-2">
-  <fileDesc>
-   <titleStmt>
-    <title>
+  <fileDesc xml:id="m-3">
+   <titleStmt xml:id="m-4">
+    <title xml:id="m-10">
      Missa Benedicta es: Agnus Dei
     </title>
+    <composer xml:id="m-11">
+     Giovanni Pierluigi da Palestrina
+    </composer>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/92280854" role="composer">
+      Giovanni Pierluigi da Palestrina
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -22,89 +26,77 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
-     <persName>
-      Vincent Besson
-     </persName>
-     <persName>
-      Marco Gurrieri
-     </persName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
-     <name>
-      MEI Soup Updater 2024
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2023-7-20T08:07:29Z" version="20221200" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.1.0)
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
-     Missa Benedicta es: Agnus Dei
-    </title>
-    <composer>
-    </composer>
-    <classification>
-     <termList>
-      <term>
-       Agnus Dei
-      </term>
-     </termList>
-    </classification>
-   </work>
-  </workList>
-  <manifestationList>
-   <manifestation>
-    <titleStmt>
-     <title>
-      D-Mbs Mus. MS 46 [4 Masses, 1 Requiem Mass]
+  <workDesc xml:id="m-5">
+   <work xml:id="m-6">
+    <titleStmt xml:id="m-7">
+     <title xml:id="m-8">
+      Missa Benedicta es - Agnus Dei
      </title>
     </titleStmt>
-    <pubStmt>
-     <publisher>
-      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/52821616">
-       Peter Steidl
-      </persName>
-      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/27888913">
-       Jean Pollet
-      </persName>
-     </publisher>
-     <date>
-      c. 1565 (1555-1575)
-     </date>
-    </pubStmt>
-    <physLoc>
-     <repository>
-      <corpName>
-       Bayerische Staatsbibliothek
-      </corpName>
-      <settlement/>
-      <identifier>
-       Mus.ms. 46
-      </identifier>
-      <geogName>
-       München
-      </geogName>
-     </repository>
-    </physLoc>
-   </manifestation>
-  </manifestationList>
+    <incip xml:id="m-b20108b2-6b07-4783-bf27-fbd87f3b41f5">
+     <score xml:id="m-439a4853-f742-4742-a7ea-7bd35944f60f">
+      <scoreDef lyric.name="Plantin MT Std" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-51a031d5-5210-4cd5-843e-b7bae0bfe480">
+       <staffGrp xml:id="m-b1e6359a-d3c4-42a3-8658-ff1c0aa2f310">
+        <staffGrp n="1" symbol="bracket" xml:id="m-5f2b3197-9f4b-49e4-af5c-d149dd823ae1">
+         <staffDef clef.line="2" clef.shape="G" key.sig="0" label="[Discantus]" lines="5" n="1" xml:id="m-f244aa93-740c-42a2-9b22-ec523f443fbc">
+          <!-- voice.female.soprano.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-73c28003-9b74-43fa-a369-8f46f7d77318"/>
+         </staffDef>
+         <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="[Contratenor 1]" lines="5" n="2" xml:id="m-411fa7e4-f14c-432d-8036-fdd081f092f3">
+          <!-- voice.male.tenor.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-21efc267-f179-4251-9072-f7418db3d8bb"/>
+         </staffDef>
+         <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="[Contratenor 2]" lines="5" n="3" xml:id="m-33fbe9a2-1dbe-475e-bf95-ee4c5e68982e">
+          <!-- voice.male.tenor.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-660a2d36-3cdf-46e4-8504-8ed03b18dbe3"/>
+         </staffDef>
+         <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="[Tenor]" lines="5" n="4" xml:id="m-ec8a64c9-8a9d-412b-87b0-db2165f88a41">
+          <!-- voice.male.tenor.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-088b2f2d-e212-46dc-a082-633a2f657511"/>
+         </staffDef>
+         <staffDef clef.line="4" clef.shape="F" key.sig="0" label="[Bassus 1]" lines="5" n="5" xml:id="m-64e4f714-53a5-4c0b-8ea7-fcfe95996e60">
+          <!-- voice.male.bass.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-426b5d20-97a4-4cb7-9c80-d88fc3e1b78d"/>
+         </staffDef>
+         <staffDef clef.line="4" clef.shape="F" key.sig="0" label="[Bassus 2]" lines="5" n="6" xml:id="m-4c6ce052-81b0-488e-9c46-3eb3eae938c0">
+          <!-- voice.male.bass.ensemble.ah -->
+          <instrDef midi.channel="1" midi.pan="101" midi.volume="100" xml:id="m-8cd34396-cc84-47be-8dd4-3cb1965e85eb"/>
+         </staffDef>
+        </staffGrp>
+       </staffGrp>
+      </scoreDef>
+     </score>
+    </incip>
+   </work>
+  </workDesc>
  </meiHead>
  <music xml:id="m-24">
   <body xml:id="m-25">
@@ -9373,6 +9365,7 @@
        <staff n="2" xml:id="m-4782">
         <layer n="1" xml:id="m-4783">
          <note dur="long" dur.ges="4096p" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-4784">
+          <verse n="1" xml:id="m-4787"/>
           <verse n="1" xml:id="m-4789">
            <syl wordpos="i" xml:id="m-4790">
             cem].

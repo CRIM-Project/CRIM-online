@@ -3,13 +3,17 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc>
-   <titleStmt>
-    <title>
+  <fileDesc xml:id="m-3">
+   <titleStmt xml:id="m-10-ts">
+    <title xml:id="m-10">
      Missa Baisiez moy: Gloria
     </title>
+    <composer xml:id="m-11">
+     Mathurin Forestier
+    </composer>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/71659032" role="composer">
+      Mathurin Forestier
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -24,58 +28,28 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
-     <persName>
-      Vincent Besson
-     </persName>
-     <persName>
-      Marco Gurrieri
-     </persName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
-     <name>
-      MEI Soup Updater 2024
-     </name>
-    </application>
-   </appInfo>
-  </encodingDesc>
-  <workList>
-   <work>
-    <title>
-     Missa Baisiez moy: Gloria
-    </title>
-    <composer>
-    </composer>
-    <classification>
-     <termList>
-      <term>
-       Gloria
-      </term>
-     </termList>
-    </classification>
-   </work>
-  </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM">
+     CENSUS JenaU 4
+    </identifier>
     <titleStmt>
      <title>
-      D-Ju MS 4 [9 Masses, 1 Kyrie, 2 Credos]
+      Missa Baisiez moy
      </title>
     </titleStmt>
     <pubStmt>
@@ -84,26 +58,49 @@
        Anonymous
       </persName>
      </publisher>
-     <date>
-      1513-1514
-     </date>
+     <date isodate="1513-1514"/>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
        Thüringer Universitäts- und Landesbibliothek
       </corpName>
-      <settlement/>
-      <identifier>
-       Chorbuch 4
-      </identifier>
-      <geogName>
+      <settlement>
        Jena
-      </geogName>
+      </settlement>
      </repository>
+     <identifier type="shelfmark">
+      Chorbuch 4
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2017-6-6T07:47:13Z" version="8410" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.1.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_202337220641506">
+     <name>
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
+     </name>
+    </application>
+   </appInfo>
+  </encodingDesc>
+  <xi:include href="CRIM_Mass_0017.mei" xpointer="workList"/>
+  <xi:include href="CRIM_Mass_0017.mei" xpointer="manifestationList"/>
  </meiHead>
  <music xml:id="m-24">
   <body xml:id="m-25">
@@ -112,41 +109,31 @@
      <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-28">
       <staffGrp xml:id="m-29">
        <staffGrp n="1" symbol="bracket" xml:id="m-45">
-        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="
-          [Discantus]
-         " lines="5" n="1" xml:id="m-30">
+        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="[Discantus]" lines="5" n="1" xml:id="m-30">
          <label>
           [Discantus]
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-32"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Contra[tenor]
-         " lines="5" n="2" xml:id="m-33">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Contra[tenor]" lines="5" n="2" xml:id="m-33">
          <label>
           Contra[tenor]
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-35"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          [Tenor resolutio]
-         " lines="5" n="3" xml:id="m-36">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="[Tenor resolutio]" lines="5" n="3" xml:id="m-36">
          <label>
           [Tenor resolutio]
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Tenor [2]
-         " lines="5" n="4" xml:id="m-39">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Tenor [2]" lines="5" n="4" xml:id="m-39">
          <label>
           Tenor [2]
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="
-          Barriton/Bassus
-         " lines="5" n="5" xml:id="m-42">
+        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Barriton/Bassus" lines="5" n="5" xml:id="m-42">
          <label>
           Barriton/Bassus
          </label>
@@ -7259,6 +7246,7 @@
         <layer n="1" xml:id="m-3746">
          <note dur="2" dur.ppq="512" oct="4" pname="d" pnum="50" stem.dir="down" xml:id="m-3747"/>
          <note dur="2" dur.ppq="512" oct="4" pname="c" pnum="48" stem.dir="down" xml:id="m-3748">
+          <verse n="1" xml:id="m-3752"/>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="d" pnum="50" stem.dir="down" xml:id="m-3749">
           <verse n="1" xml:id="m-3754">

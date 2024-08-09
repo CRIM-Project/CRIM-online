@@ -3,14 +3,14 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc>
+  <fileDesc xml:id="m-3">
    <titleStmt>
     <title>
      Quando lieta sperai
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/2622801" role="composer">
-      Rore, Cipriano de
+      Cipriano de Rore
      </persName>
      <persName role="editor">
       Maxime Popineau
@@ -25,38 +25,53 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2022-06-12"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
+  <encodingDesc xml:id="m-22">
+   <appInfo xml:id="m-23">
+    <application isodate="2021-5-19T09:21:23Z" version="19900" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-25">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.3.0" xml:id="sibmei">
+     <name xml:id="m-27">
+      Sibelius to MEI Exporter (2.3.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_2022163222830178">
      <name>
-      MEI Soup Updater 2024
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
+  <workList xml:id="m-5">
+   <work xml:id="m-6">
+    <title xml:id="m-8">
      Quando lieta sperai
     </title>
     <composer>
-     Rore, Cipriano de
+     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/2622801" role="composer">
+      Cipriano de Rore
+     </persName>
     </composer>
     <classification>
      <termList>
@@ -67,11 +82,14 @@
     </classification>
    </work>
   </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM">
+     RISM B I, 1560-02
+    </identifier>
     <titleStmt>
      <title>
-      Di Cipriano Rore Il terzo libro di madregali dove si contengono le vergini, et Altri Madrigali Novamente Con ogni diligentia Ristampato. A cinque voci
+      Quando lieta sperai
      </title>
     </titleStmt>
     <pubStmt>
@@ -80,23 +98,15 @@
        Antonio Gardane
       </persName>
      </publisher>
-     <date>
-      1560
-     </date>
+     <date isodate="1560"/>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName>
-       Bibliothèque nationale de France
-      </corpName>
+      <corpName/>
       <settlement/>
-      <identifier>
-       RES VMC-122
-      </identifier>
-      <geogName>
-       Paris
-      </geogName>
      </repository>
+     <identifier type="shelfmark">
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -108,41 +118,31 @@
      <scoreDef lyric.name="FreeSerif" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="FreeSerif" xml:id="m-34">
       <staffGrp xml:id="m-35">
        <staffGrp n="1" symbol="bracket" xml:id="m-51">
-        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="
-          Cantus
-         " lines="5" n="1" xml:id="m-36">
+        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Cantus" lines="5" n="1" xml:id="m-36">
          <label>
           Cantus
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-38"/>
         </staffDef>
-        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="
-          Altus
-         " lines="5" n="2" xml:id="m-39">
+        <staffDef clef.line="2" clef.shape="G" key.sig="0" label="Altus" lines="5" n="2" xml:id="m-39">
          <label>
           Altus
          </label>
          <instrDef midi.channel="1" midi.pan="63" midi.volume="100" xml:id="m-41"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Quintus
-         " lines="5" n="3" xml:id="m-42">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Quintus" lines="5" n="3" xml:id="m-42">
          <label>
           Quintus
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-44"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-          Tenor
-         " lines="5" n="4" xml:id="m-45">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="Tenor" lines="5" n="4" xml:id="m-45">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-47"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="
-          Bassus
-         " lines="5" n="5" xml:id="m-48">
+        <staffDef clef.line="4" clef.shape="F" key.sig="0" label="Bassus" lines="5" n="5" xml:id="m-48">
          <label>
           Bassus
          </label>

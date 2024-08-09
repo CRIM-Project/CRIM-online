@@ -3,14 +3,14 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc>
+  <fileDesc xml:id="m-3">
    <titleStmt>
     <title>
      Susanne un jour
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/74004228" role="composer">
-      Lupi, Didier
+      Didier Lupi
      </persName>
      <persName role="editor">
       Vincent Besson
@@ -22,38 +22,53 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
+  <encodingDesc xml:id="m-20">
+   <appInfo xml:id="m-21">
+    <application isodate="2022-7-4T13:50:17Z" version="20200900" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-23">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-25">
+      Sibelius to MEI Exporter (2.1.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_202337221421893">
      <name>
-      MEI Soup Updater 2024
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
+  <workList xml:id="m-5">
+   <work xml:id="m-6">
+    <title xml:id="m-8">
      Susanne un jour
     </title>
     <composer>
-     Lupi, Didier
+     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/74004228" role="composer">
+      Didier Lupi
+     </persName>
     </composer>
     <classification>
      <termList>
@@ -64,11 +79,14 @@
     </classification>
    </work>
   </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM">
+     RISM A I, L 3087
+    </identifier>
     <titleStmt>
      <title>
-      Premier livre de chansons spirituelles, nouvellement composées par Guillaume Gueroult et mises en musique par Didier Lupi Second. Dont l'Indice trouverez en la page suyvante
+      Susanne un jour
      </title>
     </titleStmt>
     <pubStmt>
@@ -80,23 +98,20 @@
        Marcellin Beringen
       </persName>
      </publisher>
-     <date>
-      1548
-     </date>
+     <date isodate="1548"/>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
        Bibliothèque du Musée de Condé
       </corpName>
-      <settlement/>
-      <identifier>
-       [no indication]
-      </identifier>
-      <geogName>
+      <settlement>
        Chantilly
-      </geogName>
+      </settlement>
      </repository>
+     <identifier type="shelfmark">
+      [no indication]
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -108,33 +123,25 @@
      <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-30">
       <staffGrp xml:id="m-31">
        <staffGrp n="1" symbol="bracket" xml:id="m-44">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
-          Superius
-         " lines="5" n="1" xml:id="m-32">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Superius" lines="5" n="1" xml:id="m-32">
          <label>
           Superius
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-34"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
-          Altus
-         " lines="5" n="2" xml:id="m-35">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Altus" lines="5" n="2" xml:id="m-35">
          <label>
           Altus
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-37"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
-          Tenor
-         " lines="5" n="3" xml:id="m-38">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="3" xml:id="m-38">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-40"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
-          Bassus
-         " lines="5" n="4" xml:id="m-41">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Bassus" lines="5" n="4" xml:id="m-41">
          <label>
           Bassus
          </label>
@@ -149,7 +156,7 @@
         <layer n="1" xml:id="m-49">
          <rest dur="2" dur.ppq="512" xml:id="m-50"/>
          <note dur="2" dur.ppq="512" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-51">
-          <verse n="1" xml:id="m-53">
+          <verse n="2" xml:id="m-53">
            <syl wordpos="i" xml:id="m-54">
             Fut
            </syl>
@@ -161,7 +168,7 @@
           </verse>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-52">
-          <verse n="1" xml:id="m-55">
+          <verse n="2" xml:id="m-55">
            <syl wordpos="i" xml:id="m-56">
             en
            </syl>
@@ -178,7 +185,7 @@
         <layer n="1" xml:id="m-58">
          <rest dur="2" dur.ppq="512" xml:id="m-59"/>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-60">
-          <verse n="1" xml:id="m-62">
+          <verse n="2" xml:id="m-62">
            <syl wordpos="i" xml:id="m-63">
             Fut
            </syl>
@@ -190,7 +197,7 @@
           </verse>
          </note>
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-61">
-          <verse n="1" xml:id="m-64">
+          <verse n="2" xml:id="m-64">
            <syl wordpos="i" xml:id="m-65">
             en
            </syl>
@@ -207,7 +214,7 @@
         <layer n="1" xml:id="m-67">
          <rest dur="2" dur.ppq="512" xml:id="m-68"/>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="g" pnum="43" stem.dir="up" xml:id="m-69">
-          <verse n="1" xml:id="m-72">
+          <verse n="2" xml:id="m-72">
            <syl wordpos="i" xml:id="m-73">
             Fut
            </syl>
@@ -220,7 +227,7 @@
          </note>
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-70">
           <accid accid.ges="f" xml:id="m-71"/>
-          <verse n="1" xml:id="m-74">
+          <verse n="2" xml:id="m-74">
            <syl wordpos="i" xml:id="m-75">
             en
            </syl>
@@ -237,7 +244,7 @@
         <layer n="1" xml:id="m-77">
          <rest dur="2" dur.ppq="512" xml:id="m-78"/>
          <note dur="2" dur.ppq="512" oct="3" pname="g" pnum="55" stem.dir="down" xml:id="m-79">
-          <verse n="1" xml:id="m-81">
+          <verse n="2" xml:id="m-81">
            <syl wordpos="i" xml:id="m-82">
             Fut
            </syl>
@@ -249,7 +256,7 @@
           </verse>
          </note>
          <note dur="1" dur.ppq="1024" oct="3" pname="g" pnum="55" stem.dir="down" xml:id="m-80">
-          <verse n="1" xml:id="m-83">
+          <verse n="2" xml:id="m-83">
            <syl wordpos="i" xml:id="m-84">
             en
            </syl>
@@ -272,7 +279,7 @@
             ne/un
            </syl>
           </verse>
-          <verse n="1" xml:id="m-99">
+          <verse n="2" xml:id="m-99">
            <syl wordpos="i" xml:id="m-100">
             son
            </syl>
@@ -284,7 +291,7 @@
             jour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-103">
+          <verse n="2" xml:id="m-103">
            <syl wordpos="i" xml:id="m-104">
             cœur
            </syl>
@@ -300,7 +307,7 @@
             ne/un
            </syl>
           </verse>
-          <verse n="1" xml:id="m-115">
+          <verse n="2" xml:id="m-115">
            <syl wordpos="i" xml:id="m-116">
             son
            </syl>
@@ -312,7 +319,7 @@
             jour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-119">
+          <verse n="2" xml:id="m-119">
            <syl wordpos="i" xml:id="m-120">
             cœur
            </syl>
@@ -328,7 +335,7 @@
             ne/un
            </syl>
           </verse>
-          <verse n="1" xml:id="m-131">
+          <verse n="2" xml:id="m-131">
            <syl wordpos="i" xml:id="m-132">
             son
            </syl>
@@ -340,7 +347,7 @@
             jour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-135">
+          <verse n="2" xml:id="m-135">
            <syl wordpos="i" xml:id="m-136">
             cœur
            </syl>
@@ -357,7 +364,7 @@
             ne/un
            </syl>
           </verse>
-          <verse n="1" xml:id="m-148">
+          <verse n="2" xml:id="m-148">
            <syl wordpos="i" xml:id="m-149">
             son
            </syl>
@@ -369,7 +376,7 @@
             jour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-152">
+          <verse n="2" xml:id="m-152">
            <syl wordpos="i" xml:id="m-153">
             cœur
            </syl>
@@ -388,7 +395,7 @@
             d’a
            </syl>
           </verse>
-          <verse n="1" xml:id="m-165">
+          <verse n="2" xml:id="m-165">
            <syl con="d" wordpos="i" xml:id="m-166">
             tri
            </syl>
@@ -400,7 +407,7 @@
             mour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-167">
+          <verse n="2" xml:id="m-167">
            <syl wordpos="t" xml:id="m-168">
             ste/et
            </syl>
@@ -412,7 +419,7 @@
             so
            </syl>
           </verse>
-          <verse n="1" xml:id="m-252">
+          <verse n="2" xml:id="m-252">
            <syl con="d" wordpos="i" xml:id="m-253">
             des
            </syl>
@@ -429,7 +436,7 @@
             d’a
            </syl>
           </verse>
-          <verse n="1" xml:id="m-179">
+          <verse n="2" xml:id="m-179">
            <syl con="d" wordpos="i" xml:id="m-180">
             tri
            </syl>
@@ -441,7 +448,7 @@
             mour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-181">
+          <verse n="2" xml:id="m-181">
            <syl wordpos="t" xml:id="m-182">
             ste/et
            </syl>
@@ -453,7 +460,7 @@
             so
            </syl>
           </verse>
-          <verse n="1" xml:id="m-278">
+          <verse n="2" xml:id="m-278">
            <syl con="d" wordpos="i" xml:id="m-279">
             des
            </syl>
@@ -470,7 +477,7 @@
             d’a
            </syl>
           </verse>
-          <verse n="1" xml:id="m-193">
+          <verse n="2" xml:id="m-193">
            <syl con="d" wordpos="i" xml:id="m-194">
             tri
            </syl>
@@ -482,7 +489,7 @@
             mour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-195">
+          <verse n="2" xml:id="m-195">
            <syl wordpos="t" xml:id="m-196">
             ste/et
            </syl>
@@ -494,7 +501,7 @@
             so
            </syl>
           </verse>
-          <verse n="1" xml:id="m-305">
+          <verse n="2" xml:id="m-305">
            <syl con="d" wordpos="i" xml:id="m-306">
             des
            </syl>
@@ -511,7 +518,7 @@
             d’a
            </syl>
           </verse>
-          <verse n="1" xml:id="m-207">
+          <verse n="2" xml:id="m-207">
            <syl con="d" wordpos="i" xml:id="m-208">
             tri
            </syl>
@@ -523,7 +530,7 @@
             mour
            </syl>
           </verse>
-          <verse n="1" xml:id="m-209">
+          <verse n="2" xml:id="m-209">
            <syl wordpos="t" xml:id="m-210">
             ste/et
            </syl>
@@ -535,7 +542,7 @@
             so
            </syl>
           </verse>
-          <verse n="1" xml:id="m-333">
+          <verse n="2" xml:id="m-333">
            <syl con="d" wordpos="i" xml:id="m-334">
             des
            </syl>
@@ -553,7 +560,7 @@
             li
            </syl>
           </verse>
-          <verse n="1" xml:id="m-254">
+          <verse n="2" xml:id="m-254">
            <syl con="d" wordpos="m" xml:id="m-255">
             con
            </syl>
@@ -566,7 +573,7 @@
             ci
            </syl>
           </verse>
-          <verse n="1" xml:id="m-256">
+          <verse n="2" xml:id="m-256">
            <syl con="d" wordpos="m" xml:id="m-257">
             for
            </syl>
@@ -578,7 +585,7 @@
             té
            </syl>
           </verse>
-          <verse n="1" xml:id="m-258">
+          <verse n="2" xml:id="m-258">
            <syl con="d" wordpos="m" xml:id="m-259">
             té
            </syl>
@@ -594,7 +601,7 @@
             li
            </syl>
           </verse>
-          <verse n="1" xml:id="m-280">
+          <verse n="2" xml:id="m-280">
            <syl con="d" wordpos="m" xml:id="m-281">
             con
            </syl>
@@ -606,7 +613,7 @@
             ci
            </syl>
           </verse>
-          <verse n="1" xml:id="m-282">
+          <verse n="2" xml:id="m-282">
            <syl con="d" wordpos="m" xml:id="m-283">
             for
            </syl>
@@ -618,7 +625,7 @@
             té
            </syl>
           </verse>
-          <verse n="1" xml:id="m-284">
+          <verse n="2" xml:id="m-284">
            <syl con="d" wordpos="m" xml:id="m-285">
             té
            </syl>
@@ -634,7 +641,7 @@
             li
            </syl>
           </verse>
-          <verse n="1" xml:id="m-307">
+          <verse n="2" xml:id="m-307">
            <syl con="d" wordpos="m" xml:id="m-308">
             con
            </syl>
@@ -649,7 +656,7 @@
             ci
            </syl>
           </verse>
-          <verse n="1" xml:id="m-309">
+          <verse n="2" xml:id="m-309">
            <syl con="d" wordpos="m" xml:id="m-310">
             for
            </syl>
@@ -661,7 +668,7 @@
             té
            </syl>
           </verse>
-          <verse n="1" xml:id="m-311">
+          <verse n="2" xml:id="m-311">
            <syl con="d" wordpos="m" xml:id="m-312">
             té
            </syl>
@@ -677,7 +684,7 @@
             li
            </syl>
           </verse>
-          <verse n="1" xml:id="m-335">
+          <verse n="2" xml:id="m-335">
            <syl con="d" wordpos="m" xml:id="m-336">
             con
            </syl>
@@ -690,7 +697,7 @@
             ci
            </syl>
           </verse>
-          <verse n="1" xml:id="m-337">
+          <verse n="2" xml:id="m-337">
            <syl con="d" wordpos="m" xml:id="m-338">
             for
            </syl>
@@ -702,7 +709,7 @@
             té
            </syl>
           </verse>
-          <verse n="1" xml:id="m-339">
+          <verse n="2" xml:id="m-339">
            <syl con="d" wordpos="m" xml:id="m-340">
             té
            </syl>
@@ -721,7 +728,7 @@
             e
            </syl>
           </verse>
-          <verse n="1" xml:id="m-260">
+          <verse n="2" xml:id="m-260">
            <syl wordpos="t" xml:id="m-261">
             e,
            </syl>
@@ -734,7 +741,7 @@
             par
            </syl>
           </verse>
-          <verse n="1" xml:id="m-355">
+          <verse n="2" xml:id="m-355">
            <syl con="d" wordpos="i" xml:id="m-356">
             Voy
            </syl>
@@ -750,7 +757,7 @@
             e
            </syl>
           </verse>
-          <verse n="1" xml:id="m-286">
+          <verse n="2" xml:id="m-286">
            <syl wordpos="t" xml:id="m-287">
             e,
            </syl>
@@ -762,7 +769,7 @@
             par
            </syl>
           </verse>
-          <verse n="1" xml:id="m-374">
+          <verse n="2" xml:id="m-374">
            <syl con="d" wordpos="i" xml:id="m-375">
             Voy
            </syl>
@@ -779,7 +786,7 @@
             e
            </syl>
           </verse>
-          <verse n="1" xml:id="m-313">
+          <verse n="2" xml:id="m-313">
            <syl wordpos="t" xml:id="m-314">
             e,
            </syl>
@@ -791,7 +798,7 @@
             par
            </syl>
           </verse>
-          <verse n="1" xml:id="m-393">
+          <verse n="2" xml:id="m-393">
            <syl con="d" wordpos="i" xml:id="m-394">
             Voy
            </syl>
@@ -808,7 +815,7 @@
             e
            </syl>
           </verse>
-          <verse n="1" xml:id="m-341">
+          <verse n="2" xml:id="m-341">
            <syl wordpos="t" xml:id="m-342">
             e,
            </syl>
@@ -821,7 +828,7 @@
             par
            </syl>
           </verse>
-          <verse n="1" xml:id="m-414">
+          <verse n="2" xml:id="m-414">
            <syl con="d" wordpos="i" xml:id="m-415">
             Voy
            </syl>
@@ -840,7 +847,7 @@
             deux
            </syl>
           </verse>
-          <verse n="1" xml:id="m-357">
+          <verse n="2" xml:id="m-357">
            <syl wordpos="t" xml:id="m-358">
             ant
            </syl>
@@ -853,7 +860,7 @@
             vieil
            </syl>
           </verse>
-          <verse n="1" xml:id="m-363">
+          <verse n="2" xml:id="m-363">
            <syl con="d" wordpos="i" xml:id="m-364">
             l’ef
            </syl>
@@ -865,7 +872,7 @@
             lars
            </syl>
           </verse>
-          <verse n="1" xml:id="m-365">
+          <verse n="2" xml:id="m-365">
            <syl wordpos="t" xml:id="m-366">
             fort
            </syl>
@@ -881,7 +888,7 @@
             deux
            </syl>
           </verse>
-          <verse n="1" xml:id="m-376">
+          <verse n="2" xml:id="m-376">
            <syl wordpos="t" xml:id="m-377">
             ant
            </syl>
@@ -893,7 +900,7 @@
             vieil
            </syl>
           </verse>
-          <verse n="1" xml:id="m-382">
+          <verse n="2" xml:id="m-382">
            <syl con="d" wordpos="i" xml:id="m-383">
             l’ef
            </syl>
@@ -905,7 +912,7 @@
             lars
            </syl>
           </verse>
-          <verse n="1" xml:id="m-384">
+          <verse n="2" xml:id="m-384">
            <syl wordpos="t" xml:id="m-385">
             fort
            </syl>
@@ -921,7 +928,7 @@
             deux
            </syl>
           </verse>
-          <verse n="1" xml:id="m-395">
+          <verse n="2" xml:id="m-395">
            <syl wordpos="t" xml:id="m-396">
             ant
            </syl>
@@ -933,7 +940,7 @@
             vieil
            </syl>
           </verse>
-          <verse n="1" xml:id="m-401">
+          <verse n="2" xml:id="m-401">
            <syl con="d" wordpos="i" xml:id="m-402">
             l’ef
            </syl>
@@ -945,7 +952,7 @@
             lars
            </syl>
           </verse>
-          <verse n="1" xml:id="m-403">
+          <verse n="2" xml:id="m-403">
            <syl wordpos="t" xml:id="m-404">
             fort
            </syl>
@@ -962,7 +969,7 @@
             deux
            </syl>
           </verse>
-          <verse n="1" xml:id="m-416">
+          <verse n="2" xml:id="m-416">
            <syl wordpos="t" xml:id="m-417">
             ant
            </syl>
@@ -975,7 +982,7 @@
             vieil
            </syl>
           </verse>
-          <verse n="1" xml:id="m-422">
+          <verse n="2" xml:id="m-422">
            <syl con="d" wordpos="i" xml:id="m-423">
             l’ef
            </syl>
@@ -987,7 +994,7 @@
             lars
            </syl>
           </verse>
-          <verse n="1" xml:id="m-424">
+          <verse n="2" xml:id="m-424">
            <syl wordpos="t" xml:id="m-425">
             fort
            </syl>
@@ -1000,7 +1007,7 @@
        <staff n="1" xml:id="m-428">
         <layer n="1" xml:id="m-429">
          <note dur="1" dur.ppq="1024" oct="4" pname="g" pnum="67" stem.dir="up" xml:id="m-430">
-          <verse n="1" xml:id="m-434">
+          <verse n="2" xml:id="m-434">
            <syl wordpos="i" xml:id="m-435">
             faict
            </syl>
@@ -1012,7 +1019,7 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="4" pname="f" pnum="65" stem.dir="up" xml:id="m-431">
-          <verse n="1" xml:id="m-436">
+          <verse n="2" xml:id="m-436">
            <syl wordpos="i" xml:id="m-437">
             à
            </syl>
@@ -1030,7 +1037,7 @@
             tants
            </syl>
           </verse>
-          <verse n="1" xml:id="m-444">
+          <verse n="2" xml:id="m-444">
            <syl wordpos="i" xml:id="m-445">
             sa
            </syl>
@@ -1041,7 +1048,7 @@
        <staff n="2" xml:id="m-446">
         <layer n="1" xml:id="m-447">
          <note dur="1" dur.ppq="1024" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-448">
-          <verse n="1" xml:id="m-452">
+          <verse n="2" xml:id="m-452">
            <syl wordpos="i" xml:id="m-453">
             faict
            </syl>
@@ -1053,7 +1060,7 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="4" oct.ges="3" pname="d" pnum="50" stem.dir="down" xml:id="m-449">
-          <verse n="1" xml:id="m-454">
+          <verse n="2" xml:id="m-454">
            <syl wordpos="i" xml:id="m-455">
             à
            </syl>
@@ -1071,7 +1078,7 @@
             tants
            </syl>
           </verse>
-          <verse n="1" xml:id="m-462">
+          <verse n="2" xml:id="m-462">
            <syl wordpos="i" xml:id="m-463">
             sa
            </syl>
@@ -1083,7 +1090,7 @@
         <layer n="1" xml:id="m-465">
          <note dur="1" dur.ppq="1024" oct="3" oct.ges="2" pname="b" pnum="46" stem.dir="down" xml:id="m-466">
           <accid accid.ges="f" xml:id="m-467"/>
-          <verse n="1" xml:id="m-470">
+          <verse n="2" xml:id="m-470">
            <syl wordpos="i" xml:id="m-471">
             faict
            </syl>
@@ -1095,7 +1102,7 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="3" oct.ges="2" pname="a" pnum="45" stem.dir="up" xml:id="m-468">
-          <verse n="1" xml:id="m-472">
+          <verse n="2" xml:id="m-472">
            <syl wordpos="i" xml:id="m-473">
             à
            </syl>
@@ -1112,7 +1119,7 @@
             tants
            </syl>
           </verse>
-          <verse n="1" xml:id="m-480">
+          <verse n="2" xml:id="m-480">
            <syl wordpos="i" xml:id="m-481">
             sa
            </syl>
@@ -1123,7 +1130,7 @@
        <staff n="4" xml:id="m-482">
         <layer n="1" xml:id="m-483">
          <note dur="1" dur.ppq="1024" oct="3" pname="g" pnum="55" stem.dir="down" xml:id="m-484">
-          <verse n="1" xml:id="m-488">
+          <verse n="2" xml:id="m-488">
            <syl wordpos="i" xml:id="m-489">
             faict
            </syl>
@@ -1135,7 +1142,7 @@
           </verse>
          </note>
          <note dur="2" dur.ppq="512" oct="3" pname="d" pnum="50" stem.dir="down" xml:id="m-485">
-          <verse n="1" xml:id="m-490">
+          <verse n="2" xml:id="m-490">
            <syl wordpos="i" xml:id="m-491">
             à
            </syl>
@@ -1153,7 +1160,7 @@
             tants
            </syl>
           </verse>
-          <verse n="1" xml:id="m-498">
+          <verse n="2" xml:id="m-498">
            <syl wordpos="i" xml:id="m-499">
             sa
            </syl>
@@ -1171,7 +1178,7 @@
             sa
            </syl>
           </verse>
-          <verse n="1" xml:id="m-536">
+          <verse n="2" xml:id="m-536">
            <syl con="d" wordpos="i" xml:id="m-537">
             chas
            </syl>
@@ -1184,7 +1191,7 @@
             beau
            </syl>
           </verse>
-          <verse n="1" xml:id="m-538">
+          <verse n="2" xml:id="m-538">
            <syl con="d" wordpos="m" xml:id="m-539">
             te
            </syl>
@@ -1203,7 +1210,7 @@
             sa
            </syl>
           </verse>
-          <verse n="1" xml:id="m-549">
+          <verse n="2" xml:id="m-549">
            <syl con="d" wordpos="i" xml:id="m-550">
             chas
            </syl>
@@ -1218,7 +1225,7 @@
             beau
            </syl>
           </verse>
-          <verse n="1" xml:id="m-551">
+          <verse n="2" xml:id="m-551">
            <syl con="d" wordpos="m" xml:id="m-552">
             te
            </syl>
@@ -1234,7 +1241,7 @@
             sa
            </syl>
           </verse>
-          <verse n="1" xml:id="m-562">
+          <verse n="2" xml:id="m-562">
            <syl con="d" wordpos="i" xml:id="m-563">
             chas
            </syl>
@@ -1246,7 +1253,7 @@
             beau
            </syl>
           </verse>
-          <verse n="1" xml:id="m-564">
+          <verse n="2" xml:id="m-564">
            <syl con="d" wordpos="m" xml:id="m-565">
             te
            </syl>
@@ -1262,7 +1269,7 @@
             sa
            </syl>
           </verse>
-          <verse n="1" xml:id="m-575">
+          <verse n="2" xml:id="m-575">
            <syl con="d" wordpos="i" xml:id="m-576">
             chas
            </syl>
@@ -1274,7 +1281,7 @@
             beau
            </syl>
           </verse>
-          <verse n="1" xml:id="m-577">
+          <verse n="2" xml:id="m-577">
            <syl con="d" wordpos="m" xml:id="m-578">
             te
            </syl>
@@ -1292,7 +1299,7 @@
             té,
            </syl>
           </verse>
-          <verse n="1" xml:id="m-540">
+          <verse n="2" xml:id="m-540">
            <syl wordpos="t" xml:id="m-541">
             té.
            </syl>
@@ -1308,7 +1315,7 @@
             té,
            </syl>
           </verse>
-          <verse n="1" xml:id="m-553">
+          <verse n="2" xml:id="m-553">
            <syl wordpos="t" xml:id="m-554">
             té.
            </syl>
@@ -1324,7 +1331,7 @@
             té,
            </syl>
           </verse>
-          <verse n="1" xml:id="m-566">
+          <verse n="2" xml:id="m-566">
            <syl wordpos="t" xml:id="m-567">
             té.
            </syl>
@@ -1340,7 +1347,7 @@
             té,
            </syl>
           </verse>
-          <verse n="1" xml:id="m-579">
+          <verse n="2" xml:id="m-579">
            <syl wordpos="t" xml:id="m-580">
             té.
            </syl>

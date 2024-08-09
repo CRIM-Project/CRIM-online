@@ -3,14 +3,14 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.0" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc>
+  <fileDesc xml:id="m-3">
    <titleStmt>
     <title>
      Mente Tota (from Vultuum tuum)
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/100226284" role="composer">
-      Des Prez, Josquin
+      Josquin Des Prés
      </persName>
      <persName role="editor">
       Marco Gurrieri
@@ -25,38 +25,53 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2022-05-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2020-7-8T19:43:09Z" version="19900" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.3.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.3.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_2022126204408162">
      <name>
-      MEI Soup Updater 2024
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
+  <workList xml:id="m-5">
+   <work xml:id="m-6">
+    <title xml:id="m-8">
      Mente Tota (from Vultuum tuum)
     </title>
     <composer>
-     Des Prez, Josquin
+     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/100226284" role="composer">
+      Josquin Des Prés
+     </persName>
     </composer>
     <classification>
      <termList>
@@ -67,15 +82,20 @@
     </classification>
    </work>
   </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM">
+     CENSUS MunBS 19
+    </identifier>
     <titleStmt>
      <title>
-      D-Mbs Mus. MS 19
+      Mente Tota (from Vultuum tuum)
      </title>
     </titleStmt>
     <pubStmt>
-     <publisher/>
+     <publisher>
+      <persName auth="VIAF" auth.uri=""/>
+     </publisher>
      <date>
       before 1531
      </date>
@@ -85,14 +105,13 @@
       <corpName>
        Bayerische Staatsbibliothek
       </corpName>
-      <settlement/>
-      <identifier>
-       Mus.ms. 19
-      </identifier>
-      <geogName>
+      <settlement>
        München
-      </geogName>
+      </settlement>
      </repository>
+     <identifier type="shelfmark">
+      Mus.ms. 19
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -104,33 +123,25 @@
      <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="2" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-30">
       <staffGrp xml:id="m-31">
        <staffGrp n="1" symbol="bracket" xml:id="m-44">
-        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="
-          Discantus
-         " lines="5" n="1" xml:id="m-32">
+        <staffDef clef.line="2" clef.shape="G" key.sig="1f" label="Discantus" lines="5" n="1" xml:id="m-32">
          <label>
           Discantus
          </label>
          <instrDef midi.channel="1" midi.pan="26" midi.volume="100" xml:id="m-34"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
-          Contratenor
-         " lines="5" n="2" xml:id="m-35">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Contratenor" lines="5" n="2" xml:id="m-35">
          <label>
           Contratenor
          </label>
          <instrDef midi.channel="1" midi.pan="46" midi.volume="100" xml:id="m-37"/>
         </staffDef>
-        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="
-          Tenor
-         " lines="5" n="3" xml:id="m-38">
+        <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="1f" label="Tenor" lines="5" n="3" xml:id="m-38">
          <label>
           Tenor
          </label>
          <instrDef midi.channel="1" midi.pan="81" midi.volume="100" xml:id="m-40"/>
         </staffDef>
-        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="
-          Bassus
-         " lines="5" n="4" xml:id="m-41">
+        <staffDef clef.line="4" clef.shape="F" key.sig="1f" label="Bassus" lines="5" n="4" xml:id="m-41">
          <label>
           Bassus
          </label>

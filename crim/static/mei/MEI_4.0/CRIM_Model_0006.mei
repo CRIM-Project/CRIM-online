@@ -3,7 +3,7 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc>
+  <fileDesc xml:id="m-3">
    <titleStmt>
     <title>
      IX - In solemnitatibus et festis B. M. V. (Cum iubilo) - Sanctus
@@ -25,38 +25,53 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
+     Citations: The Renaissance Imitation Mass Project
     </publisher>
     <distributor>
-     <corpName>
-      Centre d'Études Supérieures de la Renaissance
-     </corpName>
-     <corpName>
-      Haverford College
-     </corpName>
+     Centre d'Études Supérieures de la Renaissance
     </distributor>
-    <date isodate="2024-07-28"/>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc>
-   <appInfo>
-    <application>
+  <encodingDesc xml:id="m-18">
+   <appInfo xml:id="m-19">
+    <application isodate="2022-6-8T09:31:25Z" version="20200900" xml:id="sibelius">
+     <name type="operating-system" xml:id="m-21">
+      Mac OS X Mountain Lion
+     </name>
+    </application>
+    <application type="plugin" version="2.1.0" xml:id="sibmei">
+     <name xml:id="m-23">
+      Sibelius to MEI Exporter (2.1.0)
+     </name>
+    </application>
+    <application version="v1.0_beta" xml:id="app_202337220747428">
      <name>
-      MEI Soup Updater 2024
+      mei30To40.xsl
+     </name>
+    </application>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList>
-   <work>
-    <title>
+  <workList xml:id="m-5">
+   <work xml:id="m-6">
+    <title xml:id="m-8">
      IX - In solemnitatibus et festis B. M. V. (Cum iubilo) - Sanctus
     </title>
     <composer>
-     Anonymous
+     <persName auth="VIAF" auth.uri="" role="composer">
+      Anonymous
+     </persName>
     </composer>
     <classification>
      <termList>
@@ -67,11 +82,12 @@
     </classification>
    </work>
   </workList>
-  <manifestationList>
+  <manifestationList xml:id="manifestationList">
    <manifestation>
+    <identifier type="RISM"/>
     <titleStmt>
      <title>
-      Graduale triplex, seu, Graduale Romanum Pauli PP.VI cura recognitum &amp; rhythmicis signis a Solesmensibus monachis ornatum : neumis Laudunensibus (Cod. 239) et Sangallensibus (Codicum San Gallensis 359 et Einsidlensis 121) nunc auctum
+      IX - In solemnitatibus et festis B. M. V. (Cum iubilo) - Sanctus
      </title>
     </titleStmt>
     <pubStmt>
@@ -80,20 +96,15 @@
        Abbaye Saint-Pierre de Solesmes
       </persName>
      </publisher>
-     <date>
-      1998
-     </date>
+     <date isodate="1998"/>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName>
-      </corpName>
+      <corpName/>
       <settlement/>
-      <identifier>
-      </identifier>
-      <geogName>
-      </geogName>
      </repository>
+     <identifier type="shelfmark">
+     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
@@ -104,9 +115,7 @@
     <score xml:id="m-27">
      <scoreDef lyric.name="Plantin MT Std" meter.count="4" meter.unit="4" music.name="Opus Std" text.name="Plantin MT Std" xml:id="m-28">
       <staffGrp xml:id="m-29">
-       <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="
-         V
-        " lines="5" n="1" xml:id="m-30">
+       <staffDef clef.dis="8" clef.dis.place="below" clef.line="2" clef.shape="G" key.sig="0" label="V" lines="5" n="1" xml:id="m-30">
         <label>
          V
         </label>
@@ -197,6 +206,7 @@
           </verse>
          </note>
          <note dur="4" dur.ppq="256" oct="4" oct.ges="3" pname="c" pnum="48" stem.dir="down" xml:id="m-84">
+          <verse n="1" xml:id="m-89"/>
          </note>
         </layer>
        </staff>
@@ -397,6 +407,7 @@
           </verse>
          </note>
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-187">
+          <verse n="1" xml:id="m-198"/>
          </note>
         </layer>
        </staff>
@@ -463,6 +474,7 @@
           </verse>
          </note>
          <note dur="4" dur.ppq="256" oct="3" oct.ges="2" pname="f" pnum="41" stem.dir="up" xml:id="m-219">
+          <verse n="1" xml:id="m-234"/>
          </note>
         </layer>
        </staff>
