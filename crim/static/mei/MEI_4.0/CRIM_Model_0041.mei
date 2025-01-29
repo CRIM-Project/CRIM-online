@@ -3,7 +3,7 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
+  <fileDesc>
    <titleStmt>
     <title>
      Spem in alium
@@ -18,57 +18,54 @@
      <persName role="editor">
       Kévin Roger
      </persName>
+     <persName role="editor">
+      Richard Freedman
+     </persName>
+     <persName role="editor">
+      Pothárn Imre
+     </persName>
     </respStmt>
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Kévin Roger
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2025-01-29"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-18">
-   <appInfo xml:id="m-19">
-    <application isodate="2022-7-3T15:11:11Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-21">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-23">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_20233722100038">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList xml:id="m-5">
-   <work xml:id="m-6">
-    <title xml:id="m-8">
+  <workList>
+   <work>
+    <title>
      Spem in alium
     </title>
-    <composer>
-     <persName auth="VIAF" auth.uri="https://viaf.org/viaf/100226104" role="composer">
-      Jachet de Mantua
-     </persName>
+    <composer auth="VIAF" auth.uri="https://viaf.org/viaf/100226104">
+     Jachet de Mantua
     </composer>
     <classification>
      <termList>
@@ -79,34 +76,36 @@
     </classification>
    </work>
   </workList>
-  <manifestationList xml:id="manifestationList">
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM">
-     RISM B 1,  [1556]9
-    </identifier>
     <titleStmt>
      <title>
-      Spem in alium
+      Primus liber cum quatuor vocibus. Mottetti del Frutto a quatro
      </title>
     </titleStmt>
     <pubStmt>
      <publisher>
-      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/266366440">
-       Johann von Berg
-      </persName>
-      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/23044512/">
-       Ulrich Neuber
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/44565256">
+       Antonio Gardano
       </persName>
      </publisher>
-     <date isodate="1556"/>
+     <date>
+      1539
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName/>
+      <corpName>
+       Bayerische Staatsbibliothek
+      </corpName>
       <settlement/>
+      <identifier>
+       4 Mus.pr. 106#Beibd.3
+      </identifier>
+      <geogName>
+       München
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>

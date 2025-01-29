@@ -3,23 +3,23 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
+  <fileDesc>
    <titleStmt>
     <title>
      Nigra sum
     </title>
     <respStmt>
      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/54333035" role="composer">
-      Jean Lhertier
+      Jean Lheritier
      </persName>
      <persName role="editor">
       Yoav Belinsky
      </persName>
      <persName role="editor">
-      Kévin Roger
+      Vincent Besson
      </persName>
      <persName role="editor">
-      Vincent Besson
+      Kévin Roger
      </persName>
      <persName role="editor">
       Richard Freedman
@@ -28,53 +28,50 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Yoav Belinsky
+     </persName>
+     <persName>
+      Kévin Roger
+     </persName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Richard Freedman
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2025-01-29"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-18">
-   <appInfo xml:id="m-19">
-    <application isodate="2022-4-26T21:05:10Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-21">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-23">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337221123016">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList xml:id="m-5">
-   <work xml:id="m-6">
-    <title xml:id="m-8">
+  <workList>
+   <work>
+    <title>
      Nigra sum
     </title>
-    <composer>
-     <persName auth="VIAF" auth.uri="https://viaf.org/viaf/54333035" role="composer">
-      Jean Lhertier
-     </persName>
+    <composer auth="VIAF" auth.uri="https://viaf.org/viaf/54333035">
+     Jean Lheritier
     </composer>
     <classification>
      <termList>
@@ -85,14 +82,11 @@
     </classification>
    </work>
   </workList>
-  <manifestationList xml:id="manifestationList">
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM">
-     RISM B/1 1532/9
-    </identifier>
     <titleStmt>
      <title>
-      Nigra sum
+      Secundus liber cum quinque vocibus
      </title>
     </titleStmt>
     <pubStmt>
@@ -101,15 +95,23 @@
        Jacques Moderne
       </persName>
      </publisher>
-     <date isodate="1532"/>
+     <date>
+      1532
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
-      <corpName/>
+      <corpName>
+       British Library
+      </corpName>
       <settlement/>
+      <identifier>
+       K.3.d.6
+      </identifier>
+      <geogName>
+       London
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>

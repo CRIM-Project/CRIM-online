@@ -3,7 +3,7 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
+  <fileDesc>
    <titleStmt>
     <title>
      Susanne un jour
@@ -22,53 +22,44 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Richard Freedman
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2025-01-29"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-20">
-   <appInfo xml:id="m-21">
-    <application isodate="2022-7-4T13:50:17Z" version="20200900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-23">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-25">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337221421893">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <workList xml:id="m-5">
-   <work xml:id="m-6">
-    <title xml:id="m-8">
+  <workList>
+   <work>
+    <title>
      Susanne un jour
     </title>
-    <composer>
-     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/74004228" role="composer">
-      Didier Lupi
-     </persName>
+    <composer auth="VIAF" auth.uri="http://viaf.org/viaf/74004228">
+     Didier Lupi
     </composer>
     <classification>
      <termList>
@@ -79,14 +70,11 @@
     </classification>
    </work>
   </workList>
-  <manifestationList xml:id="manifestationList">
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM">
-     RISM A I, L 3087
-    </identifier>
     <titleStmt>
      <title>
-      Susanne un jour
+      Premier livre de chansons spirituelles, nouvellement composées par Guillaume Gueroult et mises en musique par Didier Lupi Second. Dont l'Indice trouverez en la page suyvante
      </title>
     </titleStmt>
     <pubStmt>
@@ -98,20 +86,23 @@
        Marcellin Beringen
       </persName>
      </publisher>
-     <date isodate="1548"/>
+     <date>
+      1548
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
        Bibliothèque du Musée de Condé
       </corpName>
-      <settlement>
+      <settlement/>
+      <identifier>
+       [no indication]
+      </identifier>
+      <geogName>
        Chantilly
-      </settlement>
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-      [no indication]
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>

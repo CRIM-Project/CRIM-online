@@ -3,17 +3,11 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
-   <titleStmt xml:id="m-10-ts">
-    <title xml:id="m-10">
+  <fileDesc>
+   <titleStmt>
+    <title>
      Missa Quando lieta sperai:  Kyrie
     </title>
-    <composer xml:id="m-12">
-     Ippolito Baccusi
-    </composer>
-    <editor xml:id="m-3e06527e-776e-48e6-bac6-91fb8d3634c1">
-     Maxime Popineau
-    </editor>
     <respStmt>
      <persName auth="VIAF" auth.uri="https://viaf.org/viaf/75882754/" role="composer">
       Ippolito Baccusi
@@ -28,26 +22,59 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Maxime Popineau
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-02-06"/>
+    <date isodate="2025-01-29"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <manifestationList xml:id="manifestationList">
+  <encodingDesc>
+   <appInfo>
+    <application>
+     <name>
+      MEI Soup Updater 2024
+     </name>
+    </application>
+   </appInfo>
+  </encodingDesc>
+  <workList>
+   <work>
+    <title>
+     Missa Quando lieta sperai:  Kyrie
+    </title>
+    <composer auth="VIAF" auth.uri="https://viaf.org/viaf/75882754/">
+     Ippolito Baccusi
+    </composer>
+    <classification>
+     <termList>
+      <term>
+       Kyrie
+      </term>
+     </termList>
+    </classification>
+   </work>
+  </workList>
+  <manifestationList>
    <manifestation>
-    <identifier type="RISM"/>
     <titleStmt>
      <title>
-      Missa Quando lieta sperai
+      Hippolyti Baccusii ecclesiae cathedralis Mantuae musices magistri Missarum cum quinque et sex vocibus. Liber tertius
      </title>
     </titleStmt>
     <pubStmt>
@@ -56,46 +83,23 @@
        Riccardo Amadino
       </persName>
      </publisher>
-     <date isodate="1589"/>
+     <date>
+      1589
+     </date>
     </pubStmt>
     <physLoc>
      <repository>
       <corpName>
       </corpName>
       <settlement/>
+      <identifier>
+      </identifier>
+      <geogName>
+      </geogName>
      </repository>
-     <identifier type="shelfmark">
-      RISM B/I, 15701a
-     </identifier>
     </physLoc>
    </manifestation>
   </manifestationList>
-  <encodingDesc xml:id="m-21">
-   <appInfo xml:id="m-22">
-    <application isodate="2021-5-19T08:41:24Z" version="19900" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-24">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.3.0" xml:id="sibmei">
-     <name xml:id="m-26">
-      Sibelius to MEI Exporter (2.3.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_202337221042268">
-     <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
-     </name>
-    </application>
-   </appInfo>
-  </encodingDesc>
-  <xi:include href="CRIM_Mass_0023.mei" xpointer="workList"/>
-  <xi:include href="CRIM_Mass_0023.mei" xpointer="manifestationList"/>
  </meiHead>
  <music xml:id="m-28">
   <body xml:id="m-29">

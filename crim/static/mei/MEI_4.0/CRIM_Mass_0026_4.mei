@@ -3,17 +3,11 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
-   <titleStmt xml:id="m-10-ts">
-    <title xml:id="m-10">
+  <fileDesc>
+   <titleStmt>
+    <title>
      Missa Super flumina Babylonis: Sanctus
     </title>
-    <composer xml:id="m-12">
-     Francisco Guerrero (1528-1599)
-    </composer>
-    <editor xml:id="m-55b02281-00d8-4282-b1ce-84f77ecb3024">
-     Maria Elena Cuenca
-    </editor>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/46901530" role="composer">
       Francisco Guerrero
@@ -28,46 +22,84 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      María Elena Cuenca Rodríguez
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-07-20"/>
+    <date isodate="2025-01-29"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-21">
-   <appInfo xml:id="m-22">
-    <application isodate="2023-7-20T08:05:05Z" version="20221200" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-24">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-26">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_2023201130419919">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <xi:include href="CRIM_Mass_0026.mei" xpointer="workList"/>
-  <xi:include href="CRIM_Mass_0026.mei" xpointer="manifestationList"/>
+  <workList>
+   <work>
+    <title>
+     Missa Super flumina Babylonis: Sanctus
+    </title>
+    <composer auth="VIAF" auth.uri="http://viaf.org/viaf/46901530">
+     Francisco Guerrero
+    </composer>
+    <classification>
+     <termList>
+      <term>
+       Sanctus
+      </term>
+     </termList>
+    </classification>
+   </work>
+  </workList>
+  <manifestationList>
+   <manifestation>
+    <titleStmt>
+     <title>
+      Liber primus missarum Francisco Guerrero Hispalensis Odei phonasco authore
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/9901501">
+       Nicolas Du Chemin
+      </persName>
+     </publisher>
+     <date>
+      1566
+     </date>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+      </corpName>
+      <settlement/>
+      <identifier>
+      </identifier>
+      <geogName>
+      </geogName>
+     </repository>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
  </meiHead>
  <music xml:id="m-27">
   <body xml:id="m-28">

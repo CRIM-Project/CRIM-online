@@ -3,20 +3,11 @@
 <?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei meiversion="4.0.1" xml:id="m-1" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
  <meiHead xml:id="m-2">
-  <fileDesc xml:id="m-3">
-   <titleStmt xml:id="m-10-ts">
-    <title xml:id="m-10">
+  <fileDesc>
+   <titleStmt>
+    <title>
      Missa Doulce memoire: Gloria
     </title>
-    <composer xml:id="m-12">
-     Orlando di Lasso
-    </composer>
-    <lyricist xml:id="m-14">
-     Gloria in excelsis Deo
-    </lyricist>
-    <editor xml:id="m-fd6a7e64-8c9c-4b41-9a50-9fd7c79b555e">
-     Richard Freedman
-    </editor>
     <respStmt>
      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/23356192" role="composer">
       Roland de Lassus
@@ -31,46 +22,87 @@
    </titleStmt>
    <pubStmt>
     <publisher>
-     Citations: The Renaissance Imitation Mass Project
+     Citations: The Renaissance Imitation Mass  (https:crimproject.org)
     </publisher>
     <distributor>
-     Centre d'Études Supérieures de la Renaissance
+     <corpName>
+      Centre d'Études Supérieures de la Renaissance
+     </corpName>
+     <corpName>
+      Haverford College
+     </corpName>
+     <persName>
+      Vincent Besson
+     </persName>
+     <persName>
+      Franz Körndle
+     </persName>
     </distributor>
-    <distributor>
-     Haverford College
-    </distributor>
-    <date isodate="2023-07-20"/>
+    <date isodate="2025-01-29"/>
     <availability>
      This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
     </availability>
    </pubStmt>
   </fileDesc>
-  <encodingDesc xml:id="m-23">
-   <appInfo xml:id="m-24">
-    <application isodate="2023-7-20T08:15:53Z" version="20221200" xml:id="sibelius">
-     <name type="operating-system" xml:id="m-26">
-      Mac OS X Mountain Lion
-     </name>
-    </application>
-    <application type="plugin" version="2.1.0" xml:id="sibmei">
-     <name xml:id="m-28">
-      Sibelius to MEI Exporter (2.1.0)
-     </name>
-    </application>
-    <application version="v1.0_beta" xml:id="app_2023201130406998">
+  <encodingDesc>
+   <appInfo>
+    <application>
      <name>
-      mei30To40.xsl
-     </name>
-    </application>
-    <application version="1.0.0">
-     <name>
-      add_metadata.py
+      MEI Soup Updater 2024
      </name>
     </application>
    </appInfo>
   </encodingDesc>
-  <xi:include href="CRIM_Mass_0033.mei" xpointer="workList"/>
-  <xi:include href="CRIM_Mass_0033.mei" xpointer="manifestationList"/>
+  <workList>
+   <work>
+    <title>
+     Missa Doulce memoire: Gloria
+    </title>
+    <composer auth="VIAF" auth.uri="http://viaf.org/viaf/23356192">
+     Roland de Lassus
+    </composer>
+    <classification>
+     <termList>
+      <term>
+       Gloria
+      </term>
+     </termList>
+    </classification>
+   </work>
+  </workList>
+  <manifestationList>
+   <manifestation>
+    <titleStmt>
+     <title>
+      [D-As Tonkunst Schletterer 49]
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="">
+       Anonymous
+      </persName>
+     </publisher>
+     <date>
+      1568
+     </date>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName>
+       Staats- und Stadtbibliothek
+      </corpName>
+      <settlement/>
+      <identifier>
+       Tonkunst Schletterer 49
+      </identifier>
+      <geogName>
+       Ausburg
+      </geogName>
+     </repository>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
  </meiHead>
  <music xml:id="m-29">
   <body xml:id="m-30">
