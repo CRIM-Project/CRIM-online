@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xml:id="CRIM_Mass_0050" xmlns="http://www.music-encoding.org/ns/mei" xmlns:xi="http://www.w3.org/2001/XInclude">
+ <meiHead xml:id="CRIM_MASS-0001">
+  <altId>
+   CRIM_Mass_0050
+  </altId>
+  <fileDesc>
+   <titleStmt>
+    <title>
+     Missa Susanne un jour
+    </title>
+    <respStmt>
+     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/42026057" role="composer">
+      Claudio Merulo
+     </persName>
+     <persName role="editor">
+      Andrea Puentes-Blanco
+     </persName>
+    </respStmt>
+   </titleStmt>
+   <pubStmt>
+    <publisher>
+     Citations: The Renaissance Imitation Mass Project
+    </publisher>
+    <distributor>
+     Centre d'Études Supérieures de la Renaissance
+    </distributor>
+    <distributor>
+     Haverford College
+    </distributor>
+    <date isodate="2023-02-06"/>
+    <availability>
+     This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License
+    </availability>
+   </pubStmt>
+  </fileDesc>
+  <encodingDesc>
+   <appInfo>
+    <application version="1.0.0">
+     <name>
+      add_metadata.py
+     </name>
+    </application>
+   </appInfo>
+  </encodingDesc>
+  <workList xml:id="workList">
+   <work>
+    <title>
+     Missa Susanne un jour
+    </title>
+    <composer>
+     <persName auth="VIAF" auth.uri="http://viaf.org/viaf/42026057" role="composer">
+      Claudio Merulo
+     </persName>
+    </composer>
+    <contents>
+     <contentItem>
+      Kyrie
+     </contentItem>
+     <contentItem>
+      Gloria
+     </contentItem>
+     <contentItem>
+      Credo
+     </contentItem>
+     <contentItem>
+      Sanctus
+     </contentItem>
+     <contentItem>
+      Agnus Dei
+     </contentItem>
+    </contents>
+   </work>
+  </workList>
+  <manifestationList xml:id="manifestationList">
+   <manifestation>
+    <identifier type="RISM">
+     RISM M 2357
+    </identifier>
+    <titleStmt>
+     <title>
+      Missa Susanne un jour
+     </title>
+    </titleStmt>
+    <pubStmt>
+     <publisher>
+      <persName auth="VIAF" auth.uri="http://viaf.org/viaf/44565256">
+       Antonio Gardano
+      </persName>
+     </publisher>
+     <date isodate="1573"/>
+    </pubStmt>
+    <physLoc>
+     <repository>
+      <corpName/>
+      <settlement/>
+     </repository>
+     <identifier type="shelfmark">
+     </identifier>
+    </physLoc>
+   </manifestation>
+  </manifestationList>
+ </meiHead>
+ <music>
+  <body>
+   <xi:include href="CRIM_Mass_0050_1.mei" xpointer="section"/>
+   <xi:include href="CRIM_Mass_0050_2.mei" xpointer="section"/>
+   <xi:include href="CRIM_Mass_0050_3.mei" xpointer="section"/>
+   <xi:include href="CRIM_Mass_0050_4.mei" xpointer="section"/>
+   <xi:include href="CRIM_Mass_0050_5.mei" xpointer="section"/>
+  </body>
+ </music>
+</mei>
