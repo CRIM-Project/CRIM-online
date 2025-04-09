@@ -3,6 +3,21 @@
 # CRIM Thesaurus of Musical Types
 Updated April 2025
 
+
+# Table of Contents
+
+* [CRIM Thesaurus of Musical Types](#crim-thesaurus-of-musical-types)
+* [Cantus Firmus](#cantus-firmus)
+* [Soggetto](#soggetto)
+* [Counter Soggetto](#counter-soggetto)
+* [Contrapuntal Duo](#contrapuntal-duo)
+* [Schubert's Presentation Types in Brief](#schuberts-presentation-types-in-brief)
+* [Fuga](#fuga)
+* [Imitative Duos](#imitative-duos)
+* [Periodic Entries](#periodic-entries)
+* [Non-Imitative Duos](#non-imitative-duos)
+* [Cadences](#cadences)
+* [Homorhythm](#homorhythm)
 ---
 
 
