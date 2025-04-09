@@ -6,7 +6,7 @@ Updated April 2025
 [TOC]
 ---
 
-## Cantus Firmus {#cantus-firmus}
+## [Cantus Firmus](#cantus-firmus)
 ## Soggetto {#soggetto}
 ## Counter Soggetto {#counter-soggetto}
 ## Contrapuntal Duo {#contrapuntal-duo}
@@ -20,7 +20,7 @@ Updated April 2025
 ---
 
 
-## Cantus Firmus
+## Cantus Firmus {#cantus-firmus}
 
 A **cantus firmus** is a melody cited in its integrity by a single voice throughout a complete section of music.
 
