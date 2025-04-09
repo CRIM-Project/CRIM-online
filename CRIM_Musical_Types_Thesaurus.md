@@ -6,7 +6,7 @@ Updated April 2025
 ---
 
 
-## Cantus Firmus {#cantus-firmus}
+## Cantus Firmus
 
 A **cantus firmus** is a melody cited in its integrity by a single voice throughout a complete section of music.
 
@@ -23,7 +23,7 @@ In analysis and data entry, the CF can be characterized by:
 ---
 
 
-## Soggetto {#soggetto}
+## Soggetto
 
 A **soggetto** (subject, motif) is a single line, considered as a totality. 
 
@@ -51,7 +51,7 @@ In analysis and data entry, the soggetto can be characterized by:
 ---
 
 
-## Counter Soggetto {#counter-soggetto}
+## Counter Soggetto
 
 A **counter soggetto** (subject, motif) is a single line, considered as a totality. 
 
@@ -102,7 +102,7 @@ In analysis and data entry, the duo can be characterized by:
 
 
 
-## Schubert’s Presentation Types in Brief {#schubert’s-presentation-types-in-brief}
+## Schubert’s Presentation Types in Brief
 
 
 ![alt text](images/Presentation_Types_CRIM_2.png)
@@ -110,7 +110,7 @@ In analysis and data entry, the duo can be characterized by:
 ---
 
 
-## Fuga {#fuga}
+## Fuga
 
 ![alt text](images/schubert_fuga.png)
 
@@ -241,7 +241,7 @@ In analysis, the IDs can be characterized by:
 ---
 
 
-## Periodic Entries {#periodic-entries}
+## Periodic Entries
 
 
 ![alt text](images/schubert_pen.png)
@@ -324,7 +324,7 @@ In analysis and data entry, the PEns can be characterized by:
 ---
 
 
-## Non-Imitative Duos {#non-imitative-duos}
+## Non-Imitative Duos
 
 ![alt text](images/schubert_nim.png)
 
@@ -387,7 +387,7 @@ In analysis and data entry, the duos can be characterized by:
 ---
 
 
-## Cadences {#cadences}
+## Cadences
 
 **Cadences** are normally defined as **octave or unison approach by closest imperfect consonance**.  
 
@@ -418,7 +418,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 **CRIM Intervals (Machine) Predictions** do **NOT include Plagal types**.  But they do distinguish among:
 
 * **Clausula Vera** is for cadences involving only Cantizans and Tenorizans, which move via suspension formula to unison or octave;
-* **Authentic** is for Cantizans and Bassizans (and possibly the Tenorizans, too); check the CVFs (cadential voice functions to see if the Tenorizans is present.
+* **Authentic** is for Cantizans and Bassizans (and possibly the Tenorizans, too); check the CVFs cadential voice functions to see if the Tenorizans is present.
 * **Phrygian Clausula Vera** is like Clausula Vera but with the half-step motion in the downward-moving (Tenorizans) part.
 * **Phrygian** corresponds to Authentic, except that the Bassizans of course moves up a fifth or down a fourth, as is normally the case when the Tenorizans descends by half-step. Check the Cadential Voice Functions (CVFs) in the output table to see whether the Tenorizans is present.
 * **Altizans Only** is in cases where the Cantizans is missing and the Altizans role moves to a fifth above the lowest voice.
@@ -437,7 +437,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 ---
 
 
-### CRIM Project Cadence Observation Examples {#crim-project-cadence-observation-examples}
+### CRIM Project Cadence Observation Examples 
 
 **Cadence (authentic) to C**
 
@@ -575,7 +575,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 ---
 
 
-### CRIM Intervals Cadence Prediction Examples {#crim-intervals-cadence-prediction-examples}
+### CRIM Intervals Cadence Prediction Examples 
 
 **Cadence (clausula vera)**
 
@@ -650,7 +650,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 ---
 
 
-## Homorhythm {#homorhythm}
+## Homorhythm
 
 **Homorhythm** is when three or more voices present the text in more or less simultaneous durations. 
 
