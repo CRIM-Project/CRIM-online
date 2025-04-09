@@ -76,7 +76,7 @@ In analysis and data entry, the counter soggetto can be characterized by:
 
 ---
 
-## Contrapuntal Duo {#contrapuntal-duo}
+## Contrapuntal Duo
 
 
 Any **pair of voices** in free counterpoint, consisting of soggetto and its countersubject.  
@@ -170,7 +170,7 @@ In analysis and data entry, the fuga can be characterized by:
 ---
 
 
-## Imitative Duos {#imitative-duos}
+## Imitative Duos
 
 
 ![alt text](images/schubert_id.png)
