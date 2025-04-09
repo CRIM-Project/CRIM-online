@@ -6,7 +6,17 @@ Updated April 2025
 [TOC]
 ---
 
-
+## Cantus Firmus {#cantus-firmus}
+## Soggetto {#soggetto}
+## Counter Soggetto {#counter-soggetto}
+## Contrapuntal Duo {#contrapuntal-duo}
+## Schubert's Presentation Types in Brief {#schuberts-presentation-types-in-brief}
+## Fuga {#fuga}
+## Imitative Duos {#imitative-duos}
+## Periodic Entries {#periodic-entries}
+## Non-Imitative Duos {#non-imitative-duos}
+## Cadences {#cadences}
+## Homorhythm {#homorhythm}
 ---
 
 
