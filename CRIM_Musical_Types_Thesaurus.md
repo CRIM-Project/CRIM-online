@@ -418,7 +418,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 **CRIM Project (Human) Observations** include **Authentic**, **Phrygian**, and **Plagal** types, with various details of **Voice Roles** and **Irregular Motion**
 
 * **Authentic:** a regular cadence in various tonal positions:  to C, D, E, E-flat F, G, A, B-flat, with indication of which voice parts. Begins with first full measure containing the preparation. Note that in the web form we use E-flat and B-flat for those tones.
-* **Phrygian: **with 1/2 step in the descending voice. Phrygian cadences in S/T are almost always have *bass motion of falling fourth*, but we do **not** tag Phrygian cadences as plagal!
+* **Phrygian:** with 1/2 step in the descending voice. Phrygian cadences in S/T are almost always have *bass motion of falling fourth*, but we do **not** tag Phrygian cadences as plagal!
 * **Plagal:**
     * the *absence* of 6-8 motion between any pair of parts
     * the *presence* of parallel 6 motion between two parts and then the bassus falling 4 or rising 5. This *lowest final tone* is used identify the final tone of the cadence.  
