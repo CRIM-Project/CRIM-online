@@ -20,7 +20,7 @@ Updated April 2025
 ---
 
 
-## Cantus Firmus {#cantus-firmus}
+## Cantus Firmus
 
 A **cantus firmus** is a melody cited in its integrity by a single voice throughout a complete section of music.
 
@@ -80,7 +80,7 @@ Modifiers include (these are *mutually exclusive*):
 
 In analysis and data entry, the counter soggetto can be characterized by:
 
-* **a single voice **(by staff number)
+* **a single voice**(by staff number)
 * Note: If the given soggetto is part of a fuga, we *only mark the fuga*.  It is understood that a fuga *must* consist of repeated statements of a soggetto
 * Select “**pitches only**” or “**rhythms only**” or ‘**pitches and rhythms**”
 
