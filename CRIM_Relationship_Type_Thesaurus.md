@@ -4,7 +4,9 @@
 
 Updated April 2025
 
-# Table of Contents
+# Relationship Types
+
+## Table of Contents
 
 
 * [Relationship Types](#relationship-types)
