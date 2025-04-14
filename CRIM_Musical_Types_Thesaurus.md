@@ -137,7 +137,7 @@ Modifiers include:
 
 * **Periodic** entries that are *regular* but *without modular repetition* of contrapuntal intervals.
 * **Strict** entries are those with identical diatonic melodic intervals.
-* **Flexed **entries are those in which melodic or rhythmic contours are similar, but not identical.
+* **Flexed**  entries are those in which melodic or rhythmic contours are similar, but not identical.
 
 In analysis and data entry, the fuga can be characterized by:
 
