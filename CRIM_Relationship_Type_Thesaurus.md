@@ -171,7 +171,7 @@ The **Self** types are also available in **Transformation (Mechanical)**
 
 ---
 
-**Transformation  (Mechanical)**
+**Transformation (Mechanical)**
 
 **transposed different amounts** (double or invertible cpt)
 
@@ -183,7 +183,7 @@ The **Self** types are also available in **Transformation (Mechanical)**
 ---
 
 
-## Transformation  (Non-Mechanical)
+## Transformation (Non-Mechanical)
 
 Passages in which any or all elements are **changed in complex rather than systematic ways**.  
 
@@ -221,7 +221,7 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
 **Extent:   Amplified**
 
@@ -233,7 +233,7 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
 **Extent:  Truncated**
 
@@ -244,7 +244,7 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
 **Activity: Embellished** (or allusive, with passing or other decorative tones added)
 
@@ -256,9 +256,9 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
-**Activity:  Reduced**
+**Activity: Reduced**
 
 ![alt text](<images/T nM 4.png>)
 
@@ -267,7 +267,7 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
 **Contrapuntal Variation:  New Counter Subject**
 
@@ -278,7 +278,7 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
 **Contrapuntal Variation: Old Counter-Subject Shifted and Transposed**
 
@@ -290,7 +290,7 @@ These *attributes* of the given passage are added to the Relationship *via* the 
 
 ---
 
-**Transformation  (Non-Mechanical)**
+**Transformation (Non-Mechanical)**
 
 **Contrapuntal Variation: New Combination**
 
