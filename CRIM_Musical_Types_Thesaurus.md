@@ -413,7 +413,7 @@ The normal voice roles put half-step ascent (the *cantizans*) in the superius an
 
 **Note:**
 
-The **controlled vocabulary** for cadences found in the **CRIM Project** (‘observations’ on crimproject.org) **differ somewhat** from the **cadence labels** used in the **CRIM Intervals **‘piece.cadences()` tool. 
+The **controlled vocabulary** for cadences found in the **CRIM Project** (‘observations’ on crimproject.org) **differ somewhat** from the **cadence labels** used in the **CRIM Intervals** `piece.cadences()` tool. 
 
 **CRIM Project (Human) Observations** include **Authentic**, **Phrygian**, and **Plagal** types, with various details of **Voice Roles** and **Irregular Motion**
 
