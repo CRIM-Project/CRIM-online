@@ -454,6 +454,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 
 ### CRIM Project Cadence Observation Examples 
 
+
 **Cadence (authentic) to C**
 
 ![alt text](images/Cad_1.png)
