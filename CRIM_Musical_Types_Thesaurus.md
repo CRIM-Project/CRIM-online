@@ -394,7 +394,7 @@ In analysis and data entry, the duos can be characterized by:
 
 **Non-Imitative Duos (invertible counterpoint)**
 
-![alt text](images/id_3.png)
+![alt text](images/nim_3.png)
 
 [DC0618.1-4. Marcade, Pour avoir](http://digitalduchemin.org/piece/DC0618/)
 
