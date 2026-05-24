@@ -438,7 +438,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 * **Phrygian** corresponds to Authentic, except that the Bassizans of course moves up a fifth or down a fourth, as is normally the case when the Tenorizans descends by half-step. Check the Cadential Voice Functions (CVFs) in the output table to see whether the Tenorizans is present.
 * **Altizans Only** is in cases where the Cantizans is missing and the Altizans role moves to a fifth above the lowest voice.
 * **Double Leading Tone** is heard frequently in fifteenth-century repertories, but rarely in the sixteenth century; the Contratenor voice sits between the Tenorizans and Cantizans, moving in parallel fourths with the latter and arriving at a tone a fifth above the final. In order to avoid a tritone between it and the Cantizans, it moves by half step, thus producing the 'double leading tone' effect.
-* **Leaping Contratenor **is another relatively antique type found mostly in fifteenth century compositions.  The contratenor leaps up an octave to arrive at a tone a fifth above the cadence final, which is heard in the tenor part.
+* **Leaping Contratenor** is another relatively antique type found mostly in fifteenth century compositions.  The contratenor leaps up an octave to arrive at a tone a fifth above the cadence final, which is heard in the tenor part.
 * **Quince** is best understood as an irregular Clausula Vera, but the Tenorizans part leaps down a fifth to end on a tone a fifth above the final in the Canitzans. Hence the name: "Quince".
 * **Irregular Cadences**:  **Evaded and Abandoned** indicate either irregular motion or some number of voices that drop out. These are noted for Clausula Vera, Authentic, and Double Leading Tone types
 
