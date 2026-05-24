@@ -274,7 +274,7 @@ Modifiers include:
 
 * **Strict** entries are those with identical diatonic melodic intervals.
 * **Flexed** entries are those in which melodic or rhythmic contours are similar, but not identical.
-* **Flexed tonal **entries are those in which the 4ths and 5ths have been exchanged in accordance with modal divisions of the octave. 
+* **Flexed tonal** entries are those in which the 4ths and 5ths have been exchanged in accordance with modal divisions of the octave. 
 * **Sequential** entries are those that enter on some series of stacked (and thus identical) intervals.
 * **Added entries** are used to indicate voices that shares the same soggetto as the PEn, but which complicate the regularity of the pattern. 
     * Added entries sometimes anticipate the main series of the PEn, or interrupt it some way. They are not part of the PEn itself.
@@ -427,7 +427,7 @@ The **controlled vocabulary** for cadences found in the **CRIM Project** (‘obs
 * **Voice Roles** are indicated with numbers in the relevant box
 * **Final Tone** Is the octave or unison reached by cantizans and tenorizans. In case of Plagal use the lowest tone of the ensemble.
 * **Dovetail** **voice**: the voice in which the next soggetto or line of text begins, even as the current cadence is coming to a conclusion. Normally enters on a tone that is a fifth above the **final of the cadence**.  In CRIM we are interested in whether this dovetail voice appears ***above, between, or below the cadential pair*** formed by the cantizans and tenorizans.
-* **Irregular Cadences **(can be added in any combination to the above categories)
+* **Irregular Cadences** (can be added in any combination to the above categories)
         * We consider as irregular **any cadence in which one or more of the voice roles move in an unexpected way**.  This includes situations in which a voice is suddenly *silent*, or moves in the wrong direction (as when the tenorizans moves up instead of down, or the bassus leaps up a third instead of falling a fifth).  Since the voice roles are already indicated in the choice of Cantizans and Tenorizans in the main cadence data, we need only note which “roles” move irregularly. 
 
 **CRIM Intervals (Machine) Predictions** do **NOT include Plagal types**.  But they do distinguish among:
